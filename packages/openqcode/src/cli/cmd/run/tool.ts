@@ -33,6 +33,7 @@ import type { TodoWriteTool } from "@/tool/todo"
 import type { WebFetchTool } from "@/tool/webfetch"
 import { webSearchProviderLabel, type WebSearchTool } from "@/tool/websearch"
 import { CodeSearchTool } from "@/tool/codesearch"
+import type { GitHubTool } from "@/tool/github"
 import type { WriteTool } from "@/tool/write"
 import { LANGUAGE_EXTENSIONS } from "@/lsp/language"
 import * as Locale from "@/util/locale"
@@ -110,6 +111,7 @@ type ToolDefs = {
   webfetch: typeof WebFetchTool
   websearch: typeof WebSearchTool
   codesearch: typeof CodeSearchTool
+  github: typeof GitHubTool
   skill: typeof SkillTool
   plan_exit: typeof PlanExitTool
 }
@@ -337,6 +339,15 @@ function runWrite(p: ToolProps<typeof WriteTool>): ToolInline {
     title: `Write ${toolPath(p.input.filePath)}`,
     mode: "block",
     body: p.frame.status === "completed" ? text(p.frame.state.output) : undefined,
+  }
+}
+
+function runGithub(p: ToolProps<typeof GitHubTool>): ToolInline {
+  const repo = `${p.input.owner ?? ""}/${p.input.repo ?? ""}`.trim().replace("//", "")
+  const action = p.input.action ?? ""
+  return {
+    icon: "%",
+    title: repo ? `GitHub ${action} ${repo}` : `GitHub ${action}`,
   }
 }
 
@@ -909,6 +920,12 @@ function scrollListStart(p: ToolProps): string {
   return `→ List ${toolPath(dir)}`
 }
 
+function scrollGithubStart(p: ToolProps<typeof GitHubTool>): string {
+  const repo = `${p.input.owner ?? ""}/${p.input.repo ?? ""}`.trim().replace("//", "")
+  const action = p.input.action ?? ""
+  return repo ? `% GitHub ${action} ${repo}` : `% GitHub ${action}`
+}
+
 function scrollWebfetchStart(p: ToolProps<typeof WebFetchTool>): string {
   const url = p.input.url ?? ""
   if (!url) {
@@ -1245,6 +1262,16 @@ const TOOL_RULES = {
       start: scrollCodeSearchStart,
     },
     permission: permCodeSearch,
+  },
+  github: {
+    view: {
+      output: false,
+      final: false,
+    },
+    run: runGithub,
+    scroll: {
+      start: scrollGithubStart,
+    },
   },
   skill: {
     view: {

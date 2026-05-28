@@ -28,6 +28,7 @@ import { RepoOverviewTool } from "./repo_overview"
 import { RepositoryCache } from "@/reference/repository-cache"
 import * as Log from "@openqcode-ai/core/util/log"
 import { LspTool } from "./lsp"
+import { GitHubTool } from "./github"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
 import { Glob } from "@openqcode-ai/core/util/glob"
@@ -134,6 +135,7 @@ export const layer: Layer.Layer<
     const greptool = yield* GrepTool
     const patchtool = yield* ApplyPatchTool
     const skilltool = yield* SkillTool
+    const github = yield* GitHubTool
     const agent = yield* Agent.Service
 
     const state = yield* InstanceState.make<State>(
@@ -244,6 +246,7 @@ export const layer: Layer.Layer<
           question: Tool.init(question),
           lsp: Tool.init(lsptool),
           plan: Tool.init(plan),
+          github: Tool.init(github),
         })
 
         return {
@@ -259,6 +262,7 @@ export const layer: Layer.Layer<
             tool.write,
             tool.task,
             tool.fetch,
+            tool.github,
             tool.todo,
             tool.search,
             tool.codesearch,
