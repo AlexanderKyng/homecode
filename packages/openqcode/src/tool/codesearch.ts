@@ -1,97 +1,115 @@
+import { Effect, Schema } from "effect"
+import { HttpClient, HttpClientRequest } from "effect/unstable/http"
+import * as Tool from "./tool"
+import DESCRIPTION from "./codesearch.txt"
 import { encode } from "@toon-format/toon"
 
-// Interface pour typer proprement la sortie brute de SearXNG
-interface SearXNGResult {
-  title: string
-  url: string
-  content?: string
-  snippet?: string
-  engine: string
-  score?: number
-}
+// Schéma simplifié à l'extrême pour valider l'inférence guidée d'ik_llama
+export const Parameters = Schema.Struct({
+  query: Schema.String.annotate({
+    description: "Code or technical query",
+  }),
+  category: Schema.String.annotate({
+    description: "Search category: qa, repos, or all",
+  }),
+  maxResults: Schema.Number.annotate({
+    description: "Maximum results to return",
+  }),
+})
 
-interface CodeSearchArgs {
-  query: string
-  category?: "qa" | "repos" | "all"
-  maxResults?: number
-}
+const SEARXNG_URL = process.env.SEARXNG_URL ?? "http://localhost:8899"
 
-/**
- * Outil CodeSearch optimisé pour OpenQCode (Moteurs Q&A et Repositories locaux via SearXNG)
- */
-export async function codeSearch({ query, category = "all", maxResults = 5 }: CodeSearchArgs): Promise<string> {
-  // URL de ton instance SearXNG locale (à ajuster via tes variables d'environnement si besoin)
-  const SEARXNG_URL = process.env.SEARXNG_URL || "http://localhost:8080"
+export const CodeSearchTool = Tool.define(
+  "codesearch",
+  Effect.gen(function* () {
+    const http = yield* HttpClient.HttpClient
 
-  // Préparation de la requête avec les Bangs SearXNG adaptés à ta configuration
-  let formattedQuery = query
-  if (category === "qa") {
-    formattedQuery = `!q&a ${query}`
-  } else if (category === "repos") {
-    formattedQuery = `!repos ${query}`
-  } else {
-    // Par défaut, on peut combiner ou laisser SearXNG chercher dans les catégories IT par défaut
-    // Ici on force le comportement multi-moteur orienté dév si aucun bang n'est spécifié
-    formattedQuery = `!stackoverflow !github !ubuntu !superuser ${query}`
-  }
-
-  try {
-    // Construction de l'URL d'appel avec format JSON imposé
-    const searchUrl = new URL("/search", SEARXNG_URL)
-    searchUrl.searchParams.append("q", formattedQuery)
-    searchUrl.searchParams.append("format", "json")
-    searchUrl.searchParams.append("pageno", "1")
-
-    const response = await fetch(searchUrl.toString(), {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "User-Agent": "OpenQCode-LocalLLM-Agent/1.0",
+    return {
+      get description() {
+        return DESCRIPTION
       },
-    })
 
-    if (!response.ok) {
-      throw new Error(`Erreur de communication avec SearXNG: ${response.statusText}`)
+      parameters: Parameters,
+
+      execute: (params: Schema.Schema.Type<typeof Parameters>, ctx: Tool.Context) =>
+        Effect.gen(function* () {
+          const category = params.category || "all"
+          const maxResults = params.maxResults || 5
+
+          let formattedQuery = params.query
+          if (category === "qa") {
+            formattedQuery = `!q&a ${params.query}`
+          } else if (category === "repos") {
+            formattedQuery = `!repos ${params.query}`
+          } else {
+            formattedQuery = `!stackoverflow !github !ubuntu !superuser ${params.query}`
+          }
+
+          yield* ctx.metadata({
+            title: `Code Search "${params.query}" (${category})`,
+            metadata: { category },
+          })
+
+          yield* ctx.ask({
+            permission: "codesearch",
+            patterns: [params.query],
+            always: ["*"],
+            metadata: { query: params.query, category, maxResults },
+          })
+
+          const request = HttpClientRequest.get(`${SEARXNG_URL}/search`).pipe(
+            HttpClientRequest.setUrlParams({
+              q: formattedQuery,
+              format: "json",
+              pageno: "1",
+            }),
+            HttpClientRequest.setHeaders({
+              Accept: "application/json",
+              "User-Agent": "OpenQCode-LocalLLM-Agent/1.0",
+            }),
+          )
+
+          const response = yield* http.execute(request)
+          const json = (yield* response.json) as {
+            results?: Array<{
+              title?: string
+              url?: string
+              content?: string
+              snippet?: string
+              engine?: string
+            }>
+          }
+
+          const rawResults = json.results ?? []
+          const cleanedResults = rawResults.slice(0, maxResults).map((item) => ({
+            title: item.title?.trim() || "No Title",
+            url: item.url ?? "",
+            source: item.engine ?? "unknown",
+            summary: (item.snippet || item.content || "").replace(/\s+/g, " ").trim(),
+          }))
+
+          if (cleanedResults.length === 0) {
+            return {
+              output: encode({
+                status: "no_results",
+                message: "No results found.",
+              }),
+              title: `Code Search: ${params.query}`,
+              metadata: { category },
+            }
+          }
+
+          return {
+            output: encode({
+              query_executed: params.query,
+              engine_category: category,
+              results_count: cleanedResults.length,
+              results: cleanedResults,
+            }),
+            title: `Code Search: ${params.query}`,
+            metadata: { category },
+          }
+        }).pipe(Effect.orDie),
     }
-
-    const data = await response.json()
-    const rawResults: SearXNGResult[] = data.results || []
-
-    // 1. Filtrage et nettoyage immédiat des données pour économiser la mémoire vive avant TOON
-    const cleanedResults = rawResults.slice(0, maxResults).map((item) => {
-      // Garder uniquement la substantifique moelle
-      return {
-        title: item.title?.trim() || "No Title",
-        url: item.url,
-        source: item.engine,
-        // Fusion du snippet ou du content selon ce que le moteur SearXNG renvoie
-        summary: (item.snippet || item.content || "").replace(/\s+/g, " ").trim(),
-      }
-    })
-
-    if (cleanedResults.length === 0) {
-      return encode({
-        status: "no_results",
-        message: "Aucun snippet ou dépôt trouvé pour cette recherche.",
-      })
-    }
-
-    // 2. Encapsulation dans un schéma optimisé pour le format TOON
-    // TOON va sérialiser ce tableau d'objets uniformes sous forme de table compacte (façon CSV sans bruit)
-    const payload = {
-      query_executed: query,
-      engine_category: category,
-      results_count: cleanedResults.length,
-      results: cleanedResults,
-    }
-
-    // 3. Encodage magique en TOON pour Qwen
-    return encode(payload)
-  } catch (error: any) {
-    // Retour d'erreur propre et structuré en TOON pour éviter que le LLM ne perde le fil
-    return encode({
-      status: "error",
-      message: error.message || "Une erreur inconnue est survenue lors de la recherche de code.",
-    })
-  }
-}
+  }),
+)

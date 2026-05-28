@@ -32,6 +32,7 @@ import type { TaskTool } from "@/tool/task"
 import type { TodoWriteTool } from "@/tool/todo"
 import type { WebFetchTool } from "@/tool/webfetch"
 import { webSearchProviderLabel, type WebSearchTool } from "@/tool/websearch"
+import { CodeSearchTool } from "@/tool/codesearch"
 import type { WriteTool } from "@/tool/write"
 import { LANGUAGE_EXTENSIONS } from "@/lsp/language"
 import * as Locale from "@/util/locale"
@@ -108,6 +109,7 @@ type ToolDefs = {
   lsp: typeof LspTool
   webfetch: typeof WebFetchTool
   websearch: typeof WebSearchTool
+  codesearch: typeof CodeSearchTool
   skill: typeof SkillTool
   plan_exit: typeof PlanExitTool
 }
@@ -360,6 +362,13 @@ function runWebSearch(p: ToolProps<typeof WebSearchTool>): ToolInline {
   return {
     icon: "◈",
     title: p.input.query ? `${title} "${p.input.query}"` : title,
+  }
+}
+
+function runCodeSearch(p: ToolProps<typeof CodeSearchTool>): ToolInline {
+  return {
+    icon: "◈",
+    title: p.input.query ? `Code Search "${p.input.query}"` : "Code Search",
   }
 }
 
@@ -919,6 +928,11 @@ function scrollWebSearchStart(p: ToolProps<typeof WebSearchTool>): string {
   return `◈ ${title} "${query}"`
 }
 
+function scrollCodeSearchStart(p: ToolProps<typeof CodeSearchTool>): string {
+  const query = p.input.query ?? ""
+  return `◈ Code Search "${query}"`
+}
+
 function permEdit(p: ToolPermissionProps<typeof EditTool>): ToolPermissionInfo {
   const input = p.input as { filePath?: string; filepath?: string; diff?: string }
   const file = input.filePath || input.filepath || p.patterns[0] || ""
@@ -1003,6 +1017,15 @@ function permWebSearch(p: ToolPermissionProps<typeof WebSearchTool>): ToolPermis
     icon: "◈",
     title: query ? `${title} "${query}"` : title,
     lines: query ? [`Query: ${query}`] : [],
+  }
+}
+
+function permCodeSearch(p: ToolPermissionProps<typeof CodeSearchTool>): ToolPermissionInfo {
+  const query = p.input.query || ""
+  return {
+    icon: "◈",
+    title: query ? `Code Search "${query}"` : "Code Search",
+    lines: query ? [`Query: ${query}`, `Category: ${p.input.category ?? "all"}`] : [],
   }
 }
 
@@ -1211,6 +1234,17 @@ const TOOL_RULES = {
       start: scrollWebSearchStart,
     },
     permission: permWebSearch,
+  },
+  codesearch: {
+    view: {
+      output: false,
+      final: false,
+    },
+    run: runCodeSearch,
+    scroll: {
+      start: scrollCodeSearchStart,
+    },
+    permission: permCodeSearch,
   },
   skill: {
     view: {

@@ -8,7 +8,7 @@ IMPORTANT: Refuse requests that introduce clear security vulnerabilities, malici
 
 When the user asks for help or feedback:
 - /help: Get help with using openqcode
-- Issues: https://github.com/anomalyco/openqcode/issues
+- Issues: https://github.com/anomalyco/opencode/issues
 
 When the user directly asks about openqcode's capabilities, features, or limitations, first use the WebFetch tool on https://openqcode.ai before answering.
 
