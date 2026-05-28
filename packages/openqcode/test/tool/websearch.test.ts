@@ -36,9 +36,9 @@ describe("websearch provider", () => {
     expect(selectWebSearchProvider(SESSION_ID, { exa: false, parallel: true })).toBe("parallel")
   })
 
-  test("is only enabled for openqcode or explicit websearch provider flags", () => {
+  test("is always enabled via local SearXNG", () => {
     expect(webSearchEnabled(ProviderID.openqcode, { exa: false, parallel: false })).toBe(true)
-    expect(webSearchEnabled(ProviderID.openai, { exa: false, parallel: false })).toBe(false)
+    expect(webSearchEnabled(ProviderID.openai, { exa: false, parallel: false })).toBe(true)
     expect(webSearchEnabled(ProviderID.openai, { exa: true, parallel: false })).toBe(true)
     expect(webSearchEnabled(ProviderID.openai, { exa: false, parallel: true })).toBe(true)
   })

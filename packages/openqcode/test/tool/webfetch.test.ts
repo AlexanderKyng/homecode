@@ -110,4 +110,23 @@ describe("tool.webfetch", () => {
         }),
     ),
   )
+
+  it.instance("strips URLs from markdown links", () =>
+    withFetch(
+      () =>
+        new Response(
+          "<html><body><p>Visit <a href='https://example.com'>Example Site</a> for more info.</p></body></html>",
+          {
+            status: 200,
+            headers: { "content-type": "text/html; charset=utf-8" },
+          },
+        ),
+      (url) =>
+        Effect.gen(function* () {
+          const result = yield* exec({ url: new URL("/page.html", url).toString(), format: "markdown" })
+          expect(result.output).toContain("Example Site")
+          expect(result.output).not.toContain("https://example.com")
+        }),
+    ),
+  )
 })
