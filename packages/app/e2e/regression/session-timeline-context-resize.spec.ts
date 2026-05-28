@@ -1,11 +1,11 @@
 import { expect, test, type Page } from "@playwright/test"
-import { mockOpenCodeServer } from "../utils/mock-server"
+import { mockOpenQCodeServer } from "../utils/mock-server"
 
-const directory = "C:/OpenCode/ContextResizeRegression"
+const directory = "C:/OpenQCode/ContextResizeRegression"
 const projectID = "proj_context_resize_regression"
 const sessionID = "ses_context_resize_regression"
 const title = "Context resize regression"
-const model = { providerID: "opencode", modelID: "claude-opus-4-6", variant: "max" }
+const model = { providerID: "openqcode", modelID: "claude-opus-4-6", variant: "max" }
 const contextIDs = ["prt_0100_read", "prt_0101_glob", "prt_0102_grep", "prt_0103_list"]
 const followingTextID = "prt_0104_text"
 
@@ -208,7 +208,7 @@ function contextTool(partID: string, messageID: string, tool: string, input: Rec
 }
 
 async function mockServer(page: Page) {
-  await mockOpenCodeServer(page, {
+  await mockOpenQCodeServer(page, {
     directory,
     project: project(),
     provider: provider(),
@@ -252,13 +252,13 @@ function provider() {
   return {
     all: [
       {
-        id: "opencode",
-        name: "OpenCode",
+        id: "openqcode",
+        name: "OpenQCode",
         models: { "claude-opus-4-6": { id: "claude-opus-4-6", name: "Claude Opus 4.6", limit: { context: 200_000 } } },
       },
     ],
-    connected: ["opencode"],
-    default: { providerID: "opencode", modelID: "claude-opus-4-6" },
+    connected: ["openqcode"],
+    default: { providerID: "openqcode", modelID: "claude-opus-4-6" },
   }
 }
 

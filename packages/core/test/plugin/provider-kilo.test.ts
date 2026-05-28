@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@opencode-ai/core/catalog"
-import { PluginV2 } from "@opencode-ai/core/plugin"
-import { ProviderPlugins } from "@opencode-ai/core/plugin/provider"
-import { KiloPlugin } from "@opencode-ai/core/plugin/provider/kilo"
-import { ProviderV2 } from "@opencode-ai/core/provider"
+import { Catalog } from "@openqcode-ai/core/catalog"
+import { PluginV2 } from "@openqcode-ai/core/plugin"
+import { ProviderPlugins } from "@openqcode-ai/core/plugin/provider"
+import { KiloPlugin } from "@openqcode-ai/core/plugin/provider/kilo"
+import { ProviderV2 } from "@openqcode-ai/core/provider"
 import { expectPluginRegistered, it, provider } from "./provider-helper"
 
 describe("KiloPlugin", () => {
@@ -36,8 +36,8 @@ describe("KiloPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://opencode.ai/",
-        "X-Title": "opencode",
+        "HTTP-Referer": "https://openqcode.ai/",
+        "X-Title": "openqcode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter)).options.headers).toEqual({})
     }),
@@ -60,8 +60,8 @@ describe("KiloPlugin", () => {
 
       const result = yield* catalog.provider.get(ProviderV2.ID.make("kilo"))
       expect(result.options.headers).toEqual({
-        "HTTP-Referer": "https://opencode.ai/",
-        "X-Title": "opencode",
+        "HTTP-Referer": "https://openqcode.ai/",
+        "X-Title": "openqcode",
       })
       expect(result.options.headers).not.toHaveProperty("http-referer")
       expect(result.options.headers).not.toHaveProperty("x-title")
@@ -91,8 +91,8 @@ describe("KiloPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo"))).options.headers).toEqual({
-        "HTTP-Referer": "https://opencode.ai/",
-        "X-Title": "opencode",
+        "HTTP-Referer": "https://openqcode.ai/",
+        "X-Title": "openqcode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kilo"))).options.headers).toEqual({})
     }),

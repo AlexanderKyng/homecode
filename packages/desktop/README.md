@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# OpenQCode Desktop
 
-The OpenCode Desktop app, built with Electron.
+The OpenQCode Desktop app, built with Electron.
 
 ## Development
 

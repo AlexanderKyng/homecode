@@ -8,10 +8,10 @@ import type {
   QuestionRequest,
   Session,
   Todo,
-} from "@opencode-ai/sdk/v2/client"
-import { showToast } from "@opencode-ai/ui/toast"
-import { getFilename } from "@opencode-ai/core/util/path"
-import { retry } from "@opencode-ai/core/util/retry"
+} from "@openqcode-ai/sdk/v2/client"
+import { showToast } from "@openqcode-ai/ui/toast"
+import { getFilename } from "@openqcode-ai/core/util/path"
+import { retry } from "@openqcode-ai/core/util/retry"
 import { batch } from "solid-js"
 import { reconcile, type SetStoreFunction, type Store } from "solid-js/store"
 import type { State, VcsCache } from "./types"
@@ -19,7 +19,7 @@ import { cmp, normalizeAgentList, normalizeProviderList } from "./utils"
 import { formatServerError } from "@/utils/server-errors"
 import { QueryClient, queryOptions } from "@tanstack/solid-query"
 import { loadMcpQuery } from "../server-sync"
-import { NormalizedProviderListResponse } from "@opencode-ai/ui/context"
+import { NormalizedProviderListResponse } from "@openqcode-ai/ui/context"
 
 type GlobalStore = {
   ready: boolean
@@ -97,7 +97,7 @@ export const loadProjectsQuery = (sdk: OpencodeClient) =>
         sdk.project.list().then((x) => {
           return (x.data ?? [])
             .filter((p) => !!p?.id)
-            .filter((p) => !!p.worktree && !p.worktree.includes("opencode-test"))
+            .filter((p) => !!p.worktree && !p.worktree.includes("openqcode-test"))
             .slice()
             .sort((a, b) => cmp(a.id, b.id))
         }),

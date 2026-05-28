@@ -9,7 +9,7 @@ FROM base AS pruner
 
 COPY . .
 
-RUN bunx turbo@2.8.13 prune @opencode-ai/stats-server --docker --no-update-notifier --no-color
+RUN bunx turbo@2.8.13 prune @openqcode-ai/stats-server --docker --no-update-notifier --no-color
 
 FROM base AS installer
 

@@ -27,7 +27,7 @@ const channel = (() => {
 })()
 
 const getBase = (): Configuration => ({
-  artifactName: "opencode-desktop-${os}-${arch}.${ext}",
+  artifactName: "openqcode-desktop-${os}-${arch}.${ext}",
   directories: {
     output: "dist",
     buildResources: "resources",
@@ -54,8 +54,8 @@ const getBase = (): Configuration => ({
     sign: true,
   },
   protocols: {
-    name: "OpenCode",
-    schemes: ["opencode"],
+    name: "OpenQCode",
+    schemes: ["openqcode"],
   },
   win: {
     icon: `resources/icons/icon.ico`,
@@ -85,29 +85,29 @@ function getConfig() {
     case "dev": {
       return {
         ...base,
-        appId: "ai.opencode.desktop.dev",
-        productName: "OpenCode Dev",
-        rpm: { packageName: "opencode-dev" },
+        appId: "ai.openqcode.desktop.dev",
+        productName: "OpenQCode Dev",
+        rpm: { packageName: "openqcode-dev" },
       }
     }
     case "beta": {
       return {
         ...base,
-        appId: "ai.opencode.desktop.beta",
-        productName: "OpenCode Beta",
-        protocols: { name: "OpenCode Beta", schemes: ["opencode"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "opencode-beta", channel: "latest" },
-        rpm: { packageName: "opencode-beta" },
+        appId: "ai.openqcode.desktop.beta",
+        productName: "OpenQCode Beta",
+        protocols: { name: "OpenQCode Beta", schemes: ["openqcode"] },
+        publish: { provider: "github", owner: "anomalyco", repo: "openqcode-beta", channel: "latest" },
+        rpm: { packageName: "openqcode-beta" },
       }
     }
     case "prod": {
       return {
         ...base,
-        appId: "ai.opencode.desktop",
-        productName: "OpenCode",
-        protocols: { name: "OpenCode", schemes: ["opencode"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "opencode", channel: "latest" },
-        rpm: { packageName: "opencode" },
+        appId: "ai.openqcode.desktop",
+        productName: "OpenQCode",
+        protocols: { name: "OpenQCode", schemes: ["openqcode"] },
+        publish: { provider: "github", owner: "anomalyco", repo: "openqcode", channel: "latest" },
+        rpm: { packageName: "openqcode" },
       }
     }
   }

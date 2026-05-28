@@ -1,0 +1,10 @@
+Use the GitHub tool to interact with GitHub repositories without cloning them locally.
+This tool is highly optimized for lightweight remote inspections of codebases, troubleshooting CI/CD workflows, or reading specific tickets.
+
+Guidelines for execution:
+- To inspect a project's tree structure or check if a file exists, use 'list_contents' first.
+- To read actual code files, configuration files (e.g., .github/workflows), or documentation, use 'read_file'. Avoid downloading binary files.
+- To triage bugs, read pull requests, or gather context from community discussions, use 'get_issue_or_pr' with the issue/PR number.
+- To check CI/CD automation pipelines, compilation failures, or test results, use 'get_workflow_runs'.
+
+Do not try to clone a repository if you only need to explore files or read tracking details. Always target specific paths to minimize overhead.
