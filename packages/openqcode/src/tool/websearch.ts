@@ -53,7 +53,7 @@ export function selectWebSearchProvider(
   if (flags.parallel) return "parallel"
   if (flags.exa) return "exa"
 
-  return Number.parseInt(checksum(sessionID) ?? "0", 36) % 2 === 0 ? "exa" : "parallel"
+  return "searxng"
 }
 
 export function webSearchProviderLabel(provider: unknown) {

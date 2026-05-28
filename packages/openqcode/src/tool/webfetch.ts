@@ -290,6 +290,10 @@ function convertHTMLToMarkdown(html: string): string {
     emDelimiter: "*",
   })
   turndownService.remove(["script", "style", "meta", "link", "svg"])
+  turndownService.addRule("remove-link-urls", {
+    filter: "a",
+    replacement: (content) => content.trim(),
+  })
 
   html = html.replace(/data:image\/[^;]+;base64,[^"]+/gi, "")
   return turndownService.turndown(html)
