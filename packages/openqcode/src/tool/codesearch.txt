@@ -1,0 +1,27 @@
+- Fast web-powered code and developer knowledge search tool
+- Searches programming Q&A platforms and repository indexes from a single unified interface
+- Supports category targeting:
+  - `"qa"` → prioritizes developer Q&A sources
+  - `"repos"` → prioritizes repository and code hosting sources
+  - `"all"` → performs broad multi-engine developer search
+- Uses SearXNG bangs internally (eg. `!stackoverflow`, `!github`, `!ubuntu`, `!superuser`)
+- Results include:
+
+  - title
+  - url
+  - source engine
+  - cleaned summary/snippet
+- Automatically trims and normalizes snippets to reduce token and memory usage
+- Results are limited using the `maxResults` parameter
+- Use this tool when you need:
+  - programming solutions
+  - StackOverflow-style answers
+  - repository discovery
+  - implementation examples
+  - debugging references
+  - framework usage examples
+  - Linux/server troubleshooting references
+- Prefer this tool over generic web search when the request is developer-focused
+- Returns structured error payloads encoded in TOON format when failures occur
+- If you need direct repository cloning, file traversal, or symbol-level indexing, use dedicated repository or filesystem tools instead
+- When performing broad exploratory multi-step software investigations, use the Task tool instead
