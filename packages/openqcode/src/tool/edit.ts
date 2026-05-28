@@ -722,7 +722,7 @@ export function applyHashlineEdits(
 ): Effect.Effect<string, Error, never> {
   return Effect.gen(function* () {
     const source = yield* Bom.readFile(afs, filePath)
-    const lines = source.text.split("\n")
+    const lines = source.text.split(/\r?\n/)
     const ending = detectLineEnding(source.text)
 
     const operations: Array<{
@@ -815,40 +815,38 @@ export function applyHashlineEdits(
             `Hash mismatch at end line ${edit.endLine}: expected ${edit.endHash}, got ${endActualHash}. File content has changed.`,
           )
         }
-        operations.push({ index: startIdx, type: "block", endindex: endIdx, content: edit.content })
+        operations.push({ index: startIdx, type: "block", endindex: endIdx, content: edit.content ?? "" })
       }
     }
 
     const working = [...lines]
 
-    operations.sort((a, b) => b.index - a.index)
+    const sortPriority = { insert: 4, replace: 3, block: 2, delete: 1 } as const
+    operations.sort((a, b) => {
+      if (b.index !== a.index) return b.index - a.index
+      return sortPriority[b.type] - sortPriority[a.type]
+    })
 
     for (const op of operations) {
-      if (op.type === "replace") {
-        if (op.content !== undefined) {
-          const normalizedNew = convertToLineEnding(normalizeLineEndings(op.content), ending)
-          working[op.index] = normalizedNew
-        }
-      } else if (op.type === "insert") {
-        if (op.content !== undefined) {
-          const normalizedNew = convertToLineEnding(normalizeLineEndings(op.content), ending)
-          const insertLines = normalizedNew.split("\n")
-          for (let i = insertLines.length - 1; i >= 0; i--) {
-            working.splice(op.index + 1, 0, insertLines[i])
-          }
-        }
-      } else if (op.type === "delete") {
+      if (op.type === "delete") {
         working.splice(op.index, 1)
-      } else if (op.type === "block") {
-        if (op.content !== undefined && op.endindex !== undefined) {
-          const normalizedNew = convertToLineEnding(normalizeLineEndings(op.content), ending)
-          const newLines = normalizedNew.split("\n")
-          working.splice(op.index, op.endindex - op.index + 1, ...newLines)
-        }
+        continue
+      }
+
+      if (op.content === undefined) continue
+
+      const newLines = op.content.split(/\r?\n/)
+
+      if (op.type === "replace") {
+        working.splice(op.index, 1, ...newLines)
+      } else if (op.type === "insert") {
+        working.splice(op.index + 1, 0, ...newLines)
+      } else if (op.type === "block" && op.endindex !== undefined) {
+        working.splice(op.index, op.endindex - op.index + 1, ...newLines)
       }
     }
 
-    return working.join("\n")
+    return working.join(ending)
   })
 }
 

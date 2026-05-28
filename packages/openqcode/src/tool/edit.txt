@@ -1,5 +1,13 @@
 Performs exact string replacements in files. Supports two modes: legacy string replacement and hash-anchored transactional edits.
 
+Hashline Mode (edits array):
+- Read the file with `hashLines: true` to get stable per-line hashes in format `line|hash| content`.
+- Provide an `edits` array with hash-anchored operations instead of `oldString`/`newString`.
+- ALWAYS batch all changes for the file into a single tool call to reduce token overhead.
+- CRITICAL BATCHING RULES:
+  * Never target the same line number twice in a single call with conflicting operations.
+  * If you need to modify a continuous range of lines, do NOT emit multiple single-line `replace` or `delete` operations. You MUST use a single `replace_block` operation spanning from the first line to the last line of the zone.
+
 Legacy Mode (oldString/newString):
 - You must use your `Read` tool at least once in the conversation before editing. This tool will error if you attempt an edit without reading the file.
 - When editing text from Read tool output, ensure you preserve the exact indentation (tabs/spaces) as it appears AFTER the line number prefix. The line number prefix format is: line number + colon + space (e.g., `1: `). Everything after that space is the actual file content to match. Never include any part of the line number prefix in the oldString or newString.
@@ -7,14 +15,3 @@ Legacy Mode (oldString/newString):
 - The edit will FAIL if `oldString` is not found in the file with an error "oldString not found in content".
 - The edit will FAIL if `oldString` is found multiple times in the file with an error "Found multiple matches for oldString. Provide more surrounding lines in oldString to identify the correct match."
 - Use `replaceAll` for replacing and renaming strings across the file.
-
-Hashline Mode (edits array):
-- Read the file with `hashLines: true` to get stable per-line hashes in format `line|hash| content`.
-- Provide an `edits` array with hash-anchored operations instead of `oldString`/`newString`.
-- Operations:
-  * replace: `{op: "replace", line: N, hash: "xxxx", content: "new line content"}` — replace a single line
-  * insert_after: `{op: "insert_after", line: N, hash: "xxxx", content: "new lines"}` — insert content after a line
-  * delete: `{op: "delete", line: N, hash: "xxxx"}` — delete a single line
-  * replace_block: `{op: "replace_block", startLine: N, startHash: "xxxx", endLine: M, endHash: "yyyy", content: "new content"}` — replace a block of lines
-- Hashes are validated BEFORE edits. Mismatched hashes reject immediately with a clear error.
-- This mode is more reliable for small models: no string matching, no whitespace issues, no ambiguity.

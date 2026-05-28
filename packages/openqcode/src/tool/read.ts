@@ -310,7 +310,8 @@ export const ReadTool = Tool.define(
         .map((line, i) => {
           const lineNumber = i + file.offset
           if (useHash) {
-            const hash = hashLine(line)
+            const cleanLine = line.endsWith(MAX_LINE_SUFFIX) ? line.slice(0, -MAX_LINE_SUFFIX.length) : line
+            const hash = hashLine(cleanLine)
             return `${lineNumber}|${hash}| ${line}`
           }
           return `${lineNumber}: ${line}`
