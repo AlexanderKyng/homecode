@@ -3,11 +3,11 @@ title: Tuş atamaları
 description: Tuş bağlantılarınızı özelleştirin.
 ---
 
-openqcode, `tui.json` aracılığıyla özelleştirebileceğiniz bir tuş bağlantıları listesine sahiptir.
+homecode, `tui.json` aracılığıyla özelleştirebileceğiniz bir tuş bağlantıları listesine sahiptir.
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -109,7 +109,7 @@ openqcode, `tui.json` aracılığıyla özelleştirebileceğiniz bir tuş bağla
 
 ## Leader tuşu
 
-openqcode çoğu tuş ataması için `leader` anahtarını kullanır. Bu, terminalinizdeki çakışmaları önler.
+homecode çoğu tuş ataması için `leader` anahtarını kullanır. Bu, terminalinizdeki çakışmaları önler.
 
 Varsayılan olarak `ctrl+x` lider tuştur ve çoğu eylem önce lider tuşa, ardından kısayola basmanızı gerektirir. Örneğin, yeni bir oturum başlatmak için önce `ctrl+x` tuşuna, ardından `n` tuşuna basarsınız.
 
@@ -123,7 +123,7 @@ Anahtarı yapılandırmanıza "none" değeriyle ekleyerek bir tuş atamasını d
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "session_compact": "none"
   }
@@ -134,7 +134,7 @@ Anahtarı yapılandırmanıza "none" değeriyle ekleyerek bir tuş atamasını d
 
 ## Masaüstü istemi kısayolları
 
-openqcode masaüstü uygulaması bilgi istemi girişi, metni düzenlemek için yaygın Readline/Emacs tarzı kısayolları destekler. Bunlar yerleşiktir ve şu anda `openqcode.json` aracılığıyla yapılandırılamaz.
+homecode masaüstü uygulaması bilgi istemi girişi, metni düzenlemek için yaygın Readline/Emacs tarzı kısayolları destekler. Bunlar yerleşiktir ve şu anda `homecode.json` aracılığıyla yapılandırılamaz.
 
 | Shortcut | Action                                              |
 | -------- | --------------------------------------------------- |

@@ -1,15 +1,15 @@
 ---
 title: Formatere
-description: OpenQCode bruger sprogspecifikke formatere.
+description: HomeCode bruger sprogspecifikke formatere.
 ---
 
-OpenQCode formaterer automatisk filer, efter de er skrevet eller redigeret ved hjælp af sprogspecifikke formatere. Dette sikrer, at den kode, der genereres, følger kodestilene for dit projekt.
+HomeCode formaterer automatisk filer, efter de er skrevet eller redigeret ved hjælp af sprogspecifikke formatere. Dette sikrer, at den kode, der genereres, følger kodestilene for dit projekt.
 
 ---
 
 ## Indbyggede
 
-OpenQCode leveres med flere indbyggede formatere til populære sprog og rammer. Nedenfor er en liste over de formatere, understøttede filtypenavne og kommandoer eller konfigurationsmuligheder, der har brug for.
+HomeCode leveres med flere indbyggede formatere til populære sprog og rammer. Nedenfor er en liste over de formatere, understøttede filtypenavne og kommandoer eller konfigurationsmuligheder, der har brug for.
 
 | Formater              | Udvidelser                                                                                     | Krav                                                                                                 |
 | --------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -39,13 +39,13 @@ OpenQCode leveres med flere indbyggede formatere til populære sprog og rammer. 
 | oxfmt (Eksperimentel) | .js,.jsx,.ts,.tsx                                                                              | `oxfmt` afhængighed i `package.json` og en [experimental env variable flag](/docs/cli/#experimental) |
 | ormolu                | .hs                                                                                            | `ormolu` kommando tilgængelig                                                                        |
 
-Så hvis dit projekt har `prettier` i din `package.json`, vil OpenQCode automatisk bruge det.
+Så hvis dit projekt har `prettier` i din `package.json`, vil HomeCode automatisk bruge det.
 
 ---
 
 ## Sådan fungerer det
 
-Når OpenQCode skriver eller redigerer en fil, vil det:
+Når HomeCode skriver eller redigerer en fil, vil det:
 
 1. Kontrollerer filtypenavnet mod alle aktiverede formatere.
 2. Kører den relevante formateringskommando på filen.
@@ -57,11 +57,11 @@ Denne proces sker i baggrunden, hvilket sikrer, at dine kodestile vedligeholdes 
 
 ## Konfiguration
 
-Du kan tilpasse formatere gennem afsnittet `formatter` i din OpenQCode-konfiguration.
+Du kan tilpasse formatere gennem afsnittet `formatter` i din HomeCode-konfiguration.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -83,18 +83,18 @@ Lad os se på nogle eksempler.
 
 For at deaktivere **alle** formatere globalt, skal du indstille `formatter` til `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 For at deaktivere en **specifik** formatter, skal du indstille `disabled` til `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -109,9 +109,9 @@ For at deaktivere en **specifik** formatter, skal du indstille `disabled` til `t
 
 Du kan tilsidesætte de indbyggede formattere eller tilføje nye ved at angive kommandoen, miljøvariabler og filtypenavne:
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

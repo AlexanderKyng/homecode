@@ -1,21 +1,21 @@
 ---
 title: Kurallar
-description: openqcode için özel talimatları ayarlayın.
+description: homecode için özel talimatları ayarlayın.
 ---
 
-Bir `AGENTS.md` dosyası oluşturarak openqcode için özel talimatlar verebilirsiniz. Bu, Cursor rules yaklaşımına benzer. Özel projeniz için davranışını özelleştirmek amacıyla LLM'in içeriğine dahil edilecek talimatları içerir.
+Bir `AGENTS.md` dosyası oluşturarak homecode için özel talimatlar verebilirsiniz. Bu, Cursor rules yaklaşımına benzer. Özel projeniz için davranışını özelleştirmek amacıyla LLM'in içeriğine dahil edilecek talimatları içerir.
 
 ---
 
 ## Başlat
 
-Yeni bir `AGENTS.md` dosyası oluşturmak için `/init` komutunu openqcode'da çalıştırabilirsiniz.
+Yeni bir `AGENTS.md` dosyası oluşturmak için `/init` komutunu homecode'da çalıştırabilirsiniz.
 
 :::tip
 Projenizin `AGENTS.md` dosyasını Git'e göndermelisiniz.
 :::
 
-Bu, projenin neyle ilgili olduğunu anlamak için projenizi ve tüm içeriğini tarayacak ve onunla bir `AGENTS.md` dosyası oluşturacaktır. Bu, openqcode'un projede daha iyi gezinmesine yardımcı olur.
+Bu, projenin neyle ilgili olduğunu anlamak için projenizi ve tüm içeriğini tarayacak ve onunla bir `AGENTS.md` dosyası oluşturacaktır. Bu, homecode'un projede daha iyi gezinmesine yardımcı olur.
 
 Mevcut bir `AGENTS.md` dosyanız varsa, bu dosyaya eklemeye çalışacaktır.
 
@@ -54,7 +54,7 @@ Buraya projeye özel talimatlar ekliyoruz ve bu, ekibiniz arasında paylaşılac
 
 ## Türler
 
-openqcode ayrıca `AGENTS.md` dosyasının birden fazla konumdan okunmasını da destekler. Ve bu farklı amaçlara hizmet ediyor.
+homecode ayrıca `AGENTS.md` dosyasının birden fazla konumdan okunmasını da destekler. Ve bu farklı amaçlara hizmet ediyor.
 
 ### Proje
 
@@ -62,16 +62,16 @@ Projeye özel kurallar için proje kökünüze bir `AGENTS.md` yerleştirin. Bun
 
 ### Global
 
-Ayrıca `~/.config/openqcode/AGENTS.md` dosyasında genel kurallara sahip olabilirsiniz. Bu, tüm openqcode oturumlarına uygulanır.
+Ayrıca `~/.config/homecode/AGENTS.md` dosyasında genel kurallara sahip olabilirsiniz. Bu, tüm homecode oturumlarına uygulanır.
 
 Bu Git'e kaydedilmediği veya ekibinizle paylaşılmadığı için, LLM'ın uyması gereken kişisel kuralları belirtmek için bunu kullanmanızı öneririz.
 
 ### Claude Code uyumluluğu
 
-openqcode, Claude Code'dan geçiş yapan kullanıcılar için yedek olarak Claude Code'un dosya kurallarını destekler:
+homecode, Claude Code'dan geçiş yapan kullanıcılar için yedek olarak Claude Code'un dosya kurallarını destekler:
 
 - **Proje kuralları**: Proje dizininizdeki `CLAUDE.md` (`AGENTS.md` yoksa kullanılır)
-- **Global kurallar**: `~/.claude/CLAUDE.md` (`~/.config/openqcode/AGENTS.md` yoksa kullanılır)
+- **Global kurallar**: `~/.claude/CLAUDE.md` (`~/.config/homecode/AGENTS.md` yoksa kullanılır)
 - **Beceriler**: `~/.claude/skills/` — ayrıntılar için [Agent Skills](/docs/skills/)'e bakın
 
 Claude Code uyumluluğunu kapatmak için aşağıdaki ortam değişkenlerinden birini ayarlayın:
@@ -89,31 +89,31 @@ export OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 # Disable only .claude/skills
 Opencode başlatıldığında kural dosyalarını şu sırayla arar:
 
 1. **Yerel dosyalar** geçerli dizinden yukarıya doğru giderek (`AGENTS.md`, `CLAUDE.md`)
-2. **Global dosya** `~/.config/openqcode/AGENTS.md` adresinde
+2. **Global dosya** `~/.config/homecode/AGENTS.md` adresinde
 3. `~/.claude/CLAUDE.md` adresindeki **Claude Kod dosyası** (devre dışı bırakılmadığı sürece)
 
-Her kategoride ilk eşleşen dosya kazanır. Örneğin, hem `AGENTS.md` hem de `CLAUDE.md` varsa yalnızca `AGENTS.md` kullanılır. Benzer şekilde, `~/.config/openqcode/AGENTS.md`, `~/.claude/CLAUDE.md`'ye göre önceliklidir.
+Her kategoride ilk eşleşen dosya kazanır. Örneğin, hem `AGENTS.md` hem de `CLAUDE.md` varsa yalnızca `AGENTS.md` kullanılır. Benzer şekilde, `~/.config/homecode/AGENTS.md`, `~/.claude/CLAUDE.md`'ye göre önceliklidir.
 
 ---
 
 ## Özel talimatlar
 
-Özel talimat dosyalarını `openqcode.json` veya global `~/.config/openqcode/openqcode.json`'de belirtebilirsiniz. Bu, sizin ve ekibinizin, mevcut kuralları AGENTS.md'ye kopyalamak yerine yeniden kullanmasına olanak tanır.
+Özel talimat dosyalarını `homecode.json` veya global `~/.config/homecode/homecode.json`'de belirtebilirsiniz. Bu, sizin ve ekibinizin, mevcut kuralları AGENTS.md'ye kopyalamak yerine yeniden kullanmasına olanak tanır.
 
 Örnek:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
 
 Web'den talimatlar yüklemek için uzak URL'leri de kullanabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"]
 }
 ```
@@ -128,20 +128,20 @@ Tüm talimat dosyaları `AGENTS.md` dosyalarınızla birleştirilir.
 
 Opencode, `AGENTS.md`'daki dosya referanslarını otomatik olarak ayrıştırmasa da, benzer işlevleri iki şekilde elde edebilirsiniz:
 
-### openqcode.json'u kullanma
+### homecode.json'u kullanma
 
-Önerilen yaklaşım, `instructions`'deki `openqcode.json` alanını kullanmaktır:
+Önerilen yaklaşım, `instructions`'deki `homecode.json` alanını kullanmaktır:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["docs/development-standards.md", "test/testing-guidelines.md", "packages/*/AGENTS.md"]
 }
 ```
 
 ### AGENTS.md içinde manuel talimatlar
 
-`AGENTS.md`'nizde açık talimatlar sağlayarak openqcode'u harici dosyaları okumayı öğretebilirsiniz. İşte pratik bir örnek:
+`AGENTS.md`'nizde açık talimatlar sağlayarak homecode'u harici dosyaları okumayı öğretebilirsiniz. İşte pratik bir örnek:
 
 ```markdown title="AGENTS.md"
 # TypeScript Project Rules
@@ -173,8 +173,8 @@ Bu yaklaşım şunları yapmanızı sağlar:
 - Modüler, yeniden kullanılabilir kural dosyaları oluşturun
 - Sembolik bağlantılar veya git alt modülleri aracılığıyla kuralları projeler arasında paylaşın
 - AGENTS.md dosyasını kısa tutarken ayrıntılı kılavuzlara referans verin
-- openqcode'un dosyaları yalnızca belirli bir görev için gerektiğinde yüklediğinden emin olun
+- homecode'un dosyaları yalnızca belirli bir görev için gerektiğinde yüklediğinden emin olun
 
 :::tip
-Monorepo'lar veya ortak standartlara sahip projeler için, `openqcode.json`'yi glob desenleriyle (`packages/*/AGENTS.md` gibi) kullanmak, manuel talimatlara göre daha sürdürülebilirdir.
+Monorepo'lar veya ortak standartlara sahip projeler için, `homecode.json`'yi glob desenleriyle (`packages/*/AGENTS.md` gibi) kullanmak, manuel talimatlara göre daha sürdürülebilirdir.
 :::

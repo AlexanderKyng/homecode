@@ -1,9 +1,9 @@
 ---
 title: Zasady
-description: Ustaw niestandardowe instrukcje dla openqcode.
+description: Ustaw niestandardowe instrukcje dla homecode.
 ---
 
-Możesz dostarczyć niestandardowe instrukcje do openqcode, tworząc plik `AGENTS.md`. Jest to podobne do zasad Cursora. Zawiera instrukcje, które zostaną uwzględnione w kontekście LLM, aby dostosować jego zachowanie do konkretnego projektu.
+Możesz dostarczyć niestandardowe instrukcje do homecode, tworząc plik `AGENTS.md`. Jest to podobne do zasad Cursora. Zawiera instrukcje, które zostaną uwzględnione w kontekście LLM, aby dostosować jego zachowanie do konkretnego projektu.
 
 ---
 
@@ -54,7 +54,7 @@ Dodajemy tutaj instrukcje dotyczące konkretnego projektu, które zostaną udost
 
 ## Typy
 
-openqcode obsługuje także odczytywanie pliku `AGENTS.md` z wielu lokalizacji. A to służy różnym celom.
+homecode obsługuje także odczytywanie pliku `AGENTS.md` z wielu lokalizacji. A to służy różnym celom.
 
 ### Projekt
 
@@ -62,16 +62,16 @@ Umieść `AGENTS.md` w katalogu głównym projektu, aby uzyskać reguły specyfi
 
 ### Globalne
 
-Możesz także mieć reguły globalne w pliku `~/.config/openqcode/AGENTS.md`. Jest to stosowane we wszystkich sesjach openqcode.
+Możesz także mieć reguły globalne w pliku `~/.config/homecode/AGENTS.md`. Jest to stosowane we wszystkich sesjach homecode.
 
 Ponieważ nie jest to wymagane dla Git ani udostępniane Twojemu zespołowi, zalecamy użycie tego do określenia wszelkich osobistych zasad, których powinien przestrzegać LLM.
 
 ### Kompatybilność z Claude Code
 
-W przypadku użytkowników migrujących z Claude Code openqcode obsługuje konwencje plików Claude Code jako rozwiązania awaryjne:
+W przypadku użytkowników migrujących z Claude Code homecode obsługuje konwencje plików Claude Code jako rozwiązania awaryjne:
 
 - **Zasady projektu**: `CLAUDE.md` w katalogu projektu (używane, jeśli nie istnieje `AGENTS.md`)
-- **Zasady globalne**: `~/.claude/CLAUDE.md` (używane, jeśli nie istnieje `~/.config/openqcode/AGENTS.md`)
+- **Zasady globalne**: `~/.claude/CLAUDE.md` (używane, jeśli nie istnieje `~/.config/homecode/AGENTS.md`)
 - **Umiejętności**: `~/.claude/skills/` — szczegóły znajdziesz w [Umiejętnościach agenta](/docs/skills/)
 
 Aby wyłączyć kompatybilność z Claude Code, ustaw jedną z tych zmiennych środowiskowych:
@@ -86,34 +86,34 @@ export OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 # Disable only .claude/skills
 
 ## Priorytet
 
-Po uruchomieniu openqcode szuka plików reguł w następującej kolejności:
+Po uruchomieniu homecode szuka plików reguł w następującej kolejności:
 
 1. **Pliki lokalne** poprzez przejście z bieżącego katalogu (`AGENTS.md`, `CLAUDE.md`)
-2. **Plik globalny** w `~/.config/openqcode/AGENTS.md`
+2. **Plik globalny** w `~/.config/homecode/AGENTS.md`
 3. **Plik Claude Code** w `~/.claude/CLAUDE.md` (chyba że wyłączony)
 
-Pierwszy pasujący plik wygrywa w każdej kategorii. Na przykład, jeśli masz zarówno `AGENTS.md`, jak i `CLAUDE.md`, używany jest tylko `AGENTS.md`. Podobnie `~/.config/openqcode/AGENTS.md` ma pierwszeństwo przed `~/.claude/CLAUDE.md`.
+Pierwszy pasujący plik wygrywa w każdej kategorii. Na przykład, jeśli masz zarówno `AGENTS.md`, jak i `CLAUDE.md`, używany jest tylko `AGENTS.md`. Podobnie `~/.config/homecode/AGENTS.md` ma pierwszeństwo przed `~/.claude/CLAUDE.md`.
 
 ---
 
 ## Instrukcje niestandardowe
 
-Możesz określić niestandardowe pliki instrukcji w swoim `openqcode.json` lub globalnym `~/.config/openqcode/openqcode.json`. Dzięki temu Ty i Twój zespół możecie ponownie wykorzystać istniejące reguły, zamiast duplikować je w pliku AGENTS.md.
+Możesz określić niestandardowe pliki instrukcji w swoim `homecode.json` lub globalnym `~/.config/homecode/homecode.json`. Dzięki temu Ty i Twój zespół możecie ponownie wykorzystać istniejące reguły, zamiast duplikować je w pliku AGENTS.md.
 
 Przykład:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
 
 Możesz także użyć zdalnych adresów URL, aby załadować instrukcje z Internetu.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["https://raw.githubusercontent.com/my-org/shared-rules/main/style.md"]
 }
 ```
@@ -126,22 +126,22 @@ Wszystkie pliki instrukcji są łączone z plikami `AGENTS.md`.
 
 ## Odwoływanie się do plików zewnętrznych
 
-Chociaż openqcode nie analizuje automatycznie odniesień do plików w `AGENTS.md`, możesz osiągnąć podobną funkcjonalność na dwa sposoby:
+Chociaż homecode nie analizuje automatycznie odniesień do plików w `AGENTS.md`, możesz osiągnąć podobną funkcjonalność na dwa sposoby:
 
-### Używanie openqcode.json
+### Używanie homecode.json
 
-Zalecanym podejściem jest użycie pola `instructions` w `openqcode.json`:
+Zalecanym podejściem jest użycie pola `instructions` w `homecode.json`:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["docs/development-standards.md", "test/testing-guidelines.md", "packages/*/AGENTS.md"]
 }
 ```
 
 ### Ręczne instrukcje w AGENTS.md
 
-Możesz nauczyć openqcode czytać pliki zewnętrzne, podając wyraźne instrukcje w swoim `AGENTS.md`. Oto praktyczny przykład:
+Możesz nauczyć homecode czytać pliki zewnętrzne, podając wyraźne instrukcje w swoim `AGENTS.md`. Oto praktyczny przykład:
 
 ```markdown title="AGENTS.md"
 # TypeScript Project Rules
@@ -173,8 +173,8 @@ Takie podejście pozwala:
 - Twórz modułowe pliki reguł wielokrotnego użytku
 - Share rules across projects via symlinks or git submodules
 - Keep AGENTS.md concise while referencing detailed guidelines
-- Upewnij się, że openqcode ładuje pliki tylko wtedy, gdy są potrzebne do konkretnego zadania
+- Upewnij się, że homecode ładuje pliki tylko wtedy, gdy są potrzebne do konkretnego zadania
 
 :::tip
-W przypadku monorepo lub projektów ze wspólnymi standardami użycie `openqcode.json` ze wzorami globalnymi (takimi jak `packages/*/AGENTS.md`) jest łatwiejsze w utrzymaniu niż instrukcje ręczne.
+W przypadku monorepo lub projektów ze wspólnymi standardami użycie `homecode.json` ze wzorami globalnymi (takimi jak `packages/*/AGENTS.md`) jest łatwiejsze w utrzymaniu niż instrukcje ręczne.
 :::

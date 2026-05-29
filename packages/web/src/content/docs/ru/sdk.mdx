@@ -1,6 +1,6 @@
 ---
 title: SDK
-description: Типобезопасный JS-клиент для сервера openqcode.
+description: Типобезопасный JS-клиент для сервера homecode.
 ---
 
 import config from "../../../../config.mjs"
@@ -18,17 +18,17 @@ SDK JS/TS с открытым кодом предоставляет типобе
 Установите SDK из npm:
 
 ```bash
-npm install @openqcode-ai/sdk
+npm install @homecode-ai/sdk
 ```
 
 ---
 
 ## Создать клиента
 
-Создайте экземпляр openqcode:
+Создайте экземпляр homecode:
 
 ```javascript
-import { createOpencode } from "@openqcode-ai/sdk"
+import { createOpencode } from "@homecode-ai/sdk"
 
 const { client } = await createOpencode()
 ```
@@ -49,12 +49,12 @@ const { client } = await createOpencode()
 
 ## Конфигурация
 
-Вы можете передать объект конфигурации для настройки поведения. Экземпляр по-прежнему получает ваш `openqcode.json`, но вы можете переопределить или добавить встроенную конфигурацию:
+Вы можете передать объект конфигурации для настройки поведения. Экземпляр по-прежнему получает ваш `homecode.json`, но вы можете переопределить или добавить встроенную конфигурацию:
 
 ```javascript
-import { createOpencode } from "@openqcode-ai/sdk"
+import { createOpencode } from "@homecode-ai/sdk"
 
-const openqcode = await createOpencode({
+const homecode = await createOpencode({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -62,17 +62,17 @@ const openqcode = await createOpencode({
   },
 })
 
-console.log(`Server running at ${openqcode.server.url}`)
+console.log(`Server running at ${homecode.server.url}`)
 
-openqcode.server.close()
+homecode.server.close()
 ```
 
 ## Только клиент
 
-Если у вас уже есть работающий экземпляр openqcode, вы можете создать экземпляр клиента для подключения к нему:
+Если у вас уже есть работающий экземпляр homecode, вы можете создать экземпляр клиента для подключения к нему:
 
 ```javascript
-import { createOpencodeClient } from "@openqcode-ai/sdk"
+import { createOpencodeClient } from "@homecode-ai/sdk"
 
 const client = createOpencodeClient({
   baseUrl: "http://localhost:4096",
@@ -96,7 +96,7 @@ const client = createOpencodeClient({
 SDK включает определения TypeScript для всех типов API. Импортируйте их напрямую:
 
 ```typescript
-import type { Session, Message, Part } from "@openqcode-ai/sdk"
+import type { Session, Message, Part } from "@homecode-ai/sdk"
 ```
 
 Все типы генерируются на основе спецификации OpenAPI сервера и доступны в файле <a href={typesUrl}>types</a>.
@@ -376,7 +376,7 @@ await client.session.prompt({
 ```javascript
 // Search and read files
 const textResults = await client.find.text({
-  query: { pattern: "function.*openqcode" },
+  query: { pattern: "function.*homecode" },
 })
 
 const files = await client.find.files({

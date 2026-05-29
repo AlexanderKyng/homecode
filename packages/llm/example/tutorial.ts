@@ -1,7 +1,7 @@
 import { Config, Effect, Formatter, Layer, Schema, Stream } from "effect"
-import { LLM, LLMClient, ProviderID, Tool } from "@openqcode-ai/llm"
-import { Route, Auth, Endpoint, Framing, Protocol, RequestExecutor, WebSocketExecutor } from "@openqcode-ai/llm/route"
-import { OpenAI } from "@openqcode-ai/llm/providers"
+import { LLM, LLMClient, ProviderID, Tool } from "@homecode-ai/llm"
+import { Route, Auth, Endpoint, Framing, Protocol, RequestExecutor, WebSocketExecutor } from "@homecode-ai/llm/route"
+import { OpenAI } from "@homecode-ai/llm/providers"
 
 /**
  * A runnable walkthrough of the LLM package use-site API.
@@ -57,7 +57,7 @@ const rawOverlayExample = LLM.request({
   prompt: "Show the final HTTP overlay shape.",
   http: {
     body: { metadata: { example: "tutorial" } },
-    headers: { "x-openqcode-tutorial": "1" },
+    headers: { "x-homecode-tutorial": "1" },
     query: { debug: "1" },
   },
 })

@@ -1,21 +1,21 @@
-# openqcode VS Code Extension
+# homecode VS Code Extension
 
-A Visual Studio Code extension that integrates [openqcode](https://openqcode.ai) directly into your development workflow.
+A Visual Studio Code extension that integrates [homecode](https://homecode.ai) directly into your development workflow.
 
 ## Prerequisites
 
-This extension requires the [openqcode CLI](https://openqcode.ai) to be installed on your system. Visit [openqcode.ai](https://openqcode.ai) for installation instructions.
+This extension requires the [homecode CLI](https://homecode.ai) to be installed on your system. Visit [homecode.ai](https://homecode.ai) for installation instructions.
 
 ## Features
 
-- **Quick Launch**: Use `Cmd+Esc` (Mac) or `Ctrl+Esc` (Windows/Linux) to open openqcode in a split terminal view, or focus an existing terminal session if one is already running.
-- **New Session**: Use `Cmd+Shift+Esc` (Mac) or `Ctrl+Shift+Esc` (Windows/Linux) to start a new openqcode terminal session, even if one is already open. You can also click the openqcode button in the UI.
-- **Context Awareness**: Automatically share your current selection or tab with openqcode.
+- **Quick Launch**: Use `Cmd+Esc` (Mac) or `Ctrl+Esc` (Windows/Linux) to open homecode in a split terminal view, or focus an existing terminal session if one is already running.
+- **New Session**: Use `Cmd+Shift+Esc` (Mac) or `Ctrl+Shift+Esc` (Windows/Linux) to start a new homecode terminal session, even if one is already open. You can also click the homecode button in the UI.
+- **Context Awareness**: Automatically share your current selection or tab with homecode.
 - **File Reference Shortcuts**: Use `Cmd+Option+K` (Mac) or `Alt+Ctrl+K` (Linux/Windows) to insert file references. For example, `@File#L37-42`.
 
 ## Support
 
-This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/openqcode/issues.
+This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/homecode/issues.
 
 ## Development
 

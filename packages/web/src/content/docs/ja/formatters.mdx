@@ -1,15 +1,15 @@
 ---
 title: フォーマッタ
-description: OpenQCode は言語固有のフォーマッタを使用します。
+description: HomeCode は言語固有のフォーマッタを使用します。
 ---
 
-OpenQCode は、言語固有のフォーマッタを使用してファイルを作成または編集した後、ファイルを自動的にフォーマットします。これにより、生成されるコードがプロジェクトのコードスタイルに従っていることが保証されます。
+HomeCode は、言語固有のフォーマッタを使用してファイルを作成または編集した後、ファイルを自動的にフォーマットします。これにより、生成されるコードがプロジェクトのコードスタイルに従っていることが保証されます。
 
 ---
 
 ## 組み込み
 
-OpenQCode には、一般的な言語およびフレームワーク用のいくつかの組み込みフォーマッタが付属しています。以下は、フォーマッタ、サポートされているファイル拡張子、および必要なコマンドまたは構成オプションのリストです。
+HomeCode には、一般的な言語およびフレームワーク用のいくつかの組み込みフォーマッタが付属しています。以下は、フォーマッタ、サポートされているファイル拡張子、および必要なコマンドまたは構成オプションのリストです。
 
 | Formatter            | Extensions                                                                                               | Requirements                                                                                          |
 | -------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
@@ -40,13 +40,13 @@ OpenQCode には、一般的な言語およびフレームワーク用のいく�
 | uv                   | .py, .pyi                                                                                                | `uv` command available                                                                                |
 | zig                  | .zig, .zon                                                                                               | `zig` command available                                                                               |
 
-したがって、プロジェクトの `prettier` に `package.json` が含まれている場合、OpenQCode は自動的にそれを使用します。
+したがって、プロジェクトの `prettier` に `package.json` が含まれている場合、HomeCode は自動的にそれを使用します。
 
 ---
 
 ## 仕組み
 
-OpenQCode がファイルを書き込んだり編集したりすると、次のことが行われます。
+HomeCode がファイルを書き込んだり編集したりすると、次のことが行われます。
 
 1. 有効なすべてのフォーマッタに対してファイル拡張子をチェックします。
 2. ファイルに対して適切なフォーマッタコマンドを実行します。
@@ -58,11 +58,11 @@ OpenQCode がファイルを書き込んだり編集したりすると、次の�
 
 ## 設定
 
-OpenQCode 設定の `formatter` セクションを通じてフォーマッタをカスタマイズできます。
+HomeCode 設定の `formatter` セクションを通じてフォーマッタをカスタマイズできます。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -84,18 +84,18 @@ OpenQCode 設定の `formatter` セクションを通じてフォーマッタを
 
 **すべて**のフォーマッタをグローバルに無効にするには、`formatter` を `false` に設定します。
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 **特定**のフォーマッタを無効にするには、`disabled` を `true` に設定します。
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -110,9 +110,9 @@ OpenQCode 設定の `formatter` セクションを通じてフォーマッタを
 
 コマンド、環境変数、ファイル拡張子を指定することで、組み込みフォーマッタをオーバーライドしたり、新しいフォーマッタを追加したりできます。
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

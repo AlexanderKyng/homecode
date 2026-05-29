@@ -1,6 +1,6 @@
 import { parseCommentNote, readCommentMetadata } from "@/utils/comment-note"
-import { AssistantMessage, Part, SessionStatus, SnapshotFileDiff, UserMessage } from "@openqcode-ai/sdk/v2"
-import { groupParts, PartGroup, renderable } from "@openqcode-ai/ui/message-part"
+import { AssistantMessage, Part, SessionStatus, SnapshotFileDiff, UserMessage } from "@homecode-ai/sdk/v2"
+import { groupParts, PartGroup, renderable } from "@homecode-ai/ui/message-part"
 import { Data, Equal } from "effect"
 
 export type SummaryDiff = SnapshotFileDiff & { file: string }

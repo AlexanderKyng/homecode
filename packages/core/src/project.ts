@@ -41,7 +41,7 @@ export interface Interface {
   /**
    * Temporary bridge method for writing the resolved project ID to the repo-local cache.
    *
-   * This exists while the old openqcode project service and this core project
+   * This exists while the old homecode project service and this core project
    * service work together: core resolves the ID, while the old service still owns
    * database migration and persistence. The old service should call this after it
    * finishes migrating from `resolve().previous` to `resolve().id`; once project
@@ -50,7 +50,7 @@ export interface Interface {
   readonly commit: (input: { store: AbsolutePath; id: ID }) => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/ProjectV2") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/ProjectV2") {}
 
 export const layer = Layer.effect(
   Service,
@@ -59,7 +59,7 @@ export const layer = Layer.effect(
     const git = yield* Git.Service
 
     const cached = Effect.fnUntraced(function* (dir: string) {
-      return yield* fs.readFileString(path.join(dir, "openqcode")).pipe(
+      return yield* fs.readFileString(path.join(dir, "homecode")).pipe(
         Effect.map((value) => value.trim()),
         Effect.map((value) => (value ? ID.make(value) : undefined)),
         Effect.catch(() => Effect.succeed(undefined)),
@@ -119,7 +119,7 @@ export const layer = Layer.effect(
     })
 
     const commit = Effect.fn("Project.commit")(function* (input: { store: AbsolutePath; id: ID }) {
-      yield* fs.writeFileString(path.join(input.store, "openqcode"), input.id).pipe(Effect.ignore)
+      yield* fs.writeFileString(path.join(input.store, "homecode"), input.id).pipe(Effect.ignore)
     })
 
     return Service.of({ resolve, commit })

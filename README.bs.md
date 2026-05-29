@@ -1,17 +1,17 @@
 <p align="center">
-  <a href="https://openqcode.ai">
+  <a href="https://homecode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="OpenQCode logo">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="HomeCode logo">
     </picture>
   </a>
 </p>
-<p align="center">OpenQCode je open source AI agent za programiranje.</p>
+<p align="center">HomeCode je open source AI agent za programiranje.</p>
 <p align="center">
-  <a href="https://openqcode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/openqcode-ai"><img alt="npm" src="https://img.shields.io/npm/v/openqcode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/openqcode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/openqcode/publish.yml?style=flat-square&branch=dev" /></a>
+  <a href="https://homecode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://www.npmjs.com/package/homecode-ai"><img alt="npm" src="https://img.shields.io/npm/v/homecode-ai?style=flat-square" /></a>
+  <a href="https://github.com/anomalyco/homecode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/homecode/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![OpenQCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://openqcode.ai)
+[![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://homecode.ai)
 
 ---
 
@@ -47,18 +47,18 @@
 
 ```bash
 # YOLO
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 
 # Package manageri
-npm i -g openqcode-ai@latest        # ili bun/pnpm/yarn
-scoop install openqcode             # Windows
-choco install openqcode             # Windows
-brew install anomalyco/tap/openqcode # macOS i Linux (preporučeno, uvijek ažurno)
-brew install openqcode              # macOS i Linux (zvanična brew formula, rjeđe se ažurira)
-sudo pacman -S openqcode            # Arch Linux (Stable)
-paru -S openqcode-bin               # Arch Linux (Latest from AUR)
-mise use -g openqcode               # Bilo koji OS
-nix run nixpkgs#openqcode           # ili github:anomalyco/openqcode za najnoviji dev branch
+npm i -g homecode-ai@latest        # ili bun/pnpm/yarn
+scoop install homecode             # Windows
+choco install homecode             # Windows
+brew install anomalyco/tap/homecode # macOS i Linux (preporučeno, uvijek ažurno)
+brew install homecode              # macOS i Linux (zvanična brew formula, rjeđe se ažurira)
+sudo pacman -S homecode            # Arch Linux (Stable)
+paru -S homecode-bin               # Arch Linux (Latest from AUR)
+mise use -g homecode               # Bilo koji OS
+nix run nixpkgs#homecode           # ili github:anomalyco/homecode za najnoviji dev branch
 ```
 
 > [!TIP]
@@ -66,20 +66,20 @@ nix run nixpkgs#openqcode           # ili github:anomalyco/openqcode za najnovij
 
 ### Desktop aplikacija (BETA)
 
-OpenQCode je dostupan i kao desktop aplikacija. Preuzmi je direktno sa [stranice izdanja](https://github.com/anomalyco/openqcode/releases) ili sa [openqcode.ai/download](https://openqcode.ai/download).
+HomeCode je dostupan i kao desktop aplikacija. Preuzmi je direktno sa [stranice izdanja](https://github.com/anomalyco/homecode/releases) ili sa [homecode.ai/download](https://homecode.ai/download).
 
 | Platforma             | Preuzimanje                        |
 | --------------------- | ---------------------------------- |
-| macOS (Apple Silicon) | `openqcode-desktop-mac-arm64.dmg`   |
-| macOS (Intel)         | `openqcode-desktop-mac-x64.dmg`     |
-| Windows               | `openqcode-desktop-windows-x64.exe` |
+| macOS (Apple Silicon) | `homecode-desktop-mac-arm64.dmg`   |
+| macOS (Intel)         | `homecode-desktop-mac-x64.dmg`     |
+| Windows               | `homecode-desktop-windows-x64.exe` |
 | Linux                 | `.deb`, `.rpm`, ili AppImage       |
 
 ```bash
 # macOS (Homebrew)
-brew install --cask openqcode-desktop
+brew install --cask homecode-desktop
 # Windows (Scoop)
-scoop bucket add extras; scoop install extras/openqcode-desktop
+scoop bucket add extras; scoop install extras/homecode-desktop
 ```
 
 #### Instalacijski direktorij
@@ -89,17 +89,17 @@ Instalacijska skripta koristi sljedeći redoslijed prioriteta za putanju instala
 1. `$OPENCODE_INSTALL_DIR` - Prilagođeni instalacijski direktorij
 2. `$XDG_BIN_DIR` - Putanja usklađena sa XDG Base Directory specifikacijom
 3. `$HOME/bin` - Standardni korisnički bin direktorij (ako postoji ili se može kreirati)
-4. `$HOME/.openqcode/bin` - Podrazumijevana rezervna lokacija
+4. `$HOME/.homecode/bin` - Podrazumijevana rezervna lokacija
 
 ```bash
 # Primjeri
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://openqcode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://openqcode.ai/install | bash
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://homecode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://homecode.ai/install | bash
 ```
 
 ### Agenti
 
-OpenQCode uključuje dva ugrađena agenta između kojih možeš prebacivati tasterom `Tab`.
+HomeCode uključuje dva ugrađena agenta između kojih možeš prebacivati tasterom `Tab`.
 
 - **build** - Podrazumijevani agent sa punim pristupom za razvoj
 - **plan** - Agent samo za čitanje za analizu i istraživanje koda
@@ -110,20 +110,20 @@ OpenQCode uključuje dva ugrađena agenta između kojih možeš prebacivati tast
 Uključen je i **general** pod-agent za složene pretrage i višekoračne zadatke.
 Koristi se interno i može se pozvati pomoću `@general` u porukama.
 
-Saznaj više o [agentima](https://openqcode.ai/docs/agents).
+Saznaj više o [agentima](https://homecode.ai/docs/agents).
 
 ### Dokumentacija
 
-Za više informacija o konfiguraciji OpenQCode-a, [**pogledaj dokumentaciju**](https://openqcode.ai/docs).
+Za više informacija o konfiguraciji HomeCode-a, [**pogledaj dokumentaciju**](https://homecode.ai/docs).
 
 ### Doprinosi
 
-Ako želiš doprinositi OpenQCode-u, pročitaj [upute za doprinošenje](./CONTRIBUTING.md) prije slanja pull requesta.
+Ako želiš doprinositi HomeCode-u, pročitaj [upute za doprinošenje](./CONTRIBUTING.md) prije slanja pull requesta.
 
-### Gradnja na OpenQCode-u
+### Gradnja na HomeCode-u
 
-Ako radiš na projektu koji je povezan s OpenQCode-om i koristi "openqcode" kao dio naziva, npr. "openqcode-dashboard" ili "openqcode-mobile", dodaj napomenu u svoj README da projekat nije napravio OpenQCode tim i da nije povezan s nama.
+Ako radiš na projektu koji je povezan s HomeCode-om i koristi "homecode" kao dio naziva, npr. "homecode-dashboard" ili "homecode-mobile", dodaj napomenu u svoj README da projekat nije napravio HomeCode tim i da nije povezan s nama.
 
 ---
 
-**Pridruži se našoj zajednici** [Discord](https://discord.gg/openqcode) | [X.com](https://x.com/openqcode)
+**Pridruži se našoj zajednici** [Discord](https://discord.gg/homecode) | [X.com](https://x.com/homecode)

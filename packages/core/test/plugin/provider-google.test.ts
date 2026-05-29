@@ -1,9 +1,9 @@
 import { describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { AISDK } from "@openqcode-ai/core/aisdk"
-import { ModelV2 } from "@openqcode-ai/core/model"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { GooglePlugin } from "@openqcode-ai/core/plugin/provider/google"
+import { AISDK } from "@homecode-ai/core/aisdk"
+import { ModelV2 } from "@homecode-ai/core/model"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { GooglePlugin } from "@homecode-ai/core/plugin/provider/google"
 import { testEffect } from "../lib/effect"
 import { it, model } from "./provider-helper"
 

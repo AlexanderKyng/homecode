@@ -3,11 +3,11 @@ title: Tastenkombinationen
 description: Passen Sie Ihre Tastenkombinationen an.
 ---
 
-OpenQCode verfügt über eine Liste von Tastenkombinationen, die Sie über `tui.json` anpassen können.
+HomeCode verfügt über eine Liste von Tastenkombinationen, die Sie über `tui.json` anpassen können.
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -109,7 +109,7 @@ OpenQCode verfügt über eine Liste von Tastenkombinationen, die Sie über `tui.
 
 ## Leader Key
 
-OpenQCode verwendet für die meisten Keybinds einen `leader`-Schlüssel. Dies vermeidet Konflikte in Ihrem Terminal.
+HomeCode verwendet für die meisten Keybinds einen `leader`-Schlüssel. Dies vermeidet Konflikte in Ihrem Terminal.
 
 Standardmäßig ist `ctrl+x` der Leader Key und bei den meisten Aktionen müssen Sie zuerst den Leader Key und dann die Tastenkombination drücken. Um beispielsweise eine neue Sitzung zu starten, drücken Sie zuerst `ctrl+x` und dann `n`.
 
@@ -123,7 +123,7 @@ Sie können eine Keybind deaktivieren, indem Sie den Schlüssel mit dem Wert „
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "session_compact": "none"
   }
@@ -134,7 +134,7 @@ Sie können eine Keybind deaktivieren, indem Sie den Schlüssel mit dem Wert „
 
 ## Desktop-Prompt-Shortcuts
 
-Die Eingabeaufforderungseingabe der OpenQCode-Desktop-App unterstützt gängige Readline/Emacs-style-Verknüpfungen zum Bearbeiten von Text. Diese sind integriert und derzeit nicht über `openqcode.json` konfigurierbar.
+Die Eingabeaufforderungseingabe der HomeCode-Desktop-App unterstützt gängige Readline/Emacs-style-Verknüpfungen zum Bearbeiten von Text. Diese sind integriert und derzeit nicht über `homecode.json` konfigurierbar.
 
 | Keybind  | Aktion                                                |
 | -------- | ----------------------------------------------------- |

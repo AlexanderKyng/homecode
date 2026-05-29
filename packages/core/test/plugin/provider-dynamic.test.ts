@@ -1,14 +1,14 @@
-import { Npm } from "@openqcode-ai/core/npm"
+import { Npm } from "@homecode-ai/core/npm"
 import { describe, expect } from "bun:test"
 import { Cause, Effect, Layer, Option } from "effect"
 import fs from "fs/promises"
 import os from "os"
 import path from "path"
 import { fileURLToPath } from "url"
-import { AISDK } from "@openqcode-ai/core/aisdk"
-import { ModelV2 } from "@openqcode-ai/core/model"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { DynamicProviderPlugin } from "@openqcode-ai/core/plugin/provider/dynamic"
+import { AISDK } from "@homecode-ai/core/aisdk"
+import { ModelV2 } from "@homecode-ai/core/model"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { DynamicProviderPlugin } from "@homecode-ai/core/plugin/provider/dynamic"
 import { testEffect } from "../lib/effect"
 import { fixtureProvider, it, model, npmLayer } from "./provider-helper"
 
@@ -33,7 +33,7 @@ function dynamicPlugin(layer = npmLayer) {
 function tempEntrypoint(source: string) {
   return Effect.acquireRelease(
     Effect.promise(async () => {
-      const directory = await fs.mkdtemp(path.join(os.tmpdir(), "openqcode-provider-dynamic-"))
+      const directory = await fs.mkdtemp(path.join(os.tmpdir(), "homecode-provider-dynamic-"))
       const entrypoint = path.join(directory, "provider.mjs")
       await Bun.write(entrypoint, source)
       return { directory, entrypoint }

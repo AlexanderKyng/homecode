@@ -1,4 +1,4 @@
-import { createOpencodeClient, createOpencodeServer } from "@openqcode-ai/sdk"
+import { createOpencodeClient, createOpencodeServer } from "@homecode-ai/sdk"
 import { pathToFileURL } from "bun"
 
 const server = await createOpencodeServer()

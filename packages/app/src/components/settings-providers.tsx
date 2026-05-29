@@ -1,8 +1,8 @@
-import { Button } from "@openqcode-ai/ui/button"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
-import { ProviderIcon } from "@openqcode-ai/ui/provider-icon"
-import { Tag } from "@openqcode-ai/ui/tag"
-import { showToast } from "@openqcode-ai/ui/toast"
+import { Button } from "@homecode-ai/ui/button"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
+import { ProviderIcon } from "@homecode-ai/ui/provider-icon"
+import { Tag } from "@homecode-ai/ui/tag"
+import { showToast } from "@homecode-ai/ui/toast"
 import { popularProviders, useProviders } from "@/hooks/use-providers"
 import { createMemo, type Component, For, Show } from "solid-js"
 import { useLanguage } from "@/context/language"
@@ -17,8 +17,8 @@ type ProviderSource = "env" | "api" | "config" | "custom"
 type ProviderItem = ReturnType<ReturnType<typeof useProviders>["connected"]>[number]
 
 const PROVIDER_NOTES = [
-  { match: (id: string) => id === "openqcode", key: "dialog.provider.openqcode.note" },
-  { match: (id: string) => id === "openqcode-go", key: "dialog.provider.openqcodeGo.tagline" },
+  { match: (id: string) => id === "homecode", key: "dialog.provider.homecode.note" },
+  { match: (id: string) => id === "homecode-go", key: "dialog.provider.homecodeGo.tagline" },
   { match: (id: string) => id === "anthropic", key: "dialog.provider.anthropic.note" },
   { match: (id: string) => id.startsWith("github-copilot"), key: "dialog.provider.copilot.note" },
   { match: (id: string) => id === "openai", key: "dialog.provider.openai.note" },
@@ -37,7 +37,7 @@ export const SettingsProviders: Component = () => {
   const connected = createMemo(() => {
     return providers
       .connected()
-      .filter((p) => p.id !== "openqcode" || Object.values(p.models).find((m) => m.cost?.input))
+      .filter((p) => p.id !== "homecode" || Object.values(p.models).find((m) => m.cost?.input))
   })
 
   const popular = createMemo(() => {
@@ -183,10 +183,10 @@ export const SettingsProviders: Component = () => {
                     <div class="flex items-center gap-x-3">
                       <ProviderIcon id={item.id} class="size-5 shrink-0 icon-strong-base" />
                       <span class="text-14-medium text-text-strong">{item.name}</span>
-                      <Show when={item.id === "openqcode"}>
+                      <Show when={item.id === "homecode"}>
                         <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
                       </Show>
-                      <Show when={item.id === "openqcode-go"}>
+                      <Show when={item.id === "homecode-go"}>
                         <Tag>{language.t("dialog.provider.tag.recommended")}</Tag>
                       </Show>
                     </div>

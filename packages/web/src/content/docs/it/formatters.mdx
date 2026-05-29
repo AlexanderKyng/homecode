@@ -1,15 +1,15 @@
 ---
 title: Formattatori
-description: OpenQCode usa formattatori specifici per linguaggio.
+description: HomeCode usa formattatori specifici per linguaggio.
 ---
 
-OpenQCode formatta automaticamente i file dopo che vengono scritti o modificati usando formattatori specifici per linguaggio. Questo assicura che il codice generato segua lo stile del tuo progetto.
+HomeCode formatta automaticamente i file dopo che vengono scritti o modificati usando formattatori specifici per linguaggio. Questo assicura che il codice generato segua lo stile del tuo progetto.
 
 ---
 
 ## Integrati
 
-OpenQCode include diversi formattatori integrati per linguaggi e framework popolari. Qui sotto trovi la lista dei formattatori, delle estensioni supportate e dei comandi o opzioni di config richiesti.
+HomeCode include diversi formattatori integrati per linguaggi e framework popolari. Qui sotto trovi la lista dei formattatori, delle estensioni supportate e dei comandi o opzioni di config richiesti.
 
 | Formattatore         | Estensioni                                                                                               | Requisiti                                                                                                    |
 | -------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
@@ -40,13 +40,13 @@ OpenQCode include diversi formattatori integrati per linguaggi e framework popol
 | uv                   | .py, .pyi                                                                                                | comando `uv` disponibile                                                                                     |
 | zig                  | .zig, .zon                                                                                               | comando `zig` disponibile                                                                                    |
 
-Quindi, se il progetto ha `prettier` in `package.json`, OpenQCode lo usera automaticamente.
+Quindi, se il progetto ha `prettier` in `package.json`, HomeCode lo usera automaticamente.
 
 ---
 
 ## Come funziona
 
-Quando OpenQCode scrive o modifica un file:
+Quando HomeCode scrive o modifica un file:
 
 1. Controlla l'estensione del file rispetto a tutti i formattatori abilitati.
 2. Esegue il comando del formattatore appropriato sul file.
@@ -58,11 +58,11 @@ Questo processo avviene in background, mantenendo lo stile del codice senza pass
 
 ## Configurazione
 
-Puoi personalizzare i formattatori nella sezione `formatter` della config di OpenQCode.
+Puoi personalizzare i formattatori nella sezione `formatter` della config di HomeCode.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -84,18 +84,18 @@ Vediamo alcuni esempi.
 
 Per disabilitare **tutti** i formattatori globalmente, imposta `formatter` a `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 Per disabilitare un formattatore **specifico**, imposta `disabled` a `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -110,9 +110,9 @@ Per disabilitare un formattatore **specifico**, imposta `disabled` a `true`:
 
 Puoi sovrascrivere i formattatori integrati o aggiungerne di nuovi specificando comando, variabili d'ambiente ed estensioni file:
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

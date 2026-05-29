@@ -1,19 +1,19 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { and, Database, eq, isNull, lt, or, sql } from "@openqcode-ai/console-core/drizzle/index.js"
-import { KeyTable } from "@openqcode-ai/console-core/schema/key.sql.js"
-import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@openqcode-ai/console-core/schema/billing.sql.js"
-import { centsToMicroCents } from "@openqcode-ai/console-core/util/price.js"
-import { getMonthlyBounds, getWeekBounds } from "@openqcode-ai/console-core/util/date.js"
-import { Identifier } from "@openqcode-ai/console-core/identifier.js"
-import { Billing } from "@openqcode-ai/console-core/billing.js"
-import { Actor } from "@openqcode-ai/console-core/actor.js"
-import { WorkspaceTable } from "@openqcode-ai/console-core/schema/workspace.sql.js"
-import { ZenData } from "@openqcode-ai/console-core/model.js"
-import { Subscription } from "@openqcode-ai/console-core/subscription.js"
-import { BlackData } from "@openqcode-ai/console-core/black.js"
-import { UserTable } from "@openqcode-ai/console-core/schema/user.sql.js"
-import { ModelTable } from "@openqcode-ai/console-core/schema/model.sql.js"
-import { ProviderTable } from "@openqcode-ai/console-core/schema/provider.sql.js"
+import { and, Database, eq, isNull, lt, or, sql } from "@homecode-ai/console-core/drizzle/index.js"
+import { KeyTable } from "@homecode-ai/console-core/schema/key.sql.js"
+import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@homecode-ai/console-core/schema/billing.sql.js"
+import { centsToMicroCents } from "@homecode-ai/console-core/util/price.js"
+import { getMonthlyBounds, getWeekBounds } from "@homecode-ai/console-core/util/date.js"
+import { Identifier } from "@homecode-ai/console-core/identifier.js"
+import { Billing } from "@homecode-ai/console-core/billing.js"
+import { Actor } from "@homecode-ai/console-core/actor.js"
+import { WorkspaceTable } from "@homecode-ai/console-core/schema/workspace.sql.js"
+import { ZenData } from "@homecode-ai/console-core/model.js"
+import { Subscription } from "@homecode-ai/console-core/subscription.js"
+import { BlackData } from "@homecode-ai/console-core/black.js"
+import { UserTable } from "@homecode-ai/console-core/schema/user.sql.js"
+import { ModelTable } from "@homecode-ai/console-core/schema/model.sql.js"
+import { ProviderTable } from "@homecode-ai/console-core/schema/provider.sql.js"
 import { logger } from "./logger"
 import {
   AuthError,
@@ -41,8 +41,8 @@ import { createRateLimiter as createIpRateLimiter } from "./ipRateLimiter"
 import { createRateLimiter as createKeyRateLimiter } from "./keyRateLimiter"
 import { createTrialLimiter } from "./trialLimiter"
 import { createStickyTracker } from "./stickyProviderTracker"
-import { LiteData } from "@openqcode-ai/console-core/lite.js"
-import { Resource } from "@openqcode-ai/console-resource"
+import { LiteData } from "@homecode-ai/console-core/lite.js"
+import { Resource } from "@homecode-ai/console-resource"
 import { i18n, type Key } from "~/i18n"
 import { localeFromRequest } from "~/lib/language"
 import { createModelTpmLimiter } from "./modelTpmLimiter"
@@ -100,9 +100,9 @@ export async function handler(
     const ip = rawIp.includes(":") ? rawIp.split(":").slice(0, 4).join(":") : rawIp
     const rawZenApiKey = opts.parseApiKey(input.request.headers)
     const zenApiKey = rawZenApiKey === "public" ? undefined : rawZenApiKey
-    const sessionId = input.request.headers.get("x-openqcode-session") ?? ""
-    const requestId = input.request.headers.get("x-openqcode-request") ?? ""
-    const ocClient = input.request.headers.get("x-openqcode-client") ?? ""
+    const sessionId = input.request.headers.get("x-homecode-session") ?? ""
+    const requestId = input.request.headers.get("x-homecode-request") ?? ""
+    const ocClient = input.request.headers.get("x-homecode-client") ?? ""
     const userAgent = input.request.headers.get("user-agent") ?? ""
     logger.metric({
       is_stream: isStream,
@@ -190,10 +190,10 @@ export async function handler(
           })
           headers.delete("host")
           headers.delete("content-length")
-          headers.delete("x-openqcode-request")
-          headers.delete("x-openqcode-session")
-          headers.delete("x-openqcode-project")
-          headers.delete("x-openqcode-client")
+          headers.delete("x-homecode-request")
+          headers.delete("x-homecode-session")
+          headers.delete("x-homecode-project")
+          headers.delete("x-homecode-client")
           return headers
         })(),
         body: reqBody,
@@ -461,7 +461,7 @@ export async function handler(
       throw new ModelError(
         `${t("zen.api.error.trialEnded", {
           model: modelData.name,
-          link: "https://openqcode.ai/go",
+          link: "https://homecode.ai/go",
         })}`,
       )
 
@@ -753,7 +753,7 @@ export async function handler(
     // Validate lite subscription billing
     if (opts.modelList === "lite" && authInfo.billing.lite && authInfo.lite) {
       try {
-        const consoleGoUrl = `https://openqcode.ai/workspace/${authInfo.workspaceID}/go`
+        const consoleGoUrl = `https://homecode.ai/workspace/${authInfo.workspaceID}/go`
         const sub = authInfo.lite
         const liteData = LiteData.getLimits()
 
@@ -824,8 +824,8 @@ export async function handler(
 
     // Validate pay as you go billing
     const billing = authInfo.billing
-    const billingUrl = `https://openqcode.ai/workspace/${authInfo.workspaceID}/billing`
-    const membersUrl = `https://openqcode.ai/workspace/${authInfo.workspaceID}/members`
+    const billingUrl = `https://homecode.ai/workspace/${authInfo.workspaceID}/billing`
+    const membersUrl = `https://homecode.ai/workspace/${authInfo.workspaceID}/members`
     if (!billing.paymentMethodID && billing.balance <= 0)
       throw new CreditsError(t("zen.api.error.noPaymentMethod", { billingUrl }))
     if (billing.balance <= 0) throw new CreditsError(t("zen.api.error.insufficientBalance", { billingUrl }))

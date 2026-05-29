@@ -1,15 +1,15 @@
 ---
 title: Formateri
-description: OpenQCode koristi formatere specifične za jezik.
+description: HomeCode koristi formatere specifične za jezik.
 ---
 
-OpenQCode automatski formatira datoteke nakon što su napisane ili uređene pomoću formatera specifičnih za jezik. Ovo osigurava da kod koji se generira prati stilove koda vašeg projekta.
+HomeCode automatski formatira datoteke nakon što su napisane ili uređene pomoću formatera specifičnih za jezik. Ovo osigurava da kod koji se generira prati stilove koda vašeg projekta.
 
 ---
 
 ## Ugrađeni
 
-OpenQCode dolazi sa nekoliko ugrađenih formatera za popularne jezike i okvire. Ispod je lista formatera, podržanih ekstenzija datoteka i naredbi ili opcija konfiguracije koje su mu potrebne.
+HomeCode dolazi sa nekoliko ugrađenih formatera za popularne jezike i okvire. Ispod je lista formatera, podržanih ekstenzija datoteka i naredbi ili opcija konfiguracije koje su mu potrebne.
 | Formatter | Ekstenzije | Zahtjevi
 |-------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | gofmt | .go | `gofmt` komanda dostupna |
@@ -35,13 +35,13 @@ OpenQCode dolazi sa nekoliko ugrađenih formatera za popularne jezike i okvire. 
 | shfmt | .sh, .bash | `shfmt` komanda dostupna |
 | pint | .php | `laravel/pint` zavisnost u `composer.json` || oxfmt (Eksperimentalno) | .js, .jsx, .ts, .tsx | `oxfmt` zavisnost u `package.json` i [eksperimentalna env varijabla flag](/docs/cli/#experimental) |
 | ormolu | .hs | `ormolu` komanda dostupna |
-Dakle, ako vaš projekat ima `prettier` u vašem `package.json`, OpenQCode će ga automatski koristiti.
+Dakle, ako vaš projekat ima `prettier` u vašem `package.json`, HomeCode će ga automatski koristiti.
 
 ---
 
 ## Kako radi
 
-Kada OpenQCode piše ili uređuje datoteku, on:
+Kada HomeCode piše ili uređuje datoteku, on:
 
 1. Provjerava ekstenziju datoteke prema svim omogućenim formaterima.
 2. Pokreće odgovarajuću naredbu za formatiranje na datoteci.
@@ -52,11 +52,11 @@ Kada OpenQCode piše ili uređuje datoteku, on:
 
 ## Konfiguracija
 
-Možete prilagoditi formatere kroz `formatter` odjeljak u vašoj OpenQCode konfiguraciji.
+Možete prilagoditi formatere kroz `formatter` odjeljak u vašoj HomeCode konfiguraciji.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -76,18 +76,18 @@ Pogledajmo neke primjere.
 
 Da onemogućite **sve** formatere globalno, postavite `formatter` na `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 Da onemogućite **specifični** formater, postavite `disabled` na `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -102,9 +102,9 @@ Da onemogućite **specifični** formater, postavite `disabled` na `true`:
 
 Možete nadjačati ugrađene formatere ili dodati nove navođenjem naredbe, varijabli okruženja i ekstenzija datoteke:
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

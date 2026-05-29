@@ -38,7 +38,7 @@ export namespace AppFileSystem {
     readonly globMatch: (pattern: string, filepath: string) => boolean
   }
 
-  export class Service extends Context.Service<Service, Interface>()("@openqcode/FileSystem") {}
+  export class Service extends Context.Service<Service, Interface>()("@homecode/FileSystem") {}
 
   export const use = serviceUse(Service)
 

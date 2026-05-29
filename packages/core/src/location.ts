@@ -8,4 +8,4 @@ export const Ref = Schema.Struct({
 }).annotate({ identifier: "Location.Ref" })
 export type Ref = typeof Ref.Type
 
-export class Service extends Context.Service<Service, Ref>()("@openqcode/Location") {}
+export class Service extends Context.Service<Service, Ref>()("@homecode/Location") {}

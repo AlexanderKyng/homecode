@@ -1,68 +1,68 @@
 ---
 title: GitLab
-description: Use o openqcode em problemas e solicitações de mesclagem do GitLab.
+description: Use o homecode em problemas e solicitações de mesclagem do GitLab.
 ---
 
-O openqcode se integra ao seu fluxo de trabalho do GitLab através do seu pipeline CI/CD do GitLab ou com o GitLab Duo.
+O homecode se integra ao seu fluxo de trabalho do GitLab através do seu pipeline CI/CD do GitLab ou com o GitLab Duo.
 
-Em ambos os casos, o openqcode será executado em seus runners do GitLab.
+Em ambos os casos, o homecode será executado em seus runners do GitLab.
 
 ---
 
 ## GitLab CI
 
-O openqcode funciona em um pipeline regular do GitLab. Você pode integrá-lo a um pipeline como um [componente CI](https://docs.gitlab.com/ee/ci/components/)
+O homecode funciona em um pipeline regular do GitLab. Você pode integrá-lo a um pipeline como um [componente CI](https://docs.gitlab.com/ee/ci/components/)
 
-Aqui estamos usando um componente CI/CD criado pela comunidade para openqcode — [nagyv/gitlab-openqcode](https://gitlab.com/nagyv/gitlab-openqcode).
+Aqui estamos usando um componente CI/CD criado pela comunidade para homecode — [nagyv/gitlab-homecode](https://gitlab.com/nagyv/gitlab-homecode).
 
 ---
 
 ### Recursos
 
-- **Use configuração personalizada por trabalho**: Configure o openqcode com um diretório de configuração personalizado, por exemplo `./config/#custom-directory` para habilitar ou desabilitar funcionalidades por invocação do openqcode.
-- **Configuração mínima**: O componente CI configura o openqcode em segundo plano, você só precisa criar a configuração do openqcode e o prompt inicial.
+- **Use configuração personalizada por trabalho**: Configure o homecode com um diretório de configuração personalizado, por exemplo `./config/#custom-directory` para habilitar ou desabilitar funcionalidades por invocação do homecode.
+- **Configuração mínima**: O componente CI configura o homecode em segundo plano, você só precisa criar a configuração do homecode e o prompt inicial.
 - **Flexível**: O componente CI suporta várias entradas para personalizar seu comportamento.
 
 ---
 
 ### Configuração
 
-1. Armazene seu JSON de autenticação do openqcode como variáveis de ambiente do tipo File em **Configurações** > **CI/CD** > **Variáveis**. Certifique-se de marcá-las como "Mascaradas e ocultas".
+1. Armazene seu JSON de autenticação do homecode como variáveis de ambiente do tipo File em **Configurações** > **CI/CD** > **Variáveis**. Certifique-se de marcá-las como "Mascaradas e ocultas".
 2. Adicione o seguinte ao seu arquivo `.gitlab-ci.yml`.
 
    ```yaml title=".gitlab-ci.yml"
    include:
-     - component: $CI_SERVER_FQDN/nagyv/gitlab-openqcode/openqcode@2
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-homecode/homecode@2
        inputs:
-         config_dir: ${CI_PROJECT_DIR}/openqcode-config
-         auth_json: $OPENCODE_AUTH_JSON # O nome da variável para seu JSON de autenticação do OpenQCode
+         config_dir: ${CI_PROJECT_DIR}/homecode-config
+         auth_json: $OPENCODE_AUTH_JSON # O nome da variável para seu JSON de autenticação do HomeCode
          command: optional-custom-command
          message: "Seu prompt aqui"
    ```
 
-Para mais entradas e casos de uso [consulte a documentação](https://gitlab.com/explore/catalog/nagyv/gitlab-openqcode) deste componente.
+Para mais entradas e casos de uso [consulte a documentação](https://gitlab.com/explore/catalog/nagyv/gitlab-homecode) deste componente.
 
 ---
 
 ## GitLab Duo
 
-O openqcode se integra ao seu fluxo de trabalho do GitLab.
-Mencione `@openqcode` em um comentário, e o openqcode executará tarefas dentro do seu pipeline CI do GitLab.
+O homecode se integra ao seu fluxo de trabalho do GitLab.
+Mencione `@homecode` em um comentário, e o homecode executará tarefas dentro do seu pipeline CI do GitLab.
 
 ---
 
 ### Recursos
 
-- **Triagem de problemas**: Peça ao openqcode para analisar um problema e explicá-lo para você.
-- **Corrigir e implementar**: Peça ao openqcode para corrigir um problema ou implementar uma funcionalidade.
+- **Triagem de problemas**: Peça ao homecode para analisar um problema e explicá-lo para você.
+- **Corrigir e implementar**: Peça ao homecode para corrigir um problema ou implementar uma funcionalidade.
   Ele criará um novo branch e abrirá uma solicitação de mesclagem com as alterações.
-- **Seguro**: O openqcode é executado em seus runners do GitLab.
+- **Seguro**: O homecode é executado em seus runners do GitLab.
 
 ---
 
 ### Configuração
 
-O openqcode é executado em seu pipeline CI/CD do GitLab, aqui está o que você precisará para configurá-lo:
+O homecode é executado em seu pipeline CI/CD do GitLab, aqui está o que você precisará para configurá-lo:
 
 :::tip
 Consulte a [**documentação do GitLab**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) para instruções atualizadas.
@@ -82,8 +82,8 @@ Consulte a [**documentação do GitLab**](https://docs.gitlab.com/user/duo_agent
     ```yaml
     image: node:22-slim
     commands:
-      - echo "Instalando openqcode"
-      - npm install --global openqcode-ai
+      - echo "Instalando homecode"
+      - npm install --global homecode-ai
       - echo "Instalando glab"
       - export GITLAB_TOKEN=$GITLAB_TOKEN_OPENCODE
       - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
@@ -91,10 +91,10 @@ Consulte a [**documentação do GitLab**](https://docs.gitlab.com/user/duo_agent
       - apt-get install --yes glab
       - echo "Configurando glab"
       - echo $GITLAB_HOST
-      - echo "Criando configuração de auth do OpenQCode"
-      - mkdir --parents ~/.local/share/openqcode
+      - echo "Criando configuração de auth do HomeCode"
+      - mkdir --parents ~/.local/share/homecode
       - |
-        cat > ~/.local/share/openqcode/auth.json << EOF
+        cat > ~/.local/share/homecode/auth.json << EOF
         {
           "anthropic": {
             "type": "api",
@@ -103,13 +103,13 @@ Consulte a [**documentação do GitLab**](https://docs.gitlab.com/user/duo_agent
         }
         EOF
       - echo "Configurando git"
-      - git config --global user.email "openqcode@gitlab.com"
-      - git config --global user.name "OpenQCode"
+      - git config --global user.email "homecode@gitlab.com"
+      - git config --global user.name "HomeCode"
       - echo "Testando glab"
       - glab issue list
-      - echo "Executando OpenQCode"
+      - echo "Executando HomeCode"
       - |
-        openqcode run "
+        homecode run "
         Você é um assistente de IA ajudando com operações do GitLab.
 
         Contexto: $AI_FLOW_CONTEXT
@@ -158,10 +158,10 @@ Você pode consultar a [documentação dos agentes da CLI do GitLab](https://doc
 
 ### Exemplos
 
-Aqui estão alguns exemplos de como você pode usar o openqcode no GitLab.
+Aqui estão alguns exemplos de como você pode usar o homecode no GitLab.
 
 :::tip
-Você pode configurar para usar uma frase de gatilho diferente de `@openqcode`.
+Você pode configurar para usar uma frase de gatilho diferente de `@homecode`.
 :::
 
 - **Explicar um problema**
@@ -169,27 +169,27 @@ Você pode configurar para usar uma frase de gatilho diferente de `@openqcode`.
   Adicione este comentário em um problema do GitLab.
 
   ```
-  @openqcode explain this issue
+  @homecode explain this issue
   ```
 
-  O openqcode lerá o problema e responderá com uma explicação clara.
+  O homecode lerá o problema e responderá com uma explicação clara.
 
 - **Corrigir um problema**
 
   Em um problema do GitLab, diga:
 
   ```
-  @openqcode fix this
+  @homecode fix this
   ```
 
-  O openqcode criará um novo branch, implementará as alterações e abrirá uma solicitação de mesclagem com as alterações.
+  O homecode criará um novo branch, implementará as alterações e abrirá uma solicitação de mesclagem com as alterações.
 
 - **Revisar solicitações de mesclagem**
 
   Deixe o seguinte comentário em uma solicitação de mesclagem do GitLab.
 
   ```
-  @openqcode review this merge request
+  @homecode review this merge request
   ```
 
-  O openqcode revisará a solicitação de mesclagem e fornecerá feedback.
+  O homecode revisará a solicitação de mesclagem e fornecerá feedback.

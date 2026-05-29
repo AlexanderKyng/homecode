@@ -1,7 +1,7 @@
 import { Component, For, Match, Show, Switch } from "solid-js"
-import { FileIcon } from "@openqcode-ai/ui/file-icon"
-import { Icon } from "@openqcode-ai/ui/icon"
-import { getDirectory, getFilename } from "@openqcode-ai/core/util/path"
+import { FileIcon } from "@homecode-ai/ui/file-icon"
+import { Icon } from "@homecode-ai/ui/icon"
+import { getDirectory, getFilename } from "@homecode-ai/core/util/path"
 
 export type AtOption =
   | { type: "agent"; name: string; display: string }

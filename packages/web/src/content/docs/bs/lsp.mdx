@@ -1,13 +1,13 @@
 ---
 title: LSP serveri
-description: OpenQCode se integriše sa vašim LSP serverima.
+description: HomeCode se integriše sa vašim LSP serverima.
 ---
 
-OpenQCode se može integrisati sa Language Server Protocol (LSP) serverima kako bi koristio dijagnostiku kao feedback za agenta.
+HomeCode se može integrisati sa Language Server Protocol (LSP) serverima kako bi koristio dijagnostiku kao feedback za agenta.
 
 ## Ugrađeni
 
-OpenQCode dolazi sa nekoliko ugrađenih LSP servera za popularne jezike:
+HomeCode dolazi sa nekoliko ugrađenih LSP servera za popularne jezike:
 
 | LSP server         | Ekstenzije                                                          | Zahtjevi                                                 |
 | ------------------ | ------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -54,7 +54,7 @@ Možete onemogućiti automatska preuzimanja LSP servera tako što ćete postavit
 
 ## Kako radi
 
-Kada je LSP omogućen i openqcode otvori fajl, on:
+Kada je LSP omogućen i homecode otvori fajl, on:
 
 1. Provjerava ekstenziju datoteke u odnosu na sve omogućene LSP servere.
 2. Pokreće odgovarajući LSP server ako već nije pokrenut.
@@ -71,22 +71,22 @@ Jezički serveri mogu ispasti iz sinhronizacije, koristiti mnogo memorije, razli
 
 ## Konfiguracija
 
-Možete omogućiti i prilagoditi LSP servere kroz `lsp` odjeljak u vašoj openqcode konfiguraciji.
+Možete omogućiti i prilagoditi LSP servere kroz `lsp` odjeljak u vašoj homecode konfiguraciji.
 
 Da biste omogućili sve ugrađene LSP servere, postavite `lsp` na `true`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": true
 }
 ```
 
 Koristite objekt da zadržite ugrađene servere omogućene dok konfigurirate izmjene ili prilagođene servere.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": {}
 }
 ```
@@ -109,9 +109,9 @@ Pogledajmo neke primjere.
 
 Koristite svojstvo `env` za postavljanje varijabli okruženja prilikom pokretanja LSP servera:
 
-```json title="openqcode.json" {5-7}
+```json title="homecode.json" {5-7}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": {
     "rust": {
       "env": {
@@ -128,9 +128,9 @@ Koristite svojstvo `env` za postavljanje varijabli okruženja prilikom pokretanj
 
 Koristite svojstvo `initialization` da prosledite opcije inicijalizacije na LSP server. Ovo su postavke specifične za server poslane tokom LSP `initialize` zahtjeva:
 
-```json title="openqcode.json" {5-9}
+```json title="homecode.json" {5-9}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": {
     "typescript": {
       "initialization": {
@@ -153,18 +153,18 @@ Opcije inicijalizacije razlikuju se od LSP servera. Provjerite dokumentaciju va�
 
 Ako je `lsp` izostavljen, svi LSP serveri su onemogućeni. Da biste onemogućili sve LSP servere nakon što ih je druga konfiguracija omogućila, postavite `lsp` na `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": false
 }
 ```
 
 Da onemogućite **specifičan** LSP server, postavite `disabled` na `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": {
     "typescript": {
       "disabled": true
@@ -179,9 +179,9 @@ Da onemogućite **specifičan** LSP server, postavite `disabled` na `true`:
 
 Možete dodati prilagođene LSP servere navodeći ekstenzije naredbe i datoteke:
 
-```json title="openqcode.json" {4-7}
+```json title="homecode.json" {4-7}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "lsp": {
     "custom-lsp": {
       "command": ["custom-lsp-server", "--stdio"],

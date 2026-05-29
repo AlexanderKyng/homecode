@@ -1,4 +1,4 @@
-import { sampledChecksum } from "@openqcode-ai/core/util/encode"
+import { sampledChecksum } from "@homecode-ai/core/util/encode"
 import {
   areFilesEqual,
   areOptionsEqual,

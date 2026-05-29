@@ -10,7 +10,7 @@ export const CerebrasPlugin = PluginV2.define({
           if (item.provider.endpoint.type !== "aisdk") continue
           if (item.provider.endpoint.package !== "@ai-sdk/cerebras") continue
           ctx.provider.update(item.provider.id, (provider) => {
-            provider.options.headers["X-Cerebras-3rd-Party-Integration"] = "openqcode"
+            provider.options.headers["X-Cerebras-3rd-Party-Integration"] = "homecode"
           })
         }
       }),

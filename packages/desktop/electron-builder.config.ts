@@ -27,7 +27,7 @@ const channel = (() => {
 })()
 
 const getBase = (): Configuration => ({
-  artifactName: "openqcode-desktop-${os}-${arch}.${ext}",
+  artifactName: "homecode-desktop-${os}-${arch}.${ext}",
   directories: {
     output: "dist",
     buildResources: "resources",
@@ -54,8 +54,8 @@ const getBase = (): Configuration => ({
     sign: true,
   },
   protocols: {
-    name: "OpenQCode",
-    schemes: ["openqcode"],
+    name: "HomeCode",
+    schemes: ["homecode"],
   },
   win: {
     icon: `resources/icons/icon.ico`,
@@ -85,29 +85,29 @@ function getConfig() {
     case "dev": {
       return {
         ...base,
-        appId: "ai.openqcode.desktop.dev",
-        productName: "OpenQCode Dev",
-        rpm: { packageName: "openqcode-dev" },
+        appId: "ai.homecode.desktop.dev",
+        productName: "HomeCode Dev",
+        rpm: { packageName: "homecode-dev" },
       }
     }
     case "beta": {
       return {
         ...base,
-        appId: "ai.openqcode.desktop.beta",
-        productName: "OpenQCode Beta",
-        protocols: { name: "OpenQCode Beta", schemes: ["openqcode"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "openqcode-beta", channel: "latest" },
-        rpm: { packageName: "openqcode-beta" },
+        appId: "ai.homecode.desktop.beta",
+        productName: "HomeCode Beta",
+        protocols: { name: "HomeCode Beta", schemes: ["homecode"] },
+        publish: { provider: "github", owner: "anomalyco", repo: "homecode-beta", channel: "latest" },
+        rpm: { packageName: "homecode-beta" },
       }
     }
     case "prod": {
       return {
         ...base,
-        appId: "ai.openqcode.desktop",
-        productName: "OpenQCode",
-        protocols: { name: "OpenQCode", schemes: ["openqcode"] },
-        publish: { provider: "github", owner: "anomalyco", repo: "openqcode", channel: "latest" },
-        rpm: { packageName: "openqcode" },
+        appId: "ai.homecode.desktop",
+        productName: "HomeCode",
+        protocols: { name: "HomeCode", schemes: ["homecode"] },
+        publish: { provider: "github", owner: "anomalyco", repo: "homecode", channel: "latest" },
+        rpm: { packageName: "homecode" },
       }
     }
   }

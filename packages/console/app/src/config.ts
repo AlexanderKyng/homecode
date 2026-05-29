@@ -3,11 +3,11 @@
  */
 export const config = {
   // Base URL
-  baseUrl: "https://openqcode.ai",
+  baseUrl: "https://homecode.ai",
 
   // GitHub
   github: {
-    repoUrl: "https://github.com/anomalyco/openqcode",
+    repoUrl: "https://github.com/anomalyco/homecode",
     starsFormatted: {
       compact: "160K",
       full: "160,000",
@@ -16,8 +16,8 @@ export const config = {
 
   // Social links
   social: {
-    twitter: "https://x.com/openqcode",
-    discord: "https://discord.gg/openqcode",
+    twitter: "https://x.com/homecode",
+    discord: "https://discord.gg/homecode",
   },
 
   // Static stats (used on landing page)

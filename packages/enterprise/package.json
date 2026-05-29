@@ -1,5 +1,5 @@
 {
-  "name": "@openqcode-ai/enterprise",
+  "name": "@homecode-ai/enterprise",
   "version": "1.15.11",
   "private": true,
   "type": "module",
@@ -13,8 +13,8 @@
     "shell-prod": "sst shell --target Teams --stage production"
   },
   "dependencies": {
-    "@openqcode-ai/core": "workspace:*",
-    "@openqcode-ai/ui": "workspace:*",
+    "@homecode-ai/core": "workspace:*",
+    "@homecode-ai/ui": "workspace:*",
     "aws4fetch": "^1.0.20",
     "@pierre/diffs": "catalog:",
     "@solidjs/router": "catalog:",

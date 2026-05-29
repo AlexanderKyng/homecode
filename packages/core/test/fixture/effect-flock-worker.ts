@@ -1,9 +1,9 @@
 import fs from "fs/promises"
 import os from "os"
 import { Effect, Layer } from "effect"
-import { AppFileSystem } from "@openqcode-ai/core/filesystem"
-import { EffectFlock } from "@openqcode-ai/core/util/effect-flock"
-import { Global } from "@openqcode-ai/core/global"
+import { AppFileSystem } from "@homecode-ai/core/filesystem"
+import { EffectFlock } from "@homecode-ai/core/util/effect-flock"
+import { Global } from "@homecode-ai/core/global"
 
 type Msg = {
   key: string

@@ -2,12 +2,12 @@ import { action, useParams, useAction, useSubmission, json, query, createAsync }
 import { createStore } from "solid-js/store"
 import { createMemo, For, Show } from "solid-js"
 import { Modal } from "~/component/modal"
-import { Billing } from "@openqcode-ai/console-core/billing.js"
-import { Database, eq, and, isNull } from "@openqcode-ai/console-core/drizzle/index.js"
-import { BillingTable, LiteTable } from "@openqcode-ai/console-core/schema/billing.sql.js"
-import { Actor } from "@openqcode-ai/console-core/actor.js"
-import { Subscription } from "@openqcode-ai/console-core/subscription.js"
-import { LiteData } from "@openqcode-ai/console-core/lite.js"
+import { Billing } from "@homecode-ai/console-core/billing.js"
+import { Database, eq, and, isNull } from "@homecode-ai/console-core/drizzle/index.js"
+import { BillingTable, LiteTable } from "@homecode-ai/console-core/schema/billing.sql.js"
+import { Actor } from "@homecode-ai/console-core/actor.js"
+import { Subscription } from "@homecode-ai/console-core/subscription.js"
+import { LiteData } from "@homecode-ai/console-core/lite.js"
 import { withActor } from "~/context/auth.withActor"
 import { queryBillingInfo } from "../../common"
 import styles from "./lite-section.module.css"
@@ -209,7 +209,7 @@ export function LiteSection(props: { lite: LiteSubscription | undefined }) {
             </div>
             <div data-slot="beta-notice">
               {i18n.t("workspace.lite.subscription.selectProvider")}{" "}
-              <a href={language.route("/docs/providers/#openqcode-go")} target="_blank" rel="noopener noreferrer">
+              <a href={language.route("/docs/providers/#homecode-go")} target="_blank" rel="noopener noreferrer">
                 {i18n.t("common.learnMore")}
               </a>
               .

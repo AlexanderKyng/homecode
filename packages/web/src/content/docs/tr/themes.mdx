@@ -3,9 +3,9 @@ title: Temalar
 description: Yerleşik bir tema seçin veya kendiniz oluşturun.
 ---
 
-openqcode ile birden fazla yerleşik tema arasından seçim yapabilir, terminal temanıza uyum sağlayan bir tema kullanabilir veya kendi özel temanızı tanımlayabilirsiniz.
+homecode ile birden fazla yerleşik tema arasından seçim yapabilir, terminal temanıza uyum sağlayan bir tema kullanabilir veya kendi özel temanızı tanımlayabilirsiniz.
 
-Varsayılan olarak openqcode kendi `openqcode` temasını kullanır.
+Varsayılan olarak homecode kendi `homecode` temasını kullanır.
 
 ---
 
@@ -23,7 +23,7 @@ Truecolor desteği yoksa temalar daha düşük renk doğruluğu ile görünebili
 
 ## Yerleşik temalar
 
-openqcode birden fazla yerleşik temayla gelir.
+homecode birden fazla yerleşik temayla gelir.
 
 | Ad                     | Açıklama                                                                      |
 | ---------------------- | ----------------------------------------------------------------------------- |
@@ -53,7 +53,7 @@ Ve daha fazlası; sürekli yeni temalar ekliyoruz.
 
 Sistem teması şu kullanıcılar için idealdir:
 
-- openqcode'un terminal görünümüyle birebir uyumlu olmasını isteyenler
+- homecode'un terminal görünümüyle birebir uyumlu olmasını isteyenler
 - Özel terminal renk şemaları kullananlar
 - Tüm terminal uygulamalarında tutarlı bir görünüm tercih edenler
 
@@ -65,7 +65,7 @@ Sistem teması şu kullanıcılar için idealdir:
 
 ```json title="tui.json" {3}
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "theme": "tokyonight"
 }
 ```
@@ -74,7 +74,7 @@ Sistem teması şu kullanıcılar için idealdir:
 
 ## Özel temalar
 
-openqcode, kullanıcıların kolayca tema oluşturup özelleştirebilmesi için esnek bir JSON tabanlı tema sistemi sunar.
+homecode, kullanıcıların kolayca tema oluşturup özelleştirebilmesi için esnek bir JSON tabanlı tema sistemi sunar.
 
 ---
 
@@ -83,9 +83,9 @@ openqcode, kullanıcıların kolayca tema oluşturup özelleştirebilmesi için 
 Temalar birden fazla dizinden şu sırayla yüklenir; daha sonra gelen dizin öncekini ezer:
 
 1. **Yerleşik temalar** - Binary içine gömülüdür
-2. **Kullanıcı yapılandırma dizini** - `~/.config/openqcode/themes/*.json` veya `$XDG_CONFIG_HOME/openqcode/themes/*.json`
-3. **Proje kök dizini** - `<project-root>/.openqcode/themes/*.json`
-4. **Geçerli çalışma dizini** - `./.openqcode/themes/*.json`
+2. **Kullanıcı yapılandırma dizini** - `~/.config/homecode/themes/*.json` veya `$XDG_CONFIG_HOME/homecode/themes/*.json`
+3. **Proje kök dizini** - `<project-root>/.homecode/themes/*.json`
+4. **Geçerli çalışma dizini** - `./.homecode/themes/*.json`
 
 Birden fazla dizinde aynı adlı tema varsa, önceliği daha yüksek dizindeki tema kullanılır.
 
@@ -98,15 +98,15 @@ Birden fazla dizinde aynı adlı tema varsa, önceliği daha yüksek dizindeki t
 Kullanıcı geneli temalar için:
 
 ```bash no-frame
-mkdir -p ~/.config/openqcode/themes
-vim ~/.config/openqcode/themes/my-theme.json
+mkdir -p ~/.config/homecode/themes
+vim ~/.config/homecode/themes/my-theme.json
 ```
 
 Proje özel temalar için:
 
 ```bash no-frame
-mkdir -p .openqcode/themes
-vim .openqcode/themes/my-theme.json
+mkdir -p .homecode/themes
+vim .homecode/themes/my-theme.json
 ```
 
 ---
@@ -144,7 +144,7 @@ Aşağıda özel bir tema örneği var:
 
 ```json title="my-theme.json"
 {
-  "$schema": "https://openqcode.ai/theme.json",
+  "$schema": "https://homecode.ai/theme.json",
   "defs": {
     "nord0": "#2E3440",
     "nord1": "#3B4252",

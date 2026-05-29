@@ -8,14 +8,14 @@
   makeWrapper,
   writableTmpDirAsHomeHook,
   autoPatchelfHook,
-  openqcode,
+  homecode,
 }:
 let
   electron = electron_41;
 in
 stdenv.mkDerivation (finalAttrs: {
-  pname = "openqcode-desktop";
-  inherit (openqcode)
+  pname = "homecode-desktop";
+  inherit (homecode)
     version
     src
     node_modules
@@ -38,7 +38,7 @@ stdenv.mkDerivation (finalAttrs: {
     (lib.getLib stdenv.cc.cc)
   ];
 
-  env = openqcode.env // {
+  env = homecode.env // {
     ELECTRON_SKIP_BINARY_DOWNLOAD = "1";
   };
 
@@ -49,7 +49,7 @@ stdenv.mkDerivation (finalAttrs: {
     FILES=(src/main/windows.ts)
     for file in "''${FILES[@]}"; do
       substituteInPlace $BASE_PATH/$file \
-        --replace-fail "process.resourcesPath" "'$out/opt/openqcode-desktop/resources'"
+        --replace-fail "process.resourcesPath" "'$out/opt/homecode-desktop/resources'"
     done
   '';
 
@@ -83,15 +83,15 @@ stdenv.mkDerivation (finalAttrs: {
     + lib.optionalString stdenv.hostPlatform.isDarwin ''
       mkdir -p $out/Applications
       mv dist/mac*/*.app $out/Applications
-      makeWrapper "$out/Applications/OpenQCode.app/Contents/MacOS/OpenQCode" $out/bin/openqcode-desktop
+      makeWrapper "$out/Applications/HomeCode.app/Contents/MacOS/HomeCode" $out/bin/homecode-desktop
     ''
     + lib.optionalString stdenv.hostPlatform.isLinux ''
-      mkdir -p $out/opt/openqcode-desktop
-      cp -r dist/linux*-unpacked/{resources,LICENSE*} $out/opt/openqcode-desktop
-      makeWrapper ${lib.getExe electron} $out/bin/openqcode-desktop \
+      mkdir -p $out/opt/homecode-desktop
+      cp -r dist/linux*-unpacked/{resources,LICENSE*} $out/opt/homecode-desktop
+      makeWrapper ${lib.getExe electron} $out/bin/homecode-desktop \
         --inherit-argv0 \
         --set ELECTRON_FORCE_IS_PACKAGED 1 \
-        --add-flags $out/opt/openqcode-desktop/resources/app.asar \
+        --add-flags $out/opt/homecode-desktop/resources/app.asar \
         --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations --enable-wayland-ime=true}}"
     ''
     + ''
@@ -103,8 +103,8 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   meta = {
-    description = "OpenQCode Desktop App";
-    mainProgram = "openqcode-desktop";
-    inherit (openqcode.meta) homepage license platforms;
+    description = "HomeCode Desktop App";
+    mainProgram = "homecode-desktop";
+    inherit (homecode.meta) homepage license platforms;
   };
 })

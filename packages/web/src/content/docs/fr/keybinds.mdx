@@ -3,11 +3,11 @@ title: Raccourcis clavier
 description: Personnalisez vos raccourcis clavier.
 ---
 
-OpenQCode a une liste de raccourcis clavier que vous pouvez personnaliser via la configuration OpenQCode.
+HomeCode a une liste de raccourcis clavier que vous pouvez personnaliser via la configuration HomeCode.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -109,7 +109,7 @@ OpenQCode a une liste de raccourcis clavier que vous pouvez personnaliser via la
 
 ## Touche Leader
 
-OpenQCode utilise une touche `leader` pour la plupart des raccourcis clavier. Cela évite les conflits dans votre terminal.
+HomeCode utilise une touche `leader` pour la plupart des raccourcis clavier. Cela évite les conflits dans votre terminal.
 
 Par défaut, `ctrl+x` est la touche leader et la plupart des actions nécessitent que vous appuyiez d'abord sur la touche leader, puis sur le raccourci. Par exemple, pour démarrer une nouvelle session, appuyez d'abord sur `ctrl+x`, puis sur `n`.
 
@@ -121,9 +121,9 @@ Vous n'avez pas besoin d'utiliser une touche leader pour vos raccourcis clavier,
 
 Vous pouvez désactiver un raccourci clavier en ajoutant la clé à votre configuration avec la valeur `none`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "keybinds": {
     "session_compact": "none"
   }
@@ -134,7 +134,7 @@ Vous pouvez désactiver un raccourci clavier en ajoutant la clé à votre config
 
 ## Raccourcis de saisie desktop
 
-Le champ de saisie de l'application de bureau OpenQCode prend en charge les raccourcis courants de style Readline/Emacs pour l'édition de texte. Ceux-ci sont intégrés et actuellement non configurables via `openqcode.json`.
+Le champ de saisie de l'application de bureau HomeCode prend en charge les raccourcis courants de style Readline/Emacs pour l'édition de texte. Ceux-ci sont intégrés et actuellement non configurables via `homecode.json`.
 
 | Raccourci | Actions                                                   |
 | --------- | --------------------------------------------------------- |

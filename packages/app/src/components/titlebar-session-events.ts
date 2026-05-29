@@ -1,4 +1,4 @@
-export const SESSION_TABS_REMOVED_EVENT = "openqcode:session-tabs-removed"
+export const SESSION_TABS_REMOVED_EVENT = "homecode:session-tabs-removed"
 
 export type SessionTabsRemovedDetail = {
   directory: string

@@ -32,7 +32,7 @@ export interface Interface {
   readonly roots: (repo: Repo) => Effect.Effect<string[]>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/GitV2") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/GitV2") {}
 
 export const layer = Layer.effect(
   Service,

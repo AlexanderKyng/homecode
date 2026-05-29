@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Effect, Fiber, Layer, Schema, Stream } from "effect"
-import { EventV2 } from "@openqcode-ai/core/event"
-import { Location } from "@openqcode-ai/core/location"
+import { EventV2 } from "@homecode-ai/core/event"
+import { Location } from "@homecode-ai/core/location"
 import { testEffect } from "./lib/effect"
 
 const locationLayer = Layer.succeed(

@@ -5,31 +5,31 @@ import { Footer } from "~/component/footer"
 import { Legal } from "~/component/legal"
 import { useI18n } from "~/context/i18n"
 import { LocaleLinks } from "~/component/locale-links"
-import previewLogoLight from "../../asset/brand/preview-openqcode-logo-light.png"
-import previewLogoDark from "../../asset/brand/preview-openqcode-logo-dark.png"
-import previewLogoLightSquare from "../../asset/brand/preview-openqcode-logo-light-square.png"
-import previewLogoDarkSquare from "../../asset/brand/preview-openqcode-logo-dark-square.png"
-import previewWordmarkLight from "../../asset/brand/preview-openqcode-wordmark-light.png"
-import previewWordmarkDark from "../../asset/brand/preview-openqcode-wordmark-dark.png"
-import previewWordmarkSimpleLight from "../../asset/brand/preview-openqcode-wordmark-simple-light.png"
-import previewWordmarkSimpleDark from "../../asset/brand/preview-openqcode-wordmark-simple-dark.png"
-import logoLightPng from "../../asset/brand/openqcode-logo-light.png"
-import logoDarkPng from "../../asset/brand/openqcode-logo-dark.png"
-import logoLightSquarePng from "../../asset/brand/openqcode-logo-light-square.png"
-import logoDarkSquarePng from "../../asset/brand/openqcode-logo-dark-square.png"
-import wordmarkLightPng from "../../asset/brand/openqcode-wordmark-light.png"
-import wordmarkDarkPng from "../../asset/brand/openqcode-wordmark-dark.png"
-import wordmarkSimpleLightPng from "../../asset/brand/openqcode-wordmark-simple-light.png"
-import wordmarkSimpleDarkPng from "../../asset/brand/openqcode-wordmark-simple-dark.png"
-import logoLightSvg from "../../asset/brand/openqcode-logo-light.svg"
-import logoDarkSvg from "../../asset/brand/openqcode-logo-dark.svg"
-import logoLightSquareSvg from "../../asset/brand/openqcode-logo-light-square.svg"
-import logoDarkSquareSvg from "../../asset/brand/openqcode-logo-dark-square.svg"
-import wordmarkLightSvg from "../../asset/brand/openqcode-wordmark-light.svg"
-import wordmarkDarkSvg from "../../asset/brand/openqcode-wordmark-dark.svg"
-import wordmarkSimpleLightSvg from "../../asset/brand/openqcode-wordmark-simple-light.svg"
-import wordmarkSimpleDarkSvg from "../../asset/brand/openqcode-wordmark-simple-dark.svg"
-const brandAssets = "/openqcode-brand-assets.zip"
+import previewLogoLight from "../../asset/brand/preview-homecode-logo-light.png"
+import previewLogoDark from "../../asset/brand/preview-homecode-logo-dark.png"
+import previewLogoLightSquare from "../../asset/brand/preview-homecode-logo-light-square.png"
+import previewLogoDarkSquare from "../../asset/brand/preview-homecode-logo-dark-square.png"
+import previewWordmarkLight from "../../asset/brand/preview-homecode-wordmark-light.png"
+import previewWordmarkDark from "../../asset/brand/preview-homecode-wordmark-dark.png"
+import previewWordmarkSimpleLight from "../../asset/brand/preview-homecode-wordmark-simple-light.png"
+import previewWordmarkSimpleDark from "../../asset/brand/preview-homecode-wordmark-simple-dark.png"
+import logoLightPng from "../../asset/brand/homecode-logo-light.png"
+import logoDarkPng from "../../asset/brand/homecode-logo-dark.png"
+import logoLightSquarePng from "../../asset/brand/homecode-logo-light-square.png"
+import logoDarkSquarePng from "../../asset/brand/homecode-logo-dark-square.png"
+import wordmarkLightPng from "../../asset/brand/homecode-wordmark-light.png"
+import wordmarkDarkPng from "../../asset/brand/homecode-wordmark-dark.png"
+import wordmarkSimpleLightPng from "../../asset/brand/homecode-wordmark-simple-light.png"
+import wordmarkSimpleDarkPng from "../../asset/brand/homecode-wordmark-simple-dark.png"
+import logoLightSvg from "../../asset/brand/homecode-logo-light.svg"
+import logoDarkSvg from "../../asset/brand/homecode-logo-dark.svg"
+import logoLightSquareSvg from "../../asset/brand/homecode-logo-light-square.svg"
+import logoDarkSquareSvg from "../../asset/brand/homecode-logo-dark-square.svg"
+import wordmarkLightSvg from "../../asset/brand/homecode-wordmark-light.svg"
+import wordmarkDarkSvg from "../../asset/brand/homecode-wordmark-dark.svg"
+import wordmarkSimpleLightSvg from "../../asset/brand/homecode-wordmark-simple-light.svg"
+import wordmarkSimpleDarkSvg from "../../asset/brand/homecode-wordmark-simple-dark.svg"
+const brandAssets = "/homecode-brand-assets.zip"
 
 export default function Brand() {
   const i18n = useI18n()
@@ -74,7 +74,7 @@ export default function Brand() {
             <p>{i18n.t("brand.subtitle")}</p>
             <button
               data-component="download-button"
-              onClick={() => downloadFile(brandAssets, "openqcode-brand-assets.zip")}
+              onClick={() => downloadFile(brandAssets, "homecode-brand-assets.zip")}
             >
               {i18n.t("brand.downloadAll")}
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +91,7 @@ export default function Brand() {
               <div>
                 <img src={previewLogoLight} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(logoLightPng, "openqcode-logo-light.png")}>
+                  <button onClick={() => downloadFile(logoLightPng, "homecode-logo-light.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -102,7 +102,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(logoLightSvg, "openqcode-logo-light.svg")}>
+                  <button onClick={() => downloadFile(logoLightSvg, "homecode-logo-light.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -118,7 +118,7 @@ export default function Brand() {
               <div>
                 <img src={previewLogoDark} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(logoDarkPng, "openqcode-logo-dark.png")}>
+                  <button onClick={() => downloadFile(logoDarkPng, "homecode-logo-dark.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -129,7 +129,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(logoDarkSvg, "openqcode-logo-dark.svg")}>
+                  <button onClick={() => downloadFile(logoDarkSvg, "homecode-logo-dark.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -145,7 +145,7 @@ export default function Brand() {
               <div>
                 <img src={previewLogoLightSquare} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(logoLightSquarePng, "openqcode-logo-light-square.png")}>
+                  <button onClick={() => downloadFile(logoLightSquarePng, "homecode-logo-light-square.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -156,7 +156,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(logoLightSquareSvg, "openqcode-logo-light-square.svg")}>
+                  <button onClick={() => downloadFile(logoLightSquareSvg, "homecode-logo-light-square.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -172,7 +172,7 @@ export default function Brand() {
               <div>
                 <img src={previewLogoDarkSquare} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(logoDarkSquarePng, "openqcode-logo-dark-square.png")}>
+                  <button onClick={() => downloadFile(logoDarkSquarePng, "homecode-logo-dark-square.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -183,7 +183,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(logoDarkSquareSvg, "openqcode-logo-dark-square.svg")}>
+                  <button onClick={() => downloadFile(logoDarkSquareSvg, "homecode-logo-dark-square.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -199,7 +199,7 @@ export default function Brand() {
               <div>
                 <img src={previewWordmarkLight} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(wordmarkLightPng, "openqcode-wordmark-light.png")}>
+                  <button onClick={() => downloadFile(wordmarkLightPng, "homecode-wordmark-light.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -210,7 +210,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(wordmarkLightSvg, "openqcode-wordmark-light.svg")}>
+                  <button onClick={() => downloadFile(wordmarkLightSvg, "homecode-wordmark-light.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -226,7 +226,7 @@ export default function Brand() {
               <div>
                 <img src={previewWordmarkDark} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(wordmarkDarkPng, "openqcode-wordmark-dark.png")}>
+                  <button onClick={() => downloadFile(wordmarkDarkPng, "homecode-wordmark-dark.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -237,7 +237,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(wordmarkDarkSvg, "openqcode-wordmark-dark.svg")}>
+                  <button onClick={() => downloadFile(wordmarkDarkSvg, "homecode-wordmark-dark.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -253,7 +253,7 @@ export default function Brand() {
               <div>
                 <img src={previewWordmarkSimpleLight} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(wordmarkSimpleLightPng, "openqcode-wordmark-simple-light.png")}>
+                  <button onClick={() => downloadFile(wordmarkSimpleLightPng, "homecode-wordmark-simple-light.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -264,7 +264,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(wordmarkSimpleLightSvg, "openqcode-wordmark-simple-light.svg")}>
+                  <button onClick={() => downloadFile(wordmarkSimpleLightSvg, "homecode-wordmark-simple-light.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -280,7 +280,7 @@ export default function Brand() {
               <div>
                 <img src={previewWordmarkSimpleDark} alt={alt} />
                 <div data-component="actions">
-                  <button onClick={() => downloadFile(wordmarkSimpleDarkPng, "openqcode-wordmark-simple-dark.png")}>
+                  <button onClick={() => downloadFile(wordmarkSimpleDarkPng, "homecode-wordmark-simple-dark.png")}>
                     PNG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -291,7 +291,7 @@ export default function Brand() {
                       />
                     </svg>
                   </button>
-                  <button onClick={() => downloadFile(wordmarkSimpleDarkSvg, "openqcode-wordmark-simple-dark.svg")}>
+                  <button onClick={() => downloadFile(wordmarkSimpleDarkSvg, "homecode-wordmark-simple-dark.svg")}>
                     SVG
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path

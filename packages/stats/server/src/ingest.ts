@@ -24,7 +24,7 @@ export declare namespace Ingest {
   }
 }
 
-export class Ingest extends Context.Service<Ingest, Ingest.Service>()("@openqcode/stats/Ingest") {
+export class Ingest extends Context.Service<Ingest, Ingest.Service>()("@homecode/stats/Ingest") {
   static readonly layer: Layer.Layer<Ingest> = Layer.effect(
     Ingest,
     Effect.sync(() => {

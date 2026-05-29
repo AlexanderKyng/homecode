@@ -3,13 +3,13 @@ title: โมเดล
 description: การกำหนดค่าผู้ให้บริการและรุ่น LLM
 ---
 
-OpenQCode ใช้ [AI SDK](https://ai-sdk.dev/) และ [Models.dev](https://models.dev) เพื่อรองรับผู้ให้บริการ **75+ LLM** และรองรับการใช้งานโมเดลท้องถิ่น
+HomeCode ใช้ [AI SDK](https://ai-sdk.dev/) และ [Models.dev](https://models.dev) เพื่อรองรับผู้ให้บริการ **75+ LLM** และรองรับการใช้งานโมเดลท้องถิ่น
 
 ---
 
 ## ผู้ให้บริการ
 
-ผู้ให้บริการที่ได้รับความนิยมส่วนใหญ่จะถูกโหลดไว้ล่วงหน้าตามค่าเริ่มต้น หากคุณได้เพิ่มข้อมูลรับรองสำหรับผู้ให้บริการผ่านคำสั่ง `/connect` ข้อมูลเหล่านั้นจะพร้อมใช้งานเมื่อคุณเริ่ม OpenQCode
+ผู้ให้บริการที่ได้รับความนิยมส่วนใหญ่จะถูกโหลดไว้ล่วงหน้าตามค่าเริ่มต้น หากคุณได้เพิ่มข้อมูลรับรองสำหรับผู้ให้บริการผ่านคำสั่ง `/connect` ข้อมูลเหล่านั้นจะพร้อมใช้งานเมื่อคุณเริ่ม HomeCode
 
 เรียนรู้เพิ่มเติมเกี่ยวกับ [ผู้ให้บริการ](/docs/providers)
 
@@ -35,7 +35,7 @@ OpenQCode ใช้ [AI SDK](https://ai-sdk.dev/) และ [Models.dev](https:/
 
 อย่างไรก็ตาม มีเพียงไม่กี่ตัวเท่านั้นที่เก่งทั้งการสร้างโค้ดและการเรียกใช้เครื่องมือ
 
-ต่อไปนี้เป็นโมเดลหลายรุ่นที่ทำงานได้ดีกับ OpenQCode โดยไม่เรียงลำดับเป็นพิเศษ (นี่ไม่ใช่รายการที่ครอบคลุมและไม่จำเป็นต้องเป็นข้อมูลล่าสุด):
+ต่อไปนี้เป็นโมเดลหลายรุ่นที่ทำงานได้ดีกับ HomeCode โดยไม่เรียงลำดับเป็นพิเศษ (นี่ไม่ใช่รายการที่ครอบคลุมและไม่จำเป็นต้องเป็นข้อมูลล่าสุด):
 
 - GPT 5.2
 - GPT 5.1 Codex
@@ -49,16 +49,16 @@ OpenQCode ใช้ [AI SDK](https://ai-sdk.dev/) และ [Models.dev](https:/
 ## ตั้งค่าเริ่มต้น
 
 หากต้องการตั้งค่าสิ่งใดสิ่งหนึ่งเป็นโมเดลเริ่มต้น คุณสามารถตั้งค่าคีย์ `model` ในของคุณ
-การกำหนดค่า OpenQCode
+การกำหนดค่า HomeCode
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "model": "lmstudio/google/gemma-3n-e4b"
 }
 ```
 
-ID แบบเต็มคือ `provider_id/model_id` ตัวอย่างเช่น หากคุณใช้ [OpenQCode Zen](/docs/zen) คุณจะใช้ `openqcode/gpt-5.1-codex` สำหรับ GPT 5.1 Codex
+ID แบบเต็มคือ `provider_id/model_id` ตัวอย่างเช่น หากคุณใช้ [HomeCode Zen](/docs/zen) คุณจะใช้ `homecode/gpt-5.1-codex` สำหรับ GPT 5.1 Codex
 
 หากคุณได้กำหนดค่า [ผู้ให้บริการที่กำหนดเอง](/docs/providers#กำหนดเอง) `provider_id` จะเป็นคีย์จากส่วน `provider` ของการกำหนดค่าของคุณ และ `model_id` จะเป็นคีย์จาก `provider.models`
 
@@ -68,9 +68,9 @@ ID แบบเต็มคือ `provider_id/model_id` ตัวอย่า�
 
 คุณสามารถกำหนดค่าตัวเลือกของโมเดลได้ทั่วโลกผ่านการกำหนดค่า
 
-```jsonc title="openqcode.jsonc" {7-12,19-24}
+```jsonc title="homecode.jsonc" {7-12,19-24}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "openai": {
       "models": {
@@ -107,11 +107,11 @@ ID แบบเต็มคือ `provider_id/model_id` ตัวอย่า�
 
 คุณยังสามารถกำหนดตัวแปรแบบกำหนดเองที่ขยายตัวแปรในตัวได้ ตัวแปรช่วยให้คุณกำหนดการตั้งค่าที่แตกต่างกันสำหรับรุ่นเดียวกันโดยไม่ต้องสร้างรายการที่ซ้ำกัน:
 
-```jsonc title="openqcode.jsonc" {6-21}
+```jsonc title="homecode.jsonc" {6-21}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
-    "openqcode": {
+    "homecode": {
       "models": {
         "gpt-5": {
           "variants": {
@@ -137,11 +137,11 @@ ID แบบเต็มคือ `provider_id/model_id` ตัวอย่า�
 
 ## Variants (แบบ)
 
-โมเดลหลายตัวรองรับหลาย variants (รูปแบบย่อย) ที่มีการกำหนดค่าต่างกัน OpenQCode มาพร้อมกับ variants เริ่มต้นในตัวสำหรับผู้ให้บริการยอดนิยม
+โมเดลหลายตัวรองรับหลาย variants (รูปแบบย่อย) ที่มีการกำหนดค่าต่างกัน HomeCode มาพร้อมกับ variants เริ่มต้นในตัวสำหรับผู้ให้บริการยอดนิยม
 
 ### Variants ในตัว (Built-in Variants)
 
-OpenQCode มาพร้อมกับ variants เริ่มต้นสำหรับผู้ให้บริการหลายราย:
+HomeCode มาพร้อมกับ variants เริ่มต้นสำหรับผู้ให้บริการหลายราย:
 
 **Anthropic**:
 
@@ -172,9 +172,9 @@ OpenQCode มาพร้อมกับ variants เริ่มต้นสำ
 
 คุณสามารถแทนที่ variants ที่มีอยู่หรือเพิ่มของคุณเองได้:
 
-```jsonc title="openqcode.jsonc" {7-18}
+```jsonc title="homecode.jsonc" {7-18}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "openai": {
       "models": {
@@ -203,15 +203,15 @@ OpenQCode มาพร้อมกับ variants เริ่มต้นสำ
 
 ## กำลังโหลดโมเดล
 
-เมื่อ OpenQCode เริ่มทำงาน ระบบจะตรวจสอบรุ่นตามลำดับความสำคัญต่อไปนี้:
+เมื่อ HomeCode เริ่มทำงาน ระบบจะตรวจสอบรุ่นตามลำดับความสำคัญต่อไปนี้:
 
 1. การตั้งค่าสถานะบรรทัดคำสั่ง `--model` หรือ `-m` รูปแบบจะเหมือนกับในไฟล์ปรับแต่ง: `provider_id/model_id`
 
-2. รายการโมเดลในการกำหนดค่า OpenQCode
+2. รายการโมเดลในการกำหนดค่า HomeCode
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "model": "anthropic/claude-sonnet-4-20250514"
    }
    ```

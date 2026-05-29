@@ -1,12 +1,12 @@
 const stage = process.env.SST_STAGE || "dev"
 
 export default {
-  url: stage === "production" ? "https://openqcode.ai" : `https://${stage}.openqcode.ai`,
-  console: stage === "production" ? "https://openqcode.ai/auth" : `https://${stage}.openqcode.ai/auth`,
+  url: stage === "production" ? "https://homecode.ai" : `https://${stage}.homecode.ai`,
+  console: stage === "production" ? "https://homecode.ai/auth" : `https://${stage}.homecode.ai/auth`,
   email: "contact@anoma.ly",
   socialCard: "https://social-cards.sst.dev",
-  github: "https://github.com/anomalyco/openqcode",
-  discord: "https://openqcode.ai/discord",
+  github: "https://github.com/anomalyco/homecode",
+  discord: "https://homecode.ai/discord",
   headerLinks: [
     { name: "app.header.home", url: "/" },
     { name: "app.header.docs", url: "/docs/" },

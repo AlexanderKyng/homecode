@@ -1,8 +1,8 @@
 import { describe, expect, mock } from "bun:test"
 import { Effect } from "effect"
-import { ModelV2 } from "@openqcode-ai/core/model"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { CoherePlugin } from "@openqcode-ai/core/plugin/provider/cohere"
+import { ModelV2 } from "@homecode-ai/core/model"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { CoherePlugin } from "@homecode-ai/core/plugin/provider/cohere"
 import { fakeSelectorSdk, it, model } from "./provider-helper"
 
 const cohereOptions: Record<string, any>[] = []

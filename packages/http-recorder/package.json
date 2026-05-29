@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "version": "1.15.11",
-  "name": "@openqcode-ai/http-recorder",
+  "name": "@homecode-ai/http-recorder",
   "type": "module",
   "license": "MIT",
   "private": true,

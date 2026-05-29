@@ -24,7 +24,7 @@ type WebSocketConstructorWithHeaders = new (
   options?: { readonly headers?: Headers.Headers },
 ) => globalThis.WebSocket
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/LLM/WebSocketExecutor") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/LLM/WebSocketExecutor") {}
 
 const transportError = (
   method: string,

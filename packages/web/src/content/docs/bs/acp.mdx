@@ -1,9 +1,9 @@
 ---
 title: ACP podrška
-description: Koristite OpenQCode u bilo kojem uređivaču kompatibilnom sa ACP.
+description: Koristite HomeCode u bilo kojem uređivaču kompatibilnom sa ACP.
 ---
 
-OpenQCode podržava [Agent Client Protocol](https://agentclientprotocol.com) (ACP), što vam omogućava da ga koristite direktno u kompatibilnim uređivačima i IDE-ovima.
+HomeCode podržava [Agent Client Protocol](https://agentclientprotocol.com) (ACP), što vam omogućava da ga koristite direktno u kompatibilnim uređivačima i IDE-ovima.
 
 :::tip
 Za listu uređivača i alata koji podržavaju ACP, pogledajte [ACP izvještaj o napretku](https://zed.dev/blog/acp-progress-report#available-now).
@@ -15,9 +15,9 @@ ACP je otvoreni protokol koji standardizira komunikaciju između uređivača kod
 
 ## Konfiguracija
 
-Da biste koristili OpenQCode putem ACP-a, konfigurirajte svoj uređivač da pokrene naredbu `openqcode acp`.
+Da biste koristili HomeCode putem ACP-a, konfigurirajte svoj uređivač da pokrene naredbu `homecode acp`.
 
-Naredba pokreće OpenQCode kao ACP-kompatibilan podproces koji komunicira sa vašim uređivačem preko JSON-RPC-a kroz stdio.
+Naredba pokreće HomeCode kao ACP-kompatibilan podproces koji komunicira sa vašim uređivačem preko JSON-RPC-a kroz stdio.
 
 Ispod su primjeri za popularne uređivače koji podržavaju ACP.
 
@@ -30,8 +30,8 @@ Dodajte u svoju [Zed](https://zed.dev) konfiguraciju (`~/.config/zed/settings.js
 ```json title="~/.config/zed/settings.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "openqcode",
+    "HomeCode": {
+      "command": "homecode",
       "args": ["acp"]
     }
   }
@@ -51,9 +51,9 @@ Također možete vezati prečicu na tastaturi uređivanjem vašeg `keymap.json`:
         {
           "agent": {
             "custom": {
-              "name": "OpenQCode",
+              "name": "HomeCode",
               "command": {
-                "command": "openqcode",
+                "command": "homecode",
                 "args": ["acp"]
               }
             }
@@ -74,15 +74,15 @@ Dodajte u svoj [JetBrains IDE](https://www.jetbrains.com/) `acp.json` prema [dok
 ```json title="acp.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "/absolute/path/bin/openqcode",
+    "HomeCode": {
+      "command": "/absolute/path/bin/homecode",
       "args": ["acp"]
     }
   }
 }
 ```
 
-Da biste ga otvorili, koristite novog "OpenQCode" agenta u AI Chat agent selektoru.
+Da biste ga otvorili, koristite novog "HomeCode" agenta u AI Chat agent selektoru.
 
 ---
 
@@ -93,8 +93,8 @@ Dodajte u svoju [Avante.nvim](https://github.com/yetone/avante.nvim) konfiguraci
 ```lua
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" }
     }
   }
@@ -106,8 +106,8 @@ Ako trebate proslijediti varijable okruženja:
 ```lua {6-8}
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" },
       env = {
         OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY")
@@ -121,14 +121,14 @@ Ako trebate proslijediti varijable okruženja:
 
 ### CodeCompanion.nvim
 
-Da koristite OpenQCode kao ACP agenta u [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), dodajte sljedeće u svoju Neovim konfiguraciju:
+Da koristite HomeCode kao ACP agenta u [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), dodajte sljedeće u svoju Neovim konfiguraciju:
 
 ```lua
 require("codecompanion").setup({
   interactions = {
     chat = {
       adapter = {
-        name = "openqcode",
+        name = "homecode",
         model = "claude-sonnet-4",
       },
     },
@@ -136,13 +136,13 @@ require("codecompanion").setup({
 })
 ```
 
-Ova konfiguracija postavlja CodeCompanion da koristi OpenQCode kao ACP chat agenta.
+Ova konfiguracija postavlja CodeCompanion da koristi HomeCode kao ACP chat agenta.
 
 Ako trebate proslijediti varijable okruženja (kao što je `OPENCODE_API_KEY`), pogledajte [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) u dokumentaciji CodeCompanion.nvim.
 
 ## Podržane funkcije
 
-OpenQCode radi isto kroz ACP kao i u terminalu. Podržane su sve funkcije:
+HomeCode radi isto kroz ACP kao i u terminalu. Podržane su sve funkcije:
 
 :::note
 Neke ugrađene komande kao što su `/undo` i `/redo` trenutno nisu podržane.
@@ -150,7 +150,7 @@ Neke ugrađene komande kao što su `/undo` i `/redo` trenutno nisu podržane.
 
 - Ugrađeni alati (operacije sa datotekama, naredbe terminala, itd.)
 - Prilagođeni alati i slash komande
-- MCP serveri konfigurisani u vašoj OpenQCode konfiguraciji
+- MCP serveri konfigurisani u vašoj HomeCode konfiguraciji
 - Pravila specifična za projekat `AGENTS.md`
 - Prilagođeni formateri i linteri
 - Agenti i sistem dozvola

@@ -1,15 +1,15 @@
 ;(function () {
-  var key = "openqcode-theme-id"
+  var key = "homecode-theme-id"
   var themeId = localStorage.getItem(key) || "oc-2"
 
   if (themeId === "oc-1") {
     themeId = "oc-2"
     localStorage.setItem(key, themeId)
-    localStorage.removeItem("openqcode-theme-css-light")
-    localStorage.removeItem("openqcode-theme-css-dark")
+    localStorage.removeItem("homecode-theme-css-light")
+    localStorage.removeItem("homecode-theme-css-dark")
   }
 
-  var scheme = localStorage.getItem("openqcode-color-scheme") || "system"
+  var scheme = localStorage.getItem("homecode-color-scheme") || "system"
   var isDark = scheme === "dark" || (scheme === "system" && matchMedia("(prefers-color-scheme: dark)").matches)
   var mode = isDark ? "dark" : "light"
 
@@ -22,7 +22,7 @@
 
   if (themeId === "oc-2") return
 
-  var css = localStorage.getItem("openqcode-theme-css-" + mode)
+  var css = localStorage.getItem("homecode-theme-css-" + mode)
   if (css) {
     var style = document.createElement("style")
     style.id = "oc-theme-preload"

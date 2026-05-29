@@ -1,17 +1,17 @@
 <p align="center">
-  <a href="https://openqcode.ai">
+  <a href="https://homecode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Logo OpenQCode">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Logo HomeCode">
     </picture>
   </a>
 </p>
 <p align="center">L'agent de codage IA open source.</p>
 <p align="center">
-  <a href="https://openqcode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/openqcode-ai"><img alt="npm" src="https://img.shields.io/npm/v/openqcode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/openqcode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/openqcode/publish.yml?style=flat-square&branch=dev" /></a>
+  <a href="https://homecode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://www.npmjs.com/package/homecode-ai"><img alt="npm" src="https://img.shields.io/npm/v/homecode-ai?style=flat-square" /></a>
+  <a href="https://github.com/anomalyco/homecode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/homecode/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![OpenQCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://openqcode.ai)
+[![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://homecode.ai)
 
 ---
 
@@ -47,18 +47,18 @@
 
 ```bash
 # YOLO
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 
 # Gestionnaires de paquets
-npm i -g openqcode-ai@latest        # ou bun/pnpm/yarn
-scoop install openqcode             # Windows
-choco install openqcode             # Windows
-brew install anomalyco/tap/openqcode # macOS et Linux (recommandé, toujours à jour)
-brew install openqcode              # macOS et Linux (formule officielle brew, mise à jour moins fréquente)
-sudo pacman -S openqcode            # Arch Linux (Stable)
-paru -S openqcode-bin               # Arch Linux (Latest from AUR)
-mise use -g openqcode               # n'importe quel OS
-nix run nixpkgs#openqcode           # ou github:anomalyco/openqcode pour la branche dev la plus récente
+npm i -g homecode-ai@latest        # ou bun/pnpm/yarn
+scoop install homecode             # Windows
+choco install homecode             # Windows
+brew install anomalyco/tap/homecode # macOS et Linux (recommandé, toujours à jour)
+brew install homecode              # macOS et Linux (formule officielle brew, mise à jour moins fréquente)
+sudo pacman -S homecode            # Arch Linux (Stable)
+paru -S homecode-bin               # Arch Linux (Latest from AUR)
+mise use -g homecode               # n'importe quel OS
+nix run nixpkgs#homecode           # ou github:anomalyco/homecode pour la branche dev la plus récente
 ```
 
 > [!TIP]
@@ -66,20 +66,20 @@ nix run nixpkgs#openqcode           # ou github:anomalyco/openqcode pour la bran
 
 ### Application de bureau (BETA)
 
-OpenQCode est aussi disponible en application de bureau. Téléchargez-la directement depuis la [page des releases](https://github.com/anomalyco/openqcode/releases) ou [openqcode.ai/download](https://openqcode.ai/download).
+HomeCode est aussi disponible en application de bureau. Téléchargez-la directement depuis la [page des releases](https://github.com/anomalyco/homecode/releases) ou [homecode.ai/download](https://homecode.ai/download).
 
 | Plateforme            | Téléchargement                     |
 | --------------------- | ---------------------------------- |
-| macOS (Apple Silicon) | `openqcode-desktop-mac-arm64.dmg`   |
-| macOS (Intel)         | `openqcode-desktop-mac-x64.dmg`     |
-| Windows               | `openqcode-desktop-windows-x64.exe` |
+| macOS (Apple Silicon) | `homecode-desktop-mac-arm64.dmg`   |
+| macOS (Intel)         | `homecode-desktop-mac-x64.dmg`     |
+| Windows               | `homecode-desktop-windows-x64.exe` |
 | Linux                 | `.deb`, `.rpm`, ou AppImage        |
 
 ```bash
 # macOS (Homebrew)
-brew install --cask openqcode-desktop
+brew install --cask homecode-desktop
 # Windows (Scoop)
-scoop bucket add extras; scoop install extras/openqcode-desktop
+scoop bucket add extras; scoop install extras/homecode-desktop
 ```
 
 #### Répertoire d'installation
@@ -89,17 +89,17 @@ Le script d'installation respecte l'ordre de priorité suivant pour le chemin d'
 1. `$OPENCODE_INSTALL_DIR` - Répertoire d'installation personnalisé
 2. `$XDG_BIN_DIR` - Chemin conforme à la spécification XDG Base Directory
 3. `$HOME/bin` - Répertoire binaire utilisateur standard (s'il existe ou peut être créé)
-4. `$HOME/.openqcode/bin` - Repli par défaut
+4. `$HOME/.homecode/bin` - Repli par défaut
 
 ```bash
 # Exemples
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://openqcode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://openqcode.ai/install | bash
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://homecode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://homecode.ai/install | bash
 ```
 
 ### Agents
 
-OpenQCode inclut deux agents intégrés que vous pouvez basculer avec la touche `Tab`.
+HomeCode inclut deux agents intégrés que vous pouvez basculer avec la touche `Tab`.
 
 - **build** - Par défaut, agent avec accès complet pour le travail de développement
 - **plan** - Agent en lecture seule pour l'analyse et l'exploration du code
@@ -110,20 +110,20 @@ OpenQCode inclut deux agents intégrés que vous pouvez basculer avec la touche 
 Un sous-agent **general** est aussi inclus pour les recherches complexes et les tâches en plusieurs étapes.
 Il est utilisé en interne et peut être invoqué via `@general` dans les messages.
 
-En savoir plus sur les [agents](https://openqcode.ai/docs/agents).
+En savoir plus sur les [agents](https://homecode.ai/docs/agents).
 
 ### Documentation
 
-Pour plus d'informations sur la configuration d'OpenQCode, [**consultez notre documentation**](https://openqcode.ai/docs).
+Pour plus d'informations sur la configuration d'HomeCode, [**consultez notre documentation**](https://homecode.ai/docs).
 
 ### Contribuer
 
-Si vous souhaitez contribuer à OpenQCode, lisez nos [docs de contribution](./CONTRIBUTING.md) avant de soumettre une pull request.
+Si vous souhaitez contribuer à HomeCode, lisez nos [docs de contribution](./CONTRIBUTING.md) avant de soumettre une pull request.
 
-### Construire avec OpenQCode
+### Construire avec HomeCode
 
-Si vous travaillez sur un projet lié à OpenQCode et que vous utilisez "openqcode" dans le nom du projet (par exemple, "openqcode-dashboard" ou "openqcode-mobile"), ajoutez une note dans votre README pour préciser qu'il n'est pas construit par l'équipe OpenQCode et qu'il n'est pas affilié à nous.
+Si vous travaillez sur un projet lié à HomeCode et que vous utilisez "homecode" dans le nom du projet (par exemple, "homecode-dashboard" ou "homecode-mobile"), ajoutez une note dans votre README pour préciser qu'il n'est pas construit par l'équipe HomeCode et qu'il n'est pas affilié à nous.
 
 ---
 
-**Rejoignez notre communauté** [Discord](https://discord.gg/openqcode) | [X.com](https://x.com/openqcode)
+**Rejoignez notre communauté** [Discord](https://discord.gg/homecode) | [X.com](https://x.com/homecode)

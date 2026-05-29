@@ -1,4 +1,4 @@
-import { Resource } from "@openqcode-ai/console-resource"
+import { Resource } from "@homecode-ai/console-resource"
 
 export const logger = {
   metric: (values: Record<string, any>) => {

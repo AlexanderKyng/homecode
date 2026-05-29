@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: openqcode CLI seçenekleri ve komutları.
+description: homecode CLI seçenekleri ve komutları.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-openqcode CLI herhangi bir argüman olmadan çalıştırıldığında varsayılan olarak [TUI](/docs/tui)'yi başlatır.
+homecode CLI herhangi bir argüman olmadan çalıştırıldığında varsayılan olarak [TUI](/docs/tui)'yi başlatır.
 
 ```bash
-openqcode
+homecode
 ```
 
-Ancak bu sayfada belgelendiği gibi komutları da kabul eder. Bu, openqcode ile programlı olarak etkileşim kurmanıza olanak tanır.
+Ancak bu sayfada belgelendiği gibi komutları da kabul eder. Bu, homecode ile programlı olarak etkileşim kurmanıza olanak tanır.
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-openqcode terminal kullanıcı arayüzünü başlatır.
+homecode terminal kullanıcı arayüzünü başlatır.
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### Bayraklar
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## Komutlar
 
-openqcode CLI ayrıca aşağıdaki komutlara da sahiptir.
+homecode CLI ayrıca aşağıdaki komutlara da sahiptir.
 
 ---
 
 ### agent
 
-openqcode için agent'ları yönetin.
+homecode için agent'ları yönetin.
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-`serve` veya `web` komutlarıyla başlatılan, halihazırda çalışan bir openqcode arka uç sunucusuna bir terminal ekleyin.
+`serve` veya `web` komutlarıyla başlatılan, halihazırda çalışan bir homecode arka uç sunucusuna bir terminal ekleyin.
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-Bu, TUI öğesinin uzak bir openqcode arka ucuyla kullanılmasına olanak tanır. Örneğin:
+Bu, TUI öğesinin uzak bir homecode arka ucuyla kullanılmasına olanak tanır. Örneğin:
 
 ```bash
 # Start the backend server for web/mobile access
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # In another terminal, attach the TUI to the running backend
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### Bayraklar
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s` | Devam edecek oturum açma bilgileri                                                            |
 | <nobr><code>{"--fork"}</code></nobr>     |      | Devam ederken oturumu çatalla (`--continue` veya `--session` ile kullanın)                    |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | Temel kimlik doğrulama parolası (varsayılan: `OPENCODE_SERVER_PASSWORD`)                      |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doğrulama kullanıcı adı (varsayılan: `OPENCODE_SERVER_USERNAME` veya `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doğrulama kullanıcı adı (varsayılan: `OPENCODE_SERVER_USERNAME` veya `homecode`) |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 Özel yapılandırmaya sahip yeni bir agent oluşturun.
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 Bu komut, özel sistem istemi ve araç yapılandırmasıyla yeni bir agent oluşturma konusunda size yol gösterecektir.
@@ -106,7 +106,7 @@ Bu komut, özel sistem istemi ve araç yapılandırmasıyla yeni bir agent oluş
 Mevcut tüm agent'ları listeleyin.
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 Sağlayıcılar için kimlik bilgilerini ve oturum açmayı yönetme komutu.
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-openqcode, [Models.dev](https://models.dev) adresindeki sağlayıcı listesi tarafından desteklenmektedir, dolayısıyla kullanmak istediğiniz herhangi bir sağlayıcı için API anahtarlarını ayarlamak üzere `openqcode auth login` kullanabilirsiniz. Bu `~/.local/share/openqcode/auth.json`'de saklanıyor.
+homecode, [Models.dev](https://models.dev) adresindeki sağlayıcı listesi tarafından desteklenmektedir, dolayısıyla kullanmak istediğiniz herhangi bir sağlayıcı için API anahtarlarını ayarlamak üzere `homecode auth login` kullanabilirsiniz. Bu `~/.local/share/homecode/auth.json`'de saklanıyor.
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-openqcode başlatıldığında sağlayıcıları kimlik bilgileri dosyasından yükler. Ayrıca ortam değişkenlerindeki veya projenizdeki `.env` dosyasındaki anahtarları da kullanır.
+homecode başlatıldığında sağlayıcıları kimlik bilgileri dosyasından yükler. Ayrıca ortam değişkenlerindeki veya projenizdeki `.env` dosyasındaki anahtarları da kullanır.
 
 ---
 
@@ -138,13 +138,13 @@ openqcode başlatıldığında sağlayıcıları kimlik bilgileri dosyasından y
 Kimlik bilgileri dosyasında depolanan tüm kimliği doğrulanmış sağlayıcıları listeler.
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 Veya kısa versiyonu.
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 Bir sağlayıcıyı kimlik bilgileri dosyasından temizleyerek oturumunuzu kapatır.
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 Depo otomasyonu için GitHub aracısını yönetin.
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 GitHub aracısını deponuza yükleyin.
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 Bu komut gerekli GitHub Actions workflow'unu kurar ve yapılandırma adımlarında size rehberlik eder. [Daha fazla bilgi](/docs/github).
@@ -186,7 +186,7 @@ Bu komut gerekli GitHub Actions workflow'unu kurar ve yapılandırma adımların
 GitHub aracısını çalıştırın. Bu genellikle GitHub Eylemlerinde kullanılır.
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### Bayraklar
@@ -203,7 +203,7 @@ openqcode github run
 Model Bağlam Protokolü sunucularını yönetin.
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 Yapılandırmanıza bir MCP sunucusu ekleyin.
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 Bu komut, yerel veya uzak bir MCP sunucusu ekleme konusunda size yol gösterecektir.
@@ -225,13 +225,13 @@ Bu komut, yerel veya uzak bir MCP sunucusu ekleme konusunda size yol gösterecek
 Yapılandırılmış tüm MCP sunucularını ve bağlantı durumlarını listeleyin.
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 Veya kısa versiyonunu kullanın.
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 OAuth'un etkin olduğu bir MCP sunucusuyla kimlik doğrulaması yapın.
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 Sunucu adı belirtmezseniz mevcut OAuth özellikli sunucular arasından seçim yapmanız istenir.
@@ -249,13 +249,13 @@ Sunucu adı belirtmezseniz mevcut OAuth özellikli sunucular arasından seçim y
 Ayrıca OAuth özellikli sunucuları ve bunların kimlik doğrulama durumlarını da listeleyebilirsiniz.
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 Veya kısa versiyonunu kullanın.
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 MCP sunucusu için OAuth kimlik bilgilerini kaldırın.
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 MCP sunucusu için OAuth bağlantı sorunlarının hatalarını ayıklayın.
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 Yapılandırılmış sağlayıcıların tüm mevcut modellerini listeleyin.
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 Bu komut, yapılandırdığınız sağlayıcılardaki modelleri `provider/model` formatında listeler.
@@ -295,7 +295,7 @@ Bu, [config dosyanızda](/docs/config/) kullanmanız gereken tam model adını b
 Modelleri bu sağlayıcıya göre filtrelemek için isteğe bağlı olarak bir sağlayıcı kimliğini iletebilirsiniz.
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### Bayraklar
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | Modeller.dev'den model önbelleğini yenileyin                                |
 | <nobr><code>{"--verbose"}</code></nobr> | Daha ayrıntılı model çıktısı kullanın (maliyetler gibi meta veriler içerir) |
 
-Önbelleğe alınan model listesini güncellemek için `--refresh` bayrağını kullanın. Bu, bir sağlayıcıya yeni modeller eklendiğinde ve bunları openqcode'da görmek istediğinizde kullanışlıdır.
+Önbelleğe alınan model listesini güncellemek için `--refresh` bayrağını kullanın. Bu, bir sağlayıcıya yeni modeller eklendiğinde ve bunları homecode'da görmek istediğinizde kullanışlıdır.
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-Doğrudan bir istem ileterek openqcode'u etkileşimli olmayan modda çalıştırın.
+Doğrudan bir istem ileterek homecode'u etkileşimli olmayan modda çalıştırın.
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 Bu, komut dosyası oluşturma, otomasyon veya TUI'un tamamını başlatmadan hızlı bir yanıt istediğinizde kullanışlıdır. Örneğin.
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-Ayrıca, her çalıştırmada MCP sunucusunun soğuk önyükleme sürelerini önlemek için çalışan bir `openqcode serve` örneğine de ekleyebilirsiniz:
+Ayrıca, her çalıştırmada MCP sunucusunun soğuk önyükleme sürelerini önlemek için çalışan bir `homecode serve` örneğine de ekleyebilirsiniz:
 
 ```bash
 # Start a headless server in one terminal
-openqcode serve
+homecode serve
 
 # In another terminal, run commands that attach to it
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### Bayraklar
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f` | Mesaja eklenecek dosya(lar)                                                                   |
 | <nobr><code>{"--format"}</code></nobr>   |      | Biçim: varsayılan (biçimlendirilmiş) veya json (ham JSON olayları)                            |
 | <nobr><code>{"--title"}</code></nobr>    |      | Oturumun başlığı (değer sağlanmazsa kısaltılmış bilgi istemi kullanılır)                      |
-| <nobr><code>{"--attach"}</code></nobr>   |      | Çalışan bir openqcode sunucusuna ekleyin (ör. http://localhost:4096)                           |
+| <nobr><code>{"--attach"}</code></nobr>   |      | Çalışan bir homecode sunucusuna ekleyin (ör. http://localhost:4096)                           |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | Temel kimlik doğrulama parolası (varsayılan: `OPENCODE_SERVER_PASSWORD`)                      |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doğrulama kullanıcı adı (varsayılan: `OPENCODE_SERVER_USERNAME` veya `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Temel kimlik doğrulama kullanıcı adı (varsayılan: `OPENCODE_SERVER_USERNAME` veya `homecode`) |
 | <nobr><code>{"--dir"}</code></nobr>      |      | Çalıştırılacak dizin veya bağlanırken uzak sunucudaki yol                                     |
 | <nobr><code>{"--variant"}</code></nobr>  |      | Model varyantı (sağlayıcıya özgü muhakeme düzeyi)                                             |
 | <nobr><code>{"--thinking"}</code></nobr> |      | Düşünme bloklarını göster                                                                     |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-API erişimi için headless bir openqcode sunucusu başlatır. Tam HTTP arayüzü için [server docs](/docs/server) sayfasına bakın.
+API erişimi için headless bir homecode sunucusu başlatır. Tam HTTP arayüzü için [server docs](/docs/server) sayfasına bakın.
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-Bu, TUI arayüzü olmadan openqcode işlevselliğine API erişimi sağlayan bir HTTP sunucusunu başlatır. HTTP temel kimlik doğrulamasını etkinleştirmek için `OPENCODE_SERVER_PASSWORD` öğesini ayarlayın (kullanıcı adı varsayılan olarak `openqcode` şeklindedir).
+Bu, TUI arayüzü olmadan homecode işlevselliğine API erişimi sağlayan bir HTTP sunucusunu başlatır. HTTP temel kimlik doğrulamasını etkinleştirmek için `OPENCODE_SERVER_PASSWORD` öğesini ayarlayın (kullanıcı adı varsayılan olarak `homecode` şeklindedir).
 
 #### Bayraklar
 
@@ -384,20 +384,20 @@ Bu, TUI arayüzü olmadan openqcode işlevselliğine API erişimi sağlayan bir 
 
 ### session
 
-openqcode oturumlarını yönetin.
+homecode oturumlarını yönetin.
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-Tüm openqcode oturumlarını listeleyin.
+Tüm homecode oturumlarını listeleyin.
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### Bayraklar
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-openqcode oturumlarınız için belirteç kullanımı ve maliyet istatistiklerini gösterin.
+homecode oturumlarınız için belirteç kullanımı ve maliyet istatistiklerini gösterin.
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### Bayraklar
@@ -433,7 +433,7 @@ openqcode stats
 Oturum verilerini JSON olarak dışa aktarın.
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 Bir oturum kimliği sağlamazsanız mevcut oturumlar arasından seçim yapmanız istenir.
@@ -442,30 +442,30 @@ Bir oturum kimliği sağlamazsanız mevcut oturumlar arasından seçim yapmanız
 
 ### import
 
-Bir JSON dosyasından veya openqcode paylaşımından URL oturum verilerini içe aktarın.
+Bir JSON dosyasından veya homecode paylaşımından URL oturum verilerini içe aktarın.
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-Yerel bir dosyadan veya openqcode paylaşımından (URL) içe aktarabilirsiniz.
+Yerel bir dosyadan veya homecode paylaşımından (URL) içe aktarabilirsiniz.
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-Web arayüzüyle başsız bir openqcode sunucusu başlatın.
+Web arayüzüyle başsız bir homecode sunucusu başlatın.
 
 ```bash
-openqcode web
+homecode web
 ```
 
-Bu, bir HTTP sunucusunu başlatır ve bir web arayüzü aracılığıyla openqcode'a erişmek için bir web tarayıcısı açar. HTTP temel kimlik doğrulamasını etkinleştirmek için `OPENCODE_SERVER_PASSWORD` öğesini ayarlayın (kullanıcı adı varsayılan olarak `openqcode` şeklindedir).
+Bu, bir HTTP sunucusunu başlatır ve bir web arayüzü aracılığıyla homecode'a erişmek için bir web tarayıcısı açar. HTTP temel kimlik doğrulamasını etkinleştirmek için `OPENCODE_SERVER_PASSWORD` öğesini ayarlayın (kullanıcı adı varsayılan olarak `homecode` şeklindedir).
 
 #### Bayraklar
 
@@ -483,7 +483,7 @@ Bu, bir HTTP sunucusunu başlatır ve bir web arayüzü aracılığıyla openqco
 Bir ACP (Ajan İstemci Protokolü) sunucusu başlatın.
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 Bu komut, nd-JSON kullanarak stdin/stdout aracılığıyla iletişim kuran bir ACP sunucusunu başlatır.
@@ -500,10 +500,10 @@ Bu komut, nd-JSON kullanarak stdin/stdout aracılığıyla iletişim kuran bir A
 
 ### uninstall
 
-openqcode'u kaldırın ve ilgili tüm dosyaları kaldırın.
+homecode'u kaldırın ve ilgili tüm dosyaları kaldırın.
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### Bayraklar
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-openqcode'u en son sürüme veya belirli bir sürüme günceller.
+homecode'u en son sürüme veya belirli bir sürüme günceller.
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 En son sürüme yükseltmek için.
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 Belirli bir sürüme yükseltmek için:
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### Bayraklar
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## Global bayraklar
 
-openqcode CLI aşağıdaki global bayrakları destekler.
+homecode CLI aşağıdaki global bayrakları destekler.
 
 | Bayrak                                     | Kısa | Tanım                                    |
 | ------------------------------------------ | ---- | ---------------------------------------- |
@@ -560,7 +560,7 @@ openqcode CLI aşağıdaki global bayrakları destekler.
 
 ## Ortam değişkenleri
 
-openqcode ortam değişkenleri kullanılarak yapılandırılabilir.
+homecode ortam değişkenleri kullanılarak yapılandırılabilir.
 
 | Değişken                              | Tip     | Açıklama                                                                    |
 | ------------------------------------- | ------- | --------------------------------------------------------------------------- |
@@ -586,7 +586,7 @@ openqcode ortam değişkenleri kullanılarak yapılandırılabilir.
 | `OPENCODE_CLIENT`                     | string  | Client kimliği (varsayılan: `cli`)                                          |
 | `OPENCODE_ENABLE_EXA`                 | boolean | Exa web arama araçlarını etkinleştir                                        |
 | `OPENCODE_SERVER_PASSWORD`            | string  | `serve`/`web` için temel kimlik doğrulamayı etkinleştirin                   |
-| `OPENCODE_SERVER_USERNAME`            | string  | Temel kimlik doğrulama kullanıcı adını geçersiz kıl (varsayılan `openqcode`) |
+| `OPENCODE_SERVER_USERNAME`            | string  | Temel kimlik doğrulama kullanıcı adını geçersiz kıl (varsayılan `homecode`) |
 | `OPENCODE_MODELS_URL`                 | string  | Model yapılandırmasını almak için özel URL                                  |
 
 ---

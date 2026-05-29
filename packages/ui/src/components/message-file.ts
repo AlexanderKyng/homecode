@@ -1,4 +1,4 @@
-import type { FilePart } from "@openqcode-ai/sdk/v2"
+import type { FilePart } from "@homecode-ai/sdk/v2"
 
 export function attached(part: FilePart) {
   return part.url.startsWith("data:")

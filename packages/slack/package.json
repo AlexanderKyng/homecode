@@ -1,5 +1,5 @@
 {
-  "name": "@openqcode-ai/slack",
+  "name": "@homecode-ai/slack",
   "version": "1.15.11",
   "type": "module",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
-    "@openqcode-ai/sdk": "workspace:*",
+    "@homecode-ai/sdk": "workspace:*",
     "@slack/bolt": "^3.17.1"
   },
   "devDependencies": {

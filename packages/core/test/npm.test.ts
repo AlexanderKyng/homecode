@@ -3,10 +3,10 @@ import path from "path"
 import { describe, expect, test } from "bun:test"
 import { NodeFileSystem } from "@effect/platform-node"
 import { Effect, Layer, Option } from "effect"
-import { AppFileSystem } from "@openqcode-ai/core/filesystem"
-import { Global } from "@openqcode-ai/core/global"
-import { Npm } from "@openqcode-ai/core/npm"
-import { EffectFlock } from "@openqcode-ai/core/util/effect-flock"
+import { AppFileSystem } from "@homecode-ai/core/filesystem"
+import { Global } from "@homecode-ai/core/global"
+import { Npm } from "@homecode-ai/core/npm"
+import { EffectFlock } from "@homecode-ai/core/util/effect-flock"
 import { tmpdir } from "./fixture/tmpdir"
 
 const win = process.platform === "win32"
@@ -30,14 +30,14 @@ const npmLayer = (cache: string) =>
 
 describe("Npm.sanitize", () => {
   test("keeps normal scoped package specs unchanged", () => {
-    expect(Npm.sanitize("@openqcode/acme")).toBe("@openqcode/acme")
-    expect(Npm.sanitize("@openqcode/acme@1.0.0")).toBe("@openqcode/acme@1.0.0")
+    expect(Npm.sanitize("@homecode/acme")).toBe("@homecode/acme")
+    expect(Npm.sanitize("@homecode/acme@1.0.0")).toBe("@homecode/acme@1.0.0")
     expect(Npm.sanitize("prettier")).toBe("prettier")
   })
 
   test("handles git https specs", () => {
-    const spec = "acme@git+https://github.com/openqcode/acme.git"
-    const expected = win ? "acme@git+https_//github.com/openqcode/acme.git" : spec
+    const spec = "acme@git+https://github.com/homecode/acme.git"
+    const expected = win ? "acme@git+https_//github.com/homecode/acme.git" : spec
     expect(Npm.sanitize(spec)).toBe(expected)
   })
 })

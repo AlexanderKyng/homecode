@@ -1,6 +1,6 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { AWS } from "@openqcode-ai/console-core/aws.js"
-import { Resource } from "@openqcode-ai/console-resource"
+import { AWS } from "@homecode-ai/console-core/aws.js"
+import { Resource } from "@homecode-ai/console-resource"
 import { i18n } from "~/i18n"
 import { localeFromRequest } from "~/lib/language"
 import { createLead } from "~/lib/salesforce"

@@ -83,7 +83,7 @@ body {
 }
 
 @supports (background: -webkit-named-image(i)) {
-  [data-page="openqcode"] {
+  [data-page="homecode"] {
     border-top: 1px solid var(--color-border-weak);
   }
 }

@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { ProviderPlugins } from "@openqcode-ai/core/plugin/provider"
-import { ZenmuxPlugin } from "@openqcode-ai/core/plugin/provider/zenmux"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { ProviderPlugins } from "@homecode-ai/core/plugin/provider"
+import { ZenmuxPlugin } from "@homecode-ai/core/plugin/provider/zenmux"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { expectPluginRegistered, it, provider } from "./provider-helper"
 
 describe("ZenmuxPlugin", () => {
@@ -32,7 +32,7 @@ describe("ZenmuxPlugin", () => {
         })
       })
       const result = yield* catalog.provider.get(ProviderV2.ID.make("zenmux"))
-      expect(result.options.headers).toEqual({ "HTTP-Referer": "https://openqcode.ai/", "X-Title": "openqcode" })
+      expect(result.options.headers).toEqual({ "HTTP-Referer": "https://homecode.ai/", "X-Title": "homecode" })
       expect(Object.keys(result.options.headers).sort()).toEqual(["HTTP-Referer", "X-Title"])
     }),
   )
@@ -56,8 +56,8 @@ describe("ZenmuxPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("zenmux"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://openqcode.ai/",
-        "X-Title": "openqcode",
+        "HTTP-Referer": "https://homecode.ai/",
+        "X-Title": "homecode",
       })
     }),
   )

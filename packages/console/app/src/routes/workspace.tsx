@@ -4,8 +4,8 @@ import { IconWorkspaceLogo } from "../component/icon"
 import { WorkspacePicker } from "./workspace-picker"
 import { UserMenu } from "./user-menu"
 import { withActor } from "~/context/auth.withActor"
-import { User } from "@openqcode-ai/console-core/user.js"
-import { Actor } from "@openqcode-ai/console-core/actor.js"
+import { User } from "@homecode-ai/console-core/user.js"
+import { Actor } from "@homecode-ai/console-core/actor.js"
 import { useLanguage } from "~/context/language"
 
 const getUserEmail = query(async (workspaceID: string) => {

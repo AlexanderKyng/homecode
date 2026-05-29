@@ -3,7 +3,7 @@ title: Feilsøking
 description: Vanlige problemer og hvordan de kan løses.
 ---
 
-For å feilsøke problemer med OpenQCode, start med å sjekke loggene og lokale data den lagrer på disken.
+For å feilsøke problemer med HomeCode, start med å sjekke loggene og lokale data den lagrer på disken.
 
 ---
 
@@ -11,21 +11,21 @@ For å feilsøke problemer med OpenQCode, start med å sjekke loggene og lokale 
 
 Loggfiler skrives til:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.local\share\homecode\log`
 
 Loggfiler navngis med tidsstempler (f.eks. `2025-01-09T123456.log`) og de siste 10 loggfilene beholdes.
 
-Du kan angi loggnivået med kommandolinjealternativet `--log-level` for å få mer detaljert feilsøkingsinformasjon. For eksempel `openqcode --log-level DEBUG`.
+Du kan angi loggnivået med kommandolinjealternativet `--log-level` for å få mer detaljert feilsøkingsinformasjon. For eksempel `homecode --log-level DEBUG`.
 
 ---
 
 ## Lagring
 
-OpenQCode lagrer øktdata og andre applikasjonsdata på disken på:
+HomeCode lagrer øktdata og andre applikasjonsdata på disken på:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.local\share\homecode`
 
 Denne katalogen inneholder:
 
@@ -39,13 +39,13 @@ Denne katalogen inneholder:
 
 ## Skrivebordsapp
 
-OpenQCode Desktop kjører en lokal OpenQCode-server (`openqcode-cli` sidevognen) i bakgrunnen. De fleste problemene er forårsaket av en plugin som fungerer dårlig, en ødelagt cache eller en dårlig serverinnstilling.
+HomeCode Desktop kjører en lokal HomeCode-server (`homecode-cli` sidevognen) i bakgrunnen. De fleste problemene er forårsaket av en plugin som fungerer dårlig, en ødelagt cache eller en dårlig serverinnstilling.
 
 ### Raske sjekker
 
 - Avslutt og start appen på nytt.
 - Hvis appen viser en feilskjerm, klikker du på **Start på nytt** og kopierer feildetaljene.
-- Bare macOS: `OpenQCode`-meny -> **Last nettvisning på nytt** (hjelper hvis UI er tom/frosset).
+- Bare macOS: `HomeCode`-meny -> **Last nettvisning på nytt** (hjelper hvis UI er tom/frosset).
 
 ---
 
@@ -57,28 +57,28 @@ Hvis skrivebordsappen krasjer ved oppstart, henger eller oppfører seg merkelig,
 
 Åpne den globale konfigurasjonsfilen og se etter en `plugin`-nøkkel.
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (eller `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (eldre installasjoner): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (eller `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (eldre installasjoner): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 Hvis du har konfigurert plugins, deaktiver dem midlertidig ved å fjerne nøkkelen eller sette den til en tom matrise:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### Sjekk plugin-kataloger
 
-OpenQCode kan også laste lokale plugins fra disken. Flytt disse midlertidig ut av veien (eller gi nytt navn til mappen) og start skrivebordsappen på nytt:
+HomeCode kan også laste lokale plugins fra disken. Flytt disse midlertidig ut av veien (eller gi nytt navn til mappen) og start skrivebordsappen på nytt:
 
 - **Globale plugins**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.config\homecode\plugins`
 - **Prosjektplugins** (bare hvis du bruker konfigurasjon per prosjekt)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 Hvis appen begynner å fungere igjen, aktiverer du plugins én om gangen for å finne ut hvilken som forårsaker problemet.
 
@@ -86,22 +86,22 @@ Hvis appen begynner å fungere igjen, aktiverer du plugins én om gangen for å 
 
 ### Tøm hurtigbufferen
 
-Hvis deaktivering av plugins ikke hjelper (eller en plugin-installasjon sitter fast), tøm hurtigbufferen slik at OpenQCode kan gjenoppbygge den.
+Hvis deaktivering av plugins ikke hjelper (eller en plugin-installasjon sitter fast), tøm hurtigbufferen slik at HomeCode kan gjenoppbygge den.
 
-1. Avslutt OpenQCode Desktop helt.
+1. Avslutt HomeCode Desktop helt.
 2. Slett hurtigbufferkatalogen:
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> lim inn `~/.cache/openqcode`
-- **Linux**: slett `~/.cache/openqcode` (eller kjør `rm -rf ~/.cache/openqcode`)
-- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.cache\openqcode`
+- **macOS**: Finder -> `Cmd+Shift+G` -> lim inn `~/.cache/homecode`
+- **Linux**: slett `~/.cache/homecode` (eller kjør `rm -rf ~/.cache/homecode`)
+- **Windows**: Trykk `WIN+R` og lim inn `%USERPROFILE%\.cache\homecode`
 
-3. Start OpenQCode Desktop på nytt.
+3. Start HomeCode Desktop på nytt.
 
 ---
 
 ### Løs problemer med servertilkobling
 
-OpenQCode Desktop kan enten starte sin egen lokale server (standard) eller koble til en server URL du har konfigurert.
+HomeCode Desktop kan enten starte sin egen lokale server (standard) eller koble til en server URL du har konfigurert.
 
 Hvis du ser en **"Tilkobling mislyktes"**-dialogboks (eller appen kommer aldri forbi splash-skjermen), se etter en tilpasset server URL.
 
@@ -111,7 +111,7 @@ Fra startskjermen klikker du på servernavnet (med statusprikken) for å åpne s
 
 #### Fjern `server.port` / `server.hostname` fra konfigurasjonen din
 
-Hvis `openqcode.json(c)` inneholder en `server`-del, fjern den midlertidig og start skrivebordsappen på nytt.
+Hvis `homecode.json(c)` inneholder en `server`-del, fjern den midlertidig og start skrivebordsappen på nytt.
 
 #### Sjekk miljøvariabler
 
@@ -132,21 +132,21 @@ På Linux kan noen Wayland-oppsett forårsake tomme vinduer eller kompositorfeil
 
 ### Windows: WebView2 kjøretid
 
-På Windows krever OpenQCode Desktop Microsoft Edge **WebView2 Runtime**. Hvis appen åpnes i et tomt vindu eller ikke starter, installer/oppdater WebView2 og prøv igjen.
+På Windows krever HomeCode Desktop Microsoft Edge **WebView2 Runtime**. Hvis appen åpnes i et tomt vindu eller ikke starter, installer/oppdater WebView2 og prøv igjen.
 
 ---
 
 ### Windows: Generelle ytelsesproblemer
 
-Hvis du opplever treg ytelse, problemer med filtilgang eller terminalproblemer på Windows, kan du prøve å bruke [WSL (Windows Subsystem for Linux)](/docs/windows-wsl). WSL gir et Linux-miljø som fungerer mer sømløst med funksjonene til OpenQCode.
+Hvis du opplever treg ytelse, problemer med filtilgang eller terminalproblemer på Windows, kan du prøve å bruke [WSL (Windows Subsystem for Linux)](/docs/windows-wsl). WSL gir et Linux-miljø som fungerer mer sømløst med funksjonene til HomeCode.
 
 ---
 
 ### Varsler vises ikke
 
-OpenQCode Desktop viser bare systemvarsler når:
+HomeCode Desktop viser bare systemvarsler når:
 
-- varsler er aktivert for OpenQCode i OS-innstillingene dine, og
+- varsler er aktivert for HomeCode i OS-innstillingene dine, og
 - appvinduet er ikke fokusert.
 
 ---
@@ -155,11 +155,11 @@ OpenQCode Desktop viser bare systemvarsler når:
 
 Hvis appen ikke starter og du ikke kan slette innstillingene fra UI-et, tilbakestill skrivebordsappens lagrede tilstand.
 
-1. Avslutt OpenQCode Desktop.
-2. Finn og slett disse filene (de finnes i OpenQCode Desktop-appens datakatalog):
+1. Avslutt HomeCode Desktop.
+2. Finn og slett disse filene (de finnes i HomeCode Desktop-appens datakatalog):
 
-- `openqcode.settings.dat` (stasjonær standardserver URL)
-- `openqcode.global.dat` og `openqcode.workspace.*.dat` (UI tilstand som nylige servere/prosjekter)
+- `homecode.settings.dat` (stasjonær standardserver URL)
+- `homecode.global.dat` og `homecode.workspace.*.dat` (UI tilstand som nylige servere/prosjekter)
 
 ---
 
@@ -177,21 +177,21 @@ Modeller skal refereres slik: `<providerId>/<modelId>`
 
 ### AI_APICallError og leverandørpakkeproblemer
 
-Hvis du støter på API-anropsfeil, kan dette skyldes utdaterte provider-pakker. OpenQCode installerer dynamisk provider-pakker (OpenAI, Anthropic, Google, etc.) etter behov og cacher dem lokalt.
+Hvis du støter på API-anropsfeil, kan dette skyldes utdaterte provider-pakker. HomeCode installerer dynamisk provider-pakker (OpenAI, Anthropic, Google, etc.) etter behov og cacher dem lokalt.
 
 For å løse problemer med leverandørpakke:
 
 1. Tøm leverandørens pakkebuffer:
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   På Windows, trykk `WIN+R` og slett: `%USERPROFILE%\.cache\openqcode`
+   På Windows, trykk `WIN+R` og slett: `%USERPROFILE%\.cache\homecode`
 
-2. Start OpenQCode på nytt for å installere de nyeste provider-pakkene på nytt
+2. Start HomeCode på nytt for å installere de nyeste provider-pakkene på nytt
 
-Dette vil tvinge OpenQCode til å laste ned de nyeste versjonene av provider-pakkene, som ofte løser kompatibilitetsproblemer med modellparametere og API-endringer.
+Dette vil tvinge HomeCode til å laste ned de nyeste versjonene av provider-pakkene, som ofte løser kompatibilitetsproblemer med modellparametere og API-endringer.
 
 ---
 
@@ -222,4 +222,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-OpenQCode vil oppdage om du bruker Wayland og foretrekker `wl-clipboard`, ellers vil den prøve å finne utklippstavle-verktøy i rekkefølgen: `xclip` og `xsel`.
+HomeCode vil oppdage om du bruker Wayland og foretrekker `wl-clipboard`, ellers vil den prøve å finne utklippstavle-verktøy i rekkefølgen: `xclip` og `xsel`.

@@ -1,66 +1,66 @@
 ---
 title: GitLab
-description: Koristite OpenQCode u GitLab problemima i zahtjevima za spajanje.
+description: Koristite HomeCode u GitLab problemima i zahtjevima za spajanje.
 ---
 
-OpenQCode se integriše sa vašim GitLab radnim tokom kroz vaš GitLab CI/CD cevovod ili sa GitLab Duo.
-U oba slučaja, OpenQCode će se pokrenuti na vašim GitLab pokretačima.
+HomeCode se integriše sa vašim GitLab radnim tokom kroz vaš GitLab CI/CD cevovod ili sa GitLab Duo.
+U oba slučaja, HomeCode će se pokrenuti na vašim GitLab pokretačima.
 
 ---
 
 ## GitLab CI
 
-OpenQCode radi u redovnom GitLab cevovodu. Možete ga ugraditi u cjevovod kao [CI komponenta](https://docs.gitlab.com/ee/ci/components/)
-Ovdje koristimo CI/CD komponentu kreiranu u zajednici za OpenQCode — [nagyv/gitlab-openqcode](https://gitlab.com/nagyv/gitlab-openqcode).
+HomeCode radi u redovnom GitLab cevovodu. Možete ga ugraditi u cjevovod kao [CI komponenta](https://docs.gitlab.com/ee/ci/components/)
+Ovdje koristimo CI/CD komponentu kreiranu u zajednici za HomeCode — [nagyv/gitlab-homecode](https://gitlab.com/nagyv/gitlab-homecode).
 
 ---
 
 ### Funkcije
 
-- **Koristite prilagođenu konfiguraciju po poslu**: Konfigurirajte OpenQCode s prilagođenim konfiguracijskim direktorijem, na primjer `./config/#custom-directory` da omogućite ili onemogućite funkcionalnost po OpenQCode pozivanju.
-- **Minimalno podešavanje**: CI komponenta postavlja OpenQCode u pozadini, samo trebate kreirati OpenQCode konfiguraciju i početnu prompt.
+- **Koristite prilagođenu konfiguraciju po poslu**: Konfigurirajte HomeCode s prilagođenim konfiguracijskim direktorijem, na primjer `./config/#custom-directory` da omogućite ili onemogućite funkcionalnost po HomeCode pozivanju.
+- **Minimalno podešavanje**: CI komponenta postavlja HomeCode u pozadini, samo trebate kreirati HomeCode konfiguraciju i početnu prompt.
 - **Fleksibilno**: CI komponenta podržava nekoliko ulaza za prilagođavanje njenog ponašanja
 
 ---
 
 ### Podešavanje
 
-1. Sačuvajte JSON za autentifikaciju OpenQCode kao CI varijable okruženja tipa datoteke pod **Postavke** > **CI/CD** > **Varijable**. Obavezno ih označite kao "Maskirane i skrivene".
+1. Sačuvajte JSON za autentifikaciju HomeCode kao CI varijable okruženja tipa datoteke pod **Postavke** > **CI/CD** > **Varijable**. Obavezno ih označite kao "Maskirane i skrivene".
 2. Dodajte sljedeće u svoju `.gitlab-ci.yml` datoteku.
 
 ```yaml title=".gitlab-ci.yml"
 include:
-  - component: $CI_SERVER_FQDN/nagyv/gitlab-openqcode/openqcode@2
+  - component: $CI_SERVER_FQDN/nagyv/gitlab-homecode/homecode@2
     inputs:
-      config_dir: ${CI_PROJECT_DIR}/openqcode-config
-      auth_json: $OPENCODE_AUTH_JSON # The variable name for your OpenQCode authentication JSON
+      config_dir: ${CI_PROJECT_DIR}/homecode-config
+      auth_json: $OPENCODE_AUTH_JSON # The variable name for your HomeCode authentication JSON
       command: optional-custom-command
       message: "Your prompt here"
 ```
 
-Za više unosa i slučajeva upotrebe [pogledajte dokumente docs](https://gitlab.com/explore/catalog/nagyv/gitlab-openqcode) za ovu komponentu.
+Za više unosa i slučajeva upotrebe [pogledajte dokumente docs](https://gitlab.com/explore/catalog/nagyv/gitlab-homecode) za ovu komponentu.
 
 ---
 
 ## GitLab Duo
 
-OpenQCode se integriše sa vašim GitLab tokovom rada.
-Spomenite `@openqcode` u komentaru i OpenQCode će izvršiti zadatke unutar vašeg GitLab CI cevovoda.
+HomeCode se integriše sa vašim GitLab tokovom rada.
+Spomenite `@homecode` u komentaru i HomeCode će izvršiti zadatke unutar vašeg GitLab CI cevovoda.
 
 ---
 
 ### Funkcije
 
-- **Problemi trijaže**: Zamolite OpenQCode da ispita problem i objasni vam ga.
-- **Popravi i implementiraj**: Zamolite OpenQCode da popravi problem ili implementira funkciju.
+- **Problemi trijaže**: Zamolite HomeCode da ispita problem i objasni vam ga.
+- **Popravi i implementiraj**: Zamolite HomeCode da popravi problem ili implementira funkciju.
   To će kreirati novu granu i pokrenuti zahtjev za spajanje s promjenama.
-- **Secure**: OpenQCode radi na vašim GitLab pokretačima.
+- **Secure**: HomeCode radi na vašim GitLab pokretačima.
 
 ---
 
 ### Podešavanje
 
-OpenQCode radi u vašem GitLab CI/CD cevovodu, evo šta će vam trebati da ga postavite:
+HomeCode radi u vašem GitLab CI/CD cevovodu, evo šta će vam trebati da ga postavite:
 :::tip
 Pogledajte [**GitLab dokumente**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) za ažurirane upute.
 :::
@@ -79,8 +79,8 @@ Pogledajte [**GitLab dokumente**](https://docs.gitlab.com/user/duo_agent_platfor
     ```yaml
     image: node:22-slim
     commands:
-      - echo "Installing openqcode"
-      - npm install --global openqcode-ai
+      - echo "Installing homecode"
+      - npm install --global homecode-ai
       - echo "Installing glab"
       - export GITLAB_TOKEN=$GITLAB_TOKEN_OPENCODE
       - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
@@ -88,10 +88,10 @@ Pogledajte [**GitLab dokumente**](https://docs.gitlab.com/user/duo_agent_platfor
       - apt-get install --yes glab
       - echo "Configuring glab"
       - echo $GITLAB_HOST
-      - echo "Creating OpenQCode auth configuration"
-      - mkdir --parents ~/.local/share/openqcode
+      - echo "Creating HomeCode auth configuration"
+      - mkdir --parents ~/.local/share/homecode
       - |
-        cat > ~/.local/share/openqcode/auth.json << EOF
+        cat > ~/.local/share/homecode/auth.json << EOF
         {
           "anthropic": {
             "type": "api",
@@ -100,13 +100,13 @@ Pogledajte [**GitLab dokumente**](https://docs.gitlab.com/user/duo_agent_platfor
         }
         EOF
       - echo "Configuring git"
-      - git config --global user.email "openqcode@gitlab.com"
-      - git config --global user.name "OpenQCode"
+      - git config --global user.email "homecode@gitlab.com"
+      - git config --global user.name "HomeCode"
       - echo "Testing glab"
       - glab issue list
-      - echo "Running OpenQCode"
+      - echo "Running HomeCode"
       - |
-        openqcode run "
+        homecode run "
         You are an AI assistant helping with GitLab operations.
 
         Context: $AI_FLOW_CONTEXT
@@ -155,34 +155,34 @@ Možete vidjeti [GitLab CLI agenti docs](https://docs.gitlab.com/user/duo_agent_
 
 ### Primjeri
 
-Evo nekoliko primjera kako možete koristiti OpenQCode u GitLab.
+Evo nekoliko primjera kako možete koristiti HomeCode u GitLab.
 :::tip
-Možete konfigurirati da koristite drugu frazu okidača od `@openqcode`.
+Možete konfigurirati da koristite drugu frazu okidača od `@homecode`.
 :::
 
 - **Objasnite problem**
   Dodajte ovaj komentar u izdanje GitLaba.
 
 ```
-  @openqcode explain this issue
+  @homecode explain this issue
 ```
 
-OpenQCode će pročitati problem i odgovoriti jasnim objašnjenjem.
+HomeCode će pročitati problem i odgovoriti jasnim objašnjenjem.
 
 - **Reši problem**
   U izdanju GitLaba recite:
 
 ```
-  @openqcode fix this
+  @homecode fix this
 ```
 
-OpenQCode će kreirati novu granu, implementirati promjene i otvoriti zahtjev za spajanje s promjenama.
+HomeCode će kreirati novu granu, implementirati promjene i otvoriti zahtjev za spajanje s promjenama.
 
 - **Pregledajte zahtjeve za pridruživanje**
   Ostavite sljedeći komentar na zahtjev za spajanje GitLab-a.
 
 ```
-  @openqcode review this merge request
+  @homecode review this merge request
 ```
 
-OpenQCode će pregledati zahtjev za spajanje i dati povratne informacije.
+HomeCode će pregledati zahtjev za spajanje i dati povratne informacije.

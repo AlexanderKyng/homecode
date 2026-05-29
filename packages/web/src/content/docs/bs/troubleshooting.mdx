@@ -3,7 +3,7 @@ title: Rješavanje problema
 description: Uobičajeni problemi i kako ih riješiti.
 ---
 
-Da biste otklonili probleme s OpenQCode, počnite provjeravanjem dnevnika i lokalnih podataka koje pohranjuje na disku.
+Da biste otklonili probleme s HomeCode, počnite provjeravanjem dnevnika i lokalnih podataka koje pohranjuje na disku.
 
 ---
 
@@ -11,21 +11,21 @@ Da biste otklonili probleme s OpenQCode, počnite provjeravanjem dnevnika i loka
 
 Log fajlovi se pišu na:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\homecode\log`
 
 Datoteke evidencije se imenuju vremenskim oznakama (npr. `2025-01-09T123456.log`) i čuvaju se najnovijih 10 datoteka dnevnika.
 
-Možete postaviti nivo dnevnika pomoću opcije komandne linije `--log-level` da biste dobili detaljnije informacije o otklanjanju grešaka. Na primjer, `openqcode --log-level DEBUG`.
+Možete postaviti nivo dnevnika pomoću opcije komandne linije `--log-level` da biste dobili detaljnije informacije o otklanjanju grešaka. Na primjer, `homecode --log-level DEBUG`.
 
 ---
 
 ## Pohrana
 
-OpenQCode pohranjuje podatke o sesiji i druge podatke aplikacije na disku na:
+HomeCode pohranjuje podatke o sesiji i druge podatke aplikacije na disku na:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.local\share\homecode`
 
 Ovaj direktorij sadrži:
 
@@ -39,13 +39,13 @@ Ovaj direktorij sadrži:
 
 ## Desktop aplikacija
 
-OpenQCode Desktop pokreće lokalni OpenQCode server (`openqcode-cli` sidecar) u pozadini. Većina problema je uzrokovana nedostatkom dodatka, oštećenom keš memorijom ili lošim postavkama servera.
+HomeCode Desktop pokreće lokalni HomeCode server (`homecode-cli` sidecar) u pozadini. Većina problema je uzrokovana nedostatkom dodatka, oštećenom keš memorijom ili lošim postavkama servera.
 
 ### Brze provjere
 
 - Potpuno zatvorite i ponovo pokrenite aplikaciju.
 - Ako aplikacija prikaže ekran s greškom, kliknite na **Restart** i kopirajte detalje o grešci.
-- samo za macOS: `OpenQCode` meni -> **Ponovo učitaj Webview** (pomaže ako je korisnički interfejs prazan/zamrznut).
+- samo za macOS: `HomeCode` meni -> **Ponovo učitaj Webview** (pomaže ako je korisnički interfejs prazan/zamrznut).
 
 ---
 
@@ -57,28 +57,28 @@ Ako se desktop aplikacija ruši pri pokretanju, visi ili se čudno ponaša, poč
 
 Otvorite svoju globalnu konfiguracijsku datoteku i potražite ključ `plugin`.
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (ili `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (starije instalacije): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (ili `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (starije instalacije): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 Ako imate konfigurirane dodatke, privremeno ih onemogućite uklanjanjem ključa ili postavljanjem na prazan niz:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### Provjera direktorija dodataka
 
-OpenQCode također može učitati lokalne dodatke s diska. Privremeno ih maknite s puta (ili preimenujte folder) i ponovo pokrenite desktop aplikaciju:
+HomeCode također može učitati lokalne dodatke s diska. Privremeno ih maknite s puta (ili preimenujte folder) i ponovo pokrenite desktop aplikaciju:
 
 - **Globalni dodaci**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.config\homecode\plugins`
 - **Projektni dodaci** (samo ako koristite konfiguraciju po projektu)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 Ako aplikacija ponovo počne raditi, ponovo omogućite dodatke jedan po jedan kako biste otkrili koji od njih uzrokuje problem.
 
@@ -86,22 +86,22 @@ Ako aplikacija ponovo počne raditi, ponovo omogućite dodatke jedan po jedan ka
 
 ### Brisanje keš memorije
 
-Ako onemogućavanje dodataka ne pomogne (ili se instalacija dodatka zaglavila), obrišite keš memoriju kako bi ga OpenQCode mogao ponovo izgraditi.
+Ako onemogućavanje dodataka ne pomogne (ili se instalacija dodatka zaglavila), obrišite keš memoriju kako bi ga HomeCode mogao ponovo izgraditi.
 
-1. Potpuno zatvorite OpenQCode Desktop.
+1. Potpuno zatvorite HomeCode Desktop.
 2. Izbrišite keš direktorij:
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> zalijepi `~/.cache/openqcode`
-- **Linux**: obrišite `~/.cache/openqcode` (ili pokrenite `rm -rf ~/.cache/openqcode`)
-- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.cache\openqcode`
+- **macOS**: Finder -> `Cmd+Shift+G` -> zalijepi `~/.cache/homecode`
+- **Linux**: obrišite `~/.cache/homecode` (ili pokrenite `rm -rf ~/.cache/homecode`)
+- **Windows**: Pritisnite `WIN+R` i zalijepite `%USERPROFILE%\.cache\homecode`
 
-3. Ponovo pokrenite OpenQCode Desktop.
+3. Ponovo pokrenite HomeCode Desktop.
 
 ---
 
 ### Rješavanje problema sa vezom na serveru
 
-OpenQCode Desktop može ili pokrenuti svoj lokalni server (podrazumevano) ili se povezati na URL servera koji ste konfigurisali.
+HomeCode Desktop može ili pokrenuti svoj lokalni server (podrazumevano) ili se povezati na URL servera koji ste konfigurisali.
 
 Ako vidite dijaloški okvir **"Povezivanje nije uspjelo"** (ili aplikacija nikada ne prođe kroz početni ekran), provjerite da li postoji prilagođeni URL servera.
 
@@ -111,7 +111,7 @@ Na početnom ekranu kliknite na ime servera (sa tačkom statusa) da otvorite bir
 
 #### Uklonite `server.port` / `server.hostname` iz vaše konfiguracije
 
-Ako vaš `openqcode.json(c)` sadrži odjeljak `server`, privremeno ga uklonite i ponovo pokrenite desktop aplikaciju.
+Ako vaš `homecode.json(c)` sadrži odjeljak `server`, privremeno ga uklonite i ponovo pokrenite desktop aplikaciju.
 
 #### Provjerite varijable okruženja
 
@@ -132,21 +132,21 @@ Na Linuxu, neka podešavanja Waylanda mogu uzrokovati prazne prozore ili greške
 
 ### Windows: WebView2 izvršno okruženje
 
-Na Windows-u, OpenQCode Desktop zahtijeva Microsoft Edge **WebView2 Runtime**. Ako se aplikacija otvori u praznom prozoru ili se ne pokrene, instalirajte/ažurirajte WebView2 i pokušajte ponovo.
+Na Windows-u, HomeCode Desktop zahtijeva Microsoft Edge **WebView2 Runtime**. Ako se aplikacija otvori u praznom prozoru ili se ne pokrene, instalirajte/ažurirajte WebView2 i pokušajte ponovo.
 
 ---
 
 ### Windows: Opšti problemi sa performansama
 
-Ako imate spore performanse, probleme s pristupom datotekama ili probleme s terminalom na Windows-u, pokušajte koristiti [WSL (Windows podsistem za Linux)](/docs/windows-wsl). WSL pruža Linux okruženje koje radi neprimetnije sa OpenQCode karakteristikama.
+Ako imate spore performanse, probleme s pristupom datotekama ili probleme s terminalom na Windows-u, pokušajte koristiti [WSL (Windows podsistem za Linux)](/docs/windows-wsl). WSL pruža Linux okruženje koje radi neprimetnije sa HomeCode karakteristikama.
 
 ---
 
 ### Obavještenja se ne prikazuju
 
-OpenQCode Desktop prikazuje sistemska obavještenja samo kada:
+HomeCode Desktop prikazuje sistemska obavještenja samo kada:
 
-- obavještenja su omogućena za OpenQCode u postavkama vašeg OS-a, i
+- obavještenja su omogućena za HomeCode u postavkama vašeg OS-a, i
 - prozor aplikacije nije fokusiran.
 
 ---
@@ -155,11 +155,11 @@ OpenQCode Desktop prikazuje sistemska obavještenja samo kada:
 
 Ako se aplikacija ne pokrene i ne možete izbrisati postavke unutar korisničkog sučelja, resetirajte spremljeno stanje desktop aplikacije.
 
-1. Zatvorite OpenQCode Desktop.
-2. Pronađite i izbrišite ove datoteke (oni žive u direktoriju podataka OpenQCode Desktop aplikacije):
+1. Zatvorite HomeCode Desktop.
+2. Pronađite i izbrišite ove datoteke (oni žive u direktoriju podataka HomeCode Desktop aplikacije):
 
-- `openqcode.settings.dat` (URL zadanog servera za desktop)
-- `openqcode.global.dat` i `openqcode.workspace.*.dat` (stanje korisničkog interfejsa poput nedavnih servera/projekata)
+- `homecode.settings.dat` (URL zadanog servera za desktop)
+- `homecode.global.dat` i `homecode.workspace.*.dat` (stanje korisničkog interfejsa poput nedavnih servera/projekata)
 
 Da brzo pronađete direktorij:
 
@@ -171,13 +171,13 @@ Da brzo pronađete direktorij:
 
 ## Traženje pomoći
 
-Ako imate problema s OpenQCode:
+Ako imate problema s HomeCode:
 
 1. **Prijavite probleme na GitHub**
 
    Najbolji način da prijavite greške ili zatražite funkcije je putem našeg GitHub spremišta:
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    Prije kreiranja novog problema, pretražite postojeće probleme da vidite je li vaš problem već prijavljen.
 
@@ -185,7 +185,7 @@ Ako imate problema s OpenQCode:
 
    Za pomoć u stvarnom vremenu i diskusiju u zajednici, pridružite se našem Discord serveru:
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ Evo nekih uobičajenih problema i kako ih riješiti.
 
 ---
 
-### OpenQCode se ne pokreće
+### HomeCode se ne pokreće
 
 1. Provjerite dnevnike za poruke o greškama
 2. Pokušajte pokrenuti sa `--print-logs` da vidite izlaz u terminalu
-3. Uvjerite se da imate najnoviju verziju sa `openqcode upgrade`
+3. Uvjerite se da imate najnoviju verziju sa `homecode upgrade`
 
 ---
 
@@ -225,9 +225,9 @@ primjeri:
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-Da saznate kojim modelima imate pristup, pokrenite `openqcode models`
+Da saznate kojim modelima imate pristup, pokrenite `homecode models`
 
 ---
 
@@ -241,10 +241,10 @@ Da biste ovo riješili:
 2. Ako se problem nastavi, pokušajte obrisati pohranjenu konfiguraciju:
 
 ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
 ```
 
-Na Windows-u pritisnite `WIN+R` i izbrišite: `%USERPROFILE%\.local\share\openqcode`
+Na Windows-u pritisnite `WIN+R` i izbrišite: `%USERPROFILE%\.local\share\homecode`
 
 3. Ponovo izvršite autentifikaciju kod svog provajdera koristeći naredbu `/connect` u TUI.
 
@@ -252,21 +252,21 @@ Na Windows-u pritisnite `WIN+R` i izbrišite: `%USERPROFILE%\.local\share\openqc
 
 ### AI_APICallError i problemi sa paketom dobavljača
 
-Ako naiđete na greške API poziva, to može biti zbog zastarjelih paketa dobavljača. OpenQCode dinamički instalira pakete dobavljača (OpenAI, Anthropic, Google, itd.) po potrebi i kešira ih lokalno.
+Ako naiđete na greške API poziva, to može biti zbog zastarjelih paketa dobavljača. HomeCode dinamički instalira pakete dobavljača (OpenAI, Anthropic, Google, itd.) po potrebi i kešira ih lokalno.
 
 Da biste riješili probleme s paketom dobavljača:
 
 1. Obrišite keš paketa provajdera:
 
 ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
 ```
 
-Na Windows-u pritisnite `WIN+R` i izbrišite: `%USERPROFILE%\.cache\openqcode`
+Na Windows-u pritisnite `WIN+R` i izbrišite: `%USERPROFILE%\.cache\homecode`
 
-2. Ponovo pokrenite OpenQCode da ponovo instalirate najnovije pakete dobavljača
+2. Ponovo pokrenite HomeCode da ponovo instalirate najnovije pakete dobavljača
 
-Ovo će prisiliti OpenQCode da preuzme najnovije verzije paketa dobavljača, što često rješava probleme kompatibilnosti s parametrima modela i promjenama API-ja.
+Ovo će prisiliti HomeCode da preuzme najnovije verzije paketa dobavljača, što često rješava probleme kompatibilnosti s parametrima modela i promjenama API-ja.
 
 ---
 
@@ -297,4 +297,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-OpenQCode će otkriti da li koristite Wayland i preferirate `wl-clipboard`, u suprotnom će pokušati pronaći alate međuspremnika po redoslijedu: `xclip` i `xsel`.
+HomeCode će otkriti da li koristite Wayland i preferirate `wl-clipboard`, u suprotnom će pokušati pronaći alate međuspremnika po redoslijedu: `xclip` i `xsel`.

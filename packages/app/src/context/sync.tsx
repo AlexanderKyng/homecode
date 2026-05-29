@@ -1,7 +1,7 @@
-import { Binary } from "@openqcode-ai/core/util/binary"
+import { Binary } from "@homecode-ai/core/util/binary"
 import { useServerSync } from "./server-sync"
 import { useSDK } from "./sdk"
-import type { Message, Part } from "@openqcode-ai/sdk/v2/client"
+import type { Message, Part } from "@homecode-ai/sdk/v2/client"
 
 const SKIP_PARTS = new Set(["patch", "step-start", "step-finish"])
 

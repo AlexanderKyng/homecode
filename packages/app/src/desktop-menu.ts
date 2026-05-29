@@ -72,7 +72,7 @@ export type DesktopMenu = {
 export const DESKTOP_MENU: DesktopMenu[] = [
   {
     id: "app",
-    label: "OpenQCode",
+    label: "HomeCode",
     platforms: ["macos"],
     items: [
       { type: "item", role: "about" },
@@ -200,19 +200,19 @@ export const DESKTOP_MENU: DesktopMenu[] = [
     id: "help",
     label: "Help",
     items: [
-      { type: "item", label: "OpenQCode Documentation", href: "https://openqcode.ai/docs" },
-      { type: "item", label: "Support Forum", href: "https://discord.com/invite/openqcode" },
+      { type: "item", label: "HomeCode Documentation", href: "https://homecode.ai/docs" },
+      { type: "item", label: "Support Forum", href: "https://discord.com/invite/homecode" },
       { type: "item", label: "Export Logs...", command: "logs.export" },
       { type: "separator" },
       {
         type: "item",
         label: "Share Feedback",
-        href: "https://github.com/anomalyco/openqcode/issues/new?template=feature_request.yml",
+        href: "https://github.com/anomalyco/homecode/issues/new?template=feature_request.yml",
       },
       {
         type: "item",
         label: "Report a Bug",
-        href: "https://github.com/anomalyco/openqcode/issues/new?template=bug_report.yml",
+        href: "https://github.com/anomalyco/homecode/issues/new?template=bug_report.yml",
       },
     ],
   },

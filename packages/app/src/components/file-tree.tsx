@@ -1,8 +1,8 @@
 import { useFile } from "@/context/file"
 import { encodeFilePath } from "@/context/file/path"
-import { Collapsible } from "@openqcode-ai/ui/collapsible"
-import { FileIcon } from "@openqcode-ai/ui/file-icon"
-import { Icon } from "@openqcode-ai/ui/icon"
+import { Collapsible } from "@homecode-ai/ui/collapsible"
+import { FileIcon } from "@homecode-ai/ui/file-icon"
+import { Icon } from "@homecode-ai/ui/icon"
 import {
   createEffect,
   createMemo,
@@ -17,7 +17,7 @@ import {
   type ParentProps,
 } from "solid-js"
 import { Dynamic } from "solid-js/web"
-import type { FileNode } from "@openqcode-ai/sdk/v2"
+import type { FileNode } from "@homecode-ai/sdk/v2"
 
 const MAX_DEPTH = 128
 

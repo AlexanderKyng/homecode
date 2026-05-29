@@ -21,7 +21,7 @@ export interface MockServerConfig {
   events?: () => unknown[]
 }
 
-export async function mockOpenQCodeServer(page: Page, config: MockServerConfig) {
+export async function mockHomeCodeServer(page: Page, config: MockServerConfig) {
   const staticRoutes: Record<string, unknown> = {
     "/provider": config.provider,
     "/path": {
@@ -29,7 +29,7 @@ export async function mockOpenQCodeServer(page: Page, config: MockServerConfig) 
       config: config.directory,
       worktree: config.directory,
       directory: config.directory,
-      home: "C:/OpenQCode",
+      home: "C:/HomeCode",
     },
     "/project": [config.project],
     "/project/current": config.project,

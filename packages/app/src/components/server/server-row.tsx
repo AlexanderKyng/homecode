@@ -1,4 +1,4 @@
-import { Tooltip } from "@openqcode-ai/ui/tooltip"
+import { Tooltip } from "@homecode-ai/ui/tooltip"
 import { createResizeObserver } from "@solid-primitives/resize-observer"
 import {
   children,

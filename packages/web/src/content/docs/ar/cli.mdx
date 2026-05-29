@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: أوامر وخيارات CLI في OpenQCode.
+description: أوامر وخيارات CLI في HomeCode.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-يبدأ CLI الخاص بـ OpenQCode افتراضيا واجهة [TUI](/docs/tui) عند تشغيله بدون أي معاملات.
+يبدأ CLI الخاص بـ HomeCode افتراضيا واجهة [TUI](/docs/tui) عند تشغيله بدون أي معاملات.
 
 ```bash
-openqcode
+homecode
 ```
 
-كما يدعم أيضا أوامر موثقة في هذه الصفحة، ما يتيح لك التفاعل مع OpenQCode برمجيا.
+كما يدعم أيضا أوامر موثقة في هذه الصفحة، ما يتيح لك التفاعل مع HomeCode برمجيا.
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-بدء واجهة المستخدم terminal (TUI) الخاصة بـ OpenQCode.
+بدء واجهة المستخدم terminal (TUI) الخاصة بـ HomeCode.
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### الخيارات
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## الأوامر
 
-يتضمن CLI الخاص بـ OpenQCode أيضا الأوامر التالية.
+يتضمن CLI الخاص بـ HomeCode أيضا الأوامر التالية.
 
 ---
 
 ### agent
 
-إدارة وكلاء OpenQCode.
+إدارة وكلاء HomeCode.
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-إرفاق terminal بخادم الواجهة الخلفية لـ OpenQCode قيد التشغيل بالفعل، والذي تم تشغيله عبر الأمرين `serve` أو `web`.
+إرفاق terminal بخادم الواجهة الخلفية لـ HomeCode قيد التشغيل بالفعل، والذي تم تشغيله عبر الأمرين `serve` أو `web`.
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-يتيح ذلك استخدام واجهة TUI مع واجهة خلفية لـ OpenQCode تعمل عن بعد. على سبيل المثال:
+يتيح ذلك استخدام واجهة TUI مع واجهة خلفية لـ HomeCode تعمل عن بعد. على سبيل المثال:
 
 ```bash
 # ابدأ خادم الواجهة الخلفية للوصول عبر الويب/الجوال
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # في محطة طرفية (terminal) أخرى، اربط TUI بالواجهة الخلفية قيد التشغيل
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### الرايات
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s`    | معرّف الجلسة للمتابعة                                                             |
 | <nobr><code>{"--fork"}</code></nobr>     |         | تفريع الجلسة عند المتابعة (استخدمه مع `--continue` أو `--session`)                |
 | <nobr><code>{"--password"}</code></nobr> | `-p`    | كلمة مرور المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_PASSWORD`)                |
-| <nobr><code>{"--username"}</code></nobr> | `-u`    | اسم مستخدم المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_USERNAME` أو `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u`    | اسم مستخدم المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_USERNAME` أو `homecode`) |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 إنشاء وكيل جديد بإعدادات مخصصة.
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 سيرشدك هذا الأمر خلال إنشاء وكيل جديد مع موجه نظام مخصص وإعدادات الأدوات.
@@ -106,7 +106,7 @@ openqcode agent create
 عرض جميع الوكلاء المتاحين.
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 أمر لإدارة بيانات الاعتماد وتسجيل الدخول لمزودي الخدمة.
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-يعتمد OpenQCode على قائمة المزودين في [Models.dev](https://models.dev)، لذا يمكنك استخدام `openqcode auth login` لتهيئة مفاتيح API لأي مزود ترغب باستخدامه. يتم حفظ ذلك في `~/.local/share/openqcode/auth.json`.
+يعتمد HomeCode على قائمة المزودين في [Models.dev](https://models.dev)، لذا يمكنك استخدام `homecode auth login` لتهيئة مفاتيح API لأي مزود ترغب باستخدامه. يتم حفظ ذلك في `~/.local/share/homecode/auth.json`.
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-عند تشغيل OpenQCode يقوم بتحميل المزودين من ملف بيانات الاعتماد، وكذلك أي مفاتيح معرّفة في متغيرات البيئة لديك أو في ملف `.env` ضمن مشروعك.
+عند تشغيل HomeCode يقوم بتحميل المزودين من ملف بيانات الاعتماد، وكذلك أي مفاتيح معرّفة في متغيرات البيئة لديك أو في ملف `.env` ضمن مشروعك.
 
 ---
 
@@ -138,13 +138,13 @@ openqcode auth login
 يسرد جميع المزودين الذين تم توثيقهم كما هم محفوظون في ملف بيانات الاعتماد.
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 أو النسخة المختصرة.
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 يسجلك خارج مزود عبر حذفه من ملف بيانات الاعتماد.
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 إدارة وكيل GitHub لأتمتة المستودع.
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 تثبيت وكيل GitHub في مستودعك.
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 يقوم ذلك بإعداد سير عمل GitHub Actions اللازم ويرشدك خلال عملية التهيئة. [اعرف المزيد](/docs/github).
@@ -186,7 +186,7 @@ openqcode github install
 تشغيل وكيل GitHub. يُستخدم هذا عادة ضمن GitHub Actions.
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### الرايات
@@ -203,7 +203,7 @@ openqcode github run
 إدارة خوادم Model Context Protocol.
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 إضافة خادم MCP إلى تهيئتك.
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 سيرشدك هذا الأمر خلال إضافة خادم MCP محلي أو بعيد.
@@ -225,13 +225,13 @@ openqcode mcp add
 عرض جميع خوادم MCP المُهيأة وحالة اتصالها.
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 أو استخدم النسخة المختصرة.
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 إجراء المصادقة مع خادم MCP يدعم OAuth.
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 إذا لم تُحدِّد اسم خادم، فسيُطلب منك الاختيار من الخوادم المتاحة الداعمة لـ OAuth.
@@ -249,13 +249,13 @@ openqcode mcp auth [name]
 يمكنك أيضا عرض الخوادم الداعمة لـ OAuth وحالة المصادقة الخاصة بها.
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 أو استخدم النسخة المختصرة.
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 إزالة بيانات اعتماد OAuth لخادم MCP.
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 تشخيص مشاكل اتصال OAuth لخادم MCP.
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 عرض جميع النماذج المتاحة من المزودين المُهيأين.
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 يعرض هذا الأمر جميع النماذج المتاحة عبر المزودين المُهيأين لديك بصيغة `provider/model`.
@@ -295,7 +295,7 @@ openqcode models [provider]
 يمكنك اختياريا تمرير معرّف مزود لتصفية النماذج حسب ذلك المزود.
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### الرايات
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | تحديث ذاكرة التخزين المؤقت للنماذج من models.dev              |
 | <nobr><code>{"--verbose"}</code></nobr> | استخدام مخرجات أكثر تفصيلا للنماذج (تشمل بيانات مثل التكاليف) |
 
-استخدم الراية `--refresh` لتحديث قائمة النماذج المخزنة مؤقتا. يفيد ذلك عند إضافة نماذج جديدة إلى مزود وتريد رؤيتها في OpenQCode.
+استخدم الراية `--refresh` لتحديث قائمة النماذج المخزنة مؤقتا. يفيد ذلك عند إضافة نماذج جديدة إلى مزود وتريد رؤيتها في HomeCode.
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-تشغيل openqcode في وضع غير تفاعلي عبر تمرير موجه مباشرة.
+تشغيل homecode في وضع غير تفاعلي عبر تمرير موجه مباشرة.
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 هذا مفيد للبرمجة النصية والأتمتة، أو عندما تريد إجابة سريعة دون تشغيل واجهة TUI كاملة. على سبيل المثال.
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-يمكنك أيضا الإرفاق بمثيل `openqcode serve` قيد التشغيل لتجنّب زمن الإقلاع البارد لخوادم MCP في كل تشغيل:
+يمكنك أيضا الإرفاق بمثيل `homecode serve` قيد التشغيل لتجنّب زمن الإقلاع البارد لخوادم MCP في كل تشغيل:
 
 ```bash
 # ابدأ خادمًا بلا واجهة في محطة طرفية واحدة
-openqcode serve
+homecode serve
 
 # في محطة طرفية أخرى، شغّل الأوامر التي ترتبط به
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### الرايات
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f`    | ملف/ملفات لإرفاقها بالرسالة                                                       |
 | <nobr><code>{"--format"}</code></nobr>   |         | التنسيق: default (منسق) أو json (أحداث JSON خام)                                  |
 | <nobr><code>{"--title"}</code></nobr>    |         | عنوان للجلسة (يستخدم موجهًا مقتطعًا إن لم تُحدَّد قيمة)                           |
-| <nobr><code>{"--attach"}</code></nobr>   |         | الإرفاق بخادم openqcode قيد التشغيل (مثل http://localhost:4096)                    |
+| <nobr><code>{"--attach"}</code></nobr>   |         | الإرفاق بخادم homecode قيد التشغيل (مثل http://localhost:4096)                    |
 | <nobr><code>{"--password"}</code></nobr> | `-p`    | كلمة مرور المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_PASSWORD`)                |
-| <nobr><code>{"--username"}</code></nobr> | `-u`    | اسم مستخدم المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_USERNAME` أو `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u`    | اسم مستخدم المصادقة الأساسية (الافتراضي `OPENCODE_SERVER_USERNAME` أو `homecode`) |
 | <nobr><code>{"--dir"}</code></nobr>      |         | دليل التشغيل، أو المسار على الخادم البعيد عند الإرفاق                             |
 | <nobr><code>{"--variant"}</code></nobr>  |         | متغير النموذج (جهد الاستدلال الخاص بالمزود)                                       |
 | <nobr><code>{"--thinking"}</code></nobr> |         | عرض كتل التفكير                                                                   |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-بدء خادم OpenQCode بدون واجهة للوصول عبر API. راجع [توثيق الخادم](/docs/server) لواجهة HTTP الكاملة.
+بدء خادم HomeCode بدون واجهة للوصول عبر API. راجع [توثيق الخادم](/docs/server) لواجهة HTTP الكاملة.
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-يشغّل هذا خادم HTTP يوفّر وصولا عبر API لوظائف openqcode دون واجهة TUI. اضبط `OPENCODE_SERVER_PASSWORD` لتفعيل مصادقة HTTP الأساسية (اسم المستخدم الافتراضي `openqcode`).
+يشغّل هذا خادم HTTP يوفّر وصولا عبر API لوظائف homecode دون واجهة TUI. اضبط `OPENCODE_SERVER_PASSWORD` لتفعيل مصادقة HTTP الأساسية (اسم المستخدم الافتراضي `homecode`).
 
 #### الرايات
 
@@ -384,20 +384,20 @@ openqcode serve
 
 ### session
 
-إدارة جلسات OpenQCode.
+إدارة جلسات HomeCode.
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-عرض جميع جلسات OpenQCode.
+عرض جميع جلسات HomeCode.
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### الرايات
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-عرض إحصاءات استخدام الرموز والتكلفة لجلسات OpenQCode لديك.
+عرض إحصاءات استخدام الرموز والتكلفة لجلسات HomeCode لديك.
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### الرايات
@@ -433,7 +433,7 @@ openqcode stats
 تصدير بيانات الجلسة بصيغة JSON.
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 إذا لم تُقدّم معرّف جلسة، فسيُطلب منك الاختيار من الجلسات المتاحة.
@@ -442,30 +442,30 @@ openqcode export [sessionID]
 
 ### import
 
-استيراد بيانات الجلسة من ملف JSON أو رابط مشاركة OpenQCode.
+استيراد بيانات الجلسة من ملف JSON أو رابط مشاركة HomeCode.
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-يمكنك الاستيراد من ملف محلي أو من رابط مشاركة OpenQCode.
+يمكنك الاستيراد من ملف محلي أو من رابط مشاركة HomeCode.
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-بدء خادم OpenQCode بدون واجهة مع واجهة ويب.
+بدء خادم HomeCode بدون واجهة مع واجهة ويب.
 
 ```bash
-openqcode web
+homecode web
 ```
 
-يشغّل هذا خادم HTTP ويفتح متصفح ويب للوصول إلى OpenQCode عبر واجهة ويب. اضبط `OPENCODE_SERVER_PASSWORD` لتفعيل مصادقة HTTP الأساسية (اسم المستخدم الافتراضي `openqcode`).
+يشغّل هذا خادم HTTP ويفتح متصفح ويب للوصول إلى HomeCode عبر واجهة ويب. اضبط `OPENCODE_SERVER_PASSWORD` لتفعيل مصادقة HTTP الأساسية (اسم المستخدم الافتراضي `homecode`).
 
 #### الرايات
 
@@ -483,7 +483,7 @@ openqcode web
 بدء خادم ACP (Agent Client Protocol).
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 يشغّل هذا الأمر خادم ACP يتواصل عبر stdin/stdout باستخدام nd-JSON.
@@ -500,10 +500,10 @@ openqcode acp
 
 ### uninstall
 
-إلغاء تثبيت OpenQCode وإزالة جميع الملفات ذات الصلة.
+إلغاء تثبيت HomeCode وإزالة جميع الملفات ذات الصلة.
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### الرايات
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-تحديث openqcode إلى أحدث إصدار أو إلى إصدار محدد.
+تحديث homecode إلى أحدث إصدار أو إلى إصدار محدد.
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 للترقية إلى أحدث إصدار.
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 للترقية إلى إصدار محدد.
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### الرايات
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## الخيارات العامة
 
-يدعم سطر أوامر openqcode الخيارات العامة التالية.
+يدعم سطر أوامر homecode الخيارات العامة التالية.
 
 | الراية                                     | المختصر | الوصف                                  |
 | ------------------------------------------ | ------- | -------------------------------------- |
@@ -560,7 +560,7 @@ openqcode upgrade v0.1.48
 
 ## متغيرات البيئة
 
-يمكن تهيئة OpenQCode باستخدام متغيرات البيئة.
+يمكن تهيئة HomeCode باستخدام متغيرات البيئة.
 
 | المتغير                               | النوع   | الوصف                                                     |
 | ------------------------------------- | ------- | --------------------------------------------------------- |
@@ -585,7 +585,7 @@ openqcode upgrade v0.1.48
 | `OPENCODE_CLIENT`                     | string  | معرّف العميل (الافتراضي `cli`)                            |
 | `OPENCODE_ENABLE_EXA`                 | boolean | تفعيل أدوات بحث الويب من Exa                              |
 | `OPENCODE_SERVER_PASSWORD`            | string  | تفعيل المصادقة الأساسية لخادمي `serve`/`web`              |
-| `OPENCODE_SERVER_USERNAME`            | string  | تجاوز اسم مستخدم المصادقة الأساسية (الافتراضي `openqcode`) |
+| `OPENCODE_SERVER_USERNAME`            | string  | تجاوز اسم مستخدم المصادقة الأساسية (الافتراضي `homecode`) |
 | `OPENCODE_MODELS_URL`                 | string  | رابط مخصص لجلب تهيئة النماذج                              |
 
 ---

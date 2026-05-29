@@ -1,4 +1,4 @@
-import type { UserMessage } from "@openqcode-ai/sdk/v2"
+import type { UserMessage } from "@homecode-ai/sdk/v2"
 
 type Local = {
   session: {

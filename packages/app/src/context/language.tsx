@@ -1,10 +1,10 @@
 import * as i18n from "@solid-primitives/i18n"
 import { createEffect, createMemo, createResource } from "solid-js"
 import { createStore } from "solid-js/store"
-import { createSimpleContext } from "@openqcode-ai/ui/context"
+import { createSimpleContext } from "@homecode-ai/ui/context"
 import { Persist, persisted } from "@/utils/persist"
 import { dict as en } from "@/i18n/en"
-import { dict as uiEn } from "@openqcode-ai/ui/i18n/en"
+import { dict as uiEn } from "@homecode-ai/ui/i18n/en"
 
 export type Locale =
   | "en"
@@ -104,23 +104,23 @@ const merge = (app: Promise<Source>, ui: Promise<Source>) =>
   Promise.all([app, ui]).then(([a, b]) => ({ ...base, ...i18n.flatten({ ...a.dict, ...b.dict }) }) as Dictionary)
 
 const loaders: Record<Exclude<Locale, "en">, () => Promise<Dictionary>> = {
-  zh: () => merge(import("@/i18n/zh"), import("@openqcode-ai/ui/i18n/zh")),
-  zht: () => merge(import("@/i18n/zht"), import("@openqcode-ai/ui/i18n/zht")),
-  ko: () => merge(import("@/i18n/ko"), import("@openqcode-ai/ui/i18n/ko")),
-  de: () => merge(import("@/i18n/de"), import("@openqcode-ai/ui/i18n/de")),
-  es: () => merge(import("@/i18n/es"), import("@openqcode-ai/ui/i18n/es")),
-  fr: () => merge(import("@/i18n/fr"), import("@openqcode-ai/ui/i18n/fr")),
-  da: () => merge(import("@/i18n/da"), import("@openqcode-ai/ui/i18n/da")),
-  ja: () => merge(import("@/i18n/ja"), import("@openqcode-ai/ui/i18n/ja")),
-  pl: () => merge(import("@/i18n/pl"), import("@openqcode-ai/ui/i18n/pl")),
-  ru: () => merge(import("@/i18n/ru"), import("@openqcode-ai/ui/i18n/ru")),
-  uk: () => merge(import("@/i18n/uk"), import("@openqcode-ai/ui/i18n/uk")),
-  ar: () => merge(import("@/i18n/ar"), import("@openqcode-ai/ui/i18n/ar")),
-  no: () => merge(import("@/i18n/no"), import("@openqcode-ai/ui/i18n/no")),
-  br: () => merge(import("@/i18n/br"), import("@openqcode-ai/ui/i18n/br")),
-  th: () => merge(import("@/i18n/th"), import("@openqcode-ai/ui/i18n/th")),
-  bs: () => merge(import("@/i18n/bs"), import("@openqcode-ai/ui/i18n/bs")),
-  tr: () => merge(import("@/i18n/tr"), import("@openqcode-ai/ui/i18n/tr")),
+  zh: () => merge(import("@/i18n/zh"), import("@homecode-ai/ui/i18n/zh")),
+  zht: () => merge(import("@/i18n/zht"), import("@homecode-ai/ui/i18n/zht")),
+  ko: () => merge(import("@/i18n/ko"), import("@homecode-ai/ui/i18n/ko")),
+  de: () => merge(import("@/i18n/de"), import("@homecode-ai/ui/i18n/de")),
+  es: () => merge(import("@/i18n/es"), import("@homecode-ai/ui/i18n/es")),
+  fr: () => merge(import("@/i18n/fr"), import("@homecode-ai/ui/i18n/fr")),
+  da: () => merge(import("@/i18n/da"), import("@homecode-ai/ui/i18n/da")),
+  ja: () => merge(import("@/i18n/ja"), import("@homecode-ai/ui/i18n/ja")),
+  pl: () => merge(import("@/i18n/pl"), import("@homecode-ai/ui/i18n/pl")),
+  ru: () => merge(import("@/i18n/ru"), import("@homecode-ai/ui/i18n/ru")),
+  uk: () => merge(import("@/i18n/uk"), import("@homecode-ai/ui/i18n/uk")),
+  ar: () => merge(import("@/i18n/ar"), import("@homecode-ai/ui/i18n/ar")),
+  no: () => merge(import("@/i18n/no"), import("@homecode-ai/ui/i18n/no")),
+  br: () => merge(import("@/i18n/br"), import("@homecode-ai/ui/i18n/br")),
+  th: () => merge(import("@/i18n/th"), import("@homecode-ai/ui/i18n/th")),
+  bs: () => merge(import("@/i18n/bs"), import("@homecode-ai/ui/i18n/bs")),
+  tr: () => merge(import("@/i18n/tr"), import("@homecode-ai/ui/i18n/tr")),
 }
 
 function loadDict(locale: Locale) {
@@ -183,7 +183,7 @@ export function normalizeLocale(value: string): Locale {
 function readStoredLocale() {
   if (typeof localStorage !== "object") return
   try {
-    const raw = localStorage.getItem("openqcode.global.dat:language")
+    const raw = localStorage.getItem("homecode.global.dat:language")
     if (!raw) return
     const next = JSON.parse(raw) as { locale?: string }
     if (typeof next?.locale !== "string") return

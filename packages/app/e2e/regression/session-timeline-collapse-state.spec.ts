@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test"
-import { mockOpenQCodeServer } from "../utils/mock-server"
+import { mockHomeCodeServer } from "../utils/mock-server"
 
-const directory = "C:/OpenQCode/TimelineStateRegression"
+const directory = "C:/HomeCode/TimelineStateRegression"
 const projectID = "proj_timeline_state_regression"
 const sessionID = "ses_timeline_state_regression"
 const userMessageID = "msg_user_regression"
@@ -9,7 +9,7 @@ const assistantMessageID = "msg_assistant_regression"
 const editPartID = "prt_0001_edit"
 const textPartID = "prt_9999_text"
 const title = "Timeline collapse state regression"
-const model = { providerID: "openqcode", modelID: "claude-opus-4-6", variant: "max" }
+const model = { providerID: "homecode", modelID: "claude-opus-4-6", variant: "max" }
 
 type EventPayload = {
   directory: string
@@ -300,7 +300,7 @@ function readExpanded(element: Element) {
 }
 
 async function mockServer(page: Page, events: EventPayload[]) {
-  await mockOpenQCodeServer(page, {
+  await mockHomeCodeServer(page, {
     directory,
     project: project(),
     provider: provider(),
@@ -337,13 +337,13 @@ function provider() {
   return {
     all: [
       {
-        id: "openqcode",
-        name: "OpenQCode",
+        id: "homecode",
+        name: "HomeCode",
         models: { "claude-opus-4-6": { id: "claude-opus-4-6", name: "Claude Opus 4.6", limit: { context: 200_000 } } },
       },
     ],
-    connected: ["openqcode"],
-    default: { providerID: "openqcode", modelID: "claude-opus-4-6" },
+    connected: ["homecode"],
+    default: { providerID: "homecode", modelID: "claude-opus-4-6" },
   }
 }
 

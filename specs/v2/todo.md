@@ -4,7 +4,7 @@ ok we need to work towards a launch of v2 so we can get out of this rebuild phas
 
 ## Post-Hono cleanup - Kit
 
-The openqcode server has moved to the Effect HttpApi backend. Remaining work is
+The homecode server has moved to the Effect HttpApi backend. Remaining work is
 mostly cleanup: delete compatibility shims, shrink Zod surfaces, and simplify
 test harnesses that used to compare Hono and HttpApi behavior.
 
@@ -29,9 +29,9 @@ We need to figure out how we want server plugins to work and what hooks are usef
 Some ideas:
 
 - plugins get immer drafts so bad mutations can be thrown away
-- plugins get global "openqcode" instance like in that post i showed
-- openqcode instance has stuff like `openqcode.session.prompt()` or
-  `openqcode.tool.register({...})`
+- plugins get global "homecode" instance like in that post i showed
+- homecode instance has stuff like `homecode.session.prompt()` or
+  `homecode.tool.register({...})`
 
 ## Rework Config - ???
 

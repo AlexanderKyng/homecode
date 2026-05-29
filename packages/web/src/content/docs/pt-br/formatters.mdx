@@ -1,15 +1,15 @@
 ---
 title: Formatadores
-description: O openqcode usa formatadores específicos de linguagem.
+description: O homecode usa formatadores específicos de linguagem.
 ---
 
-O openqcode formata automaticamente arquivos após serem escritos ou editados usando formatadores específicos de linguagem. Isso garante que o código gerado siga os estilos de código do seu projeto.
+O homecode formata automaticamente arquivos após serem escritos ou editados usando formatadores específicos de linguagem. Isso garante que o código gerado siga os estilos de código do seu projeto.
 
 ---
 
 ## Integrados
 
-O openqcode vem com vários formatadores integrados para linguagens e frameworks populares. Abaixo está uma lista dos formatadores, extensões de arquivo suportadas e comandos ou opções de configuração necessárias.
+O homecode vem com vários formatadores integrados para linguagens e frameworks populares. Abaixo está uma lista dos formatadores, extensões de arquivo suportadas e comandos ou opções de configuração necessárias.
 
 | Formatador           | Extensões                                                                                              | Requisitos                                                                                               |
 | -------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
@@ -39,13 +39,13 @@ O openqcode vem com vários formatadores integrados para linguagens e frameworks
 | oxfmt (Experimental) | .js, .jsx, .ts, .tsx                                                                                   | Dependência `oxfmt` em `package.json` e uma [variável de ambiente experimental](/docs/cli/#experimental) |
 | ormolu               | .hs                                                                                                    | Comando `ormolu` disponível                                                                              |
 
-Portanto, se seu projeto tiver `prettier` em seu `package.json`, o openqcode o usará automaticamente.
+Portanto, se seu projeto tiver `prettier` em seu `package.json`, o homecode o usará automaticamente.
 
 ---
 
 ## Como funciona
 
-Quando o openqcode escreve ou edita um arquivo, ele:
+Quando o homecode escreve ou edita um arquivo, ele:
 
 1. Verifica a extensão do arquivo em relação a todos os formatadores habilitados.
 2. Executa o comando do formatador apropriado no arquivo.
@@ -57,11 +57,11 @@ Esse processo acontece em segundo plano, garantindo que seus estilos de código 
 
 ## Configuração
 
-Você pode personalizar os formatadores através da seção `formatter` em sua configuração do openqcode.
+Você pode personalizar os formatadores através da seção `formatter` em sua configuração do homecode.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -83,18 +83,18 @@ Vamos ver alguns exemplos.
 
 Para desabilitar **todos** os formatadores globalmente, defina `formatter` como `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 Para desabilitar um **formatador específico**, defina `disabled` como `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -109,9 +109,9 @@ Para desabilitar um **formatador específico**, defina `disabled` como `true`:
 
 Você pode substituir os formatadores integrados ou adicionar novos especificando o comando, variáveis de ambiente e extensões de arquivo:
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

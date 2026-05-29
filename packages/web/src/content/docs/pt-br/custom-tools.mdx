@@ -1,9 +1,9 @@
 ---
 title: Ferramentas Personalizadas
-description: Crie ferramentas que o LLM pode chamar no openqcode.
+description: Crie ferramentas que o LLM pode chamar no homecode.
 ---
 
-Ferramentas personalizadas são funções que você cria e que o LLM pode chamar durante as conversas. Elas funcionam junto com as [ferramentas integradas](/docs/tools) do openqcode, como `read`, `write` e `bash`.
+Ferramentas personalizadas são funções que você cria e que o LLM pode chamar durante as conversas. Elas funcionam junto com as [ferramentas integradas](/docs/tools) do homecode, como `read`, `write` e `bash`.
 
 ---
 
@@ -17,8 +17,8 @@ As ferramentas são definidas como arquivos **TypeScript** ou **JavaScript**. No
 
 Elas podem ser definidas:
 
-- Localmente, colocando-as no diretório `.openqcode/tools/` do seu projeto.
-- Ou globalmente, colocando-as em `~/.config/openqcode/tools/`.
+- Localmente, colocando-as no diretório `.homecode/tools/` do seu projeto.
+- Ou globalmente, colocando-as em `~/.config/homecode/tools/`.
 
 ---
 
@@ -26,8 +26,8 @@ Elas podem ser definidas:
 
 A maneira mais fácil de criar ferramentas é usando o helper `tool()`, que fornece segurança de tipo e validação.
 
-```ts title=".openqcode/tools/database.ts" {1}
-import { tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/tools/database.ts" {1}
+import { tool } from "@homecode-ai/plugin"
 
 export default tool({
   description: "Consultar o banco de dados do projeto",
@@ -49,8 +49,8 @@ O **nome do arquivo** se torna o **nome da ferramenta**. O acima cria uma ferram
 
 Você também pode exportar várias ferramentas de um único arquivo. Cada exportação se torna **uma ferramenta separada** com o nome **`<filename>_<exportname>`**:
 
-```ts title=".openqcode/tools/math.ts"
-import { tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/tools/math.ts"
+import { tool } from "@homecode-ai/plugin"
 
 export const add = tool({
   description: "Adicionar dois números",
@@ -85,8 +85,8 @@ Ferramentas personalizadas são chaveadas pelo nome da ferramenta. Se uma ferram
 
 Por exemplo, este arquivo substitui a ferramenta `bash` integrada:
 
-```ts title=".openqcode/tools/bash.ts"
-import { tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/tools/bash.ts"
+import { tool } from "@homecode-ai/plugin"
 
 export default tool({
   description: "Restricted bash wrapper",
@@ -138,8 +138,8 @@ export default {
 
 As ferramentas recebem contexto sobre a sessão atual:
 
-```ts title=".openqcode/tools/project.ts" {8}
-import { tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/tools/project.ts" {8}
+import { tool } from "@homecode-ai/plugin"
 
 export default tool({
   description: "Obter informações do projeto",
@@ -165,7 +165,7 @@ Você pode escrever suas ferramentas em qualquer linguagem que desejar. Aqui est
 
 Primeiro, crie a ferramenta como um script Python:
 
-```python title=".openqcode/tools/add.py"
+```python title=".homecode/tools/add.py"
 import sys
 
 a = int(sys.argv[1])
@@ -175,8 +175,8 @@ print(a + b)
 
 Em seguida, crie a definição da ferramenta que a invoca:
 
-```ts title=".openqcode/tools/python-add.ts" {10}
-import { tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/tools/python-add.ts" {10}
+import { tool } from "@homecode-ai/plugin"
 import path from "path"
 
 export default tool({
@@ -186,7 +186,7 @@ export default tool({
     b: tool.schema.number().describe("Segundo número"),
   },
   async execute(args, context) {
-    const script = path.join(context.worktree, ".openqcode/tools/add.py")
+    const script = path.join(context.worktree, ".homecode/tools/add.py")
     const result = await Bun.$`python3 ${script} ${args.a} ${args.b}`.text()
     return result.trim()
   },

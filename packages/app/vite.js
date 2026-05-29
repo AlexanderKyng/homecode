@@ -17,7 +17,7 @@ const channel = (() => {
  */
 export default [
   {
-    name: "openqcode-desktop:config",
+    name: "homecode-desktop:config",
     config() {
       return {
         resolve: {
@@ -35,7 +35,7 @@ export default [
     },
   },
   {
-    name: "openqcode-desktop:theme-preload",
+    name: "homecode-desktop:theme-preload",
     transformIndexHtml(html) {
       return html.replace(
         '<script id="oc-theme-preload-script" src="/oc-theme-preload.js"></script>',

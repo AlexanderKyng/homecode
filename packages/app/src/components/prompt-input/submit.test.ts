@@ -63,18 +63,18 @@ beforeAll(async () => {
     useParams: () => params,
   }))
 
-  mock.module("@openqcode-ai/sdk/v2/client", () => ({
+  mock.module("@homecode-ai/sdk/v2/client", () => ({
     createOpencodeClient: (input: { directory: string }) => {
       createdClients.push(input.directory)
       return clientFor(input.directory)
     },
   }))
 
-  mock.module("@openqcode-ai/ui/toast", () => ({
+  mock.module("@homecode-ai/ui/toast", () => ({
     showToast: () => 0,
   }))
 
-  mock.module("@openqcode-ai/core/util/encode", () => ({
+  mock.module("@homecode-ai/core/util/encode", () => ({
     base64Encode: (value: string) => value,
   }))
 

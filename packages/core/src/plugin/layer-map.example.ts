@@ -38,7 +38,7 @@ export type RequestContext = {
 }
 
 export class RequestContextRef extends Context.Service<RequestContextRef, RequestContext>()(
-  "@openqcode/example/RequestContextRef",
+  "@homecode/example/RequestContextRef",
 ) {}
 
 export interface ConfigServiceShape {
@@ -49,7 +49,7 @@ export interface ConfigServiceShape {
 }
 
 export class ConfigService extends Context.Service<ConfigService, ConfigServiceShape>()(
-  "@openqcode/example/ConfigService",
+  "@homecode/example/ConfigService",
 ) {}
 
 const configServiceLayer = Layer.effect(
@@ -69,7 +69,7 @@ const configServiceLayer = Layer.effect(
   }),
 )
 
-export class ConfigServiceMap extends LayerMap.Service<ConfigServiceMap>()("@openqcode/example/ConfigServiceMap", {
+export class ConfigServiceMap extends LayerMap.Service<ConfigServiceMap>()("@homecode/example/ConfigServiceMap", {
   lookup: (context: RequestContext) =>
     configServiceLayer.pipe(Layer.provide(Layer.succeed(RequestContextRef, RequestContextRef.of(context)))),
   idleTimeToLive: "5 minutes",

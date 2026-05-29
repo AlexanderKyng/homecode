@@ -1,5 +1,5 @@
-import { Message, Model, Part, Session, SnapshotFileDiff } from "@openqcode-ai/sdk/v2"
-import { iife } from "@openqcode-ai/core/util/iife"
+import { Message, Model, Part, Session, SnapshotFileDiff } from "@homecode-ai/sdk/v2"
+import { iife } from "@homecode-ai/core/util/iife"
 import z from "zod"
 import { Storage } from "./storage"
 

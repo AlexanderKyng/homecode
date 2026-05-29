@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { ProviderPlugins } from "@openqcode-ai/core/plugin/provider"
-import { NvidiaPlugin } from "@openqcode-ai/core/plugin/provider/nvidia"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { ProviderPlugins } from "@homecode-ai/core/plugin/provider"
+import { NvidiaPlugin } from "@homecode-ai/core/plugin/provider/nvidia"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { expectPluginRegistered, it, provider } from "./provider-helper"
 
 describe("NvidiaPlugin", () => {
@@ -36,9 +36,9 @@ describe("NvidiaPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://openqcode.ai/",
-        "X-Title": "openqcode",
-        "X-BILLING-INVOKE-ORIGIN": "OpenQCode",
+        "HTTP-Referer": "https://homecode.ai/",
+        "X-Title": "homecode",
+        "X-BILLING-INVOKE-ORIGIN": "HomeCode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter)).options.headers).toEqual({})
     }),
@@ -62,9 +62,9 @@ describe("NvidiaPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
-        "HTTP-Referer": "https://openqcode.ai/",
-        "X-Title": "openqcode",
-        "X-BILLING-INVOKE-ORIGIN": "OpenQCode",
+        "HTTP-Referer": "https://homecode.ai/",
+        "X-Title": "homecode",
+        "X-BILLING-INVOKE-ORIGIN": "HomeCode",
       })
     }),
   )
@@ -91,8 +91,8 @@ describe("NvidiaPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
-        "HTTP-Referer": "https://openqcode.ai/",
-        "X-Title": "openqcode",
+        "HTTP-Referer": "https://homecode.ai/",
+        "X-Title": "homecode",
         "X-BILLING-INVOKE-ORIGIN": "CustomOrigin",
       })
     }),

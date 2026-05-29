@@ -1,9 +1,9 @@
 import { describe, expect } from "bun:test"
 import { createAlibaba } from "@ai-sdk/alibaba"
 import { Effect } from "effect"
-import { ModelV2 } from "@openqcode-ai/core/model"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { AlibabaPlugin } from "@openqcode-ai/core/plugin/provider/alibaba"
+import { ModelV2 } from "@homecode-ai/core/model"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { AlibabaPlugin } from "@homecode-ai/core/plugin/provider/alibaba"
 import { it, model } from "./provider-helper"
 
 describe("AlibabaPlugin", () => {

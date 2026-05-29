@@ -39,10 +39,10 @@ export type ChangelogData = {
 }
 
 export async function loadChangelog(): Promise<ChangelogData> {
-  const response = await fetch("https://api.github.com/repos/anomalyco/openqcode/releases?per_page=20", {
+  const response = await fetch("https://api.github.com/repos/anomalyco/homecode/releases?per_page=20", {
     headers: {
       Accept: "application/vnd.github.v3+json",
-      "User-Agent": "OpenQCode-Console",
+      "User-Agent": "HomeCode-Console",
     },
     cf: {
       // best-effort edge caching (ignored outside Cloudflare)

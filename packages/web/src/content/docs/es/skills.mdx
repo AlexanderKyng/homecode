@@ -3,7 +3,7 @@ title: "Habilidades del agente"
 description: "Defina el comportamiento reutilizable mediante definiciones de SKILL.md"
 ---
 
-Las habilidades del agente permiten a OpenQCode descubrir instrucciones reutilizables de su repositorio o directorio de inicio.
+Las habilidades del agente permiten a HomeCode descubrir instrucciones reutilizables de su repositorio o directorio de inicio.
 Las habilidades se cargan bajo demanda a través de la herramienta nativa `skill`: los agentes ven las habilidades disponibles y pueden cargar el contenido completo cuando sea necesario.
 
 ---
@@ -11,10 +11,10 @@ Las habilidades se cargan bajo demanda a través de la herramienta nativa `skill
 ## Colocar archivos
 
 Cree una carpeta por nombre de habilidad y coloque un `SKILL.md` dentro de ella.
-OpenQCode busca estas ubicaciones:
+HomeCode busca estas ubicaciones:
 
-- Configuración del proyecto: `.openqcode/skills/<name>/SKILL.md`
-- Configuración global: `~/.config/openqcode/skills/<name>/SKILL.md`
+- Configuración del proyecto: `.homecode/skills/<name>/SKILL.md`
+- Configuración global: `~/.config/homecode/skills/<name>/SKILL.md`
 - Compatible con Proyecto Claude: `.claude/skills/<name>/SKILL.md`
 - Compatible con Claude global: `~/.claude/skills/<name>/SKILL.md`
 - Compatible con agente de proyecto: `.agents/skills/<name>/SKILL.md`
@@ -24,10 +24,10 @@ OpenQCode busca estas ubicaciones:
 
 ## Entender el descubrimiento
 
-Para las rutas locales del proyecto, OpenQCode sube desde su directorio de trabajo actual hasta llegar al árbol de trabajo de git.
-Carga cualquier `skills/*/SKILL.md` coincidente en `.openqcode/` y cualquier `.claude/skills/*/SKILL.md` o `.agents/skills/*/SKILL.md` coincidente a lo largo del camino.
+Para las rutas locales del proyecto, HomeCode sube desde su directorio de trabajo actual hasta llegar al árbol de trabajo de git.
+Carga cualquier `skills/*/SKILL.md` coincidente en `.homecode/` y cualquier `.claude/skills/*/SKILL.md` o `.agents/skills/*/SKILL.md` coincidente a lo largo del camino.
 
-Las definiciones globales también se cargan desde `~/.config/openqcode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` y `~/.agents/skills/*/SKILL.md`.
+Las definiciones globales también se cargan desde `~/.config/homecode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` y `~/.agents/skills/*/SKILL.md`.
 
 ---
 
@@ -73,14 +73,14 @@ Manténgalo lo suficientemente específico para que el agente elija correctament
 
 ## Usar un ejemplo
 
-Crea `.openqcode/skills/git-release/SKILL.md` así:
+Crea `.homecode/skills/git-release/SKILL.md` así:
 
 ```markdown
 ---
 name: git-release
 description: Create consistent releases and changelogs
 license: MIT
-compatibility: openqcode
+compatibility: homecode
 metadata:
   audience: maintainers
   workflow: github
@@ -102,7 +102,7 @@ Ask clarifying questions if the target versioning scheme is unclear.
 
 ## Reconocer la descripción de la herramienta
 
-OpenQCode enumera las habilidades disponibles en la descripción de la herramienta `skill`.
+HomeCode enumera las habilidades disponibles en la descripción de la herramienta `skill`.
 Cada entrada incluye el nombre y la descripción de la habilidad:
 
 ```xml
@@ -124,7 +124,7 @@ skill({ name: "git-release" })
 
 ## Configurar permisos
 
-Controle a qué agentes de habilidades pueden acceder utilizando permisos basados ​​en patrones en `openqcode.json`:
+Controle a qué agentes de habilidades pueden acceder utilizando permisos basados ​​en patrones en `homecode.json`:
 
 ```json
 {
@@ -163,7 +163,7 @@ permission:
 ---
 ```
 
-**Para agentes integrados** (en `openqcode.json`):
+**Para agentes integrados** (en `homecode.json`):
 
 ```json
 {

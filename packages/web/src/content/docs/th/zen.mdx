@@ -1,17 +1,17 @@
 ---
 title: เซน
-description: รายการโมเดลที่คัดสรรโดย OpenQCode
+description: รายการโมเดลที่คัดสรรโดย HomeCode
 ---
 
 import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenQCode Zen คือรายการโมเดลที่ผ่านการทดสอบและยืนยันแล้วโดยทีม OpenQCode
+HomeCode Zen คือรายการโมเดลที่ผ่านการทดสอบและยืนยันแล้วโดยทีม HomeCode
 
-Zen ทำงานเหมือน provider อื่น ๆ ใน OpenQCode คุณล็อกอินเข้า OpenQCode Zen แล้วรับ
+Zen ทำงานเหมือน provider อื่น ๆ ใน HomeCode คุณล็อกอินเข้า HomeCode Zen แล้วรับ
 API key ของคุณได้เลย มันเป็น **ทางเลือกทั้งหมด** และคุณไม่จำเป็นต้องใช้มันเพื่อใช้งาน
-OpenQCode
+HomeCode
 
 ---
 
@@ -20,7 +20,7 @@ OpenQCode
 ปัจจุบันมีโมเดลจำนวนมาก แต่มีเพียงไม่กี่โมเดลเท่านั้นที่ทำงานได้ดีในฐานะ coding agent นอกจากนี้ provider ส่วนใหญ่ยังถูกตั้งค่าแตกต่างกันมาก จึงทำให้ประสิทธิภาพและคุณภาพที่ได้ต่างกันมากเช่นกัน
 
 :::tip
-เราได้ทดสอบโมเดลและ provider ที่คัดมาแล้วกลุ่มหนึ่งซึ่งทำงานได้ดีกับ OpenQCode
+เราได้ทดสอบโมเดลและ provider ที่คัดมาแล้วกลุ่มหนึ่งซึ่งทำงานได้ดีกับ HomeCode
 :::
 
 ดังนั้นหากคุณใช้โมเดลผ่านอะไรอย่าง OpenRouter คุณจะไม่มีทางแน่ใจได้ว่าคุณกำลังได้โมเดลเวอร์ชันที่ดีที่สุดที่คุณต้องการจริง ๆ
@@ -31,16 +31,16 @@ OpenQCode
 2. จากนั้นเราทำงานร่วมกับ provider บางรายเพื่อให้แน่ใจว่าโมเดลเหล่านี้ถูกเสิร์ฟอย่างถูกต้อง
 3. สุดท้าย เรา benchmark ชุดจับคู่ model/provider และสรุปออกมาเป็นรายการที่เรามั่นใจพอจะแนะนำ
 
-OpenQCode Zen คือ AI gateway ที่ให้คุณเข้าถึงโมเดลเหล่านี้
+HomeCode Zen คือ AI gateway ที่ให้คุณเข้าถึงโมเดลเหล่านี้
 
 ---
 
 ## วิธีการทำงาน
 
-OpenQCode Zen ทำงานเหมือน provider อื่น ๆ ใน OpenQCode
+HomeCode Zen ทำงานเหมือน provider อื่น ๆ ใน HomeCode
 
-1. คุณลงชื่อเข้าใช้ **<a href={console}>OpenQCode Zen</a>** เพิ่มรายละเอียดการเรียกเก็บเงิน แล้วคัดลอก API key ของคุณ
-2. รันคำสั่ง `/connect` ใน TUI เลือก OpenQCode Zen แล้ววาง API key ของคุณ
+1. คุณลงชื่อเข้าใช้ **<a href={console}>HomeCode Zen</a>** เพิ่มรายละเอียดการเรียกเก็บเงิน แล้วคัดลอก API key ของคุณ
+2. รันคำสั่ง `/connect` ใน TUI เลือก HomeCode Zen แล้ววาง API key ของคุณ
 3. รัน `/models` ใน TUI เพื่อดูรายการโมเดลที่เราแนะนำ
 
 คุณจะถูกคิดค่าบริการตามแต่ละ request และสามารถเติมเครดิตเข้าบัญชีได้
@@ -53,49 +53,49 @@ OpenQCode Zen ทำงานเหมือน provider อื่น ๆ ใน
 
 | Model                  | Model ID               | Endpoint                                             | AI SDK Package              |
 | ---------------------- | ---------------------- | ---------------------------------------------------- | --------------------------- |
-| GPT 5.5                | gpt-5.5                | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.5 Pro            | gpt-5.5-pro            | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.4                | gpt-5.4                | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.4 Pro            | gpt-5.4-pro            | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.4 Mini           | gpt-5.4-mini           | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.4 Nano           | gpt-5.4-nano           | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.3 Codex          | gpt-5.3-codex          | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.3 Codex Spark    | gpt-5.3-codex-spark    | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.2                | gpt-5.2                | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.2 Codex          | gpt-5.2-codex          | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.1                | gpt-5.1                | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.1 Codex          | gpt-5.1-codex          | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.1 Codex Max      | gpt-5.1-codex-max      | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5.1 Codex Mini     | gpt-5.1-codex-mini     | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5                  | gpt-5                  | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5 Codex            | gpt-5-codex            | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| GPT 5 Nano             | gpt-5-nano             | `https://openqcode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
-| Claude Opus 4.7        | claude-opus-4-7        | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Opus 4.6        | claude-opus-4-6        | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Opus 4.5        | claude-opus-4-5        | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Opus 4.1        | claude-opus-4-1        | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Sonnet 4.6      | claude-sonnet-4-6      | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Sonnet 4.5      | claude-sonnet-4-5      | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Sonnet 4        | claude-sonnet-4        | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Haiku 4.5       | claude-haiku-4-5       | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Claude Haiku 3.5       | claude-3-5-haiku       | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Gemini 3.5 Flash       | gemini-3.5-flash       | `https://openqcode.ai/zen/v1/models/gemini-3.5-flash` | `@ai-sdk/google`            |
-| Gemini 3.1 Pro         | gemini-3.1-pro         | `https://openqcode.ai/zen/v1/models/gemini-3.1-pro`   | `@ai-sdk/google`            |
-| Gemini 3 Flash         | gemini-3-flash         | `https://openqcode.ai/zen/v1/models/gemini-3-flash`   | `@ai-sdk/google`            |
-| Qwen3.6 Plus           | qwen3.6-plus           | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| Qwen3.5 Plus           | qwen3.5-plus           | `https://openqcode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
-| MiniMax M2.7           | minimax-m2.7           | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| MiniMax M2.5           | minimax-m2.5           | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| GLM 5.1                | glm-5.1                | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| GLM 5                  | glm-5                  | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| Kimi K2.5              | kimi-k2.5              | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| Kimi K2.6              | kimi-k2.6              | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| Grok Build 0.1         | grok-build-0.1         | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| Big Pickle             | big-pickle             | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| DeepSeek V4 Flash Free | deepseek-v4-flash-free | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
-| Nemotron 3 Super Free  | nemotron-3-super-free  | `https://openqcode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GPT 5.5                | gpt-5.5                | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.5 Pro            | gpt-5.5-pro            | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4                | gpt-5.4                | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Pro            | gpt-5.4-pro            | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Mini           | gpt-5.4-mini           | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.4 Nano           | gpt-5.4-nano           | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex          | gpt-5.3-codex          | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.3 Codex Spark    | gpt-5.3-codex-spark    | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2                | gpt-5.2                | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.2 Codex          | gpt-5.2-codex          | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1                | gpt-5.1                | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex          | gpt-5.1-codex          | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Max      | gpt-5.1-codex-max      | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5.1 Codex Mini     | gpt-5.1-codex-mini     | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5                  | gpt-5                  | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Codex            | gpt-5-codex            | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| GPT 5 Nano             | gpt-5-nano             | `https://homecode.ai/zen/v1/responses`               | `@ai-sdk/openai`            |
+| Claude Opus 4.7        | claude-opus-4-7        | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.6        | claude-opus-4-6        | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.5        | claude-opus-4-5        | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Opus 4.1        | claude-opus-4-1        | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.6      | claude-sonnet-4-6      | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4.5      | claude-sonnet-4-5      | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Sonnet 4        | claude-sonnet-4        | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Haiku 4.5       | claude-haiku-4-5       | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Claude Haiku 3.5       | claude-3-5-haiku       | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Gemini 3.5 Flash       | gemini-3.5-flash       | `https://homecode.ai/zen/v1/models/gemini-3.5-flash` | `@ai-sdk/google`            |
+| Gemini 3.1 Pro         | gemini-3.1-pro         | `https://homecode.ai/zen/v1/models/gemini-3.1-pro`   | `@ai-sdk/google`            |
+| Gemini 3 Flash         | gemini-3-flash         | `https://homecode.ai/zen/v1/models/gemini-3-flash`   | `@ai-sdk/google`            |
+| Qwen3.6 Plus           | qwen3.6-plus           | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| Qwen3.5 Plus           | qwen3.5-plus           | `https://homecode.ai/zen/v1/messages`                | `@ai-sdk/anthropic`         |
+| MiniMax M2.7           | minimax-m2.7           | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| MiniMax M2.5           | minimax-m2.5           | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5.1                | glm-5.1                | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| GLM 5                  | glm-5                  | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.5              | kimi-k2.5              | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Kimi K2.6              | kimi-k2.6              | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Grok Build 0.1         | grok-build-0.1         | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Big Pickle             | big-pickle             | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash Free | deepseek-v4-flash-free | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
+| Nemotron 3 Super Free  | nemotron-3-super-free  | `https://homecode.ai/zen/v1/chat/completions`        | `@ai-sdk/openai-compatible` |
 
-[model id](/docs/config/#models) ใน OpenQCode config ของคุณใช้รูปแบบ `openqcode/<model-id>` ตัวอย่างเช่น สำหรับ GPT 5.5 คุณจะใช้ `openqcode/gpt-5.5` ใน config ของคุณ
+[model id](/docs/config/#models) ใน HomeCode config ของคุณใช้รูปแบบ `homecode/<model-id>` ตัวอย่างเช่น สำหรับ GPT 5.5 คุณจะใช้ `homecode/gpt-5.5` ใน config ของคุณ
 
 ---
 
@@ -104,7 +104,7 @@ OpenQCode Zen ทำงานเหมือน provider อื่น ๆ ใน
 คุณสามารถดึงรายการโมเดลทั้งหมดที่พร้อมใช้งานและ metadata ของมันได้จาก:
 
 ```
-https://openqcode.ai/zen/v1/models
+https://homecode.ai/zen/v1/models
 ```
 
 ---
@@ -170,9 +170,9 @@ https://openqcode.ai/zen/v1/models
 
 โมเดลฟรี:
 
-- DeepSeek V4 Flash Free เปิดให้ใช้บน OpenQCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
-- Nemotron 3 Super Free เปิดให้ใช้บน OpenQCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
-- Big Pickle เป็น stealth model ที่ใช้งานฟรีบน OpenQCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
+- DeepSeek V4 Flash Free เปิดให้ใช้บน HomeCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
+- Nemotron 3 Super Free เปิดให้ใช้บน HomeCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
+- Big Pickle เป็น stealth model ที่ใช้งานฟรีบน HomeCode ในช่วงเวลาจำกัด ทีมกำลังใช้ช่วงเวลานี้เพื่อเก็บ feedback และปรับปรุงโมเดล
 
 <a href={email}>ติดต่อเรา</a> หากคุณมีคำถาม
 
@@ -271,9 +271,9 @@ Admins สามารถเปิดหรือปิดโมเดลบา�
 
 ## เป้าหมาย
 
-เราสร้าง OpenQCode Zen ขึ้นมาเพื่อ:
+เราสร้าง HomeCode Zen ขึ้นมาเพื่อ:
 
 1. **Benchmark** โมเดล/provider ที่ดีที่สุดสำหรับ coding agents
 2. เข้าถึงตัวเลือกที่มี **คุณภาพสูงสุด** โดยไม่ลดประสิทธิภาพหรือ route ไปยัง provider ที่ถูกกว่า
 3. ส่งต่อ **การลดราคา** ด้วยการขายในราคาทุน ดังนั้น markup เพียงอย่างเดียวคือเพื่อครอบคลุมค่าธรรมเนียมการประมวลผลของเรา
-4. ทำให้เกิด **no lock-in** โดยให้คุณใช้มันร่วมกับ coding agent อื่น ๆ ได้ และยังเปิดให้คุณใช้ provider อื่น ๆ กับ OpenQCode ได้เสมอ
+4. ทำให้เกิด **no lock-in** โดยให้คุณใช้มันร่วมกับ coding agent อื่น ๆ ได้ และยังเปิดให้คุณใช้ provider อื่น ๆ กับ HomeCode ได้เสมอ

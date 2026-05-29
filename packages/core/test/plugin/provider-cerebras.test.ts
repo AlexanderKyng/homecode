@@ -1,9 +1,9 @@
 import { describe, expect, mock } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { CerebrasPlugin } from "@openqcode-ai/core/plugin/provider/cerebras"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { CerebrasPlugin } from "@homecode-ai/core/plugin/provider/cerebras"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { it, model } from "./provider-helper"
 
 const cerebrasOptions: Record<string, unknown>[] = []
@@ -33,7 +33,7 @@ describe("CerebrasPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("cerebras"))).options.headers).toEqual({
         Existing: "1",
-        "X-Cerebras-3rd-Party-Integration": "openqcode",
+        "X-Cerebras-3rd-Party-Integration": "homecode",
       })
     }),
   )

@@ -3,7 +3,7 @@ title: Rozwiązywanie problemów
 description: Typowe problemy i sposoby ich rozwiązywania.
 ---
 
-Aby debugować problemy z openqcode, zacznij od sprawdzenia dzienników i danych lokalnych przechowywanych na dysku.
+Aby debugować problemy z homecode, zacznij od sprawdzenia dzienników i danych lokalnych przechowywanych na dysku.
 
 ---
 
@@ -11,21 +11,21 @@ Aby debugować problemy z openqcode, zacznij od sprawdzenia dzienników i danych
 
 Pliki logów są zapisywane w:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.local\share\homecode\log`
 
 Nazwy plików dziennika zawierają znaczniki czasu (np. `2025-01-09T123456.log`) i przechowywanych jest 10 ostatnich plików dziennika.
 
-Możesz ustawić poziom dziennika za pomocą opcji wiersza poleceń `--log-level`, aby uzyskać bardziej szczegółowe informacje debugowania. Na przykład `openqcode --log-level DEBUG`.
+Możesz ustawić poziom dziennika za pomocą opcji wiersza poleceń `--log-level`, aby uzyskać bardziej szczegółowe informacje debugowania. Na przykład `homecode --log-level DEBUG`.
 
 ---
 
 ## Przechowywanie danych
 
-openqcode przechowuje dane sesji i inne dane aplikacji na dysku pod adresem:
+homecode przechowuje dane sesji i inne dane aplikacji na dysku pod adresem:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.local\share\homecode`
 
 Ten katalog zawiera:
 
@@ -39,13 +39,13 @@ Ten katalog zawiera:
 
 ## Aplikacja desktopowa
 
-openqcode Desktop uruchamia w tle lokalny serwer openqcode (sidecar `openqcode-cli`). Większość problemów jest spowodowana nieprawidłowo działającą wtyczką, uszkodzoną pamięcią podręczną lub złymi ustawieniami serwera.
+homecode Desktop uruchamia w tle lokalny serwer homecode (sidecar `homecode-cli`). Większość problemów jest spowodowana nieprawidłowo działającą wtyczką, uszkodzoną pamięcią podręczną lub złymi ustawieniami serwera.
 
 ### Szybkie sprawdzenie
 
 - Całkowicie zakończ i uruchom ponownie aplikację.
 - Jeśli aplikacja wyświetli ekran błędu, kliknij **Uruchom ponownie** i skopiuj szczegóły błędu.
-- Tylko macOS: menu `OpenQCode` -> **Załaduj ponownie przeglądarkę internetową** (pomaga, jeśli interfejs użytkownika jest pusty/zawieszony).
+- Tylko macOS: menu `HomeCode` -> **Załaduj ponownie przeglądarkę internetową** (pomaga, jeśli interfejs użytkownika jest pusty/zawieszony).
 
 ---
 
@@ -57,28 +57,28 @@ Jeśli aplikacja komputerowa ulega awarii podczas uruchamiania, zawiesza się lu
 
 Otwórz globalny plik konfiguracyjny i poszukaj klucza `plugin`.
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (lub `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (starsze instalacje): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (lub `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (starsze instalacje): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 Jeśli masz skonfigurowane wtyczki, tymczasowo je wyłącz, usuwając klucz lub ustawiając go na pustą tablicę:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### Sprawdź katalogi wtyczek
 
-openqcode może także ładować lokalne wtyczki z dysku. Tymczasowo usuń je (lub zmień nazwę folderu) i uruchom ponownie aplikację komputerową:
+homecode może także ładować lokalne wtyczki z dysku. Tymczasowo usuń je (lub zmień nazwę folderu) i uruchom ponownie aplikację komputerową:
 
 - **Wtyczki globalne**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.config\homecode\plugins`
 - **Wtyczki projektowe** (tylko jeśli używasz konfiguracji dla poszczególnych projektów)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 Jeśli aplikacja ponownie zacznie działać, włączaj ponownie wtyczki pojedynczo, aby dowiedzieć się, która powoduje problem.
 
@@ -86,22 +86,22 @@ Jeśli aplikacja ponownie zacznie działać, włączaj ponownie wtyczki pojedync
 
 ### Wyczyść pamięć podręczną
 
-Jeśli wyłączenie wtyczek nie pomoże (lub instalacja wtyczki utknęła), wyczyść pamięć podręczną, aby openqcode mógł ją odbudować.
+Jeśli wyłączenie wtyczek nie pomoże (lub instalacja wtyczki utknęła), wyczyść pamięć podręczną, aby homecode mógł ją odbudować.
 
-1. Całkowicie zamknij openqcode Desktop.
+1. Całkowicie zamknij homecode Desktop.
 2. Usuń katalog pamięci podręcznej:
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> paste `~/.cache/openqcode`
-- **Linux**: usuń `~/.cache/openqcode` (lub uruchom `rm -rf ~/.cache/openqcode`)
-- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.cache\openqcode`
+- **macOS**: Finder -> `Cmd+Shift+G` -> paste `~/.cache/homecode`
+- **Linux**: usuń `~/.cache/homecode` (lub uruchom `rm -rf ~/.cache/homecode`)
+- **Windows**: Naciśnij `WIN+R` i wklej `%USERPROFILE%\.cache\homecode`
 
-3. Uruchom ponownie openqcode Desktop.
+3. Uruchom ponownie homecode Desktop.
 
 ---
 
 ### Napraw problemy z połączeniem z serwerem
 
-openqcode Desktop może uruchomić własny serwer lokalny (domyślnie) lub połączyć się ze skonfigurowanym adresem URL serwera.
+homecode Desktop może uruchomić własny serwer lokalny (domyślnie) lub połączyć się ze skonfigurowanym adresem URL serwera.
 
 Jeśli zobaczysz okno dialogowe **„Połączenie nie powiodło się”** (lub aplikacja nigdy nie wychodzi poza ekran powitalny), sprawdź, czy jest niestandardowy adres URL serwera.
 
@@ -111,7 +111,7 @@ Na ekranie głównym kliknij nazwę serwera (z kropką stanu), aby otworzyć sel
 
 #### Usuń `server.port` / `server.hostname` ze swojej konfiguracji
 
-Jeśli Twój `openqcode.json(c)` zawiera sekcję `server`, tymczasowo usuń ją i uruchom ponownie aplikację komputerową.
+Jeśli Twój `homecode.json(c)` zawiera sekcję `server`, tymczasowo usuń ją i uruchom ponownie aplikację komputerową.
 
 #### Sprawdź zmienne środowiskowe
 
@@ -132,21 +132,21 @@ W systemie Linux, niektóre konfiguracje Wayland mogą powodować puste okna lub
 
 ### Windows: Środowisko uruchomieniowe WebView2
 
-W systemie Windows openqcode Desktop wymaga Microsoft Edge **WebView2 Runtime**. Jeśli aplikacja otwiera się w pustym oknie lub nie uruchamia się, zainstaluj/zaktualizuj WebView2 i spróbuj ponownie.
+W systemie Windows homecode Desktop wymaga Microsoft Edge **WebView2 Runtime**. Jeśli aplikacja otwiera się w pustym oknie lub nie uruchamia się, zainstaluj/zaktualizuj WebView2 i spróbuj ponownie.
 
 ---
 
 ### Windows: Ogólne problemy z wydajnością
 
-Jeśli doświadczasz niskiej wydajności, problemów z dostępem do plików lub problemów z terminalem w systemie Windows, spróbuj użyć [WSL (podsystem Windows dla systemu Linux) (./windows-wsl). WSL zapewnia środowisko Linux, które płynniej współpracuje z funkcjami openqcode.
+Jeśli doświadczasz niskiej wydajności, problemów z dostępem do plików lub problemów z terminalem w systemie Windows, spróbuj użyć [WSL (podsystem Windows dla systemu Linux) (./windows-wsl). WSL zapewnia środowisko Linux, które płynniej współpracuje z funkcjami homecode.
 
 ---
 
 ### Brak powiadomień
 
-openqcode Desktop pokazuje powiadomienia systemowe tylko wtedy, gdy:
+homecode Desktop pokazuje powiadomienia systemowe tylko wtedy, gdy:
 
-- powiadomienia są włączone dla openqcode w ustawieniach systemu operacyjnego, oraz
+- powiadomienia są włączone dla homecode w ustawieniach systemu operacyjnego, oraz
 - okno aplikacji nie jest aktywne.
 
 ---
@@ -155,11 +155,11 @@ openqcode Desktop pokazuje powiadomienia systemowe tylko wtedy, gdy:
 
 Jeśli aplikacja nie uruchamia się i nie możesz wyczyścić ustawień w interfejsie użytkownika, zresetuj zapisany stan aplikacji komputerowej.
 
-1. Zamknij całkowicie openqcode Desktop.
-2. Znajdź i usuń te pliki (znajdują się w katalogu danych aplikacji openqcode Desktop):
+1. Zamknij całkowicie homecode Desktop.
+2. Znajdź i usuń te pliki (znajdują się w katalogu danych aplikacji homecode Desktop):
 
-- `openqcode.settings.dat` (domyślny adres URL serwera na komputerze stacjonarnym)
-- `openqcode.global.dat` i `openqcode.workspace.*.dat` (stan interfejsu użytkownika, taki jak najnowsze serwery/projekty)
+- `homecode.settings.dat` (domyślny adres URL serwera na komputerze stacjonarnym)
+- `homecode.global.dat` i `homecode.workspace.*.dat` (stan interfejsu użytkownika, taki jak najnowsze serwery/projekty)
 
 Aby szybko znaleźć katalog:
 
@@ -171,13 +171,13 @@ Aby szybko znaleźć katalog:
 
 ## Uzyskiwanie pomocy
 
-Jeśli masz problemy z openqcode:
+Jeśli masz problemy z homecode:
 
 1. **Zgłoś problem na GitHub**
 
    Najlepszym sposobem zgłaszania błędów lub zgłaszania żądań funkcji jest skorzystanie z naszego repozytorium GitHub:
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    Przed utworzeniem nowego problemu przeszukaj istniejące i sprawdź, czy Twój problem nie został już zgłoszony.
 
@@ -185,7 +185,7 @@ Jeśli masz problemy z openqcode:
 
    Aby uzyskać pomoc w czasie rzeczywistym i dyskusję społeczności, dołącz do naszego serwera Discord:
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ Oto kilka typowych problemów i sposobów ich rozwiązania.
 
 ---
 
-### openqcode nie uruchamia się
+### homecode nie uruchamia się
 
 1. Sprawdź dzienniki pod kątem komunikatów o błędach
 2. Spróbuj uruchomić z `--print-logs`, aby zobaczyć dane wyjściowe w terminalu
-3. Upewnij się, że masz najnowszą wersję z `openqcode upgrade`
+3. Upewnij się, że masz najnowszą wersję z `homecode upgrade`
 
 ---
 
@@ -225,9 +225,9 @@ Przykłady:
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-Aby dowiedzieć się, do jakich modeli masz dostęp, uruchom `openqcode models`
+Aby dowiedzieć się, do jakich modeli masz dostęp, uruchom `homecode models`
 
 ---
 
@@ -241,10 +241,10 @@ Aby rozwiązać ten problem:
 2. Jeśli problem będzie się powtarzał, spróbuj wyczyścić zapisaną konfigurację:
 
    ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
    ```
 
-   W systemie Windows naciśnij `WIN+R` i usuń: `%USERPROFILE%\.local\share\openqcode`
+   W systemie Windows naciśnij `WIN+R` i usuń: `%USERPROFILE%\.local\share\homecode`
 
 3. Ponownie uwierzytelnij się u swojego dostawcy za pomocą polecenia `/connect` w TUI.
 
@@ -252,21 +252,21 @@ Aby rozwiązać ten problem:
 
 ### Błędy AI_APICallError i problemy z pakietami dostawców
 
-Jeśli napotkasz błędy wywołań API, może to wynikać z nieaktualnych pakietów dostawców. openqcode dynamicznie instaluje pakiety dostawców (OpenAI, Anthropic, Google itp.) w razie potrzeby i przechowuje je lokalnie w pamięci podręcznej.
+Jeśli napotkasz błędy wywołań API, może to wynikać z nieaktualnych pakietów dostawców. homecode dynamicznie instaluje pakiety dostawców (OpenAI, Anthropic, Google itp.) w razie potrzeby i przechowuje je lokalnie w pamięci podręcznej.
 
 Aby rozwiązać problemy z pakietem dostawcy:
 
 1. Wyczyść pamięć podręczną pakietu dostawcy:
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   W systemie Windows naciśnij `WIN+R` i usuń: `%USERPROFILE%\.cache\openqcode`
+   W systemie Windows naciśnij `WIN+R` i usuń: `%USERPROFILE%\.cache\homecode`
 
-2. Uruchom ponownie kod openqcode, aby ponownie zainstalować najnowsze pakiety dostawców
+2. Uruchom ponownie kod homecode, aby ponownie zainstalować najnowsze pakiety dostawców
 
-Zmusi to openqcode do pobrania najnowszych wersji pakietów dostawców, co często rozwiązuje problemy ze zgodnością z parametrami modelu i zmianami API.
+Zmusi to homecode do pobrania najnowszych wersji pakietów dostawców, co często rozwiązuje problemy ze zgodnością z parametrami modelu i zmianami API.
 
 ---
 
@@ -297,4 +297,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-openqcode wykryje, czy używasz Waylanda i wolisz `wl-clipboard`, w przeciwnym razie spróbuje znaleźć narzędzia schowka w kolejności: `xclip` i `xsel`.
+homecode wykryje, czy używasz Waylanda i wolisz `wl-clipboard`, w przeciwnym razie spróbuje znaleźć narzędzia schowka w kolejności: `xclip` i `xsel`.

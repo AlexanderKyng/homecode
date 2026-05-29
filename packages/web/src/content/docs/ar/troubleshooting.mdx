@@ -3,7 +3,7 @@ title: استكشاف الأخطاء وإصلاحها
 description: المشكلات الشائعة وكيفية حلها.
 ---
 
-لاستكشاف المشكلات في OpenQCode وإصلاحها، ابدأ بالتحقق من السجلات والبيانات المحلية التي يخزنها على القرص.
+لاستكشاف المشكلات في HomeCode وإصلاحها، ابدأ بالتحقق من السجلات والبيانات المحلية التي يخزنها على القرص.
 
 ---
 
@@ -11,21 +11,21 @@ description: المشكلات الشائعة وكيفية حلها.
 
 يتم حفظ ملفات السجل في:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.local\share\homecode\log`
 
 تتم تسمية ملفات السجل بطوابع زمنية (مثل `2025-01-09T123456.log`) ويتم الاحتفاظ بأحدث 10 ملفات سجل.
 
-يمكنك ضبط مستوى السجل باستخدام خيار CLI `--log-level` للحصول على معلومات تصحيح أكثر تفصيلا. على سبيل المثال: `openqcode --log-level DEBUG`.
+يمكنك ضبط مستوى السجل باستخدام خيار CLI `--log-level` للحصول على معلومات تصحيح أكثر تفصيلا. على سبيل المثال: `homecode --log-level DEBUG`.
 
 ---
 
 ## التخزين
 
-يخزن openqcode بيانات الجلسات وبيانات التطبيق الأخرى على القرص في:
+يخزن homecode بيانات الجلسات وبيانات التطبيق الأخرى على القرص في:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.local\share\homecode`
 
 يحتوي هذا الدليل على:
 
@@ -39,13 +39,13 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ## تطبيق سطح المكتب
 
-يشغل OpenQCode Desktop خادما محليا لـ OpenQCode (العملية الجانبية `openqcode-cli`) في الخلفية. معظم المشكلات سببها إضافة لا تعمل بشكل صحيح، أو ذاكرة تخزين مؤقت تالفة، أو إعداد خادم غير صحيح.
+يشغل HomeCode Desktop خادما محليا لـ HomeCode (العملية الجانبية `homecode-cli`) في الخلفية. معظم المشكلات سببها إضافة لا تعمل بشكل صحيح، أو ذاكرة تخزين مؤقت تالفة، أو إعداد خادم غير صحيح.
 
 ### فحوصات سريعة
 
 - أغلق التطبيق تماما ثم أعد تشغيله.
 - إذا عرض التطبيق شاشة خطأ، انقر **Restart** وانسخ تفاصيل الخطأ.
-- على macOS فقط: قائمة `OpenQCode` -> **Reload Webview** (يفيد إذا كانت الواجهة فارغة/متجمدة).
+- على macOS فقط: قائمة `HomeCode` -> **Reload Webview** (يفيد إذا كانت الواجهة فارغة/متجمدة).
 
 ---
 
@@ -57,28 +57,28 @@ description: المشكلات الشائعة وكيفية حلها.
 
 افتح ملف الإعدادات العام وابحث عن المفتاح `plugin`.
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (أو `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (عمليات تثبيت أقدم): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (أو `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (عمليات تثبيت أقدم): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 إذا كانت لديك إضافات مضبوطة، فقم بتعطيلها مؤقتا بإزالة المفتاح أو ضبطه على مصفوفة فارغة:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### تحقق من أدلة الإضافات
 
-يمكن لـ OpenQCode أيضا تحميل إضافات محلية من القرص. انقلها مؤقتا إلى مكان آخر (أو أعد تسمية المجلد) ثم أعد تشغيل تطبيق سطح المكتب:
+يمكن لـ HomeCode أيضا تحميل إضافات محلية من القرص. انقلها مؤقتا إلى مكان آخر (أو أعد تسمية المجلد) ثم أعد تشغيل تطبيق سطح المكتب:
 
 - **إضافات عامة**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.config\homecode\plugins`
 - **إضافات المشروع** (فقط إذا كنت تستخدم إعدادات لكل مشروع)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 إذا عاد التطبيق للعمل، فأعد تفعيل الإضافات واحدة تلو الأخرى لمعرفة أيها يسبب المشكلة.
 
@@ -86,22 +86,22 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ### مسح ذاكرة التخزين المؤقت
 
-إذا لم يساعد تعطيل الإضافات (أو كانت عملية تثبيت إضافة عالقة)، فامسح ذاكرة التخزين المؤقت حتى يتمكن OpenQCode من إعادة بنائها.
+إذا لم يساعد تعطيل الإضافات (أو كانت عملية تثبيت إضافة عالقة)، فامسح ذاكرة التخزين المؤقت حتى يتمكن HomeCode من إعادة بنائها.
 
-1. أغلق OpenQCode Desktop تماما.
+1. أغلق HomeCode Desktop تماما.
 2. احذف دليل ذاكرة التخزين المؤقت:
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> الصق `~/.cache/openqcode`
-- **Linux**: احذف `~/.cache/openqcode` (أو شغّل `rm -rf ~/.cache/openqcode`)
-- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.cache\openqcode`
+- **macOS**: Finder -> `Cmd+Shift+G` -> الصق `~/.cache/homecode`
+- **Linux**: احذف `~/.cache/homecode` (أو شغّل `rm -rf ~/.cache/homecode`)
+- **Windows**: اضغط `WIN+R` والصق `%USERPROFILE%\.cache\homecode`
 
-3. أعد تشغيل OpenQCode Desktop.
+3. أعد تشغيل HomeCode Desktop.
 
 ---
 
 ### إصلاح مشكلات اتصال الخادم
 
-يمكن لـ OpenQCode Desktop إما تشغيل خادمه المحلي (افتراضيا) أو الاتصال بعنوان URL لخادم قمت بتهيئته.
+يمكن لـ HomeCode Desktop إما تشغيل خادمه المحلي (افتراضيا) أو الاتصال بعنوان URL لخادم قمت بتهيئته.
 
 إذا ظهرت نافذة **"Connection Failed"** (أو لم يتجاوز التطبيق شاشة البداية)، فتحقق مما إذا كان هناك عنوان URL مخصص للخادم.
 
@@ -111,7 +111,7 @@ description: المشكلات الشائعة وكيفية حلها.
 
 #### إزالة `server.port` / `server.hostname` من الإعدادات
 
-إذا كان `openqcode.json(c)` يحتوي على قسم `server`، فأزله مؤقتا ثم أعد تشغيل تطبيق سطح المكتب.
+إذا كان `homecode.json(c)` يحتوي على قسم `server`، فأزله مؤقتا ثم أعد تشغيل تطبيق سطح المكتب.
 
 #### تحقق من متغيرات البيئة
 
@@ -132,21 +132,21 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ### Windows: بيئة تشغيل WebView2
 
-على Windows، يتطلب OpenQCode Desktop وجود **WebView2 Runtime** الخاصة بـ Microsoft Edge. إذا فتح التطبيق نافذة فارغة أو لم يبدأ، فقم بتثبيت/تحديث WebView2 ثم جرّب مجددا.
+على Windows، يتطلب HomeCode Desktop وجود **WebView2 Runtime** الخاصة بـ Microsoft Edge. إذا فتح التطبيق نافذة فارغة أو لم يبدأ، فقم بتثبيت/تحديث WebView2 ثم جرّب مجددا.
 
 ---
 
 ### Windows: مشكلات الأداء العامة
 
-إذا كنت تواجه بطءا في الأداء، أو مشكلات في الوصول إلى الملفات، أو مشكلات في terminal على Windows، فجرّب استخدام [WSL (نظام Windows الفرعي لـ Linux)](/docs/windows-wsl). يوفر WSL بيئة Linux تعمل بسلاسة أكبر مع ميزات OpenQCode.
+إذا كنت تواجه بطءا في الأداء، أو مشكلات في الوصول إلى الملفات، أو مشكلات في terminal على Windows، فجرّب استخدام [WSL (نظام Windows الفرعي لـ Linux)](/docs/windows-wsl). يوفر WSL بيئة Linux تعمل بسلاسة أكبر مع ميزات HomeCode.
 
 ---
 
 ### الإشعارات لا تظهر
 
-لا يعرض OpenQCode Desktop إشعارات النظام إلا عندما:
+لا يعرض HomeCode Desktop إشعارات النظام إلا عندما:
 
-- تكون الإشعارات مفعلة لـ OpenQCode في إعدادات نظام التشغيل، و
+- تكون الإشعارات مفعلة لـ HomeCode في إعدادات نظام التشغيل، و
 - تكون نافذة التطبيق غير نشطة.
 
 ---
@@ -155,11 +155,11 @@ description: المشكلات الشائعة وكيفية حلها.
 
 إذا لم يبدأ التطبيق ولم تتمكن من مسح الإعدادات من داخل الواجهة، فأعد تعيين الحالة المحفوظة لتطبيق سطح المكتب.
 
-1. أغلق OpenQCode Desktop.
-2. اعثر على هذه الملفات واحذفها (توجد في دليل بيانات تطبيق OpenQCode Desktop):
+1. أغلق HomeCode Desktop.
+2. اعثر على هذه الملفات واحذفها (توجد في دليل بيانات تطبيق HomeCode Desktop):
 
-- `openqcode.settings.dat` (عنوان URL الافتراضي لخادم سطح المكتب)
-- `openqcode.global.dat` و `openqcode.workspace.*.dat` (حالة الواجهة مثل الخوادم/المشاريع الأخيرة)
+- `homecode.settings.dat` (عنوان URL الافتراضي لخادم سطح المكتب)
+- `homecode.global.dat` و `homecode.workspace.*.dat` (حالة الواجهة مثل الخوادم/المشاريع الأخيرة)
 
 للعثور على الدليل بسرعة:
 
@@ -171,13 +171,13 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ## الحصول على المساعدة
 
-إذا كنت تواجه مشكلات مع OpenQCode:
+إذا كنت تواجه مشكلات مع HomeCode:
 
 1. **الإبلاغ عن المشكلات على GitHub**
 
    أفضل طريقة للإبلاغ عن الأخطاء أو طلب الميزات هي عبر مستودعنا على GitHub:
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    قبل إنشاء مشكلة جديدة، ابحث في المشكلات الموجودة لمعرفة ما إذا كانت مشكلتك قد تم الإبلاغ عنها بالفعل.
 
@@ -185,7 +185,7 @@ description: المشكلات الشائعة وكيفية حلها.
 
    للحصول على مساعدة فورية ونقاشات المجتمع، انضم إلى خادم Discord الخاص بنا:
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ---
 
-### OpenQCode لا يبدأ
+### HomeCode لا يبدأ
 
 1. تحقق من السجلات بحثا عن رسائل الخطأ
 2. جرّب التشغيل مع `--print-logs` لرؤية المخرجات في terminal
-3. تأكد من أنك تستخدم أحدث إصدار عبر `openqcode upgrade`
+3. تأكد من أنك تستخدم أحدث إصدار عبر `homecode upgrade`
 
 ---
 
@@ -224,9 +224,9 @@ description: المشكلات الشائعة وكيفية حلها.
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-لمعرفة النماذج التي لديك صلاحية الوصول إليها، شغّل `openqcode models`
+لمعرفة النماذج التي لديك صلاحية الوصول إليها، شغّل `homecode models`
 
 ---
 
@@ -240,10 +240,10 @@ description: المشكلات الشائعة وكيفية حلها.
 2. إذا استمرت المشكلة، فجرّب مسح الإعدادات المخزنة لديك:
 
    ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
    ```
 
-   على Windows، اضغط `WIN+R` واحذف: `%USERPROFILE%\.local\share\openqcode`
+   على Windows، اضغط `WIN+R` واحذف: `%USERPROFILE%\.local\share\homecode`
 
 3. أعد المصادقة مع المزوّد باستخدام الأمر `/connect` في واجهة TUI.
 
@@ -251,21 +251,21 @@ description: المشكلات الشائعة وكيفية حلها.
 
 ### AI_APICallError ومشكلات حزم المزوّد
 
-إذا واجهت أخطاء في استدعاءات API، فقد يكون السبب حزم مزوّد قديمة. يقوم openqcode بتثبيت حزم المزوّد (OpenAI و Anthropic و Google وغير ذلك) ديناميكيا عند الحاجة ويقوم بتخزينها مؤقتا محليا.
+إذا واجهت أخطاء في استدعاءات API، فقد يكون السبب حزم مزوّد قديمة. يقوم homecode بتثبيت حزم المزوّد (OpenAI و Anthropic و Google وغير ذلك) ديناميكيا عند الحاجة ويقوم بتخزينها مؤقتا محليا.
 
 لحل مشكلات حزم المزوّد:
 
 1. امسح ذاكرة التخزين المؤقت لحزم المزوّد:
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   على Windows، اضغط `WIN+R` واحذف: `%USERPROFILE%\.cache\openqcode`
+   على Windows، اضغط `WIN+R` واحذف: `%USERPROFILE%\.cache\homecode`
 
-2. أعد تشغيل openqcode لإعادة تثبيت أحدث حزم المزوّد
+2. أعد تشغيل homecode لإعادة تثبيت أحدث حزم المزوّد
 
-سيجبر ذلك openqcode على تنزيل أحدث إصدارات حزم المزوّد، وهو ما يحل غالبا مشكلات التوافق مع معاملات النماذج وتغييرات API.
+سيجبر ذلك homecode على تنزيل أحدث إصدارات حزم المزوّد، وهو ما يحل غالبا مشكلات التوافق مع معاملات النماذج وتغييرات API.
 
 ---
 
@@ -296,4 +296,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-سيكتشف openqcode ما إذا كنت تستخدم Wayland ويفضل `wl-clipboard`، وإلا فسيحاول العثور على أدوات الحافظة بالترتيب التالي: `xclip` ثم `xsel`.
+سيكتشف homecode ما إذا كنت تستخدم Wayland ويفضل `wl-clipboard`، وإلا فسيحاول العثور على أدوات الحافظة بالترتيب التالي: `xclip` ثم `xsel`.

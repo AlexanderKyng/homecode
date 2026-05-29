@@ -1,4 +1,4 @@
-import { createSimpleContext } from "@openqcode-ai/ui/context"
+import { createSimpleContext } from "@homecode-ai/ui/context"
 import { useServerSDK } from "./server-sdk"
 
 export const { use: useSDK, provider: SDKProvider } = createSimpleContext({

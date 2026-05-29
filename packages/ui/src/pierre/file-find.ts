@@ -79,8 +79,8 @@ function installShortcuts() {
 function clearHighlightFind() {
   const api = (globalThis as { CSS?: { highlights?: { delete: (name: string) => void } } }).CSS?.highlights
   if (!api) return
-  api.delete("openqcode-find")
-  api.delete("openqcode-find-current")
+  api.delete("homecode-find")
+  api.delete("homecode-find-current")
 }
 
 function supportsHighlights() {
@@ -296,14 +296,14 @@ export function createFileFind(opts: CreateFileFindOptions) {
     const Highlight = (globalThis as unknown as { Highlight?: any }).Highlight
     if (!api || typeof Highlight !== "function") return false
 
-    api.delete("openqcode-find")
-    api.delete("openqcode-find-current")
+    api.delete("homecode-find")
+    api.delete("homecode-find-current")
 
     const active = ranges[currentIndex]
-    if (active) api.set("openqcode-find-current", new Highlight(active))
+    if (active) api.set("homecode-find-current", new Highlight(active))
 
     const rest = ranges.filter((_, i) => i !== currentIndex)
-    if (rest.length > 0) api.set("openqcode-find", new Highlight(...rest))
+    if (rest.length > 0) api.set("homecode-find", new Highlight(...rest))
     return true
   }
 

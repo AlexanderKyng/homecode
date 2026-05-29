@@ -1,15 +1,15 @@
 ---
 title: Introduksjon
-description: Kom i gang med OpenQCode.
+description: Kom i gang med HomeCode.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 import config from "../../../../config.mjs"
 export const console = config.console
 
-[**OpenQCode**](/) er en åpen kildekode AI kodeagent. Den er tilgjengelig som et terminalbasert grensesnitt, skrivebordsapp eller IDE-utvidelse.
+[**HomeCode**](/) er en åpen kildekode AI kodeagent. Den er tilgjengelig som et terminalbasert grensesnitt, skrivebordsapp eller IDE-utvidelse.
 
-![OpenQCode TUI med openqcode-temaet](../../../assets/lander/screenshot.png)
+![HomeCode TUI med homecode-temaet](../../../assets/lander/screenshot.png)
 
 La oss komme i gang.
 
@@ -17,7 +17,7 @@ La oss komme i gang.
 
 #### Forutsetninger
 
-For å bruke OpenQCode i terminalen din trenger du:
+For å bruke HomeCode i terminalen din trenger du:
 
 1. En moderne terminalemulator som:
    - [WezTerm](https://wezterm.org), på tvers av plattformer
@@ -31,10 +31,10 @@ For å bruke OpenQCode i terminalen din trenger du:
 
 ## Installasjon
 
-Den enkleste måten å installere OpenQCode på er gjennom installasjonsskriptet.
+Den enkleste måten å installere HomeCode på er gjennom installasjonsskriptet.
 
 ```bash
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 ```
 
 Du kan også installere den med følgende kommandoer:
@@ -45,28 +45,28 @@ Du kan også installere den med følgende kommandoer:
 
       <TabItem label="npm">
       ```bash
-      npm install -g openqcode-ai
+      npm install -g homecode-ai
       ```
 
           </TabItem>
 
         <TabItem label="Bun">
         ```bash
-        bun install -g openqcode-ai
+        bun install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="pnpm">
         ```bash
-        pnpm install -g openqcode-ai
+        pnpm install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="Yarn">
         ```bash
-        yarn global add openqcode-ai
+        yarn global add homecode-ai
         ```
 
       </TabItem>
@@ -76,68 +76,68 @@ Du kan også installere den med følgende kommandoer:
 - **Bruke Homebrew på macOS og Linux**
 
   ```bash
-  brew install anomalyco/tap/openqcode
+  brew install anomalyco/tap/homecode
   ```
 
-  > Vi anbefaler å bruke OpenQCode-tappen for de mest oppdaterte utgivelsene. Den offisielle `brew install openqcode`-formelen vedlikeholdes av Homebrew-teamet og oppdateres sjeldnere.
+  > Vi anbefaler å bruke HomeCode-tappen for de mest oppdaterte utgivelsene. Den offisielle `brew install homecode`-formelen vedlikeholdes av Homebrew-teamet og oppdateres sjeldnere.
 
 - **Bruke Paru på Arch Linux**
 
   ```bash
-  sudo pacman -S openqcode           # Arch Linux (Stable)
-  paru -S openqcode-bin              # Arch Linux (Latest from AUR)
+  sudo pacman -S homecode           # Arch Linux (Stable)
+  paru -S homecode-bin              # Arch Linux (Latest from AUR)
   ```
 
 #### Windows
 
 :::tip[Anbefalt: Bruk WSL]
-For den beste opplevelsen på Windows anbefaler vi å bruke [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Det gir bedre ytelse og full kompatibilitet med funksjonene i OpenQCode.
+For den beste opplevelsen på Windows anbefaler vi å bruke [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Det gir bedre ytelse og full kompatibilitet med funksjonene i HomeCode.
 :::
 
 - **Bruke Chocolatey**
 
   ```bash
-  choco install openqcode
+  choco install homecode
   ```
 
 - **Bruke Scoop**
 
   ```bash
-  scoop install openqcode
+  scoop install homecode
   ```
 
 - **Bruke npm**
 
   ```bash
-  npm install -g openqcode-ai
+  npm install -g homecode-ai
   ```
 
 - **Bruke Mise**
 
   ```bash
-  mise use -g github:anomalyco/openqcode
+  mise use -g github:anomalyco/homecode
   ```
 
 - **Bruke Docker**
 
   ```bash
-  docker run -it --rm ghcr.io/anomalyco/openqcode
+  docker run -it --rm ghcr.io/anomalyco/homecode
   ```
 
-Støtte for installasjon av OpenQCode på Windows med Bun er under arbeid.
+Støtte for installasjon av HomeCode på Windows med Bun er under arbeid.
 
-Du kan også hente binæren fra [Releases](https://github.com/anomalyco/openqcode/releases).
+Du kan også hente binæren fra [Releases](https://github.com/anomalyco/homecode/releases).
 
 ---
 
 ## Konfigurasjon
 
-Med OpenQCode kan du bruke hvilken som helst LLM-leverandør ved å konfigurere deres API-nøkler.
+Med HomeCode kan du bruke hvilken som helst LLM-leverandør ved å konfigurere deres API-nøkler.
 
-Hvis du er ukjent med LLM-leverandører, anbefaler vi å bruke [OpenQCode Zen](/docs/zen).
-Det er en kuratert liste over modeller som har blitt testet og verifisert av OpenQCode-teamet.
+Hvis du er ukjent med LLM-leverandører, anbefaler vi å bruke [HomeCode Zen](/docs/zen).
+Det er en kuratert liste over modeller som har blitt testet og verifisert av HomeCode-teamet.
 
-1. Kjør kommandoen `/connect` i TUI, velg OpenQCode og gå til [openqcode.ai/auth](https://openqcode.ai/auth).
+1. Kjør kommandoen `/connect` i TUI, velg HomeCode og gå til [homecode.ai/auth](https://homecode.ai/auth).
 
    ```txt
    /connect
@@ -167,33 +167,33 @@ du vil jobbe med.
 cd /path/to/project
 ```
 
-Og kjør OpenQCode.
+Og kjør HomeCode.
 
 ```bash
-openqcode
+homecode
 ```
 
-Deretter initialiserer du OpenQCode for prosjektet ved å kjøre følgende kommando.
+Deretter initialiserer du HomeCode for prosjektet ved å kjøre følgende kommando.
 
 ```bash frame="none"
 /init
 ```
 
-Dette vil få OpenQCode til å analysere prosjektet ditt og opprette en `AGENTS.md`-fil i
+Dette vil få HomeCode til å analysere prosjektet ditt og opprette en `AGENTS.md`-fil i
 prosjektroten.
 
 :::tip
 Du bør overgi prosjektets `AGENTS.md`-fil til Git.
 :::
 
-Dette hjelper OpenQCode med å forstå prosjektstrukturen og kodingsmønstrene
+Dette hjelper HomeCode med å forstå prosjektstrukturen og kodingsmønstrene
 brukt.
 
 ---
 
 ## Bruk
 
-Du er nå klar til å bruke OpenQCode for å jobbe med prosjektet ditt. Spør det gjerne
+Du er nå klar til å bruke HomeCode for å jobbe med prosjektet ditt. Spør det gjerne
 noe!
 
 Hvis du er ukjent med AI-kodeagenter, her er noen eksempler som kan
@@ -203,7 +203,7 @@ hjelpe.
 
 ### Still spørsmål
 
-Du kan be OpenQCode forklare kodebasen for deg.
+Du kan be HomeCode forklare kodebasen for deg.
 
 :::tip
 Bruk `@`-tasten for uklart søk etter filer i prosjektet.
@@ -219,11 +219,11 @@ Dette er nyttig hvis det er en del av kodebasen du ikke har jobbet med.
 
 ### Legg til funksjonalitet
 
-Du kan be OpenQCode legge til nye funksjoner i prosjektet ditt. Selv om vi først anbefaler å be den om å lage en plan.
+Du kan be HomeCode legge til nye funksjoner i prosjektet ditt. Selv om vi først anbefaler å be den om å lage en plan.
 
 1. **Lag en plan**
 
-   OpenQCode har en _Plan-modus_ som deaktiverer muligheten til å gjøre endringer og
+   HomeCode har en _Plan-modus_ som deaktiverer muligheten til å gjøre endringer og
    foreslår i stedet _hvordan_ den vil implementere funksjonen.
 
    Bytt til den ved å bruke **Tab**-tasten. Du vil se en indikator for dette i nedre høyre hjørne.
@@ -240,11 +240,11 @@ Du kan be OpenQCode legge til nye funksjoner i prosjektet ditt. Selv om vi førs
    From this screen, the user can undelete a note or permanently delete it.
    ```
 
-   Du bør gi OpenQCode nok detaljer til å forstå hva du ønsker. Det hjelper
+   Du bør gi HomeCode nok detaljer til å forstå hva du ønsker. Det hjelper
    å snakke med det som om du snakker med en juniorutvikler på laget ditt.
 
    :::tip
-   Gi OpenQCode mye kontekst og eksempler for å hjelpe den å forstå hva du
+   Gi HomeCode mye kontekst og eksempler for å hjelpe den å forstå hva du
    ønsker.
    :::
 
@@ -261,7 +261,7 @@ Du kan be OpenQCode legge til nye funksjoner i prosjektet ditt. Selv om vi førs
    Dra og slipp bilder i terminalen for å legge dem til ledeteksten.
    :::
 
-   OpenQCode kan skanne alle bilder du gir den og legge dem til i ledeteksten. Du kan
+   HomeCode kan skanne alle bilder du gir den og legge dem til i ledeteksten. Du kan
    gjør dette ved å dra og slippe et bilde inn i terminalen.
 
 3. **Bygg funksjonen**
@@ -283,7 +283,7 @@ Du kan be OpenQCode legge til nye funksjoner i prosjektet ditt. Selv om vi førs
 
 ### Gjør endringer
 
-For mer enkle endringer kan du be OpenQCode om å bygge det direkte
+For mer enkle endringer kan du be HomeCode om å bygge det direkte
 uten å måtte gjennomgå planen først.
 
 ```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
@@ -292,14 +292,14 @@ handled in the /notes route in @packages/functions/src/notes.ts and implement
 the same logic in @packages/functions/src/settings.ts
 ```
 
-Sørg for å gi nok detaljer, slik at OpenQCode gjør de rette
+Sørg for å gi nok detaljer, slik at HomeCode gjør de rette
 endringene.
 
 ---
 
 ### Angre endringer
 
-La oss si at du ber OpenQCode om å gjøre noen endringer.
+La oss si at du ber HomeCode om å gjøre noen endringer.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
@@ -312,14 +312,14 @@ ved å bruke kommandoen `/undo`.
 /undo
 ```
 
-OpenQCode vil nå tilbakestille endringene du har gjort og vise den opprinnelige meldingen
+HomeCode vil nå tilbakestille endringene du har gjort og vise den opprinnelige meldingen
 igjen.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
 ```
 
-Herfra kan du justere ledeteksten og be OpenQCode om å prøve igjen.
+Herfra kan du justere ledeteksten og be HomeCode om å prøve igjen.
 
 :::tip
 Du kan kjøre `/undo` flere ganger for å angre flere endringer.
@@ -335,7 +335,7 @@ Eller du **kan gjøre om** endringene ved å bruke `/redo`-kommandoen.
 
 ## Deling
 
-Samtalene du har med OpenQCode kan [deles med din
+Samtalene du har med HomeCode kan [deles med din
 team](/docs/share).
 
 ```bash frame="none"
@@ -348,12 +348,12 @@ Dette vil opprette en kobling til den gjeldende samtalen og kopiere den til utkl
 Samtaler deles ikke som standard.
 :::
 
-Her er en [eksempelsamtale](https://openqcode.ai/s/4XP1fce5) med OpenQCode.
+Her er en [eksempelsamtale](https://homecode.ai/s/4XP1fce5) med HomeCode.
 
 ---
 
 ## Tilpasning
 
-Og det er det! Du er nå en proff på å bruke OpenQCode.
+Og det er det! Du er nå en proff på å bruke HomeCode.
 
-For å tilpasse det anbefaler vi å [velge et tema](/docs/themes), [tilpasse tastebindingene](/docs/keybinds), [konfigurere kodeformattere](/docs/formatters), [opprette egendefinerte kommandoer](/docs/commands) eller leke med [OpenQCode-konfigurasjonen](/docs/config).
+For å tilpasse det anbefaler vi å [velge et tema](/docs/themes), [tilpasse tastebindingene](/docs/keybinds), [konfigurere kodeformattere](/docs/formatters), [opprette egendefinerte kommandoer](/docs/commands) eller leke med [HomeCode-konfigurasjonen](/docs/config).

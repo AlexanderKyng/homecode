@@ -1,9 +1,9 @@
-import { createOpencodeClient } from "@openqcode-ai/sdk/v2/client"
+import { createOpencodeClient } from "@homecode-ai/sdk/v2/client"
 import type { ServerConnection } from "@/context/server"
 import { decode64 } from "@/utils/base64"
 
 export function authTokenFromCredentials(input: { username?: string; password: string }) {
-  return btoa(`${input.username ?? "openqcode"}:${input.password}`)
+  return btoa(`${input.username ?? "homecode"}:${input.password}`)
 }
 
 export function authFromToken(token: string | null) {
@@ -12,7 +12,7 @@ export function authFromToken(token: string | null) {
   const separator = decoded.indexOf(":")
   if (separator === -1) return
   return {
-    username: decoded.slice(0, separator) || "openqcode",
+    username: decoded.slice(0, separator) || "homecode",
     password: decoded.slice(separator + 1),
   }
 }

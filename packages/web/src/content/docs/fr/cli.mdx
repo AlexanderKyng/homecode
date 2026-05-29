@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: Options et commandes de la CLI OpenQCode.
+description: Options et commandes de la CLI HomeCode.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-La CLI OpenQCode démarre par défaut le [TUI](/docs/tui) lorsqu'il est exécuté sans aucun argument.
+La CLI HomeCode démarre par défaut le [TUI](/docs/tui) lorsqu'il est exécuté sans aucun argument.
 
 ```bash
-openqcode
+homecode
 ```
 
-Mais elle accepte également les commandes documentées sur cette page. Cela vous permet d'interagir avec OpenQCode par programme.
+Mais elle accepte également les commandes documentées sur cette page. Cela vous permet d'interagir avec HomeCode par programme.
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-Démarrez l’interface utilisateur du terminal OpenQCode.
+Démarrez l’interface utilisateur du terminal HomeCode.
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### Options
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## Commandes
 
-La CLI OpenQCode dispose également des commandes suivantes.
+La CLI HomeCode dispose également des commandes suivantes.
 
 ---
 
 ### agent
 
-Gérer les agents pour OpenQCode.
+Gérer les agents pour HomeCode.
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-Attachez un terminal à un serveur backend OpenQCode déjà en cours d'exécution démarré via les commandes `serve` ou `web`.
+Attachez un terminal à un serveur backend HomeCode déjà en cours d'exécution démarré via les commandes `serve` ou `web`.
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-Cela permet d'utiliser le TUI avec un backend OpenQCode distant. Par exemple :
+Cela permet d'utiliser le TUI avec un backend HomeCode distant. Par exemple :
 
 ```bash
 # Start the backend server for web/mobile access
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # In another terminal, attach the TUI to the running backend
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### Options
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s`  | ID de session pour continuer                                                                       |
 | <nobr><code>{"--fork"}</code></nobr>     |       | Dupliquer la session lors de la reprise (à utiliser avec `--continue` ou `--session`)              |
 | <nobr><code>{"--password"}</code></nobr> | `-p`  | Mot de passe d'authentification de base (par défaut `OPENCODE_SERVER_PASSWORD`)                    |
-| <nobr><code>{"--username"}</code></nobr> | `-u`  | Nom d'utilisateur d'authentification de base (par défaut `OPENCODE_SERVER_USERNAME` ou `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Nom d'utilisateur d'authentification de base (par défaut `OPENCODE_SERVER_USERNAME` ou `homecode`) |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 Créez un nouvel agent avec une configuration personnalisée.
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 Cette commande vous guidera dans la création d'un nouvel agent avec un prompt système personnalisé et une configuration d'outils.
@@ -106,7 +106,7 @@ Cette commande vous guidera dans la création d'un nouvel agent avec un prompt s
 Liste tous les agents disponibles.
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 Commande pour gérer les informations d’identification et la connexion des fournisseurs.
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-OpenQCode est alimenté par la liste des fournisseurs sur [Models.dev](https://models.dev), vous pouvez donc utiliser `openqcode auth login` pour configurer les clés API pour tout fournisseur que vous souhaitez utiliser. Ceci est stocké dans `~/.local/share/openqcode/auth.json`.
+HomeCode est alimenté par la liste des fournisseurs sur [Models.dev](https://models.dev), vous pouvez donc utiliser `homecode auth login` pour configurer les clés API pour tout fournisseur que vous souhaitez utiliser. Ceci est stocké dans `~/.local/share/homecode/auth.json`.
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-Lorsque OpenQCode démarre, il charge les fournisseurs à partir du fichier d'informations d'identification, ainsi que les clés définies dans vos environnements ou un fichier `.env` dans votre projet.
+Lorsque HomeCode démarre, il charge les fournisseurs à partir du fichier d'informations d'identification, ainsi que les clés définies dans vos environnements ou un fichier `.env` dans votre projet.
 
 ---
 
@@ -138,13 +138,13 @@ Lorsque OpenQCode démarre, il charge les fournisseurs à partir du fichier d'in
 Liste tous les fournisseurs authentifiés tels qu'ils sont stockés dans le fichier d'informations d'identification.
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 Ou la version courte.
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 Vous déconnecte d'un fournisseur en l'effaçant du fichier d'informations d'identification.
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 Gérez l'agent GitHub pour l'automatisation du dépôt.
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 Installez l'agent GitHub dans votre dépôt.
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 Cela configure le flux de travail GitHub Actions nécessaire et vous guide tout au long du processus de configuration. [En savoir plus](/docs/github).
@@ -186,7 +186,7 @@ Cela configure le flux de travail GitHub Actions nécessaire et vous guide tout 
 Exécutez l'agent GitHub. Ceci est généralement utilisé dans les GitHub Actions.
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### Options
@@ -203,7 +203,7 @@ openqcode github run
 Gérer les serveurs Model Context Protocol.
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 Ajoutez un serveur MCP à votre configuration.
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 Cette commande vous guidera dans l’ajout d’un serveur MCP local ou distant.
@@ -225,13 +225,13 @@ Cette commande vous guidera dans l’ajout d’un serveur MCP local ou distant.
 Liste tous les serveurs MCP configurés et leur état de connexion.
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 Ou utilisez la version courte.
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 Authentifiez-vous auprès d'un serveur MCP compatible OAuth.
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 Si vous ne fournissez pas de nom de serveur, vous serez invité à sélectionner parmi les serveurs compatibles OAuth disponibles.
@@ -249,13 +249,13 @@ Si vous ne fournissez pas de nom de serveur, vous serez invité à sélectionner
 Vous pouvez également répertorier les serveurs compatibles OAuth et leur statut d'authentification.
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 Ou utilisez la version courte.
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 Supprimez les informations d'identification OAuth pour un serveur MCP.
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 Déboguer les problèmes de connexion OAuth pour un serveur MCP.
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 Liste tous les modèles disponibles auprès des fournisseurs configurés.
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 Cette commande affiche tous les modèles disponibles parmi vos fournisseurs configurés au format `provider/model`.
@@ -295,7 +295,7 @@ Ceci est utile pour déterminer le nom exact du modèle à utiliser dans [votre 
 Vous pouvez éventuellement transmettre un ID de fournisseur pour filtrer les modèles en fonction de ce fournisseur.
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### Options
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | Actualisez le cache des modèles à partir de models.dev                                     |
 | <nobr><code>{"--verbose"}</code></nobr> | Utiliser une sortie de modèle plus détaillée (inclut des métadonnées telles que les coûts) |
 
-Utilisez l'option `--refresh` pour mettre à jour la liste des modèles mis en cache. Ceci est utile lorsque de nouveaux modèles ont été ajoutés à un fournisseur et que vous souhaitez les voir dans OpenQCode.
+Utilisez l'option `--refresh` pour mettre à jour la liste des modèles mis en cache. Ceci est utile lorsque de nouveaux modèles ont été ajoutés à un fournisseur et que vous souhaitez les voir dans HomeCode.
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-Exécutez openqcode en mode non interactif en transmettant directement un prompt.
+Exécutez homecode en mode non interactif en transmettant directement un prompt.
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 Ceci est utile pour les scripts, l'automatisation ou lorsque vous souhaitez une réponse rapide sans lancer le TUI complet. Par exemple :
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-Vous pouvez également vous connecter à une instance `openqcode serve` en cours d'exécution pour éviter les temps de démarrage à froid du serveur MCP à chaque exécution :
+Vous pouvez également vous connecter à une instance `homecode serve` en cours d'exécution pour éviter les temps de démarrage à froid du serveur MCP à chaque exécution :
 
 ```bash
 # Start a headless server in one terminal
-openqcode serve
+homecode serve
 
 # In another terminal, run commands that attach to it
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### Options
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f`  | Fichier(s) à joindre au message                                                                    |
 | <nobr><code>{"--format"}</code></nobr>   |       | Format : par défaut (formaté) ou json (événements JSON bruts)                                      |
 | <nobr><code>{"--title"}</code></nobr>    |       | Titre de la session (utilise un prompt tronqué si aucune valeur n'est fournie)                     |
-| <nobr><code>{"--attach"}</code></nobr>   |       | Connectez-vous à un serveur openqcode en cours d'exécution (par exemple, http://localhost:4096)     |
+| <nobr><code>{"--attach"}</code></nobr>   |       | Connectez-vous à un serveur homecode en cours d'exécution (par exemple, http://localhost:4096)     |
 | <nobr><code>{"--password"}</code></nobr> | `-p`  | Mot de passe d'authentification de base (par défaut `OPENCODE_SERVER_PASSWORD`)                    |
-| <nobr><code>{"--username"}</code></nobr> | `-u`  | Nom d'utilisateur d'authentification de base (par défaut `OPENCODE_SERVER_USERNAME` ou `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u`  | Nom d'utilisateur d'authentification de base (par défaut `OPENCODE_SERVER_USERNAME` ou `homecode`) |
 | <nobr><code>{"--dir"}</code></nobr>      |       | Répertoire d'exécution, ou chemin sur le serveur distant lors de l'attachement                     |
 | <nobr><code>{"--variant"}</code></nobr>  |       | Variante du modèle (effort de raisonnement spécifique au fournisseur)                              |
 | <nobr><code>{"--thinking"}</code></nobr> |       | Afficher les blocs de réflexion                                                                    |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-Démarrez un serveur OpenQCode sans interface graphique pour un accès API. Consultez le [serveur docs](/docs/server) pour l'interface complète HTTP.
+Démarrez un serveur HomeCode sans interface graphique pour un accès API. Consultez le [serveur docs](/docs/server) pour l'interface complète HTTP.
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-Cela démarre un serveur HTTP qui fournit un accès API aux fonctionnalités d'OpenQCode sans l'interface TUI. Définissez `OPENCODE_SERVER_PASSWORD` pour activer l'authentification de base HTTP (le nom d'utilisateur par défaut est `openqcode`).
+Cela démarre un serveur HTTP qui fournit un accès API aux fonctionnalités d'HomeCode sans l'interface TUI. Définissez `OPENCODE_SERVER_PASSWORD` pour activer l'authentification de base HTTP (le nom d'utilisateur par défaut est `homecode`).
 
 #### Options
 
@@ -384,20 +384,20 @@ Cela démarre un serveur HTTP qui fournit un accès API aux fonctionnalités d'O
 
 ### session
 
-Gérer les sessions OpenQCode.
+Gérer les sessions HomeCode.
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-Liste toutes les sessions OpenQCode.
+Liste toutes les sessions HomeCode.
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### Options
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-Affichez les statistiques d'utilisation et de coût des jetons pour vos sessions OpenQCode.
+Affichez les statistiques d'utilisation et de coût des jetons pour vos sessions HomeCode.
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### Options
@@ -433,7 +433,7 @@ openqcode stats
 Exportez les données de session au format JSON.
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 Si vous ne fournissez pas d'ID de session, vous serez invité à sélectionner parmi les sessions disponibles.
@@ -442,30 +442,30 @@ Si vous ne fournissez pas d'ID de session, vous serez invité à sélectionner p
 
 ### import
 
-Importez les données de session à partir d'un fichier JSON ou d'une URL de partage OpenQCode.
+Importez les données de session à partir d'un fichier JSON ou d'une URL de partage HomeCode.
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-Vous pouvez importer à partir d'un fichier local ou d'une URL de partage OpenQCode.
+Vous pouvez importer à partir d'un fichier local ou d'une URL de partage HomeCode.
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-Démarrez un serveur OpenQCode sans interface graphique avec une interface Web.
+Démarrez un serveur HomeCode sans interface graphique avec une interface Web.
 
 ```bash
-openqcode web
+homecode web
 ```
 
-Cela démarre un serveur HTTP et ouvre un navigateur Web pour accéder à OpenQCode via une interface Web. Définissez `OPENCODE_SERVER_PASSWORD` pour activer l'authentification de base HTTP (le nom d'utilisateur par défaut est `openqcode`).
+Cela démarre un serveur HTTP et ouvre un navigateur Web pour accéder à HomeCode via une interface Web. Définissez `OPENCODE_SERVER_PASSWORD` pour activer l'authentification de base HTTP (le nom d'utilisateur par défaut est `homecode`).
 
 #### Options
 
@@ -483,7 +483,7 @@ Cela démarre un serveur HTTP et ouvre un navigateur Web pour accéder à OpenQC
 Démarrez un serveur ACP (Agent Client Protocol).
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 Cette commande démarre un serveur ACP qui communique via stdin/stdout en utilisant nd-JSON.
@@ -500,10 +500,10 @@ Cette commande démarre un serveur ACP qui communique via stdin/stdout en utilis
 
 ### uninstall
 
-Désinstallez OpenQCode et supprimez tous les fichiers associés.
+Désinstallez HomeCode et supprimez tous les fichiers associés.
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### Options
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-Met à jour openqcode vers la dernière version ou une version spécifique.
+Met à jour homecode vers la dernière version ou une version spécifique.
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 Pour mettre à niveau vers la dernière version.
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 Pour passer à une version spécifique.
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### Options
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## Options globales
 
-La CLI openqcode prend les flags globaux suivants.
+La CLI homecode prend les flags globaux suivants.
 
 | Option                                     | Court | Description                              |
 | ------------------------------------------ | ----- | ---------------------------------------- |
@@ -560,7 +560,7 @@ La CLI openqcode prend les flags globaux suivants.
 
 ## Variables d'environnement
 
-OpenQCode peut être configuré à l'aide de variables d'environnement.
+HomeCode peut être configuré à l'aide de variables d'environnement.
 
 | Variables                             | Type    | Description                                                                       |
 | ------------------------------------- | ------- | --------------------------------------------------------------------------------- |
@@ -586,7 +586,7 @@ OpenQCode peut être configuré à l'aide de variables d'environnement.
 | `OPENCODE_CLIENT`                     | chaîne  | Identifiant du client (par défaut `cli`)                                          |
 | `OPENCODE_ENABLE_EXA`                 | booléen | Activer les outils de recherche Web Exa                                           |
 | `OPENCODE_SERVER_PASSWORD`            | chaîne  | Activer l'authentification de base pour `serve`/`web`                             |
-| `OPENCODE_SERVER_USERNAME`            | chaîne  | Remplacer le nom d'utilisateur d'authentification de base (par défaut `openqcode`) |
+| `OPENCODE_SERVER_USERNAME`            | chaîne  | Remplacer le nom d'utilisateur d'authentification de base (par défaut `homecode`) |
 | `OPENCODE_MODELS_URL`                 | chaîne  | URL personnalisé pour récupérer la configuration des modèles                      |
 
 ---

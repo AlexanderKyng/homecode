@@ -138,15 +138,15 @@ export namespace User {
             .then((rows) => rows[0]),
         )
 
-        const { InviteEmail } = await import("@openqcode-ai/console-mail/InviteEmail.jsx")
+        const { InviteEmail } = await import("@homecode-ai/console-mail/InviteEmail.jsx")
         await AWS.sendEmail({
           to: email,
-          subject: `You've been invited to join the ${emailInfo.workspaceName} workspace on OpenQCode`,
+          subject: `You've been invited to join the ${emailInfo.workspaceName} workspace on HomeCode`,
           body: render(
             // @ts-ignore
             InviteEmail({
               inviter: emailInfo.inviterEmail,
-              assetsUrl: `https://openqcode.ai/email`,
+              assetsUrl: `https://homecode.ai/email`,
               workspaceID: workspaceID,
               workspaceName: emailInfo.workspaceName,
             }),

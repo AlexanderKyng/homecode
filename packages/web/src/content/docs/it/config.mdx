@@ -1,19 +1,19 @@
 ---
 title: Configurazione
-description: Usa la configurazione JSON di OpenQCode.
+description: Usa la configurazione JSON di HomeCode.
 ---
 
-Puoi configurare OpenQCode usando un file di configurazione JSON.
+Puoi configurare HomeCode usando un file di configurazione JSON.
 
 ---
 
 ## Formato
 
-OpenQCode supporta sia **JSON** sia **JSONC** (JSON con commenti).
+HomeCode supporta sia **JSON** sia **JSONC** (JSON con commenti).
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
   "server": {
@@ -42,30 +42,30 @@ Per esempio, se la tua configurazione globale imposta `autoupdate: true` e la co
 
 Le sorgenti di configurazione vengono caricate in questo ordine (le successive sovrascrivono le precedenti):
 
-1. **Config remota** (da `.well-known/openqcode`) - default dell'organizzazione
-2. **Config globale** (`~/.config/openqcode/openqcode.json`) - preferenze utente
+1. **Config remota** (da `.well-known/homecode`) - default dell'organizzazione
+2. **Config globale** (`~/.config/homecode/homecode.json`) - preferenze utente
 3. **Config personalizzata** (variabile d'ambiente `OPENCODE_CONFIG`) - sovrascritture personalizzate
-4. **Config di progetto** (`openqcode.json` nel progetto) - impostazioni specifiche del progetto
-5. **Directory `.openqcode`** - agenti, comandi, plugin
+4. **Config di progetto** (`homecode.json` nel progetto) - impostazioni specifiche del progetto
+5. **Directory `.homecode`** - agenti, comandi, plugin
 6. **Config inline** (variabile d'ambiente `OPENCODE_CONFIG_CONTENT`) - sovrascritture a runtime
 
 Questo significa che la configurazione di progetto puo sovrascrivere i default globali, e la configurazione globale puo sovrascrivere i default remoti dell'organizzazione.
 
 :::note
-Le directory `.openqcode` e `~/.config/openqcode` usano **nomi al plurale** per le sottodirectory: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` e `themes/`. I nomi al singolare (ad es. `agent/`) sono supportati per retrocompatibilita.
+Le directory `.homecode` e `~/.config/homecode` usano **nomi al plurale** per le sottodirectory: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` e `themes/`. I nomi al singolare (ad es. `agent/`) sono supportati per retrocompatibilita.
 :::
 
 ---
 
 ### Configurazione remota
 
-Le organizzazioni possono fornire una configurazione predefinita tramite l'endpoint `.well-known/openqcode`. Viene recuperata automaticamente quando ti autentichi con un provider che lo supporta.
+Le organizzazioni possono fornire una configurazione predefinita tramite l'endpoint `.well-known/homecode`. Viene recuperata automaticamente quando ti autentichi con un provider che lo supporta.
 
 La configurazione remota viene caricata per prima e fa da livello base. Tutte le altre sorgenti (globale, progetto) possono sovrascrivere questi default.
 
 Per esempio, se la tua organizzazione fornisce server MCP disabilitati per impostazione predefinita:
 
-```json title="Remote config from .well-known/openqcode"
+```json title="Remote config from .well-known/homecode"
 {
   "mcp": {
     "jira": {
@@ -79,7 +79,7 @@ Per esempio, se la tua organizzazione fornisce server MCP disabilitati per impos
 
 Puoi abilitare server specifici nella tua configurazione locale:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "mcp": {
     "jira": {
@@ -95,9 +95,9 @@ Puoi abilitare server specifici nella tua configurazione locale:
 
 ### Configurazione globale
 
-Metti la configurazione globale di OpenQCode in `~/.config/openqcode/openqcode.json`. Usa la configurazione globale per preferenze server/runtime valide per l'utente come provider, modelli e permessi.
+Metti la configurazione globale di HomeCode in `~/.config/homecode/homecode.json`. Usa la configurazione globale per preferenze server/runtime valide per l'utente come provider, modelli e permessi.
 
-Per le impostazioni specifiche della TUI, usa `~/.config/openqcode/tui.json`.
+Per le impostazioni specifiche della TUI, usa `~/.config/homecode/tui.json`.
 
 La configurazione globale sovrascrive i default remoti dell'organizzazione.
 
@@ -105,7 +105,7 @@ La configurazione globale sovrascrive i default remoti dell'organizzazione.
 
 ### Configurazione di progetto
 
-Aggiungi `openqcode.json` nella root del progetto. La configurazione di progetto ha la precedenza piu alta tra i file standard: sovrascrive sia la configurazione globale sia quella remota.
+Aggiungi `homecode.json` nella root del progetto. La configurazione di progetto ha la precedenza piu alta tra i file standard: sovrascrive sia la configurazione globale sia quella remota.
 
 Per le impostazioni TUI specifiche del progetto, aggiungi `tui.json` nella stessa posizione.
 
@@ -113,7 +113,7 @@ Per le impostazioni TUI specifiche del progetto, aggiungi `tui.json` nella stess
 Metti la configurazione specifica del progetto nella root del progetto.
 :::
 
-Quando OpenQCode si avvia, cerca un file di configurazione nella directory corrente oppure risale fino alla directory Git piu vicina.
+Quando HomeCode si avvia, cerca un file di configurazione nella directory corrente oppure risale fino alla directory Git piu vicina.
 
 Questo file puo essere tranquillamente versionato in Git e usa lo stesso schema di quello globale.
 
@@ -125,7 +125,7 @@ Specifica un percorso personalizzato per il file di configurazione usando la var
 
 ```bash
 export OPENCODE_CONFIG=/path/to/my/custom-config.json
-openqcode run "Hello world"
+homecode run "Hello world"
 ```
 
 La configurazione personalizzata viene caricata tra quella globale e quella di progetto nell'ordine di precedenza.
@@ -134,22 +134,22 @@ La configurazione personalizzata viene caricata tra quella globale e quella di p
 
 ### Directory personalizzata
 
-Specifica una directory di configurazione personalizzata usando la variabile d'ambiente `OPENCODE_CONFIG_DIR`. Questa directory verra usata per cercare agenti, comandi, modalita e plugin proprio come la directory standard `.openqcode` e dovrebbe seguire la stessa struttura.
+Specifica una directory di configurazione personalizzata usando la variabile d'ambiente `OPENCODE_CONFIG_DIR`. Questa directory verra usata per cercare agenti, comandi, modalita e plugin proprio come la directory standard `.homecode` e dovrebbe seguire la stessa struttura.
 
 ```bash
 export OPENCODE_CONFIG_DIR=/path/to/my/config-directory
-openqcode run "Hello world"
+homecode run "Hello world"
 ```
 
-La directory personalizzata viene caricata dopo la configurazione globale e le directory `.openqcode`, quindi **puo sovrascrivere** le loro impostazioni.
+La directory personalizzata viene caricata dopo la configurazione globale e le directory `.homecode`, quindi **puo sovrascrivere** le loro impostazioni.
 
 ---
 
 ## Schema
 
-Il file di configurazione ha uno schema definito in [**`openqcode.ai/config.json`**](https://openqcode.ai/config.json).
+Il file di configurazione ha uno schema definito in [**`homecode.ai/config.json`**](https://homecode.ai/config.json).
 
-La configurazione TUI usa [**`openqcode.ai/tui.json`**](https://openqcode.ai/tui.json).
+La configurazione TUI usa [**`homecode.ai/tui.json`**](https://homecode.ai/tui.json).
 
 Il tuo editor dovrebbe poter validare e suggerire l'autocompletamento in base allo schema.
 
@@ -161,7 +161,7 @@ Usa un file dedicato `tui.json` (o `tui.jsonc`) per le impostazioni specifiche d
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "scroll_speed": 3,
   "scroll_acceleration": {
     "enabled": true
@@ -172,7 +172,7 @@ Usa un file dedicato `tui.json` (o `tui.jsonc`) per le impostazioni specifiche d
 
 Usa `OPENCODE_TUI_CONFIG` per puntare a un file di configurazione TUI personalizzato.
 
-Le chiavi legacy `theme`, `keybinds` e `tui` in `openqcode.json` sono deprecate e vengono migrate automaticamente quando possibile.
+Le chiavi legacy `theme`, `keybinds` e `tui` in `homecode.json` sono deprecate e vengono migrate automaticamente quando possibile.
 
 [Scopri di piu sulla configurazione TUI](/docs/tui#configure).
 
@@ -180,11 +180,11 @@ Le chiavi legacy `theme`, `keybinds` e `tui` in `openqcode.json` sono deprecate 
 
 ### Server
 
-Puoi configurare le impostazioni del server per i comandi `openqcode serve` e `openqcode web` tramite l'opzione `server`.
+Puoi configurare le impostazioni del server per i comandi `homecode serve` e `homecode web` tramite l'opzione `server`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -199,8 +199,8 @@ Opzioni disponibili:
 
 - `port` - Porta su cui ascoltare.
 - `hostname` - Nome host su cui ascoltare. Quando `mdns` e abilitato e non e impostato alcun hostname, il default e `0.0.0.0`.
-- `mdns` - Abilita la scoperta del servizio mDNS. Questo permette ad altri dispositivi sulla rete di scoprire il tuo server OpenQCode.
-- `mdnsDomain` - Nome di dominio personalizzato per il servizio mDNS. Predefinito: `openqcode.local`. Utile per eseguire piu istanze sulla stessa rete.
+- `mdns` - Abilita la scoperta del servizio mDNS. Questo permette ad altri dispositivi sulla rete di scoprire il tuo server HomeCode.
+- `mdnsDomain` - Nome di dominio personalizzato per il servizio mDNS. Predefinito: `homecode.local`. Utile per eseguire piu istanze sulla stessa rete.
 - `cors` - Origini aggiuntive da consentire per CORS quando usi il server HTTP da un client basato su browser. I valori devono essere origini complete (schema + host + porta opzionale), ad es. `https://app.example.com`.
 
 [Scopri di piu sul server](/docs/server).
@@ -211,9 +211,9 @@ Opzioni disponibili:
 
 Puoi gestire gli strumenti che un LLM puo usare tramite l'opzione `tools`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -227,24 +227,24 @@ Puoi gestire gli strumenti che un LLM puo usare tramite l'opzione `tools`.
 
 ### Modelli
 
-Puoi configurare provider e modelli da usare in OpenQCode tramite le opzioni `provider`, `model` e `small_model`.
+Puoi configurare provider e modelli da usare in HomeCode tramite le opzioni `provider`, `model` e `small_model`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
 }
 ```
 
-L'opzione `small_model` configura un modello separato per task leggeri come la generazione dei titoli. Per impostazione predefinita, OpenQCode prova a usare un modello più economico se disponibile dal tuo provider, altrimenti fa fallback sul tuo modello principale.
+L'opzione `small_model` configura un modello separato per task leggeri come la generazione dei titoli. Per impostazione predefinita, HomeCode prova a usare un modello più economico se disponibile dal tuo provider, altrimenti fa fallback sul tuo modello principale.
 
 Le opzioni del provider possono includere `timeout` e `setCacheKey`:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -271,9 +271,9 @@ Alcuni provider supportano opzioni di configurazione aggiuntive oltre alle impos
 
 Amazon Bedrock supporta una configurazione specifica per AWS:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -304,7 +304,7 @@ Imposta il tuo tema UI in `tui.json`.
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "theme": "tokyonight"
 }
 ```
@@ -317,9 +317,9 @@ Imposta il tuo tema UI in `tui.json`.
 
 Puoi configurare agenti specializzati per task specifici tramite l'opzione `agent`.
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -335,7 +335,7 @@ Puoi configurare agenti specializzati per task specifici tramite l'opzione `agen
 }
 ```
 
-Puoi anche definire agenti usando file markdown in `~/.config/openqcode/agents/` o `.openqcode/agents/`. [Scopri di piu](/docs/agents).
+Puoi anche definire agenti usando file markdown in `~/.config/homecode/agents/` o `.homecode/agents/`. [Scopri di piu](/docs/agents).
 
 ---
 
@@ -343,16 +343,16 @@ Puoi anche definire agenti usando file markdown in `~/.config/openqcode/agents/`
 
 Puoi impostare l'agente predefinito usando l'opzione `default_agent`. Questo determina quale agente viene usato quando non ne specifichi uno esplicitamente.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "default_agent": "plan"
 }
 ```
 
-L'agente predefinito deve essere un agente primary (non un subagent). Puo essere un agente integrato come `"build"` o `"plan"`, oppure un [agente personalizzato](/docs/agents) che hai definito. Se l'agente specificato non esiste o e un subagent, OpenQCode fara fallback su `"build"` mostrando un avviso.
+L'agente predefinito deve essere un agente primary (non un subagent). Puo essere un agente integrato come `"build"` o `"plan"`, oppure un [agente personalizzato](/docs/agents) che hai definito. Se l'agente specificato non esiste o e un subagent, HomeCode fara fallback su `"build"` mostrando un avviso.
 
-Questa impostazione si applica a tutte le interfacce: TUI, CLI (`openqcode run`), app desktop e GitHub Action.
+Questa impostazione si applica a tutte le interfacce: TUI, CLI (`homecode run`), app desktop e GitHub Action.
 
 ---
 
@@ -360,9 +360,9 @@ Questa impostazione si applica a tutte le interfacce: TUI, CLI (`openqcode run`)
 
 Puoi configurare la funzione di [condivisione](/docs/share) tramite l'opzione `share`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "share": "manual"
 }
 ```
@@ -381,9 +381,9 @@ Per impostazione predefinita, la condivisione e in modalita manuale e devi condi
 
 Puoi configurare comandi personalizzati per task ripetitivi tramite l'opzione `command`.
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -399,7 +399,7 @@ Puoi configurare comandi personalizzati per task ripetitivi tramite l'opzione `c
 }
 ```
 
-Puoi anche definire comandi usando file markdown in `~/.config/openqcode/commands/` o `.openqcode/commands/`. [Scopri di piu](/docs/commands).
+Puoi anche definire comandi usando file markdown in `~/.config/homecode/commands/` o `.homecode/commands/`. [Scopri di piu](/docs/commands).
 
 ---
 
@@ -409,7 +409,7 @@ Personalizza i keybind in `tui.json`.
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {}
 }
 ```
@@ -420,11 +420,11 @@ Personalizza i keybind in `tui.json`.
 
 ### Aggiornamenti automatici
 
-OpenQCode scarichera automaticamente eventuali aggiornamenti quando si avvia. Puoi disabilitare questa funzione con l'opzione `autoupdate`.
+HomeCode scarichera automaticamente eventuali aggiornamenti quando si avvia. Puoi disabilitare questa funzione con l'opzione `autoupdate`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "autoupdate": false
 }
 ```
@@ -438,9 +438,9 @@ Nota che questo funziona solo se non e stato installato con un package manager c
 
 Puoi configurare i formatter di codice tramite l'opzione `formatter`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -462,13 +462,13 @@ Puoi configurare i formatter di codice tramite l'opzione `formatter`.
 
 ### Permessi
 
-Per impostazione predefinita, openqcode **consente tutte le operazioni** senza richiedere un'approvazione esplicita. Puoi cambiarlo usando l'opzione `permission`.
+Per impostazione predefinita, homecode **consente tutte le operazioni** senza richiedere un'approvazione esplicita. Puoi cambiarlo usando l'opzione `permission`.
 
 Per esempio, per fare in modo che gli strumenti `edit` e `bash` richiedano l'approvazione dell'utente:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -484,9 +484,9 @@ Per esempio, per fare in modo che gli strumenti `edit` e `bash` richiedano l'app
 
 Puoi controllare il comportamento di compattazione del contesto tramite l'opzione `compaction`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "compaction": {
     "auto": true,
     "prune": true,
@@ -505,9 +505,9 @@ Puoi controllare il comportamento di compattazione del contesto tramite l'opzion
 
 Puoi configurare i pattern di ignoramento del file watcher tramite l'opzione `watcher`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -522,9 +522,9 @@ I pattern seguono la sintassi glob. Usali per escludere directory rumorose dal m
 
 Puoi configurare i server MCP che vuoi usare tramite l'opzione `mcp`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "mcp": {}
 }
 ```
@@ -535,14 +535,14 @@ Puoi configurare i server MCP che vuoi usare tramite l'opzione `mcp`.
 
 ### Plugin
 
-[I plugin](/docs/plugins) estendono OpenQCode con strumenti personalizzati, hook e integrazioni.
+[I plugin](/docs/plugins) estendono HomeCode con strumenti personalizzati, hook e integrazioni.
 
-Metti i file dei plugin in `.openqcode/plugins/` o `~/.config/openqcode/plugins/`. Puoi anche caricare plugin da npm tramite l'opzione `plugin`.
+Metti i file dei plugin in `.homecode/plugins/` o `~/.config/homecode/plugins/`. Puoi anche caricare plugin da npm tramite l'opzione `plugin`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
-  "plugin": ["openqcode-helicone-session", "@my-org/custom-plugin"]
+  "$schema": "https://homecode.ai/config.json",
+  "plugin": ["homecode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
 
@@ -554,9 +554,9 @@ Metti i file dei plugin in `.openqcode/plugins/` o `~/.config/openqcode/plugins/
 
 Puoi configurare le istruzioni per il modello che stai usando tramite l'opzione `instructions`.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -569,9 +569,9 @@ Accetta un array di percorsi e pattern glob verso file di istruzioni. [Scopri di
 
 Puoi disabilitare i provider caricati automaticamente tramite l'opzione `disabled_providers`. E utile quando vuoi impedire il caricamento di alcuni provider anche se le credenziali sono disponibili.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -592,14 +592,14 @@ L'opzione `disabled_providers` accetta un array di ID provider. Quando un provid
 
 Puoi specificare un'allowlist di provider tramite l'opzione `enabled_providers`. Se impostata, solo i provider indicati verranno abilitati e tutti gli altri saranno ignorati.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
 
-E utile quando vuoi limitare OpenQCode a usare solo alcuni provider invece di disabilitarli uno per uno.
+E utile quando vuoi limitare HomeCode a usare solo alcuni provider invece di disabilitarli uno per uno.
 
 :::note
 `disabled_providers` ha priorita su `enabled_providers`.
@@ -613,9 +613,9 @@ Se un provider appare sia in `enabled_providers` sia in `disabled_providers`, `d
 
 La chiave `experimental` contiene opzioni in sviluppo attivo.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "experimental": {}
 }
 ```
@@ -636,9 +636,9 @@ Puoi usare la sostituzione di variabili nei file di configurazione per referenzi
 
 Usa `{env:VARIABLE_NAME}` per sostituire variabili d'ambiente:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "model": "{env:OPENCODE_MODEL}",
   "provider": {
     "anthropic": {
@@ -659,9 +659,9 @@ Se la variabile d'ambiente non e impostata, verra sostituita con una stringa vuo
 
 Usa `{file:path/to/file}` per sostituire il contenuto di un file:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {

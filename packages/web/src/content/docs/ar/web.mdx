@@ -1,28 +1,28 @@
 ---
 title: الويب
-description: استخدام OpenQCode في متصفحك.
+description: استخدام HomeCode في متصفحك.
 ---
 
-يمكن تشغيل OpenQCode كتطبيق ويب داخل متصفحك، ليمنحك تجربة البرمجة القوية بالذكاء الاصطناعي نفسها دون الحاجة إلى terminal.
+يمكن تشغيل HomeCode كتطبيق ويب داخل متصفحك، ليمنحك تجربة البرمجة القوية بالذكاء الاصطناعي نفسها دون الحاجة إلى terminal.
 
-![OpenQCode Web - جلسة جديدة](../../../assets/web/web-homepage-new-session.png)
+![HomeCode Web - جلسة جديدة](../../../assets/web/web-homepage-new-session.png)
 
 ## البدء
 
 ابدأ تشغيل واجهة الويب عبر تنفيذ:
 
 ```bash
-openqcode web
+homecode web
 ```
 
-يؤدي ذلك إلى تشغيل خادم محلي على `127.0.0.1` بمنفذ عشوائي متاح، ويفتح OpenQCode تلقائيا في المتصفح الافتراضي لديك.
+يؤدي ذلك إلى تشغيل خادم محلي على `127.0.0.1` بمنفذ عشوائي متاح، ويفتح HomeCode تلقائيا في المتصفح الافتراضي لديك.
 
 :::caution
 إذا لم يتم تعيين `OPENCODE_SERVER_PASSWORD` فسيكون الخادم دون حماية. هذا مناسب للاستخدام المحلي، لكنه يجب أن يكون مُعينا عند إتاحة الوصول عبر الشبكة.
 :::
 
 :::tip[مستخدمو Windows]
-لأفضل تجربة، شغّل `openqcode web` من [WSL](/docs/windows-wsl) بدلا من PowerShell. يضمن ذلك وصولا صحيحا إلى نظام الملفات وتكاملا أفضل مع terminal.
+لأفضل تجربة، شغّل `homecode web` من [WSL](/docs/windows-wsl) بدلا من PowerShell. يضمن ذلك وصولا صحيحا إلى نظام الملفات وتكاملا أفضل مع terminal.
 :::
 
 ---
@@ -33,21 +33,21 @@ openqcode web
 
 ### المنفذ
 
-افتراضيا، يختار OpenQCode منفذا متاحا. يمكنك تحديد منفذ:
+افتراضيا، يختار HomeCode منفذا متاحا. يمكنك تحديد منفذ:
 
 ```bash
-openqcode web --port 4096
+homecode web --port 4096
 ```
 
 ### اسم المضيف
 
-افتراضيا، يرتبط الخادم بـ `127.0.0.1` (للاستخدام المحلي فقط). لجعل OpenQCode متاحا على شبكتك:
+افتراضيا، يرتبط الخادم بـ `127.0.0.1` (للاستخدام المحلي فقط). لجعل HomeCode متاحا على شبكتك:
 
 ```bash
-openqcode web --hostname 0.0.0.0
+homecode web --hostname 0.0.0.0
 ```
 
-عند استخدام `0.0.0.0` سيعرض OpenQCode كلا من عناوين الوصول المحلي وعناوين الشبكة:
+عند استخدام `0.0.0.0` سيعرض HomeCode كلا من عناوين الوصول المحلي وعناوين الشبكة:
 
 ```
   Local access:       http://localhost:4096
@@ -59,15 +59,15 @@ openqcode web --hostname 0.0.0.0
 فعّل mDNS لجعل خادمك قابلا للاكتشاف على الشبكة المحلية:
 
 ```bash
-openqcode web --mdns
+homecode web --mdns
 ```
 
-يضبط ذلك تلقائيا اسم المضيف إلى `0.0.0.0` ويعلن عن الخادم باسم `openqcode.local`.
+يضبط ذلك تلقائيا اسم المضيف إلى `0.0.0.0` ويعلن عن الخادم باسم `homecode.local`.
 
 يمكنك تخصيص اسم نطاق mDNS لتشغيل عدة نسخ على الشبكة نفسها:
 
 ```bash
-openqcode web --mdns --mdns-domain myproject.local
+homecode web --mdns --mdns-domain myproject.local
 ```
 
 ### CORS
@@ -75,7 +75,7 @@ openqcode web --mdns --mdns-domain myproject.local
 للسماح بنطاقات إضافية عبر CORS (مفيد للواجهات الأمامية المخصصة):
 
 ```bash
-openqcode web --cors https://example.com
+homecode web --cors https://example.com
 ```
 
 ### المصادقة
@@ -83,28 +83,28 @@ openqcode web --cors https://example.com
 لحماية الوصول، عيّن كلمة مرور عبر متغير البيئة `OPENCODE_SERVER_PASSWORD`:
 
 ```bash
-OPENCODE_SERVER_PASSWORD=secret openqcode web
+OPENCODE_SERVER_PASSWORD=secret homecode web
 ```
 
-اسم المستخدم الافتراضي هو `openqcode`، ويمكن تغييره عبر `OPENCODE_SERVER_USERNAME`.
+اسم المستخدم الافتراضي هو `homecode`، ويمكن تغييره عبر `OPENCODE_SERVER_USERNAME`.
 
 ---
 
 ## استخدام واجهة الويب
 
-بعد التشغيل، تتيح لك واجهة الويب الوصول إلى جلسات OpenQCode الخاصة بك.
+بعد التشغيل، تتيح لك واجهة الويب الوصول إلى جلسات HomeCode الخاصة بك.
 
 ### الجلسات
 
 اعرض جلساتك وأدرها من الصفحة الرئيسية. يمكنك رؤية الجلسات النشطة وبدء جلسات جديدة.
 
-![OpenQCode Web - جلسة نشطة](../../../assets/web/web-homepage-active-session.png)
+![HomeCode Web - جلسة نشطة](../../../assets/web/web-homepage-active-session.png)
 
 ### حالة الخادم
 
 انقر على "See Servers" لعرض الخوادم المتصلة وحالتها.
 
-![OpenQCode Web - See Servers (عرض الخوادم)](../../../assets/web/web-homepage-see-servers.png)
+![HomeCode Web - See Servers (عرض الخوادم)](../../../assets/web/web-homepage-see-servers.png)
 
 ---
 
@@ -114,10 +114,10 @@ OPENCODE_SERVER_PASSWORD=secret openqcode web
 
 ```bash
 # ابدأ خادم الويب
-openqcode web --port 4096
+homecode web --port 4096
 
 # في محطة طرفية أخرى، اربط TUI
-openqcode attach http://localhost:4096
+homecode attach http://localhost:4096
 ```
 
 يتيح لك ذلك استخدام واجهة الويب وterminal في الوقت نفسه، مع مشاركة الجلسات والحالة نفسها.
@@ -126,7 +126,7 @@ openqcode attach http://localhost:4096
 
 ## ملف الإعدادات
 
-يمكنك أيضا ضبط إعدادات الخادم داخل ملف الإعدادات `openqcode.json`:
+يمكنك أيضا ضبط إعدادات الخادم داخل ملف الإعدادات `homecode.json`:
 
 ```json
 {

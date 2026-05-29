@@ -1,15 +1,15 @@
 ---
 title: Introdução
-description: Comece a usar o openqcode.
+description: Comece a usar o homecode.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 import config from "../../../../config.mjs"
 export const console = config.console
 
-[**openqcode**](/) é um agente de codificação de IA de código aberto. Está disponível como uma interface baseada em terminal, aplicativo desktop ou extensão de IDE.
+[**homecode**](/) é um agente de codificação de IA de código aberto. Está disponível como uma interface baseada em terminal, aplicativo desktop ou extensão de IDE.
 
-![openqcode TUI com o tema openqcode](../../../assets/lander/screenshot.png)
+![homecode TUI com o tema homecode](../../../assets/lander/screenshot.png)
 
 Vamos começar.
 
@@ -17,7 +17,7 @@ Vamos começar.
 
 #### Pré-requisitos
 
-Para usar o openqcode no seu terminal, você precisará de:
+Para usar o homecode no seu terminal, você precisará de:
 
 1. Um emulador de terminal moderno como:
    - [WezTerm](https://wezterm.org), multiplataforma
@@ -31,10 +31,10 @@ Para usar o openqcode no seu terminal, você precisará de:
 
 ## Instalação
 
-A maneira mais fácil de instalar o openqcode é através do script de instalação.
+A maneira mais fácil de instalar o homecode é através do script de instalação.
 
 ```bash
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 ```
 
 Você também pode instalá-lo com os seguintes comandos:
@@ -45,28 +45,28 @@ Você também pode instalá-lo com os seguintes comandos:
 
       <TabItem label="npm">
       ```bash
-      npm install -g openqcode-ai
+      npm install -g homecode-ai
       ```
 
           </TabItem>
 
         <TabItem label="Bun">
         ```bash
-        bun install -g openqcode-ai
+        bun install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="pnpm">
         ```bash
-        pnpm install -g openqcode-ai
+        pnpm install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="Yarn">
         ```bash
-        yarn global add openqcode-ai
+        yarn global add homecode-ai
         ```
 
       </TabItem>
@@ -76,68 +76,68 @@ Você também pode instalá-lo com os seguintes comandos:
 - **Usando Homebrew no macOS e Linux**
 
   ```bash
-  brew install anomalyco/tap/openqcode
+  brew install anomalyco/tap/homecode
   ```
 
-  > Recomendamos usar o tap do openqcode para as versões mais atualizadas. A fórmula oficial `brew install openqcode` é mantida pela equipe do Homebrew e é atualizada com menos frequência.
+  > Recomendamos usar o tap do homecode para as versões mais atualizadas. A fórmula oficial `brew install homecode` é mantida pela equipe do Homebrew e é atualizada com menos frequência.
 
 - **Usando Paru no Arch Linux**
 
   ```bash
-  sudo pacman -S openqcode           # Arch Linux (Stable)
-  paru -S openqcode-bin              # Arch Linux (Latest from AUR)
+  sudo pacman -S homecode           # Arch Linux (Stable)
+  paru -S homecode-bin              # Arch Linux (Latest from AUR)
   ```
 
 #### Windows
 
 :::tip[Recomendado: Use WSL]
-Para a melhor experiência no Windows, recomendamos usar o [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Ele oferece melhor desempenho e total compatibilidade com os recursos do openqcode.
+Para a melhor experiência no Windows, recomendamos usar o [Windows Subsystem for Linux (WSL)](/docs/windows-wsl). Ele oferece melhor desempenho e total compatibilidade com os recursos do homecode.
 :::
 
 - **Usando Chocolatey**
 
   ```bash
-  choco install openqcode
+  choco install homecode
   ```
 
 - **Usando Scoop**
 
   ```bash
-  scoop install openqcode
+  scoop install homecode
   ```
 
 - **Usando NPM**
 
   ```bash
-  npm install -g openqcode-ai
+  npm install -g homecode-ai
   ```
 
 - **Usando Mise**
 
   ```bash
-  mise use -g github:anomalyco/openqcode
+  mise use -g github:anomalyco/homecode
   ```
 
 - **Usando Docker**
 
   ```bash
-  docker run -it --rm ghcr.io/anomalyco/openqcode
+  docker run -it --rm ghcr.io/anomalyco/homecode
   ```
 
-O suporte para instalar o openqcode no Windows usando Bun está atualmente em andamento.
+O suporte para instalar o homecode no Windows usando Bun está atualmente em andamento.
 
-Você também pode baixar o binário na seção [Releases](https://github.com/anomalyco/openqcode/releases).
+Você também pode baixar o binário na seção [Releases](https://github.com/anomalyco/homecode/releases).
 
 ---
 
 ## Configuração
 
-Com o openqcode, você pode usar qualquer provedor de LLM configurando suas chaves de API.
+Com o homecode, você pode usar qualquer provedor de LLM configurando suas chaves de API.
 
-Se você é novo no uso de provedores de LLM, recomendamos usar o [OpenQCode Zen](/docs/zen).
-É uma lista selecionada de modelos que foram testados e verificados pela equipe do openqcode.
+Se você é novo no uso de provedores de LLM, recomendamos usar o [HomeCode Zen](/docs/zen).
+É uma lista selecionada de modelos que foram testados e verificados pela equipe do homecode.
 
-1. Execute o comando `/connect` no TUI, selecione openqcode e acesse [openqcode.ai/auth](https://openqcode.ai/auth).
+1. Execute o comando `/connect` no TUI, selecione homecode e acesse [homecode.ai/auth](https://homecode.ai/auth).
 
    ```txt
    /connect
@@ -166,31 +166,31 @@ Agora que você configurou um provedor, pode navegar até um projeto no qual des
 cd /path/to/project
 ```
 
-E execute o openqcode.
+E execute o homecode.
 
 ```bash
-openqcode
+homecode
 ```
 
-Em seguida, inicialize o openqcode para o projeto executando o seguinte comando.
+Em seguida, inicialize o homecode para o projeto executando o seguinte comando.
 
 ```bash frame="none"
 /init
 ```
 
-Isso fará com que o openqcode analise seu projeto e crie um arquivo `AGENTS.md` na raiz do projeto.
+Isso fará com que o homecode analise seu projeto e crie um arquivo `AGENTS.md` na raiz do projeto.
 
 :::tip
 Você deve commitar o arquivo `AGENTS.md` do seu projeto no Git.
 :::
 
-Isso ajuda o openqcode a entender a estrutura do projeto e os padrões de codificação utilizados.
+Isso ajuda o homecode a entender a estrutura do projeto e os padrões de codificação utilizados.
 
 ---
 
 ## Uso
 
-Agora você está pronto para usar o openqcode para trabalhar em seu projeto. Sinta-se à vontade para perguntar qualquer coisa!
+Agora você está pronto para usar o homecode para trabalhar em seu projeto. Sinta-se à vontade para perguntar qualquer coisa!
 
 Se você é novo no uso de um agente de codificação de IA, aqui estão alguns exemplos que podem ajudar.
 
@@ -198,7 +198,7 @@ Se você é novo no uso de um agente de codificação de IA, aqui estão alguns 
 
 ### Fazendo perguntas
 
-Você pode pedir ao openqcode para explicar a base de código para você.
+Você pode pedir ao homecode para explicar a base de código para você.
 
 :::tip
 Use a tecla `@` para buscar arquivos no projeto.
@@ -214,11 +214,11 @@ Isso é útil se houver uma parte da base de código na qual você não trabalho
 
 ### Adicionando recursos
 
-Você pode pedir ao openqcode para adicionar novos recursos ao seu projeto. Embora primeiro recomendemos pedir para ele criar um plano.
+Você pode pedir ao homecode para adicionar novos recursos ao seu projeto. Embora primeiro recomendemos pedir para ele criar um plano.
 
 1. **Criar um plano**
 
-   O openqcode tem um _Modo de Plano_ que desabilita sua capacidade de fazer alterações e, em vez disso, sugere _como_ implementará o recurso.
+   O homecode tem um _Modo de Plano_ que desabilita sua capacidade de fazer alterações e, em vez disso, sugere _como_ implementará o recurso.
 
    Mude para ele usando a tecla **Tab**. Você verá um indicador para isso no canto inferior direito.
 
@@ -234,10 +234,10 @@ Você pode pedir ao openqcode para adicionar novos recursos ao seu projeto. Embo
    From this screen, the user can undelete a note or permanently delete it.
    ```
 
-   Você quer dar ao openqcode detalhes suficientes para entender o que você deseja. Ajuda conversar com ele como se você estivesse falando com um desenvolvedor júnior da sua equipe.
+   Você quer dar ao homecode detalhes suficientes para entender o que você deseja. Ajuda conversar com ele como se você estivesse falando com um desenvolvedor júnior da sua equipe.
 
    :::tip
-   Dê ao openqcode bastante contexto e exemplos para ajudá-lo a entender o que você deseja.
+   Dê ao homecode bastante contexto e exemplos para ajudá-lo a entender o que você deseja.
    :::
 
 2. **Iterar sobre o plano**
@@ -253,7 +253,7 @@ Você pode pedir ao openqcode para adicionar novos recursos ao seu projeto. Embo
    Arraste e solte imagens no terminal para adicioná-las ao prompt.
    :::
 
-   O openqcode pode escanear qualquer imagem que você fornecer e adicioná-la ao prompt. Você pode fazer isso arrastando e soltando uma imagem no terminal.
+   O homecode pode escanear qualquer imagem que você fornecer e adicioná-la ao prompt. Você pode fazer isso arrastando e soltando uma imagem no terminal.
 
 3. **Construir o recurso**
 
@@ -273,7 +273,7 @@ Você pode pedir ao openqcode para adicionar novos recursos ao seu projeto. Embo
 
 ### Fazendo alterações
 
-Para alterações mais simples, você pode pedir ao openqcode para construí-las diretamente sem precisar revisar o plano primeiro.
+Para alterações mais simples, você pode pedir ao homecode para construí-las diretamente sem precisar revisar o plano primeiro.
 
 ```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
 We need to add authentication to the /settings route. Take a look at how this is
@@ -281,13 +281,13 @@ handled in the /notes route in @packages/functions/src/notes.ts and implement
 the same logic in @packages/functions/src/settings.ts
 ```
 
-Você quer ter certeza de fornecer uma boa quantidade de detalhes para que o openqcode faça as alterações corretas.
+Você quer ter certeza de fornecer uma boa quantidade de detalhes para que o homecode faça as alterações corretas.
 
 ---
 
 ### Desfazendo alterações
 
-Vamos supor que você peça ao openqcode para fazer algumas alterações.
+Vamos supor que você peça ao homecode para fazer algumas alterações.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
@@ -299,13 +299,13 @@ Mas você percebe que não era isso que você queria. Você **pode desfazer** as
 /undo
 ```
 
-O openqcode agora reverterá as alterações que você fez e mostrará sua mensagem original novamente.
+O homecode agora reverterá as alterações que você fez e mostrará sua mensagem original novamente.
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
 ```
 
-A partir daqui, você pode ajustar o prompt e pedir ao openqcode para tentar novamente.
+A partir daqui, você pode ajustar o prompt e pedir ao homecode para tentar novamente.
 
 :::tip
 Você pode executar `/undo` várias vezes para desfazer várias alterações.
@@ -321,7 +321,7 @@ Ou você **pode refazer** as alterações usando o comando `/redo`.
 
 ## Compartilhamento
 
-As conversas que você tem com o openqcode podem ser [compartilhadas com sua equipe](/docs/share).
+As conversas que você tem com o homecode podem ser [compartilhadas com sua equipe](/docs/share).
 
 ```bash frame="none"
 /share
@@ -333,12 +333,12 @@ Isso criará um link para a conversa atual e o copiará para sua área de transf
 As conversas não são compartilhadas por padrão.
 :::
 
-Aqui está uma [conversa de exemplo](https://openqcode.ai/s/4XP1fce5) com o openqcode.
+Aqui está uma [conversa de exemplo](https://homecode.ai/s/4XP1fce5) com o homecode.
 
 ---
 
 ## Personalização
 
-E é isso! Agora você é um profissional em usar o openqcode.
+E é isso! Agora você é um profissional em usar o homecode.
 
-Para torná-lo seu, recomendamos [escolher um tema](/docs/themes), [personalizar os atalhos de teclado](/docs/keybinds), [configurar formatadores de código](/docs/formatters), [criar comandos personalizados](/docs/commands) ou brincar com a [configuração do openqcode](/docs/config).
+Para torná-lo seu, recomendamos [escolher um tema](/docs/themes), [personalizar os atalhos de teclado](/docs/keybinds), [configurar formatadores de código](/docs/formatters), [criar comandos personalizados](/docs/commands) ou brincar com a [configuração do homecode](/docs/config).

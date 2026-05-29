@@ -1,9 +1,9 @@
 ---
 title: Complementos
-description: Escriba sus propios complementos para extender OpenQCode.
+description: Escriba sus propios complementos para extender HomeCode.
 ---
 
-Los complementos le permiten extender OpenQCode al conectarse a varios eventos y personalizar el comportamiento. Puede crear complementos para agregar nuevas funciones, integrarlos con servicios externos o modificar el comportamiento predeterminado de OpenQCode.
+Los complementos le permiten extender HomeCode al conectarse a varios eventos y personalizar el comportamiento. Puede crear complementos para agregar nuevas funciones, integrarlos con servicios externos o modificar el comportamiento predeterminado de HomeCode.
 
 Para ver ejemplos, consulte los [complementos](/docs/ecosystem#plugins) creados por la comunidad.
 
@@ -19,8 +19,8 @@ Hay dos formas de cargar complementos.
 
 Coloque los archivos JavaScript o TypeScript en el directorio del complemento.
 
-- `.openqcode/plugins/` - Complementos a nivel de proyecto
-- `~/.config/openqcode/plugins/` - Complementos globales
+- `.homecode/plugins/` - Complementos a nivel de proyecto
+- `~/.config/homecode/plugins/` - Complementos globales
 
 Los archivos en estos directorios se cargan automáticamente al inicio.
 
@@ -30,10 +30,10 @@ Los archivos en estos directorios se cargan automáticamente al inicio.
 
 Especifique paquetes npm en su archivo de configuración.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
-  "plugin": ["openqcode-helicone-session", "openqcode-wakatime", "@my-org/custom-plugin"]
+  "$schema": "https://homecode.ai/config.json",
+  "plugin": ["homecode-helicone-session", "homecode-wakatime", "@my-org/custom-plugin"]
 }
 ```
 
@@ -45,7 +45,7 @@ Explore los complementos disponibles en el [ecosistema](/docs/ecosystem#plugins)
 
 ### Cómo se instalan los complementos
 
-Los **complementos npm** se instalan automáticamente usando Bun al inicio. Los paquetes y sus dependencias se almacenan en caché en `~/.cache/openqcode/node_modules/`.
+Los **complementos npm** se instalan automáticamente usando Bun al inicio. Los paquetes y sus dependencias se almacenan en caché en `~/.cache/homecode/node_modules/`.
 
 **Los complementos locales** se cargan directamente desde el directorio de complementos. Para usar paquetes externos, debe crear un `package.json` dentro de su directorio de configuración (consulte [Dependencias](#dependencies)), o publicar el complemento en npm y [agregarlo a su configuración](/docs/config#plugins).
 
@@ -55,10 +55,10 @@ Los **complementos npm** se instalan automáticamente usando Bun al inicio. Los 
 
 Los complementos se cargan desde todas las fuentes y todos los enlaces se ejecutan en secuencia. El orden de carga es:
 
-1. Configuración global (`~/.config/openqcode/openqcode.json`)
-2. Configuración del proyecto (`openqcode.json`)
-3. Directorio global de complementos (`~/.config/openqcode/plugins/`)
-4. Directorio de complementos del proyecto (`.openqcode/plugins/`)
+1. Configuración global (`~/.config/homecode/homecode.json`)
+2. Configuración del proyecto (`homecode.json`)
+3. Directorio global de complementos (`~/.config/homecode/plugins/`)
+4. Directorio de complementos del proyecto (`.homecode/plugins/`)
 
 Los paquetes npm duplicados con el mismo nombre y versión se cargan una vez. Sin embargo, un complemento local y un complemento npm con nombres similares se cargan por separado.
 
@@ -75,7 +75,7 @@ funciones. Cada función recibe un objeto de contexto y devuelve un objeto de en
 
 Los complementos locales y las herramientas personalizadas pueden utilizar paquetes npm externos. Agregue un `package.json` a su directorio de configuración con las dependencias que necesita.
 
-```json title=".openqcode/package.json"
+```json title=".homecode/package.json"
 {
   "dependencies": {
     "shescape": "^2.1.0"
@@ -83,9 +83,9 @@ Los complementos locales y las herramientas personalizadas pueden utilizar paque
 }
 ```
 
-OpenQCode ejecuta `bun install` al inicio para instalarlos. Luego, sus complementos y herramientas pueden importarlos.
+HomeCode ejecuta `bun install` al inicio para instalarlos. Luego, sus complementos y herramientas pueden importarlos.
 
-```ts title=".openqcode/plugins/my-plugin.ts"
+```ts title=".homecode/plugins/my-plugin.ts"
 import { escape } from "shescape"
 
 export const MyPlugin = async (ctx) => {
@@ -103,7 +103,7 @@ export const MyPlugin = async (ctx) => {
 
 ### Estructura básica
 
-```js title=".openqcode/plugins/example.js"
+```js title=".homecode/plugins/example.js"
 export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
   console.log("Plugin initialized!")
 
@@ -118,7 +118,7 @@ La función del complemento recibe:
 - `project`: La información actual del proyecto.
 - `directory`: El directorio de trabajo actual.
 - `worktree`: La ruta del árbol de trabajo de git.
-- `client`: Un cliente SDK openqcode para interactuar con la IA.
+- `client`: Un cliente SDK homecode para interactuar con la IA.
 - `$`: [shell API](https://bun.com/docs/runtime/shell) de Bun para ejecutar comandos.
 
 ---
@@ -128,7 +128,7 @@ La función del complemento recibe:
 Para los complementos TypeScript, puede importar tipos desde el paquete de complementos:
 
 ```ts title="my-plugin.ts" {1}
-import type { Plugin } from "@openqcode-ai/plugin"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree }) => {
   return {
@@ -211,7 +211,7 @@ Los complementos pueden suscribirse a eventos como se ve a continuación en la s
 
 ## Ejemplos
 
-A continuación se muestran algunos ejemplos de complementos que puede utilizar para ampliar openqcode.
+A continuación se muestran algunos ejemplos de complementos que puede utilizar para ampliar homecode.
 
 ---
 
@@ -219,13 +219,13 @@ A continuación se muestran algunos ejemplos de complementos que puede utilizar 
 
 Enviar notificaciones cuando ocurran ciertos eventos:
 
-```js title=".openqcode/plugins/notification.js"
+```js title=".homecode/plugins/notification.js"
 export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {
   return {
     event: async ({ event }) => {
       // Send notification on session completion
       if (event.type === "session.idle") {
-        await $`osascript -e 'display notification "Session completed!" with title "openqcode"'`
+        await $`osascript -e 'display notification "Session completed!" with title "homecode"'`
       }
     },
   }
@@ -235,16 +235,16 @@ export const NotificationPlugin = async ({ project, client, $, directory, worktr
 Estamos usando `osascript` para ejecutar AppleScript en macOS. Aquí lo estamos usando para enviar notificaciones.
 
 :::note
-Si está utilizando la aplicación de escritorio OpenQCode, puede enviar notificaciones del sistema automáticamente cuando una respuesta esté lista o cuando se produzca un error en una sesión.
+Si está utilizando la aplicación de escritorio HomeCode, puede enviar notificaciones del sistema automáticamente cuando una respuesta esté lista o cuando se produzca un error en una sesión.
 :::
 
 ---
 
 ### Protección .env
 
-Evite que openqcode lea archivos `.env`:
+Evite que homecode lea archivos `.env`:
 
-```javascript title=".openqcode/plugins/env-protection.js"
+```javascript title=".homecode/plugins/env-protection.js"
 export const EnvProtection = async ({ project, client, $, directory, worktree }) => {
   return {
     "tool.execute.before": async (input, output) => {
@@ -262,7 +262,7 @@ export const EnvProtection = async ({ project, client, $, directory, worktree })
 
 Inyecte variables de entorno en toda la ejecución del shell (herramientas de inteligencia artificial y terminales de usuario):
 
-```javascript title=".openqcode/plugins/inject-env.js"
+```javascript title=".homecode/plugins/inject-env.js"
 export const InjectEnvPlugin = async () => {
   return {
     "shell.env": async (input, output) => {
@@ -277,10 +277,10 @@ export const InjectEnvPlugin = async () => {
 
 ### Herramientas personalizadas
 
-Los complementos también pueden agregar herramientas personalizadas a openqcode:
+Los complementos también pueden agregar herramientas personalizadas a homecode:
 
-```ts title=".openqcode/plugins/custom-tools.ts"
-import { type Plugin, tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/custom-tools.ts"
+import { type Plugin, tool } from "@homecode-ai/plugin"
 
 export const CustomToolsPlugin: Plugin = async (ctx) => {
   return {
@@ -300,13 +300,13 @@ export const CustomToolsPlugin: Plugin = async (ctx) => {
 }
 ```
 
-El ayudante `tool` crea una herramienta personalizada a la que openqcode puede llamar. Toma una función de esquema Zod y devuelve una definición de herramienta con:
+El ayudante `tool` crea una herramienta personalizada a la que homecode puede llamar. Toma una función de esquema Zod y devuelve una definición de herramienta con:
 
 - `description`: Qué hace la herramienta
 - `args`: Esquema Zod para los argumentos de la herramienta.
 - `execute`: Función que se ejecuta cuando se llama a la herramienta
 
-Sus herramientas personalizadas estarán disponibles para openqcode junto con las herramientas integradas.
+Sus herramientas personalizadas estarán disponibles para homecode junto con las herramientas integradas.
 
 :::note
 Si una herramienta de complemento utiliza el mismo nombre que una herramienta integrada, la herramienta de complemento tiene prioridad.
@@ -318,7 +318,7 @@ Si una herramienta de complemento utiliza el mismo nombre que una herramienta in
 
 Utilice `client.app.log()` en lugar de `console.log` para el registro estructurado:
 
-```ts title=".openqcode/plugins/my-plugin.ts"
+```ts title=".homecode/plugins/my-plugin.ts"
 export const MyPlugin = async ({ client }) => {
   await client.app.log({
     body: {
@@ -331,7 +331,7 @@ export const MyPlugin = async ({ client }) => {
 }
 ```
 
-Niveles: `debug`, `info`, `warn`, `error`. Consulte la [documentación del SDK](https://openqcode.ai/docs/sdk) para obtener más detalles.
+Niveles: `debug`, `info`, `warn`, `error`. Consulte la [documentación del SDK](https://homecode.ai/docs/sdk) para obtener más detalles.
 
 ---
 
@@ -339,8 +339,8 @@ Niveles: `debug`, `info`, `warn`, `error`. Consulte la [documentación del SDK](
 
 Personalice el contexto incluido cuando se compacta una sesión:
 
-```ts title=".openqcode/plugins/compaction.ts"
-import type { Plugin } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/compaction.ts"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const CompactionPlugin: Plugin = async (ctx) => {
   return {
@@ -363,8 +363,8 @@ El hook `experimental.session.compacting` se activa antes de que LLM genere un r
 
 También puede reemplazar completamente el mensaje de compactación configurando `output.prompt`:
 
-```ts title=".openqcode/plugins/custom-compaction.ts"
-import type { Plugin } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/custom-compaction.ts"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const CustomCompactionPlugin: Plugin = async (ctx) => {
   return {

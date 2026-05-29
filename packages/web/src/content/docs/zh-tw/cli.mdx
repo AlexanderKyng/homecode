@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: OpenQCode CLI 選項和指令。
+description: HomeCode CLI 選項和指令。
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-OpenQCode CLI 在不帶任何參數執行時，預設啟動 [TUI](/docs/tui)。
+HomeCode CLI 在不帶任何參數執行時，預設啟動 [TUI](/docs/tui)。
 
 ```bash
-openqcode
+homecode
 ```
 
-但它也接受本頁面中記錄的指令，使您可以透過程式方式與 OpenQCode 進行互動。
+但它也接受本頁面中記錄的指令，使您可以透過程式方式與 HomeCode 進行互動。
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-啟動 OpenQCode 終端機使用者介面。
+啟動 HomeCode 終端機使用者介面。
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### 旗標
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## 指令
 
-OpenQCode CLI 還提供以下指令。
+HomeCode CLI 還提供以下指令。
 
 ---
 
 ### agent
 
-管理 OpenQCode 的代理。
+管理 HomeCode 的代理。
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-將終端機連接到已透過 `serve` 或 `web` 指令啟動的 OpenQCode 後端伺服器。
+將終端機連接到已透過 `serve` 或 `web` 指令啟動的 HomeCode 後端伺服器。
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-這允許將 TUI 與遠端 OpenQCode 後端搭配使用。例如：
+這允許將 TUI 與遠端 HomeCode 後端搭配使用。例如：
 
 ```bash
 # Start the backend server for web/mobile access
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # In another terminal, attach the TUI to the running backend
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### 旗標
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s` | 要繼續的工作階段 ID                                                     |
 | <nobr><code>{"--fork"}</code></nobr>     |      | 繼續時分支工作階段（與 `--continue` 或 `--session` 一起使用）           |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | 基本驗證密碼（預設使用 `OPENCODE_SERVER_PASSWORD`）                     |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | 基本驗證使用者名稱（預設使用 `OPENCODE_SERVER_USERNAME` 或 `openqcode`） |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | 基本驗證使用者名稱（預設使用 `OPENCODE_SERVER_USERNAME` 或 `homecode`） |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 使用自訂設定建立新的代理。
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 此指令將引導您使用自訂系統提示詞和工具設定來建立新的代理。
@@ -106,7 +106,7 @@ openqcode agent create
 列出所有可用的代理。
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 管理供應商的憑證和登入資訊的指令。
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-OpenQCode 基於 [Models.dev](https://models.dev) 的供應商列表運作，因此您可以使用 `openqcode auth login` 為任何想要使用的供應商設定 API 金鑰。金鑰儲存在 `~/.local/share/openqcode/auth.json` 中。
+HomeCode 基於 [Models.dev](https://models.dev) 的供應商列表運作，因此您可以使用 `homecode auth login` 為任何想要使用的供應商設定 API 金鑰。金鑰儲存在 `~/.local/share/homecode/auth.json` 中。
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-OpenQCode 啟動時會從憑證檔案載入供應商資訊，同時也會載入環境變數或專案中 `.env` 檔案中定義的金鑰。
+HomeCode 啟動時會從憑證檔案載入供應商資訊，同時也會載入環境變數或專案中 `.env` 檔案中定義的金鑰。
 
 ---
 
@@ -138,13 +138,13 @@ OpenQCode 啟動時會從憑證檔案載入供應商資訊，同時也會載入�
 列出憑證檔案中儲存的所有已認證供應商。
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 或使用簡寫版本。
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 從憑證檔案中清除供應商資訊以完成登出。
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 管理用於儲存庫自動化的 GitHub 代理。
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 在您的儲存庫中安裝 GitHub 代理。
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 此指令會設定必要的 GitHub Actions 工作流程並引導您完成設定過程。[了解更多](/docs/github)。
@@ -186,7 +186,7 @@ openqcode github install
 執行 GitHub 代理。通常在 GitHub Actions 中使用。
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### 旗標
@@ -203,7 +203,7 @@ openqcode github run
 管理 Model Context Protocol 伺服器。
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 將 MCP 伺服器新增到您的設定中。
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 此指令將引導您新增本地或遠端 MCP 伺服器。
@@ -225,13 +225,13 @@ openqcode mcp add
 列出所有已設定的 MCP 伺服器及其連線狀態。
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 或使用簡寫版本。
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 對支援 OAuth 的 MCP 伺服器進行認證。
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 如果您不提供伺服器名稱，系統將提示您從可用的支援 OAuth 的伺服器中進行選擇。
@@ -249,13 +249,13 @@ openqcode mcp auth [name]
 您還可以列出支援 OAuth 的伺服器及其認證狀態。
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 或使用簡寫版本。
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 移除 MCP 伺服器的 OAuth 憑證。
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 偵錯 MCP 伺服器的 OAuth 連線問題。
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 列出已設定供應商的所有可用模型。
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 此指令以 `provider/model` 的格式顯示所有已設定供應商中可用的模型。
@@ -295,7 +295,7 @@ openqcode models [provider]
 您可以選擇傳入供應商 ID 來按供應商篩選模型。
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### 旗標
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | 從 models.dev 重新整理模型快取             |
 | <nobr><code>{"--verbose"}</code></nobr> | 使用更詳細的模型輸出（包含費用等中繼資料） |
 
-使用 `--refresh` 旗標可以更新快取的模型列表。當供應商新增了模型並且您希望在 OpenQCode 中看到它們時，此功能非常有用。
+使用 `--refresh` 旗標可以更新快取的模型列表。當供應商新增了模型並且您希望在 HomeCode 中看到它們時，此功能非常有用。
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-以非互動模式執行 OpenQCode，直接傳入提示詞。
+以非互動模式執行 HomeCode，直接傳入提示詞。
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 這對於指令碼編寫、自動化或無需啟動完整 TUI 即可快速取得答案的情境非常有用。例如：
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-您還可以連接到正在執行的 `openqcode serve` 實例，以避免每次執行時 MCP 伺服器的冷啟動時間：
+您還可以連接到正在執行的 `homecode serve` 實例，以避免每次執行時 MCP 伺服器的冷啟動時間：
 
 ```bash
 # Start a headless server in one terminal
-openqcode serve
+homecode serve
 
 # In another terminal, run commands that attach to it
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### 旗標
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f` | 附加到訊息的檔案                                                        |
 | <nobr><code>{"--format"}</code></nobr>   |      | 格式：default（格式化輸出）或 json（原始 JSON 事件）                    |
 | <nobr><code>{"--title"}</code></nobr>    |      | 工作階段標題（未提供值時使用截斷的提示詞）                              |
-| <nobr><code>{"--attach"}</code></nobr>   |      | 連接到正在執行的 openqcode 伺服器（例如 http://localhost:4096）          |
+| <nobr><code>{"--attach"}</code></nobr>   |      | 連接到正在執行的 homecode 伺服器（例如 http://localhost:4096）          |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | 基本驗證密碼（預設使用 `OPENCODE_SERVER_PASSWORD`）                     |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | 基本驗證使用者名稱（預設使用 `OPENCODE_SERVER_USERNAME` 或 `openqcode`） |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | 基本驗證使用者名稱（預設使用 `OPENCODE_SERVER_USERNAME` 或 `homecode`） |
 | <nobr><code>{"--dir"}</code></nobr>      |      | 執行目錄，或附加時遠端伺服器上的路徑                                    |
 | <nobr><code>{"--variant"}</code></nobr>  |      | 模型變體（特定於提供者的推理級別）                                      |
 | <nobr><code>{"--thinking"}</code></nobr> |      | 顯示思考區塊                                                            |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-啟動無介面的 OpenQCode 伺服器以提供 API 存取。查看[伺服器文件](/docs/server)了解完整的 HTTP 介面。
+啟動無介面的 HomeCode 伺服器以提供 API 存取。查看[伺服器文件](/docs/server)了解完整的 HTTP 介面。
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-此指令啟動一個 HTTP 伺服器，提供對 OpenQCode 功能的 API 存取，無需 TUI 介面。設定 `OPENCODE_SERVER_PASSWORD` 可啟用 HTTP 基本認證（使用者名稱預設為 `openqcode`）。
+此指令啟動一個 HTTP 伺服器，提供對 HomeCode 功能的 API 存取，無需 TUI 介面。設定 `OPENCODE_SERVER_PASSWORD` 可啟用 HTTP 基本認證（使用者名稱預設為 `homecode`）。
 
 #### 旗標
 
@@ -384,20 +384,20 @@ openqcode serve
 
 ### session
 
-管理 OpenQCode 工作階段。
+管理 HomeCode 工作階段。
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-列出所有 OpenQCode 工作階段。
+列出所有 HomeCode 工作階段。
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### 旗標
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-顯示 OpenQCode 工作階段的 Token 用量和費用統計資訊。
+顯示 HomeCode 工作階段的 Token 用量和費用統計資訊。
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### 旗標
@@ -433,7 +433,7 @@ openqcode stats
 將工作階段資料匯出為 JSON。
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 如果您不提供工作階段 ID，系統將提示您從可用的工作階段中進行選擇。
@@ -442,30 +442,30 @@ openqcode export [sessionID]
 
 ### import
 
-從 JSON 檔案或 OpenQCode 分享連結匯入工作階段資料。
+從 JSON 檔案或 HomeCode 分享連結匯入工作階段資料。
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-您可以從本地檔案或 OpenQCode 分享連結匯入。
+您可以從本地檔案或 HomeCode 分享連結匯入。
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-啟動帶有 Web 介面的無介面 OpenQCode 伺服器。
+啟動帶有 Web 介面的無介面 HomeCode 伺服器。
 
 ```bash
-openqcode web
+homecode web
 ```
 
-此指令啟動一個 HTTP 伺服器並開啟瀏覽器，透過 Web 介面存取 OpenQCode。設定 `OPENCODE_SERVER_PASSWORD` 可啟用 HTTP 基本認證（使用者名稱預設為 `openqcode`）。
+此指令啟動一個 HTTP 伺服器並開啟瀏覽器，透過 Web 介面存取 HomeCode。設定 `OPENCODE_SERVER_PASSWORD` 可啟用 HTTP 基本認證（使用者名稱預設為 `homecode`）。
 
 #### 旗標
 
@@ -483,7 +483,7 @@ openqcode web
 啟動 ACP（Agent Client Protocol）伺服器。
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 此指令啟動一個透過 stdin/stdout 使用 nd-JSON 進行通訊的 ACP 伺服器。
@@ -500,10 +500,10 @@ openqcode acp
 
 ### uninstall
 
-解除安裝 OpenQCode 並刪除所有相關檔案。
+解除安裝 HomeCode 並刪除所有相關檔案。
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### 旗標
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-將 OpenQCode 更新到最新版本或指定版本。
+將 HomeCode 更新到最新版本或指定版本。
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 更新到最新版本。
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 更新到指定版本。
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### 旗標
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## 全域旗標
 
-OpenQCode CLI 接受以下全域旗標。
+HomeCode CLI 接受以下全域旗標。
 
 | 旗標                                       | 簡寫 | 說明                                 |
 | ------------------------------------------ | ---- | ------------------------------------ |
@@ -560,7 +560,7 @@ OpenQCode CLI 接受以下全域旗標。
 
 ## 環境變數
 
-OpenQCode 可以透過環境變數進行設定。
+HomeCode 可以透過環境變數進行設定。
 
 | 變數                                  | 類型    | 說明                                        |
 | ------------------------------------- | ------- | ------------------------------------------- |
@@ -586,7 +586,7 @@ OpenQCode 可以透過環境變數進行設定。
 | `OPENCODE_CLIENT`                     | string  | 用戶端識別碼（預設為 `cli`）                |
 | `OPENCODE_ENABLE_EXA`                 | boolean | 啟用 Exa 網路搜尋工具                       |
 | `OPENCODE_SERVER_PASSWORD`            | string  | 為 `serve`/`web` 啟用基本認證               |
-| `OPENCODE_SERVER_USERNAME`            | string  | 覆寫基本認證使用者名稱（預設為 `openqcode`） |
+| `OPENCODE_SERVER_USERNAME`            | string  | 覆寫基本認證使用者名稱（預設為 `homecode`） |
 | `OPENCODE_MODELS_URL`                 | string  | 自訂模型設定擷取 URL                        |
 
 ---

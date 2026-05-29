@@ -1,4 +1,4 @@
-import { ZenData } from "@openqcode-ai/console-core/model.js"
+import { ZenData } from "@homecode-ai/console-core/model.js"
 import {
   fromAnthropicChunk,
   fromAnthropicRequest,

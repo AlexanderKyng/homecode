@@ -1,8 +1,8 @@
 import { Title } from "@solidjs/meta"
 import { createAsync, query, useParams } from "@solidjs/router"
 import { createSignal, For, Show } from "solid-js"
-import { Database, eq } from "@openqcode-ai/console-core/drizzle/index.js"
-import { BenchmarkTable } from "@openqcode-ai/console-core/schema/benchmark.sql.js"
+import { Database, eq } from "@homecode-ai/console-core/drizzle/index.js"
+import { BenchmarkTable } from "@homecode-ai/console-core/schema/benchmark.sql.js"
 import { useI18n } from "~/context/i18n"
 
 interface TaskSource {

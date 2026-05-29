@@ -1,68 +1,68 @@
 ---
 title: GitLab
-description: Usa OpenQCode in issue e merge request su GitLab.
+description: Usa HomeCode in issue e merge request su GitLab.
 ---
 
-OpenQCode si integra nel tuo workflow GitLab tramite la pipeline GitLab CI/CD o con GitLab Duo.
+HomeCode si integra nel tuo workflow GitLab tramite la pipeline GitLab CI/CD o con GitLab Duo.
 
-In entrambi i casi, OpenQCode girera' sui tuoi runner GitLab.
+In entrambi i casi, HomeCode girera' sui tuoi runner GitLab.
 
 ---
 
 ## GitLab CI
 
-OpenQCode funziona in una pipeline GitLab standard. Puoi integrarlo nella pipeline come [componente CI](https://docs.gitlab.com/ee/ci/components/).
+HomeCode funziona in una pipeline GitLab standard. Puoi integrarlo nella pipeline come [componente CI](https://docs.gitlab.com/ee/ci/components/).
 
-Qui usiamo un componente CI/CD creato dalla community per OpenQCode — [nagyv/gitlab-openqcode](https://gitlab.com/nagyv/gitlab-openqcode).
+Qui usiamo un componente CI/CD creato dalla community per HomeCode — [nagyv/gitlab-homecode](https://gitlab.com/nagyv/gitlab-homecode).
 
 ---
 
 ### Funzionalità
 
-- **Configurazione personalizzata per job**: configura OpenQCode con una directory di configurazione personalizzata, ad esempio `./config/#custom-directory`, per abilitare o disabilitare funzionalita' per ogni invocazione di OpenQCode.
-- **Setup minimo**: il componente CI prepara OpenQCode in background; devi solo creare la configurazione OpenQCode e il prompt iniziale.
+- **Configurazione personalizzata per job**: configura HomeCode con una directory di configurazione personalizzata, ad esempio `./config/#custom-directory`, per abilitare o disabilitare funzionalita' per ogni invocazione di HomeCode.
+- **Setup minimo**: il componente CI prepara HomeCode in background; devi solo creare la configurazione HomeCode e il prompt iniziale.
 - **Flessibile**: il componente CI supporta diversi input per personalizzarne il comportamento.
 
 ---
 
 ### Configurazione
 
-1. Salva il JSON di autenticazione di OpenQCode come variabile d'ambiente CI di tipo File in **Settings** > **CI/CD** > **Variables**. Assicurati di marcarla come "Masked and hidden".
+1. Salva il JSON di autenticazione di HomeCode come variabile d'ambiente CI di tipo File in **Settings** > **CI/CD** > **Variables**. Assicurati di marcarla come "Masked and hidden".
 2. Aggiungi quanto segue al tuo file `.gitlab-ci.yml`.
 
    ```yaml title=".gitlab-ci.yml"
    include:
-     - component: $CI_SERVER_FQDN/nagyv/gitlab-openqcode/openqcode@2
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-homecode/homecode@2
        inputs:
-         config_dir: ${CI_PROJECT_DIR}/openqcode-config
-         auth_json: $OPENCODE_AUTH_JSON # The variable name for your OpenQCode authentication JSON
+         config_dir: ${CI_PROJECT_DIR}/homecode-config
+         auth_json: $OPENCODE_AUTH_JSON # The variable name for your HomeCode authentication JSON
          command: optional-custom-command
          message: "Your prompt here"
    ```
 
-Per altri input e casi d'uso, [consulta la documentazione](https://gitlab.com/explore/catalog/nagyv/gitlab-openqcode) di questo componente.
+Per altri input e casi d'uso, [consulta la documentazione](https://gitlab.com/explore/catalog/nagyv/gitlab-homecode) di questo componente.
 
 ---
 
 ## GitLab Duo
 
-OpenQCode si integra nel tuo workflow GitLab.
-Menziona `@openqcode` in un commento e OpenQCode eseguira' i task dentro la tua pipeline GitLab CI.
+HomeCode si integra nel tuo workflow GitLab.
+Menziona `@homecode` in un commento e HomeCode eseguira' i task dentro la tua pipeline GitLab CI.
 
 ---
 
 ### Funzionalità
 
-- **Triage delle issue**: chiedi a OpenQCode di indagare su una issue e spiegartela.
-- **Fix e implementazioni**: chiedi a OpenQCode di risolvere una issue o implementare una feature.
+- **Triage delle issue**: chiedi a HomeCode di indagare su una issue e spiegartela.
+- **Fix e implementazioni**: chiedi a HomeCode di risolvere una issue o implementare una feature.
   Creera' un nuovo branch e aprira' una merge request con le modifiche.
-- **Sicuro**: OpenQCode gira sui tuoi runner GitLab.
+- **Sicuro**: HomeCode gira sui tuoi runner GitLab.
 
 ---
 
 ### Configurazione
 
-OpenQCode gira nella pipeline GitLab CI/CD. Ecco cosa ti serve per configurarlo:
+HomeCode gira nella pipeline GitLab CI/CD. Ecco cosa ti serve per configurarlo:
 
 :::tip
 Dai un'occhiata alle [**GitLab docs**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) per istruzioni aggiornate.
@@ -82,8 +82,8 @@ Dai un'occhiata alle [**GitLab docs**](https://docs.gitlab.com/user/duo_agent_pl
     ```yaml
     image: node:22-slim
     commands:
-      - echo "Installing openqcode"
-      - npm install --global openqcode-ai
+      - echo "Installing homecode"
+      - npm install --global homecode-ai
       - echo "Installing glab"
       - export GITLAB_TOKEN=$GITLAB_TOKEN_OPENCODE
       - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
@@ -91,10 +91,10 @@ Dai un'occhiata alle [**GitLab docs**](https://docs.gitlab.com/user/duo_agent_pl
       - apt-get install --yes glab
       - echo "Configuring glab"
       - echo $GITLAB_HOST
-      - echo "Creating OpenQCode auth configuration"
-      - mkdir --parents ~/.local/share/openqcode
+      - echo "Creating HomeCode auth configuration"
+      - mkdir --parents ~/.local/share/homecode
       - |
-        cat > ~/.local/share/openqcode/auth.json << EOF
+        cat > ~/.local/share/homecode/auth.json << EOF
         {
           "anthropic": {
             "type": "api",
@@ -103,13 +103,13 @@ Dai un'occhiata alle [**GitLab docs**](https://docs.gitlab.com/user/duo_agent_pl
         }
         EOF
       - echo "Configuring git"
-      - git config --global user.email "openqcode@gitlab.com"
-      - git config --global user.name "OpenQCode"
+      - git config --global user.email "homecode@gitlab.com"
+      - git config --global user.name "HomeCode"
       - echo "Testing glab"
       - glab issue list
-      - echo "Running OpenQCode"
+      - echo "Running HomeCode"
       - |
-        openqcode run "
+        homecode run "
         You are an AI assistant helping with GitLab operations.
 
         Context: $AI_FLOW_CONTEXT
@@ -158,10 +158,10 @@ Puoi fare riferimento alla [documentazione GitLab CLI agents](https://docs.gitla
 
 ### Esempi
 
-Ecco alcuni esempi di come puoi usare OpenQCode in GitLab.
+Ecco alcuni esempi di come puoi usare HomeCode in GitLab.
 
 :::tip
-Puoi configurare una frase trigger diversa da `@openqcode`.
+Puoi configurare una frase trigger diversa da `@homecode`.
 :::
 
 - **Spiega una issue**
@@ -169,27 +169,27 @@ Puoi configurare una frase trigger diversa da `@openqcode`.
   Aggiungi questo commento in una issue GitLab.
 
   ```
-  @openqcode explain this issue
+  @homecode explain this issue
   ```
 
-  OpenQCode leggera' la issue e rispondera' con una spiegazione chiara.
+  HomeCode leggera' la issue e rispondera' con una spiegazione chiara.
 
 - **Risolvi una issue**
 
   In una issue GitLab, scrivi:
 
   ```
-  @openqcode fix this
+  @homecode fix this
   ```
 
-  OpenQCode creera' un nuovo branch, implementera' le modifiche e aprira' una merge request con i cambiamenti.
+  HomeCode creera' un nuovo branch, implementera' le modifiche e aprira' una merge request con i cambiamenti.
 
 - **Rivedi merge request**
 
   Lascia il seguente commento su una merge request GitLab.
 
   ```
-  @openqcode review this merge request
+  @homecode review this merge request
   ```
 
-  OpenQCode rivedra' la merge request e fornira' feedback.
+  HomeCode rivedra' la merge request e fornira' feedback.

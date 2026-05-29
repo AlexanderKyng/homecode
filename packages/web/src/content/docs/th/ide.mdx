@@ -1,28 +1,28 @@
 ---
 title: IDE
-description: ส่วนขยาย OpenQCode สำหรับ VS Code, Cursor และ IDE อื่นๆ
+description: ส่วนขยาย HomeCode สำหรับ VS Code, Cursor และ IDE อื่นๆ
 ---
 
-OpenQCode ทำงานร่วมกับ VS Code, Cursor หรือ IDE ใดๆ ที่รองรับ terminal เพียงเรียกใช้ `openqcode` ใน terminal เพื่อเริ่มต้น
+HomeCode ทำงานร่วมกับ VS Code, Cursor หรือ IDE ใดๆ ที่รองรับ terminal เพียงเรียกใช้ `homecode` ใน terminal เพื่อเริ่มต้น
 
 ---
 
 ## การใช้งาน
 
-- **เปิดใช้ด่วน**: ใช้ `Cmd+Esc` (Mac) หรือ `Ctrl+Esc` (Windows/Linux) เพื่อเปิด OpenQCode ในมุมมอง terminal แบบแยก หรือเน้นเซสชัน terminal ที่มีอยู่หากมีการทำงานอยู่แล้ว
-- **เซสชันใหม่**: ใช้ `Cmd+Shift+Esc` (Mac) หรือ `Ctrl+Shift+Esc` (Windows/Linux) เพื่อเริ่มเซสชัน terminal OpenQCode ใหม่ แม้ว่าเซสชันหนึ่งจะเปิดอยู่แล้วก็ตาม คุณยังสามารถคลิกปุ่ม OpenQCode ใน UI ได้ด้วย
-- **การรับรู้บริบท**: แชร์การเลือกหรือแท็บปัจจุบันของคุณโดยอัตโนมัติด้วย OpenQCode
+- **เปิดใช้ด่วน**: ใช้ `Cmd+Esc` (Mac) หรือ `Ctrl+Esc` (Windows/Linux) เพื่อเปิด HomeCode ในมุมมอง terminal แบบแยก หรือเน้นเซสชัน terminal ที่มีอยู่หากมีการทำงานอยู่แล้ว
+- **เซสชันใหม่**: ใช้ `Cmd+Shift+Esc` (Mac) หรือ `Ctrl+Shift+Esc` (Windows/Linux) เพื่อเริ่มเซสชัน terminal HomeCode ใหม่ แม้ว่าเซสชันหนึ่งจะเปิดอยู่แล้วก็ตาม คุณยังสามารถคลิกปุ่ม HomeCode ใน UI ได้ด้วย
+- **การรับรู้บริบท**: แชร์การเลือกหรือแท็บปัจจุบันของคุณโดยอัตโนมัติด้วย HomeCode
 - **ทางลัดการอ้างอิงไฟล์**: ใช้ `Cmd+Option+K` (Mac) หรือ `Alt+Ctrl+K` (Linux/Windows) เพื่อแทรกการอ้างอิงไฟล์ ตัวอย่างเช่น `@File#L37-42`
 
 ---
 
 ## การติดตั้ง
 
-วิธีติดตั้ง OpenQCode บน VS Code และทางแยกยอดนิยม เช่น Cursor, Windsurf, VSCodium:
+วิธีติดตั้ง HomeCode บน VS Code และทางแยกยอดนิยม เช่น Cursor, Windsurf, VSCodium:
 
 1. เปิด VS Code
 2. เปิด terminal รวม
-3. เรียกใช้ `openqcode` - ​​ส่วนขยายจะติดตั้งโดยอัตโนมัติ
+3. เรียกใช้ `homecode` - ​​ส่วนขยายจะติดตั้งโดยอัตโนมัติ
 
 ในทางกลับกัน หากคุณต้องการใช้ IDE ของคุณเองเมื่อคุณเรียกใช้ `/editor` หรือ `/export` จาก TUI คุณจะต้องตั้งค่า `export EDITOR="code --wait"` [เรียนรู้เพิ่มเติม](/docs/tui/#editor-setup)
 
@@ -30,7 +30,7 @@ OpenQCode ทำงานร่วมกับ VS Code, Cursor หรือ IDE 
 
 ### ติดตั้งด้วยตนเอง
 
-ค้นหา **OpenQCode** ใน Extension Marketplace แล้วคลิก **ติดตั้ง**
+ค้นหา **HomeCode** ใน Extension Marketplace แล้วคลิก **ติดตั้ง**
 
 ---
 
@@ -38,7 +38,7 @@ OpenQCode ทำงานร่วมกับ VS Code, Cursor หรือ IDE 
 
 หากส่วนขยายไม่สามารถติดตั้งได้โดยอัตโนมัติ:
 
-- ตรวจสอบให้แน่ใจว่าคุณใช้งาน `openqcode` ใน terminal รวม
+- ตรวจสอบให้แน่ใจว่าคุณใช้งาน `homecode` ใน terminal รวม
 - ยืนยันว่า CLI สำหรับ IDE ของคุณได้รับการติดตั้งแล้ว:
   - สำหรับ VS Code: `code` คำสั่ง
   - สำหรับ Cursor: `cursor` คำสั่ง

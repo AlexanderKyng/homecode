@@ -1,15 +1,15 @@
 ---
 title: Formateadores
-description: OpenQCode utiliza formateadores específicos del idioma.
+description: HomeCode utiliza formateadores específicos del idioma.
 ---
 
-OpenQCode formatea automáticamente los archivos después de escribirlos o editarlos utilizando formateadores específicos del idioma. Esto garantiza que el código generado siga los estilos de código de su proyecto.
+HomeCode formatea automáticamente los archivos después de escribirlos o editarlos utilizando formateadores específicos del idioma. Esto garantiza que el código generado siga los estilos de código de su proyecto.
 
 ---
 
 ## Integrados
 
-OpenQCode viene con varios formateadores integrados para lenguajes y marcos populares. A continuación se muestra una lista de los formateadores, las extensiones de archivo compatibles y los comandos u opciones de configuración que necesita.
+HomeCode viene con varios formateadores integrados para lenguajes y marcos populares. A continuación se muestra una lista de los formateadores, las extensiones de archivo compatibles y los comandos u opciones de configuración que necesita.
 
 | Formateador          | Extensiones                                                                                          | Requisitos                                                                                                             |
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
@@ -39,13 +39,13 @@ OpenQCode viene con varios formateadores integrados para lenguajes y marcos popu
 | oxfmt (Experimental) | .js, .jsx, .ts, .tsx                                                                                 | Dependencia de `oxfmt` en `package.json` y un [indicador de variable de entorno experimental](/docs/cli/#experimental) |
 | ormolu               | .hs                                                                                                  | Comando `ormolu` disponible                                                                                            |
 
-Entonces, si su proyecto tiene `prettier` en su `package.json`, OpenQCode lo usará automáticamente.
+Entonces, si su proyecto tiene `prettier` en su `package.json`, HomeCode lo usará automáticamente.
 
 ---
 
 ## Cómo funciona
 
-Cuando OpenQCode escribe o edita un archivo:
+Cuando HomeCode escribe o edita un archivo:
 
 1. Comprueba la extensión del archivo con todos los formateadores habilitados.
 2. Ejecuta el comando de formateo apropiado en el archivo.
@@ -57,11 +57,11 @@ Este proceso ocurre en segundo plano, lo que garantiza que los estilos de su có
 
 ## Configuración
 
-Puede personalizar los formateadores a través de la sección `formatter` en su configuración OpenQCode.
+Puede personalizar los formateadores a través de la sección `formatter` en su configuración HomeCode.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {}
 }
 ```
@@ -83,18 +83,18 @@ Veamos algunos ejemplos.
 
 Para deshabilitar **todos** los formateadores globalmente, configure `formatter` en `false`:
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": false
 }
 ```
 
 Para deshabilitar un formateador **específico**, establezca `disabled` en `true`:
 
-```json title="openqcode.json" {5}
+```json title="homecode.json" {5}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -109,9 +109,9 @@ Para deshabilitar un formateador **específico**, establezca `disabled` en `true
 
 Puede anular los formateadores integrados o agregar otros nuevos especificando el comando, las variables de entorno y las extensiones de archivo:
 
-```json title="openqcode.json" {4-14}
+```json title="homecode.json" {4-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

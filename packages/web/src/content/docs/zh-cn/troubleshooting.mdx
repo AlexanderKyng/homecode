@@ -3,7 +3,7 @@ title: 故障排除
 description: 常见问题及其解决方法。
 ---
 
-要调试 OpenQCode 的问题，请先检查其存储在磁盘上的日志和本地数据。
+要调试 HomeCode 的问题，请先检查其存储在磁盘上的日志和本地数据。
 
 ---
 
@@ -11,21 +11,21 @@ description: 常见问题及其解决方法。
 
 日志文件写入位置：
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.local\share\homecode\log`
 
 日志文件以时间戳命名（例如 `2025-01-09T123456.log`），并保留最近的 10 个日志文件。
 
-你可以通过 `--log-level` 命令行选项设置日志级别以获取更详细的调试信息。例如：`openqcode --log-level DEBUG`。
+你可以通过 `--log-level` 命令行选项设置日志级别以获取更详细的调试信息。例如：`homecode --log-level DEBUG`。
 
 ---
 
 ## 存储
 
-OpenQCode 将会话数据和其他应用数据存储在磁盘上：
+HomeCode 将会话数据和其他应用数据存储在磁盘上：
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.local\share\homecode`
 
 该目录包含：
 
@@ -39,13 +39,13 @@ OpenQCode 将会话数据和其他应用数据存储在磁盘上：
 
 ## 桌面应用
 
-OpenQCode Desktop 会在后台运行一个本地 OpenQCode 服务器（即 `openqcode-cli` 附属进程）。大多数问题是由插件异常、缓存损坏或错误的服务器设置引起的。
+HomeCode Desktop 会在后台运行一个本地 HomeCode 服务器（即 `homecode-cli` 附属进程）。大多数问题是由插件异常、缓存损坏或错误的服务器设置引起的。
 
 ### 快速检查
 
 - 完全退出并重新启动应用。
 - 如果应用显示错误页面，请点击**重新启动**并复制错误详情。
-- 仅限 macOS：`OpenQCode` 菜单 -> **Reload Webview**（当 UI 空白或冻结时有效）。
+- 仅限 macOS：`HomeCode` 菜单 -> **Reload Webview**（当 UI 空白或冻结时有效）。
 
 ---
 
@@ -57,28 +57,28 @@ OpenQCode Desktop 会在后台运行一个本地 OpenQCode 服务器（即 `open
 
 打开你的全局配置文件，查找 `plugin` 键。
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc`（或 `~/.config/openqcode/openqcode.json`）
-- **macOS/Linux**（旧版安装）: `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc`（或 `~/.config/homecode/homecode.json`）
+- **macOS/Linux**（旧版安装）: `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 如果你配置了插件，请通过移除该键或将其设置为空数组来临时禁用它们：
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### 检查插件目录
 
-OpenQCode 还可以从磁盘加载本地插件。临时将这些插件移走（或重命名文件夹），然后重新启动桌面应用：
+HomeCode 还可以从磁盘加载本地插件。临时将这些插件移走（或重命名文件夹），然后重新启动桌面应用：
 
 - **全局插件**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.config\homecode\plugins`
 - **项目插件**（仅当你使用了项目级配置时）
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 如果应用恢复正常，请逐个重新启用插件，找出导致问题的那个。
 
@@ -86,22 +86,22 @@ OpenQCode 还可以从磁盘加载本地插件。临时将这些插件移走（�
 
 ### 清除缓存
 
-如果禁用插件没有帮助（或插件安装卡住了），请清除缓存以便 OpenQCode 重新构建。
+如果禁用插件没有帮助（或插件安装卡住了），请清除缓存以便 HomeCode 重新构建。
 
-1. 完全退出 OpenQCode Desktop。
+1. 完全退出 HomeCode Desktop。
 2. 删除缓存目录：
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> 粘贴 `~/.cache/openqcode`
-- **Linux**: 删除 `~/.cache/openqcode`（或运行 `rm -rf ~/.cache/openqcode`）
-- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.cache\openqcode`
+- **macOS**: Finder -> `Cmd+Shift+G` -> 粘贴 `~/.cache/homecode`
+- **Linux**: 删除 `~/.cache/homecode`（或运行 `rm -rf ~/.cache/homecode`）
+- **Windows**: 按 `WIN+R` 并粘贴 `%USERPROFILE%\.cache\homecode`
 
-3. 重新启动 OpenQCode Desktop。
+3. 重新启动 HomeCode Desktop。
 
 ---
 
 ### 修复服务器连接问题
 
-OpenQCode Desktop 可以启动自己的本地服务器（默认行为），也可以连接到你配置的服务器 URL。
+HomeCode Desktop 可以启动自己的本地服务器（默认行为），也可以连接到你配置的服务器 URL。
 
 如果你看到**"Connection Failed"**对话框（或应用始终停留在启动画面），请检查自定义服务器 URL。
 
@@ -111,7 +111,7 @@ OpenQCode Desktop 可以启动自己的本地服务器（默认行为），也�
 
 #### 从配置中移除 `server.port` / `server.hostname`
 
-如果你的 `openqcode.json(c)` 包含 `server` 部分，请临时移除该部分并重新启动桌面应用。
+如果你的 `homecode.json(c)` 包含 `server` 部分，请临时移除该部分并重新启动桌面应用。
 
 #### 检查环境变量
 
@@ -132,21 +132,21 @@ OpenQCode Desktop 可以启动自己的本地服务器（默认行为），也�
 
 ### Windows: WebView2 运行时
 
-在 Windows 上，OpenQCode Desktop 需要 Microsoft Edge **WebView2 Runtime**。如果应用打开后是空白窗口或无法启动，请安装或更新 WebView2 后重试。
+在 Windows 上，HomeCode Desktop 需要 Microsoft Edge **WebView2 Runtime**。如果应用打开后是空白窗口或无法启动，请安装或更新 WebView2 后重试。
 
 ---
 
 ### Windows: 常见性能问题
 
-如果你在 Windows 上遇到性能缓慢、文件访问问题或终端问题，请尝试使用 [WSL (Windows Subsystem for Linux)](/docs/windows-wsl)。WSL 提供了一个 Linux 环境，能更好地与 OpenQCode 的功能兼容。
+如果你在 Windows 上遇到性能缓慢、文件访问问题或终端问题，请尝试使用 [WSL (Windows Subsystem for Linux)](/docs/windows-wsl)。WSL 提供了一个 Linux 环境，能更好地与 HomeCode 的功能兼容。
 
 ---
 
 ### 通知不显示
 
-OpenQCode Desktop 仅在以下情况下显示系统通知：
+HomeCode Desktop 仅在以下情况下显示系统通知：
 
-- 在操作系统设置中已为 OpenQCode 启用通知，且
+- 在操作系统设置中已为 HomeCode 启用通知，且
 - 应用窗口未处于焦点状态。
 
 ---
@@ -155,11 +155,11 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
 如果应用无法启动且你无法从 UI 内部清除设置，请重置桌面应用的保存状态。
 
-1. 退出 OpenQCode Desktop。
-2. 找到并删除以下文件（它们位于 OpenQCode Desktop 应用数据目录中）：
+1. 退出 HomeCode Desktop。
+2. 找到并删除以下文件（它们位于 HomeCode Desktop 应用数据目录中）：
 
-- `openqcode.settings.dat`（桌面默认服务器 URL）
-- `openqcode.global.dat` 和 `openqcode.workspace.*.dat`（UI 状态，如最近的服务器/项目）
+- `homecode.settings.dat`（桌面默认服务器 URL）
+- `homecode.global.dat` 和 `homecode.workspace.*.dat`（UI 状态，如最近的服务器/项目）
 
 快速找到该目录：
 
@@ -171,13 +171,13 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
 ## 获取帮助
 
-如果你遇到 OpenQCode 的问题：
+如果你遇到 HomeCode 的问题：
 
 1. **在 GitHub 上报告问题**
 
    报告 Bug 或请求功能的最佳方式是通过我们的 GitHub 仓库：
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    在创建新 Issue 之前，请先搜索已有的 Issue，看看你的问题是否已被报告。
 
@@ -185,7 +185,7 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
    如需实时帮助和社区讨论，请加入我们的 Discord 服务器：
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
 ---
 
-### OpenQCode 无法启动
+### HomeCode 无法启动
 
 1. 检查日志中的错误消息
 2. 尝试使用 `--print-logs` 运行以在终端中查看输出
-3. 使用 `openqcode upgrade` 确保你使用的是最新版本
+3. 使用 `homecode upgrade` 确保你使用的是最新版本
 
 ---
 
@@ -224,9 +224,9 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-要查看你有权访问哪些模型，请运行 `openqcode models`
+要查看你有权访问哪些模型，请运行 `homecode models`
 
 ---
 
@@ -240,10 +240,10 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 2. 如果问题仍然存在，请尝试清除已存储的配置：
 
    ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
    ```
 
-   在 Windows 上，按 `WIN+R` 并删除：`%USERPROFILE%\.local\share\openqcode`
+   在 Windows 上，按 `WIN+R` 并删除：`%USERPROFILE%\.local\share\homecode`
 
 3. 在 TUI 中使用 `/connect` 命令重新与提供商进行身份验证。
 
@@ -251,21 +251,21 @@ OpenQCode Desktop 仅在以下情况下显示系统通知：
 
 ### AI_APICallError 和提供商包问题
 
-如果你遇到 API 调用错误，可能是由于提供商包过期导致的。OpenQCode 会根据需要动态安装提供商包（OpenAI、Anthropic、Google 等）并将它们缓存到本地。
+如果你遇到 API 调用错误，可能是由于提供商包过期导致的。HomeCode 会根据需要动态安装提供商包（OpenAI、Anthropic、Google 等）并将它们缓存到本地。
 
 要解决提供商包问题：
 
 1. 清除提供商包缓存：
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   在 Windows 上，按 `WIN+R` 并删除：`%USERPROFILE%\.cache\openqcode`
+   在 Windows 上，按 `WIN+R` 并删除：`%USERPROFILE%\.cache\homecode`
 
-2. 重新启动 OpenQCode 以重新安装最新的提供商包
+2. 重新启动 HomeCode 以重新安装最新的提供商包
 
-这将强制 OpenQCode 下载最新版本的提供商包，通常可以解决模型参数和 API 变更带来的兼容性问题。
+这将强制 HomeCode 下载最新版本的提供商包，通常可以解决模型参数和 API 变更带来的兼容性问题。
 
 ---
 
@@ -296,4 +296,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-OpenQCode 会检测你是否正在使用 Wayland 并优先使用 `wl-clipboard`，否则将按以下顺序尝试查找剪贴板工具：`xclip` 和 `xsel`。
+HomeCode 会检测你是否正在使用 Wayland 并优先使用 `wl-clipboard`，否则将按以下顺序尝试查找剪贴板工具：`xclip` 和 `xsel`。

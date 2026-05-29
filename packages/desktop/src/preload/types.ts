@@ -1,4 +1,4 @@
-import type { DesktopMenuAction } from "@openqcode-ai/app/desktop-menu"
+import type { DesktopMenuAction } from "@homecode-ai/app/desktop-menu"
 
 export type InitStep = { phase: "server_waiting" } | { phase: "sqlite_waiting" } | { phase: "done" }
 

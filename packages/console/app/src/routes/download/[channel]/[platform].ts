@@ -2,28 +2,28 @@ import type { APIEvent } from "@solidjs/start"
 import type { DownloadPlatform } from "../types"
 
 const prodAssetNames: Record<string, string> = {
-  "darwin-aarch64-dmg": "openqcode-desktop-mac-arm64.dmg",
-  "darwin-x64-dmg": "openqcode-desktop-mac-x64.dmg",
-  "windows-x64-nsis": "openqcode-desktop-win-x64.exe",
-  "linux-x64-deb": "openqcode-desktop-linux-amd64.deb",
-  "linux-x64-appimage": "openqcode-desktop-linux-x86_64.AppImage",
-  "linux-x64-rpm": "openqcode-desktop-linux-x86_64.rpm",
+  "darwin-aarch64-dmg": "homecode-desktop-mac-arm64.dmg",
+  "darwin-x64-dmg": "homecode-desktop-mac-x64.dmg",
+  "windows-x64-nsis": "homecode-desktop-win-x64.exe",
+  "linux-x64-deb": "homecode-desktop-linux-amd64.deb",
+  "linux-x64-appimage": "homecode-desktop-linux-x86_64.AppImage",
+  "linux-x64-rpm": "homecode-desktop-linux-x86_64.rpm",
 } satisfies Record<DownloadPlatform, string>
 
 const betaAssetNames: Record<string, string> = {
-  "darwin-aarch64-dmg": "openqcode-desktop-mac-arm64.dmg",
-  "darwin-x64-dmg": "openqcode-desktop-mac-x64.dmg",
-  "windows-x64-nsis": "openqcode-desktop-win-x64.exe",
-  "linux-x64-deb": "openqcode-desktop-linux-amd64.deb",
-  "linux-x64-appimage": "openqcode-desktop-linux-x86_64.AppImage",
-  "linux-x64-rpm": "openqcode-desktop-linux-x86_64.rpm",
+  "darwin-aarch64-dmg": "homecode-desktop-mac-arm64.dmg",
+  "darwin-x64-dmg": "homecode-desktop-mac-x64.dmg",
+  "windows-x64-nsis": "homecode-desktop-win-x64.exe",
+  "linux-x64-deb": "homecode-desktop-linux-amd64.deb",
+  "linux-x64-appimage": "homecode-desktop-linux-x86_64.AppImage",
+  "linux-x64-rpm": "homecode-desktop-linux-x86_64.rpm",
 } satisfies Record<DownloadPlatform, string>
 
 // Doing this on the server lets us preserve the original name for platforms we don't care to rename for
 const downloadNames: Record<string, string> = {
-  "darwin-aarch64-dmg": "OpenQCode Desktop.dmg",
-  "darwin-x64-dmg": "OpenQCode Desktop.dmg",
-  "windows-x64-nsis": "OpenQCode Desktop Installer.exe",
+  "darwin-aarch64-dmg": "HomeCode Desktop.dmg",
+  "darwin-x64-dmg": "HomeCode Desktop.dmg",
+  "windows-x64-nsis": "HomeCode Desktop Installer.exe",
 } satisfies { [K in DownloadPlatform]?: string }
 
 export async function GET({ params: { platform, channel } }: APIEvent) {
@@ -31,7 +31,7 @@ export async function GET({ params: { platform, channel } }: APIEvent) {
   if (!assetName) return new Response(null, { status: 404 })
 
   const resp = await fetch(
-    `https://github.com/anomalyco/${channel === "stable" ? "openqcode" : "openqcode-beta"}/releases/latest/download/${assetName}`,
+    `https://github.com/anomalyco/${channel === "stable" ? "homecode" : "homecode-beta"}/releases/latest/download/${assetName}`,
   )
 
   const downloadName = downloadNames[platform]

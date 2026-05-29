@@ -1,17 +1,17 @@
 <p align="center">
-  <a href="https://openqcode.ai">
+  <a href="https://homecode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="OpenQCode logo">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="HomeCode logo">
     </picture>
   </a>
 </p>
 <p align="center">オープンソースのAIコーディングエージェント。</p>
 <p align="center">
-  <a href="https://openqcode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/openqcode-ai"><img alt="npm" src="https://img.shields.io/npm/v/openqcode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/openqcode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/openqcode/publish.yml?style=flat-square&branch=dev" /></a>
+  <a href="https://homecode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://www.npmjs.com/package/homecode-ai"><img alt="npm" src="https://img.shields.io/npm/v/homecode-ai?style=flat-square" /></a>
+  <a href="https://github.com/anomalyco/homecode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/homecode/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![OpenQCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://openqcode.ai)
+[![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://homecode.ai)
 
 ---
 
@@ -47,18 +47,18 @@
 
 ```bash
 # YOLO
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 
 # パッケージマネージャー
-npm i -g openqcode-ai@latest        # bun/pnpm/yarn でもOK
-scoop install openqcode             # Windows
-choco install openqcode             # Windows
-brew install anomalyco/tap/openqcode # macOS と Linux（推奨。常に最新）
-brew install openqcode              # macOS と Linux（公式 brew formula。更新頻度は低め）
-sudo pacman -S openqcode            # Arch Linux (Stable)
-paru -S openqcode-bin               # Arch Linux (Latest from AUR)
-mise use -g openqcode               # どのOSでも
-nix run nixpkgs#openqcode           # または github:anomalyco/openqcode で最新 dev ブランチ
+npm i -g homecode-ai@latest        # bun/pnpm/yarn でもOK
+scoop install homecode             # Windows
+choco install homecode             # Windows
+brew install anomalyco/tap/homecode # macOS と Linux（推奨。常に最新）
+brew install homecode              # macOS と Linux（公式 brew formula。更新頻度は低め）
+sudo pacman -S homecode            # Arch Linux (Stable)
+paru -S homecode-bin               # Arch Linux (Latest from AUR)
+mise use -g homecode               # どのOSでも
+nix run nixpkgs#homecode           # または github:anomalyco/homecode で最新 dev ブランチ
 ```
 
 > [!TIP]
@@ -66,20 +66,20 @@ nix run nixpkgs#openqcode           # または github:anomalyco/openqcode で�
 
 ### デスクトップアプリ (BETA)
 
-OpenQCode はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/openqcode/releases) から直接ダウンロードするか、[openqcode.ai/download](https://openqcode.ai/download) を利用してください。
+HomeCode はデスクトップアプリとしても利用できます。[releases page](https://github.com/anomalyco/homecode/releases) から直接ダウンロードするか、[homecode.ai/download](https://homecode.ai/download) を利用してください。
 
 | プラットフォーム      | ダウンロード                       |
 | --------------------- | ---------------------------------- |
-| macOS (Apple Silicon) | `openqcode-desktop-mac-arm64.dmg`   |
-| macOS (Intel)         | `openqcode-desktop-mac-x64.dmg`     |
-| Windows               | `openqcode-desktop-windows-x64.exe` |
+| macOS (Apple Silicon) | `homecode-desktop-mac-arm64.dmg`   |
+| macOS (Intel)         | `homecode-desktop-mac-x64.dmg`     |
+| Windows               | `homecode-desktop-windows-x64.exe` |
 | Linux                 | `.deb`、`.rpm`、または AppImage    |
 
 ```bash
 # macOS (Homebrew)
-brew install --cask openqcode-desktop
+brew install --cask homecode-desktop
 # Windows (Scoop)
-scoop bucket add extras; scoop install extras/openqcode-desktop
+scoop bucket add extras; scoop install extras/homecode-desktop
 ```
 
 #### インストールディレクトリ
@@ -89,17 +89,17 @@ scoop bucket add extras; scoop install extras/openqcode-desktop
 1. `$OPENCODE_INSTALL_DIR` - カスタムのインストールディレクトリ
 2. `$XDG_BIN_DIR` - XDG Base Directory Specification に準拠したパス
 3. `$HOME/bin` - 標準のユーザー用バイナリディレクトリ（存在する場合、または作成できる場合）
-4. `$HOME/.openqcode/bin` - デフォルトのフォールバック
+4. `$HOME/.homecode/bin` - デフォルトのフォールバック
 
 ```bash
 # 例
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://openqcode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://openqcode.ai/install | bash
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://homecode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://homecode.ai/install | bash
 ```
 
 ### Agents
 
-OpenQCode には組み込みの Agent が2つあり、`Tab` キーで切り替えられます。
+HomeCode には組み込みの Agent が2つあり、`Tab` キーで切り替えられます。
 
 - **build** - デフォルト。開発向けのフルアクセス Agent
 - **plan** - 分析とコード探索向けの読み取り専用 Agent
@@ -110,20 +110,20 @@ OpenQCode には組み込みの Agent が2つあり、`Tab` キーで切り替�
 また、複雑な検索やマルチステップのタスク向けに **general** サブ Agent も含まれています。
 内部的に使用されており、メッセージで `@general` と入力して呼び出せます。
 
-[agents](https://openqcode.ai/docs/agents) の詳細はこちら。
+[agents](https://homecode.ai/docs/agents) の詳細はこちら。
 
 ### ドキュメント
 
-OpenQCode の設定については [**ドキュメント**](https://openqcode.ai/docs) を参照してください。
+HomeCode の設定については [**ドキュメント**](https://homecode.ai/docs) を参照してください。
 
 ### コントリビュート
 
-OpenQCode に貢献したい場合は、Pull Request を送る前に [contributing docs](./CONTRIBUTING.md) を読んでください。
+HomeCode に貢献したい場合は、Pull Request を送る前に [contributing docs](./CONTRIBUTING.md) を読んでください。
 
-### OpenQCode の上に構築する
+### HomeCode の上に構築する
 
-OpenQCode に関連するプロジェクトで、名前に "openqcode"（例: "openqcode-dashboard" や "openqcode-mobile"）を含める場合は、そのプロジェクトが OpenQCode チームによって作られたものではなく、いかなる形でも関係がないことを README に明記してください。
+HomeCode に関連するプロジェクトで、名前に "homecode"（例: "homecode-dashboard" や "homecode-mobile"）を含める場合は、そのプロジェクトが HomeCode チームによって作られたものではなく、いかなる形でも関係がないことを README に明記してください。
 
 ---
 
-**コミュニティに参加** [Discord](https://discord.gg/openqcode) | [X.com](https://x.com/openqcode)
+**コミュニティに参加** [Discord](https://discord.gg/homecode) | [X.com](https://x.com/homecode)

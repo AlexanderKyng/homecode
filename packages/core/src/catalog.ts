@@ -73,7 +73,7 @@ export interface Interface {
   }
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/v2/Catalog") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/v2/Catalog") {}
 
 export const layer = Layer.effect(
   Service,
@@ -304,7 +304,7 @@ export const layer = Layer.effect(
           const record = Option.getOrUndefined(HashMap.get(records, providerID))
           if (!record) return Option.none<ModelV2.Info>()
 
-          if (providerID === ProviderV2.ID.openqcode) {
+          if (providerID === ProviderV2.ID.homecode) {
             const gpt5Nano = record.models.get(ModelV2.ID.make("gpt-5-nano"))
             if (gpt5Nano?.enabled && gpt5Nano.status === "active") return Option.some(resolve(gpt5Nano))
           }

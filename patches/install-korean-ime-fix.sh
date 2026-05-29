@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# openqcode Korean IME Fix Installer
-# https://github.com/anomalyco/openqcode/issues/14371
+# homecode Korean IME Fix Installer
+# https://github.com/anomalyco/homecode/issues/14371
 #
-# Patches openqcode to prevent Korean (and other CJK) IME last character
+# Patches homecode to prevent Korean (and other CJK) IME last character
 # truncation when pressing Enter in Kitty and other terminals.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/claudianus/openqcode/fix-zhipuai-coding-plan-thinking/patches/install-korean-ime-fix.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/claudianus/homecode/fix-zhipuai-coding-plan-thinking/patches/install-korean-ime-fix.sh | bash
 #   # or from a cloned repo:
 #   ./patches/install-korean-ime-fix.sh
 
@@ -18,9 +18,9 @@ ORANGE='\033[38;5;214m'
 MUTED='\033[0;2m'
 NC='\033[0m'
 
-OPENCODE_DIR="${OPENCODE_DIR:-$HOME/.openqcode}"
-OPENCODE_SRC="${OPENCODE_SRC:-$HOME/.openqcode-src}"
-FORK_REPO="${FORK_REPO:-https://github.com/claudianus/openqcode.git}"
+OPENCODE_DIR="${OPENCODE_DIR:-$HOME/.homecode}"
+OPENCODE_SRC="${OPENCODE_SRC:-$HOME/.homecode-src}"
+FORK_REPO="${FORK_REPO:-https://github.com/claudianus/homecode.git}"
 FORK_BRANCH="${FORK_BRANCH:-fix-zhipuai-coding-plan-thinking}"
 
 info()  { echo -e "${MUTED}$*${NC}"; }
@@ -50,7 +50,7 @@ else
 fi
 
 # ── 2. Verify the IME fix is present in source ────────────────────────
-PROMPT_FILE="$OPENCODE_SRC/packages/openqcode/src/cli/cmd/tui/component/prompt/index.tsx"
+PROMPT_FILE="$OPENCODE_SRC/packages/homecode/src/cli/cmd/tui/component/prompt/index.tsx"
 if [ ! -f "$PROMPT_FILE" ]; then
   err "Prompt file not found: $PROMPT_FILE"
   exit 1
@@ -76,8 +76,8 @@ cd "$OPENCODE_SRC"
 bun install --frozen-lockfile 2>/dev/null || bun install
 
 # ── 4. Build (current platform only) ──────────────────────────────────
-info "Building openqcode for current platform ..."
-cd "$OPENCODE_SRC/packages/openqcode"
+info "Building homecode for current platform ..."
+cd "$OPENCODE_SRC/packages/homecode"
 bun run build --single
 
 # ── 5. Install binary ──────────────────────────────────────────────────
@@ -90,23 +90,23 @@ ARCH=$(uname -m)
 [ "$PLATFORM" = "darwin" ] && true
 [ "$PLATFORM" = "linux" ] && true
 
-BUILT_BINARY="$OPENCODE_SRC/packages/openqcode/dist/openqcode-${PLATFORM}-${ARCH}/bin/openqcode"
+BUILT_BINARY="$OPENCODE_SRC/packages/homecode/dist/homecode-${PLATFORM}-${ARCH}/bin/homecode"
 
 if [ ! -f "$BUILT_BINARY" ]; then
-  BUILT_BINARY=$(find "$OPENCODE_SRC/packages/openqcode/dist" -name "openqcode" -type f -executable 2>/dev/null | head -1)
+  BUILT_BINARY=$(find "$OPENCODE_SRC/packages/homecode/dist" -name "homecode" -type f -executable 2>/dev/null | head -1)
 fi
 
 if [ -f "$BUILT_BINARY" ]; then
-  if [ -f "$OPENCODE_DIR/bin/openqcode" ]; then
-    cp "$OPENCODE_DIR/bin/openqcode" "$OPENCODE_DIR/bin/openqcode.bak.$(date +%Y%m%d%H%M%S)"
+  if [ -f "$OPENCODE_DIR/bin/homecode" ]; then
+    cp "$OPENCODE_DIR/bin/homecode" "$OPENCODE_DIR/bin/homecode.bak.$(date +%Y%m%d%H%M%S)"
   fi
-  cp "$BUILT_BINARY" "$OPENCODE_DIR/bin/openqcode"
-  chmod +x "$OPENCODE_DIR/bin/openqcode"
-  ok "Installed to $OPENCODE_DIR/bin/openqcode"
+  cp "$BUILT_BINARY" "$OPENCODE_DIR/bin/homecode"
+  chmod +x "$OPENCODE_DIR/bin/homecode"
+  ok "Installed to $OPENCODE_DIR/bin/homecode"
 else
   err "Build failed - binary not found in dist/"
   info "Try running manually:"
-  echo "  cd $OPENCODE_SRC/packages/openqcode && bun run build --single"
+  echo "  cd $OPENCODE_SRC/packages/homecode && bun run build --single"
   exit 1
 fi
 
@@ -114,7 +114,7 @@ echo ""
 ok "Done! Korean IME fix is now active."
 echo ""
 info "To uninstall and revert to the official release:"
-echo "  curl -fsSL https://openqcode.ai/install | bash"
+echo "  curl -fsSL https://homecode.ai/install | bash"
 echo ""
 info "To update (re-pull and rebuild):"
 echo "  $0"

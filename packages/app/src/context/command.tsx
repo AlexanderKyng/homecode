@@ -1,5 +1,5 @@
-import { createSimpleContext } from "@openqcode-ai/ui/context"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
+import { createSimpleContext } from "@homecode-ai/ui/context"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
 import { type Accessor, createEffect, createMemo, onCleanup, onMount } from "solid-js"
 import { createStore } from "solid-js/store"
 import { makeEventListener } from "@solid-primitives/event-listener"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { Script } from "@openqcode-ai/script"
+import { Script } from "@homecode-ai/script"
 
 await import("./prebuild")
 

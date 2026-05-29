@@ -1,4 +1,4 @@
-import type { FileNode } from "@openqcode-ai/sdk/v2"
+import type { FileNode } from "@homecode-ai/sdk/v2"
 
 type WatcherEvent = {
   type: string

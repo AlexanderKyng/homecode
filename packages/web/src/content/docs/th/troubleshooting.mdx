@@ -3,7 +3,7 @@ title: การแก้ไขปัญหา
 description: ปัญหาทั่วไปและวิธีแก้ปัญหา
 ---
 
-หากต้องการแก้ไขข้อบกพร่องเกี่ยวกับ OpenQCode ให้เริ่มต้นด้วยการตรวจสอบบันทึกและข้อมูลในเครื่องที่จัดเก็บไว้ในดิสก์
+หากต้องการแก้ไขข้อบกพร่องเกี่ยวกับ HomeCode ให้เริ่มต้นด้วยการตรวจสอบบันทึกและข้อมูลในเครื่องที่จัดเก็บไว้ในดิสก์
 
 ---
 
@@ -11,21 +11,21 @@ description: ปัญหาทั่วไปและวิธีแก้ป�
 
 ไฟล์บันทึกถูกเขียนไปที่:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.local\share\openqcode\log`
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.local\share\homecode\log`
 
 ไฟล์บันทึกจะถูกตั้งชื่อด้วยการประทับเวลา (เช่น `2025-01-09T123456.log`) และไฟล์บันทึกล่าสุด 10 ไฟล์จะถูกเก็บไว้
 
-คุณสามารถตั้งค่าระดับการบันทึกด้วยตัวเลือกบรรทัดคำสั่ง `--log-level` เพื่อรับข้อมูลการแก้ไขข้อบกพร่องโดยละเอียดเพิ่มเติม ตัวอย่างเช่น `openqcode --log-level DEBUG`
+คุณสามารถตั้งค่าระดับการบันทึกด้วยตัวเลือกบรรทัดคำสั่ง `--log-level` เพื่อรับข้อมูลการแก้ไขข้อบกพร่องโดยละเอียดเพิ่มเติม ตัวอย่างเช่น `homecode --log-level DEBUG`
 
 ---
 
 ## พื้นที่จัดเก็บ
 
-openqcode เก็บข้อมูลเซสชันและข้อมูลแอปพลิเคชันอื่น ๆ ไว้บนดิสก์ที่:
+homecode เก็บข้อมูลเซสชันและข้อมูลแอปพลิเคชันอื่น ๆ ไว้บนดิสก์ที่:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.local\share\openqcode`
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.local\share\homecode`
 
 ไดเรกทอรีนี้ประกอบด้วย:
 
@@ -39,13 +39,13 @@ openqcode เก็บข้อมูลเซสชันและข้อม�
 
 ## แอปเดสก์ท็อป
 
-OpenQCode Desktop รันเซิร์ฟเวอร์ OpenQCode ในเครื่อง (ไฟล์ `openqcode-cli` sidecar) ในเบื้องหลัง ปัญหาส่วนใหญ่มีสาเหตุมาจากปลั๊กอินที่ทำงานผิดปกติ แคชเสียหาย หรือการตั้งค่าเซิร์ฟเวอร์ไม่ถูกต้อง
+HomeCode Desktop รันเซิร์ฟเวอร์ HomeCode ในเครื่อง (ไฟล์ `homecode-cli` sidecar) ในเบื้องหลัง ปัญหาส่วนใหญ่มีสาเหตุมาจากปลั๊กอินที่ทำงานผิดปกติ แคชเสียหาย หรือการตั้งค่าเซิร์ฟเวอร์ไม่ถูกต้อง
 
 ### การตรวจสอบอย่างรวดเร็ว
 
 - ออกจากระบบโดยสมบูรณ์แล้วเปิดแอปใหม่อีกครั้ง
 - หากแอปแสดงหน้าจอข้อผิดพลาด ให้คลิก **รีสตาร์ท** และคัดลอกรายละเอียดข้อผิดพลาด
-- macOS เท่านั้น: เมนู `OpenQCode` -> **โหลด Webview ใหม่** (ช่วยได้หาก UI ว่างเปล่า/frozen)
+- macOS เท่านั้น: เมนู `HomeCode` -> **โหลด Webview ใหม่** (ช่วยได้หาก UI ว่างเปล่า/frozen)
 
 ---
 
@@ -57,28 +57,28 @@ OpenQCode Desktop รันเซิร์ฟเวอร์ OpenQCode ในเ
 
 เปิดไฟล์กำหนดค่าส่วนกลางของคุณแล้วมองหาคีย์ `plugin`
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (หรือ `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (การติดตั้งเก่ากว่า): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.config\openqcode\openqcode.jsonc`
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (หรือ `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (การติดตั้งเก่ากว่า): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.config\homecode\homecode.jsonc`
 
 หากคุณได้กำหนดค่าปลั๊กอินไว้ ให้ปิดการใช้งานชั่วคราวโดยลบคีย์ออกหรือตั้งค่าเป็นอาร์เรย์ว่าง:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### ตรวจสอบไดเร็กทอรีปลั๊กอิน
 
-OpenQCode ยังสามารถโหลดปลั๊กอินในเครื่องจากดิสก์ได้ ย้ายสิ่งเหล่านี้ออกไปชั่วคราว (หรือเปลี่ยนชื่อโฟลเดอร์) และรีสตาร์ทแอปเดสก์ท็อป:
+HomeCode ยังสามารถโหลดปลั๊กอินในเครื่องจากดิสก์ได้ ย้ายสิ่งเหล่านี้ออกไปชั่วคราว (หรือเปลี่ยนชื่อโฟลเดอร์) และรีสตาร์ทแอปเดสก์ท็อป:
 
 - **ปลั๊กอินสากล**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.config\openqcode\plugins`
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.config\homecode\plugins`
 - **ปลั๊กอินโครงการ** (เฉพาะในกรณีที่คุณใช้การกำหนดค่าต่อโครงการ)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 หากแอปเริ่มทำงานอีกครั้ง ให้เปิดใช้งานปลั๊กอินอีกครั้งทีละรายการเพื่อดูว่าปลั๊กอินใดเป็นสาเหตุของปัญหา
 
@@ -86,22 +86,22 @@ OpenQCode ยังสามารถโหลดปลั๊กอินใน�
 
 ### ล้างแคช
 
-หากการปิดใช้งานปลั๊กอินไม่ได้ผล (หรือการติดตั้งปลั๊กอินค้าง) ให้ล้างแคชเพื่อให้ OpenQCode สามารถสร้างใหม่ได้
+หากการปิดใช้งานปลั๊กอินไม่ได้ผล (หรือการติดตั้งปลั๊กอินค้าง) ให้ล้างแคชเพื่อให้ HomeCode สามารถสร้างใหม่ได้
 
-1. ออกจาก OpenQCode Desktop โดยสมบูรณ์
+1. ออกจาก HomeCode Desktop โดยสมบูรณ์
 2. ลบไดเรกทอรีแคช:
 
-- **macOS**: ตัวค้นหา -> `Cmd+Shift+G` -> วาง `~/.cache/openqcode`
-- **Linux**: ลบ `~/.cache/openqcode` (หรือรัน `rm -rf ~/.cache/openqcode`)
-- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.cache\openqcode`
+- **macOS**: ตัวค้นหา -> `Cmd+Shift+G` -> วาง `~/.cache/homecode`
+- **Linux**: ลบ `~/.cache/homecode` (หรือรัน `rm -rf ~/.cache/homecode`)
+- **Windows**: กด `WIN+R` แล้ววาง `%USERPROFILE%\.cache\homecode`
 
-3. รีสตาร์ทเดสก์ท็อป OpenQCode
+3. รีสตาร์ทเดสก์ท็อป HomeCode
 
 ---
 
 ### แก้ไขปัญหาการเชื่อมต่อเซิร์ฟเวอร์
 
-OpenQCode Desktop สามารถเริ่มต้นเซิร์ฟเวอร์ภายในเครื่องของตนเองได้ (ค่าเริ่มต้น) หรือเชื่อมต่อกับเซิร์ฟเวอร์ URL ที่คุณกำหนดค่าไว้
+HomeCode Desktop สามารถเริ่มต้นเซิร์ฟเวอร์ภายในเครื่องของตนเองได้ (ค่าเริ่มต้น) หรือเชื่อมต่อกับเซิร์ฟเวอร์ URL ที่คุณกำหนดค่าไว้
 
 หากคุณเห็นกล่องโต้ตอบ **"การเชื่อมต่อล้มเหลว"** (หรือแอปไม่เคยผ่านหน้าจอเริ่มต้น) ให้ตรวจสอบเซิร์ฟเวอร์ที่กำหนดเอง URL
 
@@ -111,7 +111,7 @@ OpenQCode Desktop สามารถเริ่มต้นเซิร์ฟ�
 
 #### ลบ `server.port` / `server.hostname` ออกจากการกำหนดค่าของคุณ
 
-หาก `openqcode.json(c)` ของคุณมีส่วน `server` ให้ลบออกชั่วคราวแล้วรีสตาร์ทแอปเดสก์ท็อป
+หาก `homecode.json(c)` ของคุณมีส่วน `server` ให้ลบออกชั่วคราวแล้วรีสตาร์ทแอปเดสก์ท็อป
 
 #### ตรวจสอบตัวแปรสภาพแวดล้อม
 
@@ -132,21 +132,21 @@ OpenQCode Desktop สามารถเริ่มต้นเซิร์ฟ�
 
 ### Windows: รันไทม์ WebView2
 
-บน Windows OpenQCode Desktop ต้องใช้ Microsoft Edge **WebView2 Runtime** หากแอปเปิดเป็นหน้าต่างว่างหรือไม่เริ่มทำงาน ให้ติดตั้ง/update WebView2 แล้วลองอีกครั้ง
+บน Windows HomeCode Desktop ต้องใช้ Microsoft Edge **WebView2 Runtime** หากแอปเปิดเป็นหน้าต่างว่างหรือไม่เริ่มทำงาน ให้ติดตั้ง/update WebView2 แล้วลองอีกครั้ง
 
 ---
 
 ### Windows: ปัญหาด้านประสิทธิภาพทั่วไป
 
-หากคุณประสบปัญหาประสิทธิภาพการทำงานช้า ปัญหาการเข้าถึงไฟล์ หรือปัญหา terminal บน Windows ให้ลองใช้ [WSL (ระบบย่อย Windows สำหรับ Linux)](/docs/windows-wsl) WSL มอบสภาพแวดล้อม Linux ที่ทำงานร่วมกับคุณสมบัติของ OpenQCode ได้อย่างราบรื่นยิ่งขึ้น
+หากคุณประสบปัญหาประสิทธิภาพการทำงานช้า ปัญหาการเข้าถึงไฟล์ หรือปัญหา terminal บน Windows ให้ลองใช้ [WSL (ระบบย่อย Windows สำหรับ Linux)](/docs/windows-wsl) WSL มอบสภาพแวดล้อม Linux ที่ทำงานร่วมกับคุณสมบัติของ HomeCode ได้อย่างราบรื่นยิ่งขึ้น
 
 ---
 
 ### การแจ้งเตือนไม่แสดง
 
-OpenQCode Desktop จะแสดงการแจ้งเตือนของระบบเฉพาะเมื่อ:
+HomeCode Desktop จะแสดงการแจ้งเตือนของระบบเฉพาะเมื่อ:
 
-- การแจ้งเตือนเปิดใช้งานสำหรับ OpenQCode ในการตั้งค่าระบบปฏิบัติการของคุณและ
+- การแจ้งเตือนเปิดใช้งานสำหรับ HomeCode ในการตั้งค่าระบบปฏิบัติการของคุณและ
 - หน้าต่างแอพไม่ได้โฟกัส
 
 ---
@@ -155,11 +155,11 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
 หากแอปไม่เริ่มทำงานและคุณไม่สามารถล้างการตั้งค่าจากภายใน UI ได้ ให้รีเซ็ตสถานะที่บันทึกไว้ของแอปเดสก์ท็อป
 
-1. ออกจากเดสก์ท็อป OpenQCode
-2. ค้นหาและลบไฟล์เหล่านี้ (อยู่ในไดเร็กทอรีข้อมูลแอป OpenQCode Desktop):
+1. ออกจากเดสก์ท็อป HomeCode
+2. ค้นหาและลบไฟล์เหล่านี้ (อยู่ในไดเร็กทอรีข้อมูลแอป HomeCode Desktop):
 
-- `openqcode.settings.dat` (เซิร์ฟเวอร์เริ่มต้นของเดสก์ท็อป URL)
-- `openqcode.global.dat` และ `openqcode.workspace.*.dat` (สถานะ UI เช่น เซิร์ฟเวอร์ล่าสุด/projects)
+- `homecode.settings.dat` (เซิร์ฟเวอร์เริ่มต้นของเดสก์ท็อป URL)
+- `homecode.global.dat` และ `homecode.workspace.*.dat` (สถานะ UI เช่น เซิร์ฟเวอร์ล่าสุด/projects)
 
 หากต้องการค้นหาไดเร็กทอรีอย่างรวดเร็ว:
 
@@ -171,13 +171,13 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
 ## การขอความช่วยเหลือ
 
-หากคุณประสบปัญหากับ OpenQCode:
+หากคุณประสบปัญหากับ HomeCode:
 
 1. **รายงานปัญหาเกี่ยวกับ GitHub**
 
    วิธีที่ดีที่สุดในการรายงานจุดบกพร่องหรือขอคุณสมบัติคือผ่านพื้นที่เก็บข้อมูล GitHub ของเรา:
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    ก่อนที่จะสร้างปัญหาใหม่ ให้ค้นหาปัญหาที่มีอยู่เพื่อดูว่าปัญหาของคุณได้รับการรายงานแล้วหรือไม่
 
@@ -185,7 +185,7 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
    สำหรับความช่วยเหลือแบบเรียลไทม์และการสนทนาในชุมชน เข้าร่วมเซิร์ฟเวอร์ Discord ของเรา:
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
 ---
 
-### OpenQCode จะไม่เริ่มทำงาน
+### HomeCode จะไม่เริ่มทำงาน
 
 1. ตรวจสอบบันทึกเพื่อดูข้อความแสดงข้อผิดพลาด
 2. ลองรันด้วย `--print-logs` เพื่อดูเอาต์พุตใน terminal
-3. ตรวจสอบให้แน่ใจว่าคุณมีเวอร์ชันล่าสุดด้วย `openqcode upgrade`
+3. ตรวจสอบให้แน่ใจว่าคุณมีเวอร์ชันล่าสุดด้วย `homecode upgrade`
 
 ---
 
@@ -225,9 +225,9 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-หากต้องการทราบว่าคุณมีสิทธิ์เข้าถึงรุ่นใด ให้เรียกใช้ `openqcode models`
+หากต้องการทราบว่าคุณมีสิทธิ์เข้าถึงรุ่นใด ให้เรียกใช้ `homecode models`
 
 ---
 
@@ -241,10 +241,10 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 2. หากปัญหายังคงอยู่ ให้ลองล้างการกำหนดค่าที่เก็บไว้:
 
    ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
    ```
 
-   บน Windows กด `WIN+R` และลบ: `%USERPROFILE%\.local\share\openqcode`
+   บน Windows กด `WIN+R` และลบ: `%USERPROFILE%\.local\share\homecode`
 
 3. ตรวจสอบความถูกต้องอีกครั้งกับผู้ให้บริการของคุณโดยใช้คำสั่ง `/connect` ใน TUI
 
@@ -252,21 +252,21 @@ OpenQCode Desktop จะแสดงการแจ้งเตือนขอ�
 
 ### AI_APICallError และปัญหาแพ็คเกจผู้ให้บริการ
 
-หากคุณพบข้อผิดพลาดในการโทร API อาจเนื่องมาจากแพ็คเกจผู้ให้บริการที่ล้าสมัย openqcode จะติดตั้งแพ็คเกจของผู้ให้บริการแบบไดนามิก (OpenAI, Anthropic, Google ฯลฯ) ตามความจำเป็น และแคชไว้ในเครื่อง
+หากคุณพบข้อผิดพลาดในการโทร API อาจเนื่องมาจากแพ็คเกจผู้ให้บริการที่ล้าสมัย homecode จะติดตั้งแพ็คเกจของผู้ให้บริการแบบไดนามิก (OpenAI, Anthropic, Google ฯลฯ) ตามความจำเป็น และแคชไว้ในเครื่อง
 
 ในการแก้ไขปัญหาแพ็คเกจผู้ให้บริการ:
 
 1. ล้างแคชแพ็คเกจผู้ให้บริการ:
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   บน Windows กด `WIN+R` และลบ: `%USERPROFILE%\.cache\openqcode`
+   บน Windows กด `WIN+R` และลบ: `%USERPROFILE%\.cache\homecode`
 
-2. รีสตาร์ท openqcode เพื่อติดตั้งแพ็คเกจผู้ให้บริการล่าสุดอีกครั้ง
+2. รีสตาร์ท homecode เพื่อติดตั้งแพ็คเกจผู้ให้บริการล่าสุดอีกครั้ง
 
-การดำเนินการนี้จะบังคับให้ openqcode ดาวน์โหลดแพ็คเกจผู้ให้บริการเวอร์ชันล่าสุด ซึ่งมักจะแก้ไขปัญหาความเข้ากันได้กับพารามิเตอร์โมเดลและการเปลี่ยนแปลง API
+การดำเนินการนี้จะบังคับให้ homecode ดาวน์โหลดแพ็คเกจผู้ให้บริการเวอร์ชันล่าสุด ซึ่งมักจะแก้ไขปัญหาความเข้ากันได้กับพารามิเตอร์โมเดลและการเปลี่ยนแปลง API
 
 ---
 
@@ -297,4 +297,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-openqcode จะตรวจพบว่าคุณใช้ Wayland และชอบ `wl-clipboard` หรือไม่เช่นนั้นจะพยายามค้นหาเครื่องมือคลิปบอร์ดตามลำดับ: `xclip` และ `xsel`
+homecode จะตรวจพบว่าคุณใช้ Wayland และชอบ `wl-clipboard` หรือไม่เช่นนั้นจะพยายามค้นหาเครื่องมือคลิปบอร์ดตามลำดับ: `xclip` และ `xsel`

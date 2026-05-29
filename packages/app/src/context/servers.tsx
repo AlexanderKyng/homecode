@@ -1,4 +1,4 @@
-import { createSimpleContext } from "@openqcode-ai/ui/context"
+import { createSimpleContext } from "@homecode-ai/ui/context"
 import { useServer } from "./server"
 import { useServerHealth } from "@/utils/server-health"
 

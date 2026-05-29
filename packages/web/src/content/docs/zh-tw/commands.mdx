@@ -17,9 +17,9 @@ description: 為重複任務建立自訂指令。
 
 在 `commands/` 目錄中建立 markdown 檔案來定義自訂指令。
 
-建立 `.openqcode/commands/test.md`：
+建立 `.homecode/commands/test.md`：
 
-```md title=".openqcode/commands/test.md"
+```md title=".homecode/commands/test.md"
 ---
 description: Run tests with coverage
 agent: build
@@ -42,17 +42,17 @@ frontmatter 定義指令屬性，內容則成為範本。
 
 ## 設定
 
-您可以透過 OpenQCode 設定或在 `commands/` 目錄中建立 markdown 檔案來新增自訂指令。
+您可以透過 HomeCode 設定或在 `commands/` 目錄中建立 markdown 檔案來新增自訂指令。
 
 ---
 
 ### JSON
 
-在 OpenQCode [設定](/docs/config)中使用 `command` 選項：
+在 HomeCode [設定](/docs/config)中使用 `command` 選項：
 
-```json title="openqcode.jsonc" {4-12}
+```json title="homecode.jsonc" {4-12}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "command": {
     // This becomes the name of the command
     "test": {
@@ -79,10 +79,10 @@ frontmatter 定義指令屬性，內容則成為範本。
 
 您還可以使用 markdown 檔案定義指令。將它們放在：
 
-- 全域：`~/.config/openqcode/commands/`
-- 專案層級：`.openqcode/commands/`
+- 全域：`~/.config/homecode/commands/`
+- 專案層級：`.homecode/commands/`
 
-```markdown title="~/.config/openqcode/commands/test.md"
+```markdown title="~/.config/homecode/commands/test.md"
 ---
 description: Run tests with coverage
 agent: build
@@ -111,7 +111,7 @@ markdown 檔案名稱即為指令名稱。例如，`test.md` 允許您執行：
 
 使用 `$ARGUMENTS` 佔位符向指令傳遞參數。
 
-```md title=".openqcode/commands/component.md"
+```md title=".homecode/commands/component.md"
 ---
 description: Create a new component
 ---
@@ -137,7 +137,7 @@ Include proper typing and basic structure.
 
 例如：
 
-```md title=".openqcode/commands/create-file.md"
+```md title=".homecode/commands/create-file.md"
 ---
 description: Create a new file with content
 ---
@@ -166,7 +166,7 @@ with the following content: $3
 
 例如，建立一個分析測試覆蓋率的自訂指令：
 
-```md title=".openqcode/commands/analyze-coverage.md"
+```md title=".homecode/commands/analyze-coverage.md"
 ---
 description: Analyze test coverage
 ---
@@ -179,7 +179,7 @@ Based on these results, suggest improvements to increase coverage.
 
 或者查看最近的變更：
 
-```md title=".openqcode/commands/review-changes.md"
+```md title=".homecode/commands/review-changes.md"
 ---
 description: Review recent changes
 ---
@@ -198,7 +198,7 @@ Review these changes and suggest any improvements.
 
 使用 `@` 後跟檔案名稱在指令中參照檔案。
 
-```md title=".openqcode/commands/review-component.md"
+```md title=".homecode/commands/review-component.md"
 ---
 description: Review component
 ---
@@ -221,7 +221,7 @@ Check for performance issues and suggest improvements.
 
 `template` 選項定義執行指令時傳送給 LLM 的提示詞。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "command": {
     "test": {
@@ -239,7 +239,7 @@ Check for performance issues and suggest improvements.
 
 使用 `description` 選項提供指令功能的簡要說明。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "command": {
     "test": {
@@ -259,7 +259,7 @@ Check for performance issues and suggest improvements.
 如果這是一個[子代理](/docs/agents/#subagents)，該指令預設會觸發子代理呼叫。
 要停用此行為，請將 `subtask` 設定為 `false`。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "command": {
     "review": {
@@ -279,7 +279,7 @@ Check for performance issues and suggest improvements.
 如果您希望指令不污染主要上下文，這會很有用，它會**強制**代理作為子代理執行，
 即使[代理](/docs/agents)設定中的 `mode` 設定為 `primary`。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "command": {
     "analyze": {
@@ -297,7 +297,7 @@ Check for performance issues and suggest improvements.
 
 使用 `model` 設定覆寫此指令的預設模型。
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "command": {
     "analyze": {
@@ -313,7 +313,7 @@ Check for performance issues and suggest improvements.
 
 ## 內建指令
 
-OpenQCode 包含多個內建指令，如 `/init`、`/undo`、`/redo`、`/share`、`/help`；[了解更多](/docs/tui#commands)。
+HomeCode 包含多個內建指令，如 `/init`、`/undo`、`/redo`、`/share`、`/help`；[了解更多](/docs/tui#commands)。
 
 :::note
 自訂指令可以覆寫內建指令。

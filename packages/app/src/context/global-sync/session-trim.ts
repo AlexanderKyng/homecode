@@ -1,4 +1,4 @@
-import type { PermissionRequest, Session } from "@openqcode-ai/sdk/v2/client"
+import type { PermissionRequest, Session } from "@homecode-ai/sdk/v2/client"
 import { cmp } from "./utils"
 import { SESSION_RECENT_LIMIT, SESSION_RECENT_WINDOW } from "./types"
 

@@ -14,8 +14,8 @@ import type {
   SnapshotFileDiff,
   Todo,
   VcsInfo,
-} from "@openqcode-ai/sdk/v2/client"
-import { NormalizedProviderListResponse } from "@openqcode-ai/ui/context"
+} from "@homecode-ai/sdk/v2/client"
+import { NormalizedProviderListResponse } from "@homecode-ai/ui/context"
 import type { Accessor } from "solid-js"
 import type { SetStoreFunction, Store } from "solid-js/store"
 

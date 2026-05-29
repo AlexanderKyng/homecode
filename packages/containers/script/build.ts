@@ -22,11 +22,11 @@ const images = ["base", "bun-node", "rust", "tauri-linux", "publish"]
 const setup = async () => {
   if (!push) return
   const list = await $`docker buildx ls`.text()
-  if (list.includes("openqcode")) {
-    await $`docker buildx use openqcode`
+  if (list.includes("homecode")) {
+    await $`docker buildx use homecode`
     return
   }
-  await $`docker buildx create --name openqcode --use`
+  await $`docker buildx create --name homecode --use`
 }
 
 await setup()

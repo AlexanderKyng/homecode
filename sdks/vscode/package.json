@@ -1,12 +1,12 @@
 {
-  "name": "openqcode",
-  "displayName": "openqcode",
-  "description": "openqcode for VS Code",
+  "name": "homecode",
+  "displayName": "homecode",
+  "description": "homecode for VS Code",
   "version": "1.15.11",
   "publisher": "sst-dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/openqcode"
+    "url": "https://github.com/anomalyco/homecode"
   },
   "license": "MIT",
   "icon": "images/icon.png",
@@ -25,54 +25,54 @@
   "contributes": {
     "commands": [
       {
-        "command": "openqcode.openTerminal",
-        "title": "Open openqcode",
+        "command": "homecode.openTerminal",
+        "title": "Open homecode",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
         }
       },
       {
-        "command": "openqcode.openNewTerminal",
-        "title": "Open openqcode in new tab",
+        "command": "homecode.openNewTerminal",
+        "title": "Open homecode in new tab",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
         }
       },
       {
-        "command": "openqcode.addFilepathToTerminal",
+        "command": "homecode.addFilepathToTerminal",
         "title": "Add Filepath to Terminal"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "openqcode.openNewTerminal",
+          "command": "homecode.openNewTerminal",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "openqcode.openTerminal",
-        "title": "Run openqcode",
+        "command": "homecode.openTerminal",
+        "title": "Run homecode",
         "key": "cmd+escape",
         "mac": "cmd+escape",
         "win": "ctrl+escape",
         "linux": "ctrl+escape"
       },
       {
-        "command": "openqcode.openNewTerminal",
-        "title": "Run openqcode",
+        "command": "homecode.openNewTerminal",
+        "title": "Run homecode",
         "key": "cmd+shift+escape",
         "mac": "cmd+shift+escape",
         "win": "ctrl+shift+escape",
         "linux": "ctrl+shift+escape"
       },
       {
-        "command": "openqcode.addFilepathToTerminal",
-        "title": "openqcode: Insert At-Mentioned",
+        "command": "homecode.addFilepathToTerminal",
+        "title": "homecode: Insert At-Mentioned",
         "key": "cmd+alt+k",
         "mac": "cmd+alt+k",
         "win": "ctrl+alt+K",

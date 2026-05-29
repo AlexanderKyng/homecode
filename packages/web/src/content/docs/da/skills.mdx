@@ -3,7 +3,7 @@ title: "Agentfærdigheder"
 description: "Definer gjenbrugbar atferd via SKILL.md-definisjoner"
 ---
 
-Agentferdigheter lar OpenQCode oppdage gjenbrugbare instruksjoner fra repo- eller hjemmekatalogen din.
+Agentferdigheter lar HomeCode oppdage gjenbrugbare instruksjoner fra repo- eller hjemmekatalogen din.
 Ferdigheter lastes inn på forespørsel via det opprinnelige `skill`-verktøyet – agenter ser tilgængelige ferdigheter og kan laste inn hele innholdet når det er nødvendig.
 
 ---
@@ -11,10 +11,10 @@ Ferdigheter lastes inn på forespørsel via det opprinnelige `skill`-verktøyet 
 ## Placer filer
 
 Opret én mappe per ferdighetsnavn og tilføj inn en `SKILL.md` i den.
-OpenQCode søker etter disse stedene:
+HomeCode søker etter disse stedene:
 
-- Prosjektkonfigurasjon: `.openqcode/skills/<name>/SKILL.md`
-- Global konfigurasjon: `~/.config/openqcode/skills/<name>/SKILL.md`
+- Prosjektkonfigurasjon: `.homecode/skills/<name>/SKILL.md`
+- Global konfigurasjon: `~/.config/homecode/skills/<name>/SKILL.md`
 - Prosjekt Claude-kompatibel: `.claude/skills/<name>/SKILL.md`
 - Global Claude-kompatibel: `~/.claude/skills/<name>/SKILL.md`
 - Prosjektagent-kompatibel: `.agents/skills/<name>/SKILL.md`
@@ -24,10 +24,10 @@ OpenQCode søker etter disse stedene:
 
 ## Forstå opdagelsen
 
-For prosjektlokale stier går OpenQCode opp fra din nåværende arbejdskatalog til den når git-arbeidstreet.
-Den laster alle matchende `skills/*/SKILL.md` i `.openqcode/` og alle matchende `.claude/skills/*/SKILL.md` eller `.agents/skills/*/SKILL.md` underveis.
+For prosjektlokale stier går HomeCode opp fra din nåværende arbejdskatalog til den når git-arbeidstreet.
+Den laster alle matchende `skills/*/SKILL.md` i `.homecode/` og alle matchende `.claude/skills/*/SKILL.md` eller `.agents/skills/*/SKILL.md` underveis.
 
-Globale definisjoner lastes også inn fra `~/.config/openqcode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` og `~/.agents/skills/*/SKILL.md`.
+Globale definisjoner lastes også inn fra `~/.config/homecode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` og `~/.agents/skills/*/SKILL.md`.
 
 ---
 
@@ -73,14 +73,14 @@ Hold det spesifikt nok til at agenten kan velge riktig.
 
 ## Brug et eksempel
 
-Lag `.openqcode/skills/git-release/SKILL.md` slik:
+Lag `.homecode/skills/git-release/SKILL.md` slik:
 
 ```markdown
 ---
 name: git-release
 description: Create consistent releases and changelogs
 license: MIT
-compatibility: openqcode
+compatibility: homecode
 metadata:
   audience: maintainers
   workflow: github
@@ -102,7 +102,7 @@ Ask clarifying questions if the target versioning scheme is unclear.
 
 ## Genkend værktøjsbeskrivelsen
 
-OpenQCode viser tilgængelige ferdigheter i `skill` verktøybeskrivelsen.
+HomeCode viser tilgængelige ferdigheter i `skill` verktøybeskrivelsen.
 Hver oppføring inneholder ferdighetsnavnet og beskrivelsen:
 
 ```xml
@@ -124,7 +124,7 @@ skill({ name: "git-release" })
 
 ## Konfigurer tilladelser
 
-Kontroller hvilke ferdigheter agenter har tilgang til ved at bruge mønsterbaserte tillatelser i `openqcode.json`:
+Kontroller hvilke ferdigheter agenter har tilgang til ved at bruge mønsterbaserte tillatelser i `homecode.json`:
 
 ```json
 {
@@ -163,7 +163,7 @@ permission:
 ---
 ```
 
-**For innebygde agenter** (i `openqcode.json`):
+**For innebygde agenter** (i `homecode.json`):
 
 ```json
 {

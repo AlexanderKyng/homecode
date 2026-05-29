@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@openqcode-ai/stats-app",
+  "name": "@homecode-ai/stats-app",
   "version": "1.15.11",
   "private": true,
   "type": "module",
@@ -12,8 +12,8 @@
     "start": "vite start"
   },
   "dependencies": {
-    "@openqcode-ai/stats-core": "workspace:*",
-    "@openqcode-ai/ui": "workspace:*",
+    "@homecode-ai/stats-core": "workspace:*",
+    "@homecode-ai/ui": "workspace:*",
     "@solidjs/meta": "catalog:",
     "@solidjs/router": "catalog:",
     "@solidjs/start": "catalog:",

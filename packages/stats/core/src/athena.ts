@@ -34,7 +34,7 @@ export declare namespace Athena {
   }
 }
 
-export class Athena extends Context.Service<Athena, Athena.Service>()("@openqcode/stats/Athena") {
+export class Athena extends Context.Service<Athena, Athena.Service>()("@homecode/stats/Athena") {
   static readonly layer: Layer.Layer<Athena> = Layer.effect(
     Athena,
     Effect.sync(() => {

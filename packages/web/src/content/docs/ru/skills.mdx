@@ -3,7 +3,7 @@ title: Навыки агента
 description: Определите повторно используемое поведение с помощью определений SKILL.md
 ---
 
-Навыки агента позволяют openqcode обнаруживать многократно используемые инструкции из вашего репозитория или домашнего каталога.
+Навыки агента позволяют homecode обнаруживать многократно используемые инструкции из вашего репозитория или домашнего каталога.
 Навыки загружаются по требованию с помощью встроенного инструмента `skill`: агенты видят доступные навыки и при необходимости могут загрузить весь контент.
 
 ---
@@ -11,10 +11,10 @@ description: Определите повторно используемое по
 ## Разместить файлы
 
 Создайте одну папку для каждого имени навыка и поместите в нее `SKILL.md`.
-openqcode выполняет поиск в следующих местах:
+homecode выполняет поиск в следующих местах:
 
-- Конфигурация проекта: `.openqcode/skills/<name>/SKILL.md`
-- Глобальная конфигурация: `~/.config/openqcode/skills/<name>/SKILL.md`.
+- Конфигурация проекта: `.homecode/skills/<name>/SKILL.md`
+- Глобальная конфигурация: `~/.config/homecode/skills/<name>/SKILL.md`.
 - Совместимость с Project Claude: `.claude/skills/<name>/SKILL.md`
 - Глобальная совместимость с Claude: `~/.claude/skills/<name>/SKILL.md`
 - Совместимость с агентом проекта: `.agents/skills/<name>/SKILL.md`
@@ -24,10 +24,10 @@ openqcode выполняет поиск в следующих местах:
 
 ## Понимание обнаружения
 
-Для локальных путей проекта openqcode переходит из вашего текущего рабочего каталога, пока не достигнет рабочего дерева git.
-Он загружает все соответствующие `skills/*/SKILL.md` в `.openqcode/` и все соответствующие `.claude/skills/*/SKILL.md` или `.agents/skills/*/SKILL.md` по пути.
+Для локальных путей проекта homecode переходит из вашего текущего рабочего каталога, пока не достигнет рабочего дерева git.
+Он загружает все соответствующие `skills/*/SKILL.md` в `.homecode/` и все соответствующие `.claude/skills/*/SKILL.md` или `.agents/skills/*/SKILL.md` по пути.
 
-Глобальные определения также загружаются из `~/.config/openqcode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` и `~/.agents/skills/*/SKILL.md`.
+Глобальные определения также загружаются из `~/.config/homecode/skills/*/SKILL.md`, `~/.claude/skills/*/SKILL.md` и `~/.agents/skills/*/SKILL.md`.
 
 ---
 
@@ -73,14 +73,14 @@ openqcode выполняет поиск в следующих местах:
 
 ## Используйте пример
 
-Создайте `.openqcode/skills/git-release/SKILL.md` следующим образом:
+Создайте `.homecode/skills/git-release/SKILL.md` следующим образом:
 
 ```markdown
 ---
 name: git-release
 description: Create consistent releases and changelogs
 license: MIT
-compatibility: openqcode
+compatibility: homecode
 metadata:
   audience: maintainers
   workflow: github
@@ -102,7 +102,7 @@ Ask clarifying questions if the target versioning scheme is unclear.
 
 ## Распознавание описания инструмента
 
-openqcode перечисляет доступные навыки в описании инструмента `skill`.
+homecode перечисляет доступные навыки в описании инструмента `skill`.
 Каждая запись включает название и описание навыка:
 
 ```xml
@@ -124,7 +124,7 @@ skill({ name: "git-release" })
 
 ## Настройка разрешений
 
-Контролируйте, к каким навыкам агенты могут получить доступ, используя разрешения на основе шаблонов в `openqcode.json`:
+Контролируйте, к каким навыкам агенты могут получить доступ, используя разрешения на основе шаблонов в `homecode.json`:
 
 ```json
 {
@@ -163,7 +163,7 @@ permission:
 ---
 ```
 
-**Для встроенных агентов** (в формате `openqcode.json`):
+**Для встроенных агентов** (в формате `homecode.json`):
 
 ```json
 {

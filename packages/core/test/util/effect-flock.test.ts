@@ -5,10 +5,10 @@ import path from "path"
 import os from "os"
 import { Cause, Effect, Exit, Layer } from "effect"
 import { testEffect } from "../lib/effect"
-import { AppFileSystem } from "@openqcode-ai/core/filesystem"
-import { EffectFlock } from "@openqcode-ai/core/util/effect-flock"
-import { Global } from "@openqcode-ai/core/global"
-import { Hash } from "@openqcode-ai/core/util/hash"
+import { AppFileSystem } from "@homecode-ai/core/filesystem"
+import { EffectFlock } from "@homecode-ai/core/util/effect-flock"
+import { Global } from "@homecode-ai/core/global"
+import { Hash } from "@homecode-ai/core/util/hash"
 
 function lock(dir: string, key: string) {
   return path.join(dir, Hash.fast(key) + ".lock")

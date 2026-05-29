@@ -1,13 +1,13 @@
 import { Component, Show, createMemo, createResource, onMount, type JSX } from "solid-js"
 import { createStore } from "solid-js/store"
-import { Button } from "@openqcode-ai/ui/button"
-import { Icon } from "@openqcode-ai/ui/icon"
-import { Select } from "@openqcode-ai/ui/select"
-import { Switch } from "@openqcode-ai/ui/switch"
-import { TextField } from "@openqcode-ai/ui/text-field"
-import { Tooltip } from "@openqcode-ai/ui/tooltip"
-import { useTheme, type ColorScheme } from "@openqcode-ai/ui/theme/context"
-import { showToast } from "@openqcode-ai/ui/toast"
+import { Button } from "@homecode-ai/ui/button"
+import { Icon } from "@homecode-ai/ui/icon"
+import { Select } from "@homecode-ai/ui/select"
+import { Switch } from "@homecode-ai/ui/switch"
+import { TextField } from "@homecode-ai/ui/text-field"
+import { Tooltip } from "@homecode-ai/ui/tooltip"
+import { useTheme, type ColorScheme } from "@homecode-ai/ui/theme/context"
+import { showToast } from "@homecode-ai/ui/toast"
 import { useParams } from "@solidjs/router"
 import { useLanguage } from "@/context/language"
 import { usePermission } from "@/context/permission"
@@ -516,7 +516,7 @@ export const SettingsGeneral: Component = () => {
           description={
             <>
               {language.t("settings.general.row.theme.description")}{" "}
-              <Link href="https://openqcode.ai/docs/themes/">{language.t("common.learnMore")}</Link>
+              <Link href="https://homecode.ai/docs/themes/">{language.t("common.learnMore")}</Link>
             </>
           }
         >

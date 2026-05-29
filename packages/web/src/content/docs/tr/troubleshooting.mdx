@@ -3,7 +3,7 @@ title: Sorun giderme
 description: Yaygin sorunlar ve cozum adimlari.
 ---
 
-openqcode ile ilgili bir sorunu ayiklamak icin once loglari ve diskte tuttugu yerel verileri kontrol edin.
+homecode ile ilgili bir sorunu ayiklamak icin once loglari ve diskte tuttugu yerel verileri kontrol edin.
 
 ---
 
@@ -11,21 +11,21 @@ openqcode ile ilgili bir sorunu ayiklamak icin once loglari ve diskte tuttugu ye
 
 Log dosyalari su konuma yazilir:
 
-- **macOS/Linux**: `~/.local/share/openqcode/log/`
-- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.local\share\openqcode\log` yapistirin
+- **macOS/Linux**: `~/.local/share/homecode/log/`
+- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.local\share\homecode\log` yapistirin
 
 Log dosyalari zaman damgasiyla adlandirilir (ornegin `2025-01-09T123456.log`) ve en yeni 10 log dosyasi tutulur.
 
-Daha ayrintili ayiklama bilgisi icin `--log-level` komut satiri secenegini kullanabilirsiniz. Ornek: `openqcode --log-level DEBUG`.
+Daha ayrintili ayiklama bilgisi icin `--log-level` komut satiri secenegini kullanabilirsiniz. Ornek: `homecode --log-level DEBUG`.
 
 ---
 
 ## Depolama
 
-openqcode, oturum verilerini ve diger uygulama verilerini diskte su konumda saklar:
+homecode, oturum verilerini ve diger uygulama verilerini diskte su konumda saklar:
 
-- **macOS/Linux**: `~/.local/share/openqcode/`
-- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.local\share\openqcode` yapistirin
+- **macOS/Linux**: `~/.local/share/homecode/`
+- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.local\share\homecode` yapistirin
 
 Bu dizin sunlari icerir:
 
@@ -39,13 +39,13 @@ Bu dizin sunlari icerir:
 
 ## Masaüstü uygulaması
 
-openqcode Desktop arka planda yerel bir openqcode sunucusu (`openqcode-cli` sidecar) calistirir. Sorunlarin cogu bozuk bir plugin, hasarli cache veya hatali sunucu ayarindan kaynaklanir.
+homecode Desktop arka planda yerel bir homecode sunucusu (`homecode-cli` sidecar) calistirir. Sorunlarin cogu bozuk bir plugin, hasarli cache veya hatali sunucu ayarindan kaynaklanir.
 
 ### Hızlı kontroller
 
 - Uygulamayi tamamen kapatip yeniden acin
 - Uygulama hata ekrani gosteriyorsa **Restart**'a tiklayip hata detaylarini kopyalayin
-- Yalnizca macOS: `openqcode` menusu -> **Reload Webview** (arayuz bos/donukse yardimci olur)
+- Yalnizca macOS: `homecode` menusu -> **Reload Webview** (arayuz bos/donukse yardimci olur)
 
 ---
 
@@ -57,28 +57,28 @@ Desktop uygulamasi acilista cokuyorsa, takiliyorsa veya garip davranislar goster
 
 Global config dosyanizi acin ve `plugin` anahtarini arayin.
 
-- **macOS/Linux**: `~/.config/openqcode/openqcode.jsonc` (veya `~/.config/openqcode/openqcode.json`)
-- **macOS/Linux** (eski kurulumlar): `~/.local/share/openqcode/openqcode.jsonc`
-- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.config\openqcode\openqcode.jsonc` yapistirin
+- **macOS/Linux**: `~/.config/homecode/homecode.jsonc` (veya `~/.config/homecode/homecode.json`)
+- **macOS/Linux** (eski kurulumlar): `~/.local/share/homecode/homecode.jsonc`
+- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.config\homecode\homecode.jsonc` yapistirin
 
 Plugin tanimliysa anahtari kaldirarak veya bos bir diziye cekerek gecici olarak devre disi birakin:
 
 ```jsonc
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "plugin": [],
 }
 ```
 
 #### Eklenti dizinlerini kontrol edin
 
-openqcode diskten yerel plugin de yukleyebilir. Bu dizinleri gecici olarak tasiyin (veya klasoru yeniden adlandirin) ve uygulamayi yeniden baslatin:
+homecode diskten yerel plugin de yukleyebilir. Bu dizinleri gecici olarak tasiyin (veya klasoru yeniden adlandirin) ve uygulamayi yeniden baslatin:
 
 - **Global plugins**
-  - **macOS/Linux**: `~/.config/openqcode/plugins/`
-  - **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.config\openqcode\plugins` yapistirin
+  - **macOS/Linux**: `~/.config/homecode/plugins/`
+  - **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.config\homecode\plugins` yapistirin
 - **Project plugins** (sadece proje bazli config kullaniyorsaniz)
-  - `<your-project>/.openqcode/plugins/`
+  - `<your-project>/.homecode/plugins/`
 
 Uygulama duzelirse soruna neden olan plugini bulmak icin pluginleri tek tek yeniden etkinlestirin.
 
@@ -86,22 +86,22 @@ Uygulama duzelirse soruna neden olan plugini bulmak icin pluginleri tek tek yeni
 
 ### Cache'i temizleyin
 
-Pluginleri kapatmak ise yaramazsa (veya plugin kurulumu takili kaldiysa), openqcode'un cache'i yeniden olusturmasi icin cache'i temizleyin.
+Pluginleri kapatmak ise yaramazsa (veya plugin kurulumu takili kaldiysa), homecode'un cache'i yeniden olusturmasi icin cache'i temizleyin.
 
-1. openqcode Desktop'u tamamen kapatin
+1. homecode Desktop'u tamamen kapatin
 2. Cache dizinini silin:
 
-- **macOS**: Finder -> `Cmd+Shift+G` -> `~/.cache/openqcode`
-- **Linux**: `~/.cache/openqcode` dizinini silin (veya `rm -rf ~/.cache/openqcode` calistirin)
-- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.cache\openqcode` yapistirin
+- **macOS**: Finder -> `Cmd+Shift+G` -> `~/.cache/homecode`
+- **Linux**: `~/.cache/homecode` dizinini silin (veya `rm -rf ~/.cache/homecode` calistirin)
+- **Windows**: `WIN+R` tuslayip `%USERPROFILE%\.cache\homecode` yapistirin
 
-3. openqcode Desktop'u yeniden baslatin
+3. homecode Desktop'u yeniden baslatin
 
 ---
 
 ### Sunucu bağlantı sorunlarını düzeltin
 
-openqcode Desktop ya kendi yerel sunucusunu baslatir (varsayilan) ya da sizin tanimladiginiz bir sunucu URL'sine baglanir.
+homecode Desktop ya kendi yerel sunucusunu baslatir (varsayilan) ya da sizin tanimladiginiz bir sunucu URL'sine baglanir.
 
 **"Connection Failed"** penceresi goruyorsaniz (veya uygulama acilis ekranini gecemiyorsa), ozel bir sunucu URL'si olup olmadigini kontrol edin.
 
@@ -111,7 +111,7 @@ Ana ekranda sunucu adina (durum noktali) tiklayarak Server secicisini acin. **De
 
 #### Config'ten `server.port` / `server.hostname` kaldirin
 
-`openqcode.json(c)` dosyanizda `server` bolumu varsa gecici olarak kaldirin ve desktop uygulamasini yeniden baslatin.
+`homecode.json(c)` dosyanizda `server` bolumu varsa gecici olarak kaldirin ve desktop uygulamasini yeniden baslatin.
 
 #### Ortam degiskenlerini kontrol edin
 
@@ -132,21 +132,21 @@ Linux'ta bazi Wayland kurulumlari bos pencere veya compositor hatalarina yol aca
 
 ### Windows: WebView2 Çalışma Zamanı
 
-Windows'ta openqcode Desktop, Microsoft Edge **WebView2 Runtime** gerektirir. Uygulama bos pencereyle aciliyorsa veya hic baslamiyorsa WebView2'yi kurup/guncelleyip tekrar deneyin.
+Windows'ta homecode Desktop, Microsoft Edge **WebView2 Runtime** gerektirir. Uygulama bos pencereyle aciliyorsa veya hic baslamiyorsa WebView2'yi kurup/guncelleyip tekrar deneyin.
 
 ---
 
 ### Windows: Genel performans sorunları
 
-Windows'ta yavaslik, dosya erisim sorunlari veya terminal problemleri yasiyorsaniz [WSL (Windows Subsystem for Linux)](/docs/windows-wsl) kullanmayi deneyin. WSL, openqcode ozellikleriyle daha sorunsuz calisan bir Linux ortami saglar.
+Windows'ta yavaslik, dosya erisim sorunlari veya terminal problemleri yasiyorsaniz [WSL (Windows Subsystem for Linux)](/docs/windows-wsl) kullanmayi deneyin. WSL, homecode ozellikleriyle daha sorunsuz calisan bir Linux ortami saglar.
 
 ---
 
 ### Bildirimler görünmüyor
 
-openqcode Desktop sistem bildirimlerini yalnizca su durumlarda gosterir:
+homecode Desktop sistem bildirimlerini yalnizca su durumlarda gosterir:
 
-- Isletim sistemi ayarlarinizda openqcode icin bildirimler etkinse
+- Isletim sistemi ayarlarinizda homecode icin bildirimler etkinse
 - Uygulama penceresi odakta degilse
 
 ---
@@ -155,11 +155,11 @@ openqcode Desktop sistem bildirimlerini yalnizca su durumlarda gosterir:
 
 Uygulama acilmiyorsa ve ayarlari arayuz icinden temizleyemiyorsaniz, desktop uygulamasinin kayitli durumunu sifirlayin.
 
-1. openqcode Desktop'u kapatin
-2. Su dosyalari bulun ve silin (openqcode Desktop uygulama veri dizininde yer alirlar):
+1. homecode Desktop'u kapatin
+2. Su dosyalari bulun ve silin (homecode Desktop uygulama veri dizininde yer alirlar):
 
-- `openqcode.settings.dat` (desktop varsayilan sunucu URL'si)
-- `openqcode.global.dat` ve `openqcode.workspace.*.dat` (son sunucular/projeler gibi UI durumu)
+- `homecode.settings.dat` (desktop varsayilan sunucu URL'si)
+- `homecode.global.dat` ve `homecode.workspace.*.dat` (son sunucular/projeler gibi UI durumu)
 
 Dizini hizlica bulmak icin:
 
@@ -171,13 +171,13 @@ Dizini hizlica bulmak icin:
 
 ## Yardım alın
 
-openqcode ile ilgili bir sorun yasiyorsaniz:
+homecode ile ilgili bir sorun yasiyorsaniz:
 
 1. **GitHub'da issue acin**
 
    Hata bildirmek veya ozellik talep etmek icin en iyi yol GitHub depomuzdur:
 
-   [**github.com/anomalyco/openqcode/issues**](https://github.com/anomalyco/openqcode/issues)
+   [**github.com/anomalyco/homecode/issues**](https://github.com/anomalyco/homecode/issues)
 
    Yeni issue acmadan once sorununuzun daha once raporlanip raporlanmadigini kontrol edin.
 
@@ -185,7 +185,7 @@ openqcode ile ilgili bir sorun yasiyorsaniz:
 
    Gercek zamanli yardim ve topluluk sohbeti icin Discord sunucumuza katilin:
 
-   [**openqcode.ai/discord**](https://openqcode.ai/discord)
+   [**homecode.ai/discord**](https://homecode.ai/discord)
 
 ---
 
@@ -195,11 +195,11 @@ Asagida yaygin sorunlar ve cozumleri yer aliyor.
 
 ---
 
-### openqcode başlamıyor
+### homecode başlamıyor
 
 1. Hata mesaji icin loglari kontrol edin
 2. Terminalde cikti gormek icin `--print-logs` ile calistirin
-3. `openqcode upgrade` ile en guncel surumu kullandiginizdan emin olun
+3. `homecode upgrade` ile en guncel surumu kullandiginizdan emin olun
 
 ---
 
@@ -224,9 +224,9 @@ Ornekler:
 
 - `openai/gpt-4.1`
 - `openrouter/google/gemini-2.5-flash`
-- `openqcode/kimi-k2`
+- `homecode/kimi-k2`
 
-Erisiminiz olan modelleri gormek icin `openqcode models` calistirin.
+Erisiminiz olan modelleri gormek icin `homecode models` calistirin.
 
 ---
 
@@ -240,10 +240,10 @@ Cozum adimlari:
 2. Sorun surerse kayitli konfigurasyonu temizlemeyi deneyin:
 
    ```bash
-   rm -rf ~/.local/share/openqcode
+   rm -rf ~/.local/share/homecode
    ```
 
-   Windows'ta `WIN+R` tuslayip su konumu silin: `%USERPROFILE%\.local\share\openqcode`
+   Windows'ta `WIN+R` tuslayip su konumu silin: `%USERPROFILE%\.local\share\homecode`
 
 3. TUI'da `/connect` komutuyla provider kimlik dogrulamasini tekrar yapin
 
@@ -251,21 +251,21 @@ Cozum adimlari:
 
 ### AI_APICallError ve provider paket sorunlari
 
-API cagrisi hatalari aliyorsaniz bunun nedeni guncel olmayan provider paketleri olabilir. openqcode, provider paketlerini (OpenAI, Anthropic, Google vb.) gerektikce dinamik yukler ve yerelde onbellekler.
+API cagrisi hatalari aliyorsaniz bunun nedeni guncel olmayan provider paketleri olabilir. homecode, provider paketlerini (OpenAI, Anthropic, Google vb.) gerektikce dinamik yukler ve yerelde onbellekler.
 
 Provider paket sorunlarini gidermek icin:
 
 1. Provider paket cache'ini temizleyin:
 
    ```bash
-   rm -rf ~/.cache/openqcode
+   rm -rf ~/.cache/homecode
    ```
 
-   Windows'ta `WIN+R` tuslayip su konumu silin: `%USERPROFILE%\.cache\openqcode`
+   Windows'ta `WIN+R` tuslayip su konumu silin: `%USERPROFILE%\.cache\homecode`
 
-2. En guncel provider paketlerini yeniden kurmak icin openqcode'u yeniden baslatin
+2. En guncel provider paketlerini yeniden kurmak icin homecode'u yeniden baslatin
 
-Bu, openqcode'un en yeni provider paket surumlerini indirmesini zorlar ve model parametresi/API degisikliklerinden kaynakli uyumsuzluklari cogu zaman cozer.
+Bu, homecode'un en yeni provider paket surumlerini indirmesini zorlar ve model parametresi/API degisikliklerinden kaynakli uyumsuzluklari cogu zaman cozer.
 
 ---
 
@@ -296,4 +296,4 @@ Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 export DISPLAY=:99.0
 ```
 
-openqcode, Wayland kullandiginizi algilarsa `wl-clipboard` tercihi yapar. Aksi halde sirayla `xclip` ve `xsel` araclarini arar.
+homecode, Wayland kullandiginizi algilarsa `wl-clipboard` tercihi yapar. Aksi halde sirayla `xclip` ve `xsel` araclarini arar.

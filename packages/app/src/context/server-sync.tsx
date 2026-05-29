@@ -1,6 +1,6 @@
-import type { Config, OpencodeClient, Path, Project, ProviderAuthResponse, Todo } from "@openqcode-ai/sdk/v2/client"
-import { showToast } from "@openqcode-ai/ui/toast"
-import { getFilename } from "@openqcode-ai/core/util/path"
+import type { Config, OpencodeClient, Path, Project, ProviderAuthResponse, Todo } from "@homecode-ai/sdk/v2/client"
+import { showToast } from "@homecode-ai/ui/toast"
+import { getFilename } from "@homecode-ai/core/util/path"
 import { batch, createContext, getOwner, onCleanup, onMount, type ParentProps, untrack, useContext } from "solid-js"
 import { createStore, produce, reconcile } from "solid-js/store"
 import { useLanguage } from "@/context/language"
@@ -29,7 +29,7 @@ import { createRefreshQueue } from "./global-sync/queue"
 import { directoryKey } from "./global-sync/utils"
 import { PathKey } from "@/utils/path-key"
 import { createDirSyncContext } from "./directory-sync"
-import { createSimpleContext, NormalizedProviderListResponse } from "@openqcode-ai/ui/context"
+import { createSimpleContext, NormalizedProviderListResponse } from "@homecode-ai/ui/context"
 import { createRefCountMap } from "@/utils/refcount"
 
 type GlobalStore = {

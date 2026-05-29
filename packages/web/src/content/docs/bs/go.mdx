@@ -7,11 +7,11 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenQCode Go je povoljna pretplata — **$5 za vaš prvi mjesec**, a zatim **$10/mjesečno** — koja vam pruža pouzdan pristup popularnim otvorenim modelima za programiranje.
+HomeCode Go je povoljna pretplata — **$5 za vaš prvi mjesec**, a zatim **$10/mjesečno** — koja vam pruža pouzdan pristup popularnim otvorenim modelima za programiranje.
 
-Go radi kao bilo koji drugi provajder u OpenQCode-u. Pretplatite se na OpenQCode Go i
+Go radi kao bilo koji drugi provajder u HomeCode-u. Pretplatite se na HomeCode Go i
 dobijete svoj API ključ. On je **potpuno opcionalan** i ne morate ga koristiti da
-biste koristili OpenQCode.
+biste koristili HomeCode.
 
 Dizajniran je prvenstveno za međunarodne korisnike, sa modelima hostovanim u SAD-u, EU i Singapuru za stabilan globalni pristup.
 
@@ -27,7 +27,7 @@ Međutim, dobiti pouzdan pristup s niskom latencijom do njih može biti teško. 
 variraju u pogledu kvaliteta i dostupnosti.
 
 :::tip
-Testirali smo odabranu grupu modela i provajdera koji dobro rade sa OpenQCode-om.
+Testirali smo odabranu grupu modela i provajdera koji dobro rade sa HomeCode-om.
 :::
 
 Da bismo to popravili, uradili smo nekoliko stvari:
@@ -39,22 +39,22 @@ Da bismo to popravili, uradili smo nekoliko stvari:
 3. Na kraju smo benchmarkovali kombinaciju modela/provajdera i osmislili
    listu koju rado preporučujemo.
 
-OpenQCode Go vam daje pristup ovim modelima za **$5 za vaš prvi mjesec**, a zatim **$10/mjesečno**.
+HomeCode Go vam daje pristup ovim modelima za **$5 za vaš prvi mjesec**, a zatim **$10/mjesečno**.
 
 ---
 
 ## Kako funkcioniše
 
-OpenQCode Go radi kao bilo koji drugi provajder u OpenQCode-u.
+HomeCode Go radi kao bilo koji drugi provajder u HomeCode-u.
 
-1. Prijavite se na **<a href={console}>OpenQCode Zen</a>**, pretplatite se na Go i
+1. Prijavite se na **<a href={console}>HomeCode Zen</a>**, pretplatite se na Go i
    kopirajte svoj API ključ.
-2. Pokrenite komandu `/connect` u TUI-ju, odaberite `OpenQCode Go` i zalijepite
+2. Pokrenite komandu `/connect` u TUI-ju, odaberite `HomeCode Go` i zalijepite
    svoj API ključ.
 3. Pokrenite `/models` u TUI-ju da vidite listu modela dostupnih kroz Go.
 
 :::note
-Samo jedan član po radnom prostoru (workspace) može se pretplatiti na OpenQCode Go.
+Samo jedan član po radnom prostoru (workspace) može se pretplatiti na HomeCode Go.
 :::
 
 Trenutna lista modela uključuje:
@@ -79,7 +79,7 @@ Lista modela se može mijenjati dok testiramo i dodajemo nove.
 
 ## Ograničenja upotrebe
 
-OpenQCode Go uključuje sljedeća ograničenja:
+HomeCode Go uključuje sljedeća ograničenja:
 
 - **Ograničenje od 5 sati** — $12 potrošnje
 - **Sedmično ograničenje** — $30 potrošnje
@@ -142,23 +142,23 @@ Također možete pristupiti Go modelima putem sljedećih API endpointa.
 
 | Model             | Model ID          | Endpoint                                         | AI SDK Paket                |
 | ----------------- | ----------------- | ------------------------------------------------ | --------------------------- |
-| GLM-5.1           | glm-5.1           | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| GLM-5             | glm-5             | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| Kimi K2.5         | kimi-k2.5         | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| Kimi K2.6         | kimi-k2.6         | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| DeepSeek V4 Pro   | deepseek-v4-pro   | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| DeepSeek V4 Flash | deepseek-v4-flash | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| MiMo-V2.5         | mimo-v2.5         | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| MiMo-V2.5-Pro     | mimo-v2.5-pro     | `https://openqcode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
-| MiniMax M2.7      | minimax-m2.7      | `https://openqcode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
-| MiniMax M2.5      | minimax-m2.5      | `https://openqcode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
-| Qwen3.7 Max       | qwen3.7-max       | `https://openqcode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
-| Qwen3.6 Plus      | qwen3.6-plus      | `https://openqcode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
-| Qwen3.5 Plus      | qwen3.5-plus      | `https://openqcode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| GLM-5.1           | glm-5.1           | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| GLM-5             | glm-5             | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.5         | kimi-k2.5         | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| Kimi K2.6         | kimi-k2.6         | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Pro   | deepseek-v4-pro   | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| DeepSeek V4 Flash | deepseek-v4-flash | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5         | mimo-v2.5         | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiMo-V2.5-Pro     | mimo-v2.5-pro     | `https://homecode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
+| MiniMax M2.7      | minimax-m2.7      | `https://homecode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| MiniMax M2.5      | minimax-m2.5      | `https://homecode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.7 Max       | qwen3.7-max       | `https://homecode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.6 Plus      | qwen3.6-plus      | `https://homecode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
+| Qwen3.5 Plus      | qwen3.5-plus      | `https://homecode.ai/zen/go/v1/messages`         | `@ai-sdk/anthropic`         |
 
-[Model id](/docs/config/#models) u vašoj OpenQCode konfiguraciji
-koristi format `openqcode-go/<model-id>`. Na primjer, za Kimi K2.6, koristili biste
-`openqcode-go/kimi-k2.6` u svojoj konfiguraciji.
+[Model id](/docs/config/#models) u vašoj HomeCode konfiguraciji
+koristi format `homecode-go/<model-id>`. Na primjer, za Kimi K2.6, koristili biste
+`homecode-go/kimi-k2.6` u svojoj konfiguraciji.
 
 ---
 
@@ -167,7 +167,7 @@ koristi format `openqcode-go/<model-id>`. Na primjer, za Kimi K2.6, koristili bi
 Pun spisak dostupnih modela i njihovih metapodataka možete preuzeti na:
 
 ```
-https://openqcode.ai/zen/go/v1/models
+https://homecode.ai/zen/go/v1/models
 ```
 
 ---
@@ -180,9 +180,9 @@ Plan je prvenstveno namijenjen međunarodnim korisnicima, a modeli su smješteni
 
 ## Ciljevi
 
-Napravili smo OpenQCode Go da bismo:
+Napravili smo HomeCode Go da bismo:
 
 1. Učinili AI programiranje **dostupnim** većem broju ljudi putem povoljne pretplate.
 2. Pružili **pouzdan** pristup najboljim otvorenim modelima za programiranje.
 3. Odabrali modele koji su **testirani i benchmarkovani** za upotrebu od strane agenata za programiranje.
-4. Osigurali da **nema zaključavanja (no lock-in)**, omogućavajući vam da uz OpenQCode koristite i bilo kojeg drugog provajdera.
+4. Osigurali da **nema zaključavanja (no lock-in)**, omogućavajući vam da uz HomeCode koristite i bilo kojeg drugog provajdera.

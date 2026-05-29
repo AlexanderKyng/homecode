@@ -6,7 +6,7 @@ import {
   parseDeepLink,
   parseNewSessionDeepLink,
 } from "./deep-links"
-import { type Session } from "@openqcode-ai/sdk/v2/client"
+import { type Session } from "@homecode-ai/sdk/v2/client"
 import {
   childSessionOnPath,
   displayName,
@@ -30,24 +30,24 @@ const session = (input: Partial<Session> & Pick<Session, "id" | "directory">) =>
 
 describe("layout deep links", () => {
   test("parses open-project deep links", () => {
-    expect(parseDeepLink("openqcode://open-project?directory=/tmp/demo")).toBe("/tmp/demo")
+    expect(parseDeepLink("homecode://open-project?directory=/tmp/demo")).toBe("/tmp/demo")
   })
 
   test("ignores non-project deep links", () => {
-    expect(parseDeepLink("openqcode://other?directory=/tmp/demo")).toBeUndefined()
+    expect(parseDeepLink("homecode://other?directory=/tmp/demo")).toBeUndefined()
     expect(parseDeepLink("https://example.com")).toBeUndefined()
   })
 
   test("ignores malformed deep links safely", () => {
-    expect(() => parseDeepLink("openqcode://open-project/%E0%A4%A%")).not.toThrow()
-    expect(parseDeepLink("openqcode://open-project/%E0%A4%A%")).toBeUndefined()
+    expect(() => parseDeepLink("homecode://open-project/%E0%A4%A%")).not.toThrow()
+    expect(parseDeepLink("homecode://open-project/%E0%A4%A%")).toBeUndefined()
   })
 
   test("parses links when URL.canParse is unavailable", () => {
     const original = Object.getOwnPropertyDescriptor(URL, "canParse")
     Object.defineProperty(URL, "canParse", { configurable: true, value: undefined })
     try {
-      expect(parseDeepLink("openqcode://open-project?directory=/tmp/demo")).toBe("/tmp/demo")
+      expect(parseDeepLink("homecode://open-project?directory=/tmp/demo")).toBe("/tmp/demo")
     } finally {
       if (original) Object.defineProperty(URL, "canParse", original)
       if (!original) Reflect.deleteProperty(URL, "canParse")
@@ -55,37 +55,37 @@ describe("layout deep links", () => {
   })
 
   test("ignores open-project deep links without directory", () => {
-    expect(parseDeepLink("openqcode://open-project")).toBeUndefined()
-    expect(parseDeepLink("openqcode://open-project?directory=")).toBeUndefined()
+    expect(parseDeepLink("homecode://open-project")).toBeUndefined()
+    expect(parseDeepLink("homecode://open-project?directory=")).toBeUndefined()
   })
 
   test("collects only valid open-project directories", () => {
     const result = collectOpenProjectDeepLinks([
-      "openqcode://open-project?directory=/a",
-      "openqcode://other?directory=/b",
-      "openqcode://open-project?directory=/c",
+      "homecode://open-project?directory=/a",
+      "homecode://other?directory=/b",
+      "homecode://open-project?directory=/c",
     ])
     expect(result).toEqual(["/a", "/c"])
   })
 
   test("parses new-session deep links with optional prompt", () => {
-    expect(parseNewSessionDeepLink("openqcode://new-session?directory=/tmp/demo")).toEqual({ directory: "/tmp/demo" })
-    expect(parseNewSessionDeepLink("openqcode://new-session?directory=/tmp/demo&prompt=hello%20world")).toEqual({
+    expect(parseNewSessionDeepLink("homecode://new-session?directory=/tmp/demo")).toEqual({ directory: "/tmp/demo" })
+    expect(parseNewSessionDeepLink("homecode://new-session?directory=/tmp/demo&prompt=hello%20world")).toEqual({
       directory: "/tmp/demo",
       prompt: "hello world",
     })
   })
 
   test("ignores new-session deep links without directory", () => {
-    expect(parseNewSessionDeepLink("openqcode://new-session")).toBeUndefined()
-    expect(parseNewSessionDeepLink("openqcode://new-session?directory=")).toBeUndefined()
+    expect(parseNewSessionDeepLink("homecode://new-session")).toBeUndefined()
+    expect(parseNewSessionDeepLink("homecode://new-session?directory=")).toBeUndefined()
   })
 
   test("collects only valid new-session deep links", () => {
     const result = collectNewSessionDeepLinks([
-      "openqcode://new-session?directory=/a",
-      "openqcode://open-project?directory=/b",
-      "openqcode://new-session?directory=/c&prompt=ship%20it",
+      "homecode://new-session?directory=/a",
+      "homecode://open-project?directory=/b",
+      "homecode://new-session?directory=/c&prompt=ship%20it",
     ])
     expect(result).toEqual([{ directory: "/a" }, { directory: "/c", prompt: "ship it" }])
   })
@@ -93,11 +93,11 @@ describe("layout deep links", () => {
   test("drains global deep links once", () => {
     const target = {
       __OPENCODE__: {
-        deepLinks: ["openqcode://open-project?directory=/a"],
+        deepLinks: ["homecode://open-project?directory=/a"],
       },
     } as unknown as Window & { __OPENCODE__?: { deepLinks?: string[] } }
 
-    expect(drainPendingDeepLinks(target)).toEqual(["openqcode://open-project?directory=/a"])
+    expect(drainPendingDeepLinks(target)).toEqual(["homecode://open-project?directory=/a"])
     expect(drainPendingDeepLinks(target)).toEqual([])
   })
 })

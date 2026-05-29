@@ -1,5 +1,5 @@
-import { AppConfig } from "@openqcode-ai/stats-core/config"
-import { runtime } from "@openqcode-ai/stats-core/runtime"
+import { AppConfig } from "@homecode-ai/stats-core/config"
+import { runtime } from "@homecode-ai/stats-core/runtime"
 import { Effect } from "effect"
 
 export async function GET() {

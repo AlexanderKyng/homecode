@@ -1,5 +1,5 @@
 {
-  "name": "@openqcode-ai/app",
+  "name": "@homecode-ai/app",
   "version": "1.15.11",
   "description": "",
   "type": "module",
@@ -42,9 +42,9 @@
   },
   "dependencies": {
     "@kobalte/core": "catalog:",
-    "@openqcode-ai/core": "workspace:*",
-    "@openqcode-ai/sdk": "workspace:*",
-    "@openqcode-ai/ui": "workspace:*",
+    "@homecode-ai/core": "workspace:*",
+    "@homecode-ai/sdk": "workspace:*",
+    "@homecode-ai/ui": "workspace:*",
     "@sentry/solid": "catalog:",
     "@shikijs/transformers": "3.9.2",
     "@solid-primitives/active-element": "2.1.3",

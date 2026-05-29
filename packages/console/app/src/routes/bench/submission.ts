@@ -1,7 +1,7 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { Database } from "@openqcode-ai/console-core/drizzle/index.js"
-import { BenchmarkTable } from "@openqcode-ai/console-core/schema/benchmark.sql.js"
-import { Identifier } from "@openqcode-ai/console-core/identifier.js"
+import { Database } from "@homecode-ai/console-core/drizzle/index.js"
+import { BenchmarkTable } from "@homecode-ai/console-core/schema/benchmark.sql.js"
+import { Identifier } from "@homecode-ai/console-core/identifier.js"
 import { i18n } from "~/i18n"
 import { localeFromRequest } from "~/lib/language"
 

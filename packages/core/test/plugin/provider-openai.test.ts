@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { ModelV2 } from "@openqcode-ai/core/model"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { OpenAIPlugin } from "@openqcode-ai/core/plugin/provider/openai"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { ModelV2 } from "@homecode-ai/core/model"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { OpenAIPlugin } from "@homecode-ai/core/plugin/provider/openai"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { fakeSelectorSdk, it, model, provider } from "./provider-helper"
 
 describe("OpenAIPlugin", () => {

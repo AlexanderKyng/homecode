@@ -9,8 +9,8 @@ import type {
   Message,
   Part,
   Config as SDKConfig,
-} from "@openqcode-ai/sdk"
-import type { Provider as ProviderV2, Model as ModelV2, Auth } from "@openqcode-ai/sdk/v2"
+} from "@homecode-ai/sdk"
+import type { Provider as ProviderV2, Model as ModelV2, Auth } from "@homecode-ai/sdk/v2"
 
 import type { BunShell } from "./shell.js"
 import { type ToolDefinition } from "./tool.js"

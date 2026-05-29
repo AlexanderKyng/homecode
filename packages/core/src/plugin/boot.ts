@@ -23,7 +23,7 @@ export interface Interface {
   readonly wait: () => Effect.Effect<void>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/v2/PluginBoot") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/v2/PluginBoot") {}
 
 export const layer = Layer.effect(
   Service,

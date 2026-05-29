@@ -83,7 +83,7 @@ export interface Interface {
   readonly sync: (handler: Sync) => Effect.Effect<Unsubscribe>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/Event") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/Event") {}
 
 export const layer = Layer.effect(
   Service,

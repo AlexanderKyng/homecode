@@ -1,36 +1,36 @@
-id = "openqcode"
-name = "OpenQCode"
+id = "homecode"
+name = "HomeCode"
 description = "The open source coding agent."
 version = "1.15.11"
 schema_version = 1
 authors = ["Anomaly"]
-repository = "https://github.com/anomalyco/openqcode"
+repository = "https://github.com/anomalyco/homecode"
 
-[agent_servers.openqcode]
-name = "OpenQCode"
-icon = "./icons/openqcode.svg"
+[agent_servers.homecode]
+name = "HomeCode"
+icon = "./icons/homecode.svg"
 
-[agent_servers.openqcode.targets.darwin-aarch64]
-archive = "https://github.com/anomalyco/openqcode/releases/download/v1.15.11/openqcode-darwin-arm64.zip"
-cmd = "./openqcode"
+[agent_servers.homecode.targets.darwin-aarch64]
+archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-darwin-arm64.zip"
+cmd = "./homecode"
 args = ["acp"]
 
-[agent_servers.openqcode.targets.darwin-x86_64]
-archive = "https://github.com/anomalyco/openqcode/releases/download/v1.15.11/openqcode-darwin-x64.zip"
-cmd = "./openqcode"
+[agent_servers.homecode.targets.darwin-x86_64]
+archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-darwin-x64.zip"
+cmd = "./homecode"
 args = ["acp"]
 
-[agent_servers.openqcode.targets.linux-aarch64]
-archive = "https://github.com/anomalyco/openqcode/releases/download/v1.15.11/openqcode-linux-arm64.tar.gz"
-cmd = "./openqcode"
+[agent_servers.homecode.targets.linux-aarch64]
+archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-linux-arm64.tar.gz"
+cmd = "./homecode"
 args = ["acp"]
 
-[agent_servers.openqcode.targets.linux-x86_64]
-archive = "https://github.com/anomalyco/openqcode/releases/download/v1.15.11/openqcode-linux-x64.tar.gz"
-cmd = "./openqcode"
+[agent_servers.homecode.targets.linux-x86_64]
+archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-linux-x64.tar.gz"
+cmd = "./homecode"
 args = ["acp"]
 
-[agent_servers.openqcode.targets.windows-x86_64]
-archive = "https://github.com/anomalyco/openqcode/releases/download/v1.15.11/openqcode-windows-x64.zip"
-cmd = "./openqcode.exe"
+[agent_servers.homecode.targets.windows-x86_64]
+archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-windows-x64.zip"
+cmd = "./homecode.exe"
 args = ["acp"]

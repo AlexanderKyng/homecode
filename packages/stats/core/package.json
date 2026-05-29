@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@openqcode-ai/stats-core",
+  "name": "@homecode-ai/stats-core",
   "version": "1.15.11",
   "private": true,
   "type": "module",

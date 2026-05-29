@@ -59,8 +59,8 @@ const icons = {
   },
 }
 
-const spriteID = "openqcode-v2-icon-sprite"
-const symbol = (name: keyof typeof icons) => `openqcode-v2-icon-${name}`
+const spriteID = "homecode-v2-icon-sprite"
+const symbol = (name: keyof typeof icons) => `homecode-v2-icon-${name}`
 let spriteInserted = false
 
 function ensureSprite() {

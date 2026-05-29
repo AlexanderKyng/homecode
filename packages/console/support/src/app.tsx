@@ -10,7 +10,7 @@ export default function App() {
       explicitLinks={true}
       root={(props) => (
         <MetaProvider>
-          <Title>openqcode support</Title>
+          <Title>homecode support</Title>
           <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}

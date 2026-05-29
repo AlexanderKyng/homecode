@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "@openqcode-ai/plugin",
+  "name": "@homecode-ai/plugin",
   "version": "1.15.11",
   "type": "module",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "dist"
   ],
   "dependencies": {
-    "@openqcode-ai/sdk": "workspace:*",
+    "@homecode-ai/sdk": "workspace:*",
     "effect": "catalog:",
     "zod": "catalog:"
   },

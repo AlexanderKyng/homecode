@@ -1,7 +1,7 @@
 import { execFile } from "node:child_process"
 import { BrowserWindow, Notification, app, clipboard, dialog, ipcMain, shell } from "electron"
 import type { IpcMainEvent, IpcMainInvokeEvent } from "electron"
-import type { DesktopMenuAction } from "@openqcode-ai/app/desktop-menu"
+import type { DesktopMenuAction } from "@homecode-ai/app/desktop-menu"
 
 import type {
   InitStep,

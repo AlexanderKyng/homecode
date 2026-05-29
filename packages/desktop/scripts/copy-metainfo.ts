@@ -3,8 +3,8 @@ import { resolveChannel } from "./utils"
 const arg = process.argv[2]
 const channel = arg === "dev" || arg === "beta" || arg === "prod" ? arg : resolveChannel()
 
-const appId = channel === "prod" ? "ai.openqcode.desktop" : `ai.openqcode.desktop.${channel}`
-const productName = channel === "prod" ? "OpenQCode" : `OpenQCode ${channel.charAt(0).toUpperCase() + channel.slice(1)}`
+const appId = channel === "prod" ? "ai.homecode.desktop" : `ai.homecode.desktop.${channel}`
+const productName = channel === "prod" ? "HomeCode" : `HomeCode ${channel.charAt(0).toUpperCase() + channel.slice(1)}`
 const summary = `Open source AI coding agent${channel !== "prod" ? ` (${channel})` : ""}`
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -23,7 +23,7 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 
   <description>
     <p>
-      OpenQCode is an open source agent that helps you write and run code with any AI model.
+      HomeCode is an open source agent that helps you write and run code with any AI model.
     </p>
   </description>
 
@@ -31,13 +31,13 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 
   <content_rating type="oars-1.1" />
 
-  <url type="bugtracker">https://github.com/anomalyco/openqcode/issues</url>
-  <url type="homepage">https://openqcode.ai</url>
-  <url type="vcs-browser">https://github.com/anomalyco/openqcode</url>
+  <url type="bugtracker">https://github.com/anomalyco/homecode/issues</url>
+  <url type="homepage">https://homecode.ai</url>
+  <url type="vcs-browser">https://github.com/anomalyco/homecode</url>
 
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/anomalyco/openqcode/b75d4d1c5ec449585d515c756fc81f080a157a9a/packages/web/src/assets/lander/screenshot.png</image>
+      <image>https://raw.githubusercontent.com/anomalyco/homecode/b75d4d1c5ec449585d515c756fc81f080a157a9a/packages/web/src/assets/lander/screenshot.png</image>
     </screenshot>
   </screenshots>
 </component>

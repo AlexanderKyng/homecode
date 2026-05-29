@@ -5,7 +5,7 @@ import path from "node:path"
 import { Effect, Exit, Stream } from "effect"
 import type * as PlatformError from "effect/PlatformError"
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process"
-import { CrossSpawnSpawner } from "@openqcode-ai/core/cross-spawn-spawner"
+import { CrossSpawnSpawner } from "@homecode-ai/core/cross-spawn-spawner"
 import { testEffect } from "../lib/effect"
 
 const live = CrossSpawnSpawner.defaultLayer
@@ -40,7 +40,7 @@ function alive(pid: number) {
 }
 
 async function tmpdir() {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openqcode-core-test-"))
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "homecode-core-test-"))
   return {
     path: dir,
     async [Symbol.asyncDispose]() {

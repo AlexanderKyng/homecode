@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { TogetherAIPlugin } from "@openqcode-ai/core/plugin/provider/togetherai"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { TogetherAIPlugin } from "@homecode-ai/core/plugin/provider/togetherai"
 import { fakeSelectorSdk, it, model } from "./provider-helper"
 
 describe("TogetherAIPlugin", () => {

@@ -1,28 +1,28 @@
 ---
 title: Web
-description: Korzystanie z openqcode w przeglądarce.
+description: Korzystanie z homecode w przeglądarce.
 ---
 
-openqcode może działać jako aplikacja internetowa w przeglądarce, zapewniając takie same możliwości kodowania AI bez konieczności korzystania z terminala.
+homecode może działać jako aplikacja internetowa w przeglądarce, zapewniając takie same możliwości kodowania AI bez konieczności korzystania z terminala.
 
-![Sieć openqcode - Nowa sesja](../../../assets/web/web-homepage-new-session.png)
+![Sieć homecode - Nowa sesja](../../../assets/web/web-homepage-new-session.png)
 
 ## Pierwsze kroki
 
 Uruchom interfejs sieciowy, uruchamiając:
 
 ```bash
-openqcode web
+homecode web
 ```
 
-Spowoduje to uruchomienie lokalnego serwera na `127.0.0.1` z losowo dostępnym portem i automatyczne otwarcie openqcode w domyślnej przeglądarce.
+Spowoduje to uruchomienie lokalnego serwera na `127.0.0.1` z losowo dostępnym portem i automatyczne otwarcie homecode w domyślnej przeglądarce.
 
 :::caution
 Jeśli `OPENCODE_SERVER_PASSWORD` nie jest ustawione, serwer będzie niezabezpieczony. Jest to dobre rozwiązanie do użytku lokalnego, ale powinno być ustawione na dostęp do sieci.
 :::
 
 :::tip[Windows Users]
-Aby uzyskać najlepsze wyniki, uruchom `openqcode web` z [WSL](/docs/windows-wsl) zamiast programu PowerShell. Zapewnia to prawidłowy dostęp do systemu plików i integrację terminala.
+Aby uzyskać najlepsze wyniki, uruchom `homecode web` z [WSL](/docs/windows-wsl) zamiast programu PowerShell. Zapewnia to prawidłowy dostęp do systemu plików i integrację terminala.
 :::
 
 ---
@@ -33,21 +33,21 @@ Możesz skonfigurować serwer WWW za pomocą flag wiersza poleceń lub w [pliku 
 
 ### Port
 
-Domyślnie openqcode wybiera dostępny port. Możesz określić port:
+Domyślnie homecode wybiera dostępny port. Możesz określić port:
 
 ```bash
-openqcode web --port 4096
+homecode web --port 4096
 ```
 
 ### Nazwa hosta
 
-Domyślnie serwer łączy się z `127.0.0.1` (tylko localhost). Aby udostępnić openqcode w swojej sieci:
+Domyślnie serwer łączy się z `127.0.0.1` (tylko localhost). Aby udostępnić homecode w swojej sieci:
 
 ```bash
-openqcode web --hostname 0.0.0.0
+homecode web --hostname 0.0.0.0
 ```
 
-Podczas korzystania z `0.0.0.0` openqcode wyświetli zarówno adresy lokalne, jak i sieciowe:
+Podczas korzystania z `0.0.0.0` homecode wyświetli zarówno adresy lokalne, jak i sieciowe:
 
 ```
   Local access:       http://localhost:4096
@@ -59,15 +59,15 @@ Podczas korzystania z `0.0.0.0` openqcode wyświetli zarówno adresy lokalne, ja
 Włącz mDNS, aby Twój serwer był wykrywalny w sieci lokalnej:
 
 ```bash
-openqcode web --mdns
+homecode web --mdns
 ```
 
-To automatycznie ustawia nazwę hosta na `0.0.0.0` i anonsuje serwer jako `openqcode.local`.
+To automatycznie ustawia nazwę hosta na `0.0.0.0` i anonsuje serwer jako `homecode.local`.
 
 Możesz dostosować nazwę domeny mDNS, aby uruchamiała wiele instancji w tej samej sieci:
 
 ```bash
-openqcode web --mdns --mdns-domain myproject.local
+homecode web --mdns --mdns-domain myproject.local
 ```
 
 ### CORS
@@ -75,7 +75,7 @@ openqcode web --mdns --mdns-domain myproject.local
 Aby zezwolić na dodatkowe domeny dla CORS (przydatne w przypadku niestandardowych interfejsów):
 
 ```bash
-openqcode web --cors https://example.com
+homecode web --cors https://example.com
 ```
 
 ### Uwierzytelnianie
@@ -83,28 +83,28 @@ openqcode web --cors https://example.com
 Aby chronić dostęp, ustaw hasło za pomocą zmiennej środowiskowej `OPENCODE_SERVER_PASSWORD`:
 
 ```bash
-OPENCODE_SERVER_PASSWORD=secret openqcode web
+OPENCODE_SERVER_PASSWORD=secret homecode web
 ```
 
-Domyślna nazwa użytkownika to `openqcode`, ale można ją zmienić za pomocą `OPENCODE_SERVER_USERNAME`.
+Domyślna nazwa użytkownika to `homecode`, ale można ją zmienić za pomocą `OPENCODE_SERVER_USERNAME`.
 
 ---
 
 ## Korzystanie z interfejsu internetowego
 
-Po uruchomieniu interfejs sieciowy zapewnia dostęp do sesji openqcode.
+Po uruchomieniu interfejs sieciowy zapewnia dostęp do sesji homecode.
 
 ### Sesje
 
 Przeglądaj sesje i zarządzaj nimi ze strony głównej. Możesz zobaczyć aktywne sesje i rozpocząć nowe.
 
-![openqcode Web - Aktywna sesja](../../../assets/web/web-homepage-active-session.png)
+![homecode Web - Aktywna sesja](../../../assets/web/web-homepage-active-session.png)
 
 ### Stan serwera
 
 Kliknij „Zobacz serwery”, aby wyświetlić podłączone serwery i ich status.
 
-![openqcode Web - See Servers](../../../assets/web/web-homepage-see-servers.png)
+![homecode Web - See Servers](../../../assets/web/web-homepage-see-servers.png)
 
 ---
 
@@ -114,10 +114,10 @@ Możesz podłączyć terminal TUI do działającego serwera WWW:
 
 ```bash
 # Start the web server
-openqcode web --port 4096
+homecode web --port 4096
 
 # In another terminal, attach the TUI
-openqcode attach http://localhost:4096
+homecode attach http://localhost:4096
 ```
 
 Umożliwia to jednoczesne korzystanie z interfejsu sieciowego i terminala, współdzieląc te same sesje i stan.
@@ -126,7 +126,7 @@ Umożliwia to jednoczesne korzystanie z interfejsu sieciowego i terminala, wspó
 
 ## Plik konfiguracyjny
 
-Możesz także skonfigurować ustawienia serwera w pliku konfiguracyjnym `openqcode.json`:
+Możesz także skonfigurować ustawienia serwera w pliku konfiguracyjnym `homecode.json`:
 
 ```json
 {

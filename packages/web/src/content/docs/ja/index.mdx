@@ -1,15 +1,15 @@
 ---
 title: はじめに
-description: OpenQCode を始めましょう。
+description: HomeCode を始めましょう。
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 import config from "../../../../config.mjs"
 export const console = config.console
 
-[**OpenQCode**](/) は、オープンソースの AI コーディングエージェントです。これは、ターミナルベースのインターフェイス、デスクトップアプリ、または IDE 拡張機能として利用できます。
+[**HomeCode**](/) は、オープンソースの AI コーディングエージェントです。これは、ターミナルベースのインターフェイス、デスクトップアプリ、または IDE 拡張機能として利用できます。
 
-![openqcodeテーマ](../../../assets/lander/screenshot.png)を使用したOpenQCode TUI
+![homecodeテーマ](../../../assets/lander/screenshot.png)を使用したHomeCode TUI
 
 始めましょう。
 
@@ -17,7 +17,7 @@ export const console = config.console
 
 #### 前提条件
 
-ターミナルで OpenQCode を使用するには、次のものが必要です。
+ターミナルで HomeCode を使用するには、次のものが必要です。
 
 1. 次のような最新のターミナルエミュレータ:
    - [WezTerm](https://wezterm.org)、クロスプラットフォーム
@@ -31,10 +31,10 @@ export const console = config.console
 
 ## インストール
 
-OpenQCode をインストールする最も簡単な方法は、インストールスクリプトを使用することです。
+HomeCode をインストールする最も簡単な方法は、インストールスクリプトを使用することです。
 
 ```bash
-curl -fsSL https://openqcode.ai/install | bash
+curl -fsSL https://homecode.ai/install | bash
 ```
 
 次のコマンドを使用してインストールすることもできます。
@@ -45,28 +45,28 @@ curl -fsSL https://openqcode.ai/install | bash
 
       <TabItem label="npm">
       ```bash
-      npm install -g openqcode-ai
+      npm install -g homecode-ai
       ```
 
           </TabItem>
 
         <TabItem label="Bun">
         ```bash
-        bun install -g openqcode-ai
+        bun install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="pnpm">
         ```bash
-        pnpm install -g openqcode-ai
+        pnpm install -g homecode-ai
         ```
 
           </TabItem>
 
         <TabItem label="Yarn">
         ```bash
-        yarn global add openqcode-ai
+        yarn global add homecode-ai
         ```
 
       </TabItem>
@@ -76,68 +76,68 @@ curl -fsSL https://openqcode.ai/install | bash
 - **macOS および Linux での Homebrew の使用**
 
   ```bash
-  brew install anomalyco/tap/openqcode
+  brew install anomalyco/tap/homecode
   ```
 
-  > 最新のリリースには OpenQCode タップを使用することをお勧めします。公式の `brew install openqcode` 式は Homebrew チームによって維持されており、更新頻度は低くなります。
+  > 最新のリリースには HomeCode タップを使用することをお勧めします。公式の `brew install homecode` 式は Homebrew チームによって維持されており、更新頻度は低くなります。
 
 - **Arch Linux での Paru の使用**
 
   ```bash
-  sudo pacman -S openqcode           # Arch Linux (Stable)
-  paru -S openqcode-bin              # Arch Linux (Latest from AUR)
+  sudo pacman -S homecode           # Arch Linux (Stable)
+  paru -S homecode-bin              # Arch Linux (Latest from AUR)
   ```
 
 #### Windows
 
 :::tip[推奨: WSL を使用する]
-Windows で最高のエクスペリエンスを得るには、[Windows Subsystem for Linux (WSL)](/docs/windows-wsl) を使用することをお勧めします。これにより、パフォーマンスが向上し、OpenQCode の機能との完全な互換性が提供されます。
+Windows で最高のエクスペリエンスを得るには、[Windows Subsystem for Linux (WSL)](/docs/windows-wsl) を使用することをお勧めします。これにより、パフォーマンスが向上し、HomeCode の機能との完全な互換性が提供されます。
 :::
 
 - **Chocolatey の使用**
 
   ```bash
-  choco install openqcode
+  choco install homecode
   ```
 
 - **Scoop の使用**
 
   ```bash
-  scoop install openqcode
+  scoop install homecode
   ```
 
 - **npm の使用**
 
   ```bash
-  npm install -g openqcode-ai
+  npm install -g homecode-ai
   ```
 
 - **Mise の使用**
 
   ```bash
-  mise use -g github:anomalyco/openqcode
+  mise use -g github:anomalyco/homecode
   ```
 
 - **Docker の使用**
 
   ```bash
-  docker run -it --rm ghcr.io/anomalyco/openqcode
+  docker run -it --rm ghcr.io/anomalyco/homecode
   ```
 
-Bun を使用して Windows に OpenQCode をインストールするためのサポートは現在進行中です。
+Bun を使用して Windows に HomeCode をインストールするためのサポートは現在進行中です。
 
-[Releases](https://github.com/anomalyco/openqcode/releases).
+[Releases](https://github.com/anomalyco/homecode/releases).
 
 ---
 
 ## 設定
 
-OpenQCode を使用すると、API キーを構成することで任意の LLM プロバイダーを使用できます。
+HomeCode を使用すると、API キーを構成することで任意の LLM プロバイダーを使用できます。
 
-LLM プロバイダーを初めて使用する場合は、[OpenQCode Zen](/docs/zen) をお勧めします。
-これは、OpenQCode チームによってテストおよび検証されたモデルの厳選されたリストです。
+LLM プロバイダーを初めて使用する場合は、[HomeCode Zen](/docs/zen) をお勧めします。
+これは、HomeCode チームによってテストおよび検証されたモデルの厳選されたリストです。
 
-1. TUI で `/connect` コマンドを実行し、openqcode を選択して、[openqcode.ai/auth](https://openqcode.ai/auth) で認証します。
+1. TUI で `/connect` コマンドを実行し、homecode を選択して、[homecode.ai/auth](https://homecode.ai/auth) で認証します。
 
    ```txt
    /connect
@@ -166,31 +166,31 @@ LLM プロバイダーを初めて使用する場合は、[OpenQCode Zen](/docs/
 cd /path/to/project
 ```
 
-そしてOpenQCodeを実行します。
+そしてHomeCodeを実行します。
 
 ```bash
-openqcode
+homecode
 ```
 
-次に、次のコマンドを実行して、プロジェクトの OpenQCode を初期化します。
+次に、次のコマンドを実行して、プロジェクトの HomeCode を初期化します。
 
 ```bash frame="none"
 /init
 ```
 
-これにより、OpenQCode がプロジェクトを分析し、プロジェクトのルートに `AGENTS.md` ファイルを作成します。
+これにより、HomeCode がプロジェクトを分析し、プロジェクトのルートに `AGENTS.md` ファイルを作成します。
 
 :::tip
 プロジェクトの `AGENTS.md` ファイルを Git にコミットする必要があります。
 :::
 
-これは、OpenQCode がプロジェクトの構造と使用されているコーディングパターンを理解するのに役立ちます。
+これは、HomeCode がプロジェクトの構造と使用されているコーディングパターンを理解するのに役立ちます。
 
 ---
 
 ## 使用法
 
-これで、OpenQCode を使用してプロジェクトに取り組む準備が整いました。何でもお気軽にお尋ねください！
+これで、HomeCode を使用してプロジェクトに取り組む準備が整いました。何でもお気軽にお尋ねください！
 
 AI コーディングエージェントを初めて使用する場合は、次の例を参考にしてください。
 
@@ -198,7 +198,7 @@ AI コーディングエージェントを初めて使用する場合は、次�
 
 ### 質問する
 
-OpenQCode にコードベースの説明を依頼できます。
+HomeCode にコードベースの説明を依頼できます。
 
 :::tip
 プロジェクト内のファイルをあいまい検索するには、`@` キーを使用します。
@@ -214,11 +214,11 @@ How is authentication handled in @packages/functions/src/api/index.ts
 
 ### 機能を追加する
 
-OpenQCode に新しい機能をプロジェクトに追加するよう依頼できます。ただし、最初は計画の作成を依頼することをお勧めします。
+HomeCode に新しい機能をプロジェクトに追加するよう依頼できます。ただし、最初は計画の作成を依頼することをお勧めします。
 
 1. **計画を作成する**
 
-OpenQCode には、変更を加える機能を無効にする _Plan mode_ があり、
+HomeCode には、変更を加える機能を無効にする _Plan mode_ があり、
 代わりに、その機能を*どのように*実装するかを提案します。
 
 **Tab** キーを使用してそれに切り替えます。右下隅にこれを示すインジケーターが表示されます。
@@ -235,11 +235,11 @@ OpenQCode には、変更を加える機能を無効にする _Plan mode_ があ
    From this screen, the user can undelete a note or permanently delete it.
 ```
 
-自分が何を望んでいるのかを理解するために、OpenQCode に十分な詳細を提供したいと考えています。
+自分が何を望んでいるのかを理解するために、HomeCode に十分な詳細を提供したいと考えています。
 チームの若手開発者と話しているように話すと良いでしょう。
 
 :::tip
-OpenQCode に多くのコンテキストと例を提供して、意図する内容を理解できるようにします。
+HomeCode に多くのコンテキストと例を提供して、意図する内容を理解できるようにします。
 :::
 
 2. **計画を反復する**
@@ -255,7 +255,7 @@ OpenQCode に多くのコンテキストと例を提供して、意図する内�
 画像をターミナルにドラッグアンドドロップして、プロンプトに追加します。
 :::
 
-OpenQCode は、指定された画像をスキャンしてプロンプトに追加できます。
+HomeCode は、指定された画像をスキャンしてプロンプトに追加できます。
 画像をターミナルにドラッグアンドドロップしてこれを行うことができます。
 
 3. **機能を構築する**
@@ -277,7 +277,7 @@ OpenQCode は、指定された画像をスキャンしてプロンプトに追�
 
 ### 変更を加える
 
-より単純な変更については、OpenQCode に直接ビルドするよう依頼できます。
+より単純な変更については、HomeCode に直接ビルドするよう依頼できます。
 最初に計画を見直す必要はありません。
 
 ```txt frame="none" "@packages/functions/src/settings.ts" "@packages/functions/src/notes.ts"
@@ -286,13 +286,13 @@ handled in the /notes route in @packages/functions/src/notes.ts and implement
 the same logic in @packages/functions/src/settings.ts
 ```
 
-OpenQCode が適切な変更を行えるように、十分な量の詳細を確実に提供する必要があります。
+HomeCode が適切な変更を行えるように、十分な量の詳細を確実に提供する必要があります。
 
 ---
 
 ### 変更を元に戻す
 
-OpenQCode にいくつかの変更を依頼するとします。
+HomeCode にいくつかの変更を依頼するとします。
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
@@ -305,13 +305,13 @@ Can you refactor the function in @packages/functions/src/api/index.ts?
 /undo
 ```
 
-OpenQCode は加えた変更を元に戻し、元のメッセージを再度表示します。
+HomeCode は加えた変更を元に戻し、元のメッセージを再度表示します。
 
 ```txt frame="none" "@packages/functions/src/api/index.ts"
 Can you refactor the function in @packages/functions/src/api/index.ts?
 ```
 
-ここからプロンプトを調整し、OpenQCode に再試行を依頼できます。
+ここからプロンプトを調整し、HomeCode に再試行を依頼できます。
 
 :::tip
 `/undo` を複数回実行すると、複数の変更を元に戻すことができます。
@@ -327,7 +327,7 @@ Can you refactor the function in @packages/functions/src/api/index.ts?
 
 ## 共有
 
-OpenQCode との会話は [他のチームメンバーと共有できます](/docs/share)。
+HomeCode との会話は [他のチームメンバーと共有できます](/docs/share)。
 
 ```bash frame="none"
 /share
@@ -339,12 +339,12 @@ OpenQCode との会話は [他のチームメンバーと共有できます](/do
 会話はデフォルトでは共有されません。
 :::
 
-これは [OpenQCode を使用した会話 ](https://openqcode.ai/s/4XP1fce5) の例です。
+これは [HomeCode を使用した会話 ](https://homecode.ai/s/4XP1fce5) の例です。
 
 ---
 
 ## カスタマイズ
 
-それで終わりです！これであなたは OpenQCode の使い方のプロになりました。
+それで終わりです！これであなたは HomeCode の使い方のプロになりました。
 
-独自のものにするには、[テーマ](/docs/themes) を選択する、[キーバインドをカスタマイズする](/docs/keybinds)、[コードフォーマッタ](/docs/formatters) を設定する、[カスタムコマンド](/docs/commands) を作成する、または [OpenQCode設定](/docs/config) を試してみることをお勧めします。
+独自のものにするには、[テーマ](/docs/themes) を選択する、[キーバインドをカスタマイズする](/docs/keybinds)、[コードフォーマッタ](/docs/formatters) を設定する、[カスタムコマンド](/docs/commands) を作成する、または [HomeCode設定](/docs/config) を試してみることをお勧めします。

@@ -1,9 +1,9 @@
 ---
 title: การรองรับ ACP
-description: ใช้ OpenQCode ในโปรแกรมแก้ไขที่รองรับ ACP
+description: ใช้ HomeCode ในโปรแกรมแก้ไขที่รองรับ ACP
 ---
 
-OpenQCode รองรับ [Agent Client Protocol](https://agentclientprotocol.com) (ACP) ซึ่งช่วยให้สามารถทำงานร่วมกับ editor และ IDE ต่างๆ ได้โดยตรง
+HomeCode รองรับ [Agent Client Protocol](https://agentclientprotocol.com) (ACP) ซึ่งช่วยให้สามารถทำงานร่วมกับ editor และ IDE ต่างๆ ได้โดยตรง
 
 :::tip
 สำหรับรายชื่อเครื่องมือที่รองรับ ACP สามารถดูได้ที่ [ACP progress report](https://zed.dev/blog/acp-progress-report#available-now)
@@ -15,9 +15,9 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 
 ## การกำหนดค่า
 
-ในการใช้ OpenQCode ผ่าน ACP ให้กำหนดค่าโปรแกรมแก้ไขของคุณให้รันคำสั่ง `openqcode acp`
+ในการใช้ HomeCode ผ่าน ACP ให้กำหนดค่าโปรแกรมแก้ไขของคุณให้รันคำสั่ง `homecode acp`
 
-คำสั่งนี้จะเริ่ม OpenQCode เป็น process ย่อยที่รองรับ ACP ซึ่งสื่อสารกับโปรแกรมแก้ไขของคุณผ่าน JSON-RPC ทาง stdio
+คำสั่งนี้จะเริ่ม HomeCode เป็น process ย่อยที่รองรับ ACP ซึ่งสื่อสารกับโปรแกรมแก้ไขของคุณผ่าน JSON-RPC ทาง stdio
 
 นี่คือตัวอย่างสำหรับโปรแกรมแก้ไขยอดนิยมที่รองรับ ACP
 
@@ -30,8 +30,8 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 ```json title="~/.config/zed/settings.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "openqcode",
+    "HomeCode": {
+      "command": "homecode",
       "args": ["acp"]
     }
   }
@@ -51,9 +51,9 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
         {
           "agent": {
             "custom": {
-              "name": "OpenQCode",
+              "name": "HomeCode",
               "command": {
-                "command": "openqcode",
+                "command": "homecode",
                 "args": ["acp"]
               }
             }
@@ -74,15 +74,15 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 ```json title="acp.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "/absolute/path/bin/openqcode",
+    "HomeCode": {
+      "command": "/absolute/path/bin/homecode",
       "args": ["acp"]
     }
   }
 }
 ```
 
-นี่เป็นการเปิดให้ตัวแทน 'OpenQCode' ในเนื้อหาของตัวแทน AI Chat
+นี่เป็นการเปิดให้ตัวแทน 'HomeCode' ในเนื้อหาของตัวแทน AI Chat
 
 ---
 
@@ -93,8 +93,8 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 ```lua
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" }
     }
   }
@@ -106,8 +106,8 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 ```lua {6-8}
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" },
       env = {
         OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY")
@@ -121,14 +121,14 @@ ACP เป็นมาตรฐานเปิดสำหรับการส�
 
 ### CodeCompanion.nvim
 
-ลองใช้ OpenQCode ACP ใน [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim) ให้เพิ่มสิ่งต่อไปนี้ใน Neovim ของคุณ:
+ลองใช้ HomeCode ACP ใน [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim) ให้เพิ่มสิ่งต่อไปนี้ใน Neovim ของคุณ:
 
 ```lua
 require("codecompanion").setup({
   interactions = {
     chat = {
       adapter = {
-        name = "openqcode",
+        name = "homecode",
         model = "claude-sonnet-4",
       },
     },
@@ -136,13 +136,13 @@ require("codecompanion").setup({
 })
 ```
 
-คุณสามารถใช้ CodeCompanion เพื่อใช้ openqcode เป็น ACP agent สำหรับแชท
+คุณสามารถใช้ CodeCompanion เพื่อใช้ homecode เป็น ACP agent สำหรับแชท
 
 หากคุณต้องส่ง environment variables (เช่น `OPENCODE_API_KEY`) โปรดดู [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) ในเอกสารของ CodeCompanion.nvim สำหรับรายละเอียดทั้งหมด
 
 ## การรองรับ
 
-openqcode ทำงานผ่าน ACP เหมือนกับใน terminal และรองรับฟีเจอร์ทั้งหมด:
+homecode ทำงานผ่าน ACP เหมือนกับใน terminal และรองรับฟีเจอร์ทั้งหมด:
 
 :::note
 คำสั่ง slash ในตัวบางคำสั่งเช่น `/undo` และ `/redo` ยังไม่รองรับในขณะนี้
@@ -150,7 +150,7 @@ openqcode ทำงานผ่าน ACP เหมือนกับใน term
 
 - เครื่องมือใน (ไฟล์ไฟล์คำสั่งอื่นๆ)
 - คำอธิบายและคำสั่งสแลช
-- MCP แขกที่นี่คือข้อมูลเพิ่มเติมของ OpenQCode ของคุณ
+- MCP แขกที่นี่คือข้อมูลเพิ่มเติมของ HomeCode ของคุณ
 - กฎเฉพาะโครงการจาก `AGENTS.md`
 - คนจัดรูปแบบและ linters เวียนนา
 - ระบบตัวแทนและระบบ

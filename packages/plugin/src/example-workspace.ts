@@ -1,4 +1,4 @@
-import type { Plugin } from "@openqcode-ai/plugin"
+import type { Plugin } from "@homecode-ai/plugin"
 import { mkdir, rm } from "node:fs/promises"
 
 export const FolderWorkspacePlugin: Plugin = async ({ experimental_workspace }) => {

@@ -1,8 +1,8 @@
 import { describe, expect, mock } from "bun:test"
 import { Effect, Layer } from "effect"
-import { AISDK } from "@openqcode-ai/core/aisdk"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { DeepInfraPlugin } from "@openqcode-ai/core/plugin/provider/deepinfra"
+import { AISDK } from "@homecode-ai/core/aisdk"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { DeepInfraPlugin } from "@homecode-ai/core/plugin/provider/deepinfra"
 import { testEffect } from "../lib/effect"
 import { it, model } from "./provider-helper"
 

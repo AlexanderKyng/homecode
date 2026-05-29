@@ -1,22 +1,22 @@
-import type { Session } from "@openqcode-ai/sdk/v2/client"
+import type { Session } from "@homecode-ai/sdk/v2/client"
 import { createMemo, createSignal, For, Match, Show, Switch } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useQuery } from "@tanstack/solid-query"
-import { Button } from "@openqcode-ai/ui/button"
-import { Logo } from "@openqcode-ai/ui/logo"
-import { Spinner } from "@openqcode-ai/ui/spinner"
-import { Avatar as AvatarV2 } from "@openqcode-ai/ui/v2/components/avatar-v2.jsx"
-import { ButtonV2 } from "@openqcode-ai/ui/v2/components/button-v2.jsx"
-import { Icon as IconV2 } from "@openqcode-ai/ui/v2/components/icon.jsx"
-import { IconButtonV2 } from "@openqcode-ai/ui/v2/components/icon-button-v2.jsx"
-import { MenuV2 } from "@openqcode-ai/ui/v2/components/menu-v2.jsx"
+import { Button } from "@homecode-ai/ui/button"
+import { Logo } from "@homecode-ai/ui/logo"
+import { Spinner } from "@homecode-ai/ui/spinner"
+import { Avatar as AvatarV2 } from "@homecode-ai/ui/v2/components/avatar-v2.jsx"
+import { ButtonV2 } from "@homecode-ai/ui/v2/components/button-v2.jsx"
+import { Icon as IconV2 } from "@homecode-ai/ui/v2/components/icon.jsx"
+import { IconButtonV2 } from "@homecode-ai/ui/v2/components/icon-button-v2.jsx"
+import { MenuV2 } from "@homecode-ai/ui/v2/components/menu-v2.jsx"
 import { getAvatarColors, useLayout, type LocalProject } from "@/context/layout"
 import { useNavigate } from "@solidjs/router"
-import { base64Encode } from "@openqcode-ai/core/util/encode"
-import { Icon } from "@openqcode-ai/ui/icon"
+import { base64Encode } from "@homecode-ai/core/util/encode"
+import { Icon } from "@homecode-ai/ui/icon"
 import { usePlatform } from "@/context/platform"
 import { DateTime } from "luxon"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
 import { DialogSelectDirectory } from "@/components/dialog-select-directory"
 import { DialogSelectServer } from "@/components/dialog-select-server"
 import { ServerConnection, useServer } from "@/context/server"
@@ -213,7 +213,7 @@ function HomeDesign() {
         clearNotifications={clearNotifications}
         unseenCount={unseenCount}
         openSettings={openSettings}
-        openHelp={() => platform.openLink("https://openqcode.ai/desktop-feedback")}
+        openHelp={() => platform.openLink("https://homecode.ai/desktop-feedback")}
         language={language}
       />
 

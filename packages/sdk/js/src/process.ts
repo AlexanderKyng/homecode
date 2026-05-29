@@ -1,7 +1,7 @@
 import { type ChildProcess, spawnSync } from "node:child_process"
 
-// Duplicated from `packages/openqcode/src/util/process.ts` because the SDK cannot
-// import `openqcode` without creating a cycle (`openqcode` depends on `@openqcode-ai/sdk`).
+// Duplicated from `packages/homecode/src/util/process.ts` because the SDK cannot
+// import `homecode` without creating a cycle (`homecode` depends on `@homecode-ai/sdk`).
 export function stop(proc: ChildProcess) {
   if (proc.exitCode !== null || proc.signalCode !== null) return
   if (process.platform === "win32" && proc.pid) {

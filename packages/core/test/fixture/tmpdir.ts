@@ -3,7 +3,7 @@ import { tmpdir as osTmpdir } from "os"
 import path from "path"
 
 export const tmpdir = async () => {
-  const dir = await fs.mkdtemp(path.join(osTmpdir(), "openqcode-core-test-"))
+  const dir = await fs.mkdtemp(path.join(osTmpdir(), "homecode-core-test-"))
   return {
     path: dir,
     async [Symbol.asyncDispose]() {

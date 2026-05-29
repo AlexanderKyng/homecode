@@ -1,9 +1,9 @@
 ---
 title: Udostępnianie
-description: Udostępnij swoje rozmowy dotyczące openqcode.
+description: Udostępnij swoje rozmowy dotyczące homecode.
 ---
 
-Funkcja udostępniania openqcode umożliwia tworzenie publicznych linków do konwersacji openqcode, dzięki czemu możesz współpracować z członkami zespołu lub uzyskać pomoc od innych.
+Funkcja udostępniania homecode umożliwia tworzenie publicznych linków do konwersacji homecode, dzięki czemu możesz współpracować z członkami zespołu lub uzyskać pomoc od innych.
 
 :::note
 Udostępnione konwersacje są publicznie dostępne dla każdej osoby mającej link.
@@ -13,7 +13,7 @@ Udostępnione konwersacje są publicznie dostępne dla każdej osoby mającej li
 
 ## Jak to działa
 
-Kiedy udostępniasz rozmowę, openqcode:
+Kiedy udostępniasz rozmowę, homecode:
 
 1. Tworzy unikalny publiczny adres URL sesji
 2. Synchronizuje historię rozmów z naszymi serwerami
@@ -23,13 +23,13 @@ Kiedy udostępniasz rozmowę, openqcode:
 
 ## Udostępnianie
 
-openqcode obsługuje trzy tryby udostępniania, które kontrolują sposób udostępniania rozmów:
+homecode obsługuje trzy tryby udostępniania, które kontrolują sposób udostępniania rozmów:
 
 ---
 
 ### Ręczne (domyślne)
 
-Domyślnie openqcode korzysta z ręcznego trybu udostępniania. Sesje nie są udostępniane automatycznie, ale możesz je udostępnić ręcznie za pomocą polecenia `/share`:
+Domyślnie homecode korzysta z ręcznego trybu udostępniania. Sesje nie są udostępniane automatycznie, ale możesz je udostępnić ręcznie za pomocą polecenia `/share`:
 
 ```
 /share
@@ -39,9 +39,9 @@ Spowoduje to wygenerowanie unikalnego adresu URL, który zostanie skopiowany do 
 
 Aby jawnie ustawić tryb ręczny w [pliku konfiguracyjnym] (./config):
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "share": "manual"
 }
 ```
@@ -52,9 +52,9 @@ Aby jawnie ustawić tryb ręczny w [pliku konfiguracyjnym] (./config):
 
 Możesz włączyć automatyczne udostępnianie dla wszystkich nowych rozmów, ustawiając opcję `share` na `"auto"` w [pliku konfiguracyjnym] (./config):
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "share": "auto"
 }
 ```
@@ -67,14 +67,14 @@ Po włączeniu automatycznego udostępniania każda nowa rozmowa będzie automat
 
 Możesz całkowicie wyłączyć udostępnianie, ustawiając opcję `share` na `"disabled"` w [pliku konfiguracyjnym] (./config):
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "share": "disabled"
 }
 ```
 
-Aby wymusić to w całym zespole dla danego projektu, dodaj go do `openqcode.json` w swoim projekcie i sprawdź w Git.
+Aby wymusić to w całym zespole dla danego projektu, dodaj go do `homecode.json` w swoim projekcie i sprawdź w Git.
 
 ---
 
@@ -125,4 +125,4 @@ W przypadku wdrożeń korporacyjnych funkcją udostępniania może być:
 - **Restricted** to users authenticated through SSO only
 - **Własny hosting** na własnej infrastrukturze
 
-[Dowiedz się więcej](/docs/enterprise) o używaniu openqcode w Twojej organizacji.
+[Dowiedz się więcej](/docs/enterprise) o używaniu homecode w Twojej organizacji.

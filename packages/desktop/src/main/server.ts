@@ -19,7 +19,7 @@ type SidecarMessage =
 
 export type SidecarListener = { stop: () => Promise<void> }
 
-const SIDECAR_SERVICE_NAME = "openqcode server"
+const SIDECAR_SERVICE_NAME = "homecode server"
 const SIDECAR_START_STALL_TIMEOUT = 60_000
 const SIDECAR_STOP_TIMEOUT = 6_000
 
@@ -211,7 +211,7 @@ export async function checkHealth(url: string, password?: string | null): Promis
 
   const headers = new Headers()
   if (password) {
-    const auth = Buffer.from(`openqcode:${password}`).toString("base64")
+    const auth = Buffer.from(`homecode:${password}`).toString("base64")
     headers.set("authorization", `Basic ${auth}`)
   }
 

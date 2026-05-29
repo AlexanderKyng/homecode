@@ -3,13 +3,13 @@ title: Модели
 description: Настройка поставщика и модели LLM.
 ---
 
-openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](https://models.dev) для поддержки **более 75 поставщиков LLM** и поддерживает запуск локальных моделей.
+homecode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](https://models.dev) для поддержки **более 75 поставщиков LLM** и поддерживает запуск локальных моделей.
 
 ---
 
 ## Провайдеры
 
-Большинство популярных провайдеров предварительно загружены по умолчанию. Если вы добавили учетные данные для поставщика с помощью команды `/connect`, они будут доступны при запуске openqcode.
+Большинство популярных провайдеров предварительно загружены по умолчанию. Если вы добавили учетные данные для поставщика с помощью команды `/connect`, они будут доступны при запуске homecode.
 
 Узнайте больше о [providers](/docs/providers).
 
@@ -35,7 +35,7 @@ openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](htt
 
 Однако лишь немногие из них хороши как в генерации кода, так и в вызове инструментов.
 
-Вот несколько моделей, которые хорошо работают с openqcode (в произвольном порядке). (Это не исчерпывающий список и не обязательно актуальный):
+Вот несколько моделей, которые хорошо работают с homecode (в произвольном порядке). (Это не исчерпывающий список и не обязательно актуальный):
 
 - GPT 5.2
 - Кодекс GPT 5.1
@@ -49,16 +49,16 @@ openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](htt
 ## Установить значение по умолчанию
 
 Чтобы установить одну из них в качестве модели по умолчанию, вы можете установить ключ `model` в вашем
-Конфигурация openqcode.
+Конфигурация homecode.
 
-```json title="openqcode.json" {3}
+```json title="homecode.json" {3}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "model": "lmstudio/google/gemma-3n-e4b"
 }
 ```
 
-Здесь полный идентификатор `provider_id/model_id`. Например, если вы используете [OpenQCode Zen](/docs/zen), вы должны использовать `openqcode/gpt-5.1-codex` для кодекса GPT 5.1.
+Здесь полный идентификатор `provider_id/model_id`. Например, если вы используете [HomeCode Zen](/docs/zen), вы должны использовать `homecode/gpt-5.1-codex` для кодекса GPT 5.1.
 
 Если вы настроили [пользовательский поставщик](/docs/providers#custom), `provider_id` — это ключ из части `provider` вашей конфигурации, а `model_id` — это ключ из `provider.models`.
 
@@ -68,9 +68,9 @@ openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](htt
 
 Вы можете глобально настроить параметры модели через файл config.
 
-```jsonc title="openqcode.jsonc" {7-12,19-24}
+```jsonc title="homecode.jsonc" {7-12,19-24}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "openai": {
       "models": {
@@ -107,11 +107,11 @@ openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](htt
 
 Вы также можете определить собственные варианты, расширяющие встроенные. Варианты позволяют настраивать разные параметры для одной и той же модели без создания повторяющихся записей:
 
-```jsonc title="openqcode.jsonc" {6-21}
+```jsonc title="homecode.jsonc" {6-21}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
-    "openqcode": {
+    "homecode": {
       "models": {
         "gpt-5": {
           "variants": {
@@ -137,11 +137,11 @@ openqcode использует [AI SDK](https://ai-sdk.dev/) и [Models.dev](htt
 
 ## Варианты
 
-Многие модели поддерживают несколько вариантов с разными конфигурациями. openqcode поставляется со встроенными вариантами по умолчанию для популярных провайдеров.
+Многие модели поддерживают несколько вариантов с разными конфигурациями. homecode поставляется со встроенными вариантами по умолчанию для популярных провайдеров.
 
 ### Встроенные варианты
 
-openqcode поставляется с вариантами по умолчанию для многих провайдеров:
+homecode поставляется с вариантами по умолчанию для многих провайдеров:
 
 **Anthropic**:
 
@@ -172,9 +172,9 @@ openqcode поставляется с вариантами по умолчани
 
 Вы можете переопределить существующие варианты или добавить свои собственные:
 
-```jsonc title="openqcode.jsonc" {7-18}
+```jsonc title="homecode.jsonc" {7-18}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "openai": {
       "models": {
@@ -203,15 +203,15 @@ openqcode поставляется с вариантами по умолчани
 
 ## Загрузка моделей
 
-Когда openqcode запускается, он проверяет модели в следующем порядке приоритета:
+Когда homecode запускается, он проверяет модели в следующем порядке приоритета:
 
 1. CLI-флаг `--model` или `-m`. Формат тот же, что и в файле конфигурации: `provider_id/model_id`.
 
-2. Список моделей в конфигурации openqcode.
+2. Список моделей в конфигурации homecode.
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "model": "anthropic/claude-sonnet-4-20250514"
    }
    ```

@@ -57,7 +57,7 @@ async function start(command: StartCommand) {
     ensureLoopbackNoProxy()
     useSystemCertificates()
     useEnvProxy()
-    const { Database, JsonMigration, Log, Server } = await import("virtual:openqcode-server")
+    const { Database, JsonMigration, Log, Server } = await import("virtual:homecode-server")
     await Log.init({ level: "WARN" })
 
     if (command.needsMigration) {
@@ -78,7 +78,7 @@ async function start(command: StartCommand) {
     listener = await Server.listen({
       port: command.port,
       hostname: command.hostname,
-      username: "openqcode",
+      username: "homecode",
       password: command.password,
       cors: ["oc://renderer"],
     })
@@ -101,7 +101,7 @@ async function stop() {
 
 function prepareSidecarEnv(password: string, userDataPath: string) {
   Object.assign(process.env, {
-    OPENCODE_SERVER_USERNAME: "openqcode",
+    OPENCODE_SERVER_USERNAME: "homecode",
     OPENCODE_SERVER_PASSWORD: password,
     XDG_STATE_HOME: process.env.XDG_STATE_HOME ?? userDataPath,
   })

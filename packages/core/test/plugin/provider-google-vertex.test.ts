@@ -1,9 +1,9 @@
 import { describe, expect, mock } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { GoogleVertexPlugin } from "@openqcode-ai/core/plugin/provider/google-vertex"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { GoogleVertexPlugin } from "@homecode-ai/core/plugin/provider/google-vertex"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { fakeSelectorSdk, it, model, withEnv } from "./provider-helper"
 
 const vertexOptions: Record<string, any>[] = []

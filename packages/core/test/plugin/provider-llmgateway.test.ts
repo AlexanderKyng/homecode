@@ -1,10 +1,10 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@openqcode-ai/core/catalog"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { ProviderPlugins } from "@openqcode-ai/core/plugin/provider"
-import { LLMGatewayPlugin } from "@openqcode-ai/core/plugin/provider/llmgateway"
-import { ProviderV2 } from "@openqcode-ai/core/provider"
+import { Catalog } from "@homecode-ai/core/catalog"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { ProviderPlugins } from "@homecode-ai/core/plugin/provider"
+import { LLMGatewayPlugin } from "@homecode-ai/core/plugin/provider/llmgateway"
+import { ProviderV2 } from "@homecode-ai/core/provider"
 import { expectPluginRegistered, it, provider } from "./provider-helper"
 
 describe("LLMGatewayPlugin", () => {
@@ -43,9 +43,9 @@ describe("LLMGatewayPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("llmgateway"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://openqcode.ai/",
-        "X-Title": "openqcode",
-        "X-Source": "openqcode",
+        "HTTP-Referer": "https://homecode.ai/",
+        "X-Title": "homecode",
+        "X-Source": "homecode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter)).options.headers).toEqual({})
     }),

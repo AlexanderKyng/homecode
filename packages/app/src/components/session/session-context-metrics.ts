@@ -1,4 +1,4 @@
-import type { AssistantMessage, Message } from "@openqcode-ai/sdk/v2/client"
+import type { AssistantMessage, Message } from "@homecode-ai/sdk/v2/client"
 
 type Provider = {
   id: string

@@ -1,19 +1,19 @@
 ---
 title: Tjener
-description: Samhandle med OpenQCode-tjener over HTTP.
+description: Samhandle med HomeCode-tjener over HTTP.
 ---
 
 import config from "../../../../config.mjs"
 export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
 
-Kommandoen `openqcode serve` kjører en hodeløs HTTP-server som eksponerer et OpenAPI-endepunkt som en OpenQCode-klient kan bruke.
+Kommandoen `homecode serve` kjører en hodeløs HTTP-server som eksponerer et OpenAPI-endepunkt som en HomeCode-klient kan bruke.
 
 ---
 
 ### Bruk
 
 ```bash
-openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+homecode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 ```
 
 #### Alternativer
@@ -23,41 +23,41 @@ openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 | `--port`        | Port å lytte på                               | `4096`           |
 | `--hostname`    | Vertsnavn å lytte på                          | `127.0.0.1`      |
 | `--mdns`        | Aktiver mDNS-oppdagelse                       | `false`          |
-| `--mdns-domain` | Egendefinert domenenavn for mDNS-tjeneste     | `openqcode.local` |
+| `--mdns-domain` | Egendefinert domenenavn for mDNS-tjeneste     | `homecode.local` |
 | `--cors`        | Ytterligere nettleseropprinnelse som tillates | `[]`             |
 
 `--cors` kan angis flere ganger:
 
 ```bash
-openqcode serve --cors http://localhost:5173 --cors https://app.example.com
+homecode serve --cors http://localhost:5173 --cors https://app.example.com
 ```
 
 ---
 
 ### Autentisering
 
-Sett `OPENCODE_SERVER_PASSWORD` for å beskytte serveren med HTTP grunnleggende autentisering. Brukernavnet er satt til `openqcode` som standard, eller sett `OPENCODE_SERVER_USERNAME` for å overstyre det. Dette gjelder både `openqcode serve` og `openqcode web`.
+Sett `OPENCODE_SERVER_PASSWORD` for å beskytte serveren med HTTP grunnleggende autentisering. Brukernavnet er satt til `homecode` som standard, eller sett `OPENCODE_SERVER_USERNAME` for å overstyre det. Dette gjelder både `homecode serve` og `homecode web`.
 
 ```bash
-OPENCODE_SERVER_PASSWORD=your-password openqcode serve
+OPENCODE_SERVER_PASSWORD=your-password homecode serve
 ```
 
 ---
 
 ### Slik fungerer det
 
-Når du kjører `openqcode` starter den en TUI og en server. Der TUI er
+Når du kjører `homecode` starter den en TUI og en server. Der TUI er
 klient som snakker med serveren. Serveren viser en OpenAPI 3.1-spesifikasjon
 endepunkt. Dette endepunktet brukes også til å generere en [SDK](/docs/sdk).
 
 :::tip
-Bruk OpenQCode-serveren til å samhandle med OpenQCode programmatisk.
+Bruk HomeCode-serveren til å samhandle med HomeCode programmatisk.
 :::
 
-Denne arkitekturen lar OpenQCode støtte flere klienter og lar deg samhandle med OpenQCode programmatisk.
+Denne arkitekturen lar HomeCode støtte flere klienter og lar deg samhandle med HomeCode programmatisk.
 
-Du kan kjøre `openqcode serve` for å starte en frittstående server. Hvis du har
-OpenQCode TUI kjører, vil `openqcode serve` starte en ny server.
+Du kan kjøre `homecode serve` for å starte en frittstående server. Hvis du har
+HomeCode TUI kjører, vil `homecode serve` starte en ny server.
 
 ---
 
@@ -65,7 +65,7 @@ OpenQCode TUI kjører, vil `openqcode serve` starte en ny server.
 
 Når du starter TUI, tildeler den tilfeldig en port og vertsnavn. Du kan i stedet sende inn `--hostname` og `--port` [flagg](/docs/cli). Bruk deretter denne til å koble til serveren.
 
-[`/tui`](#tui) endepunktet kan brukes til å kjøre TUI gjennom serveren. Du kan for eksempel forhåndsutfylle eller kjøre en forespørsel. Dette oppsettet brukes av OpenQCode [IDE](/docs/ide) plugins.
+[`/tui`](#tui) endepunktet kan brukes til å kjøre TUI gjennom serveren. Du kan for eksempel forhåndsutfylle eller kjøre en forespørsel. Dette oppsettet brukes av HomeCode [IDE](/docs/ide) plugins.
 
 ---
 
@@ -83,7 +83,7 @@ For eksempel `http://localhost:4096/doc`. Bruk spesifikasjonen til å generere k
 
 ## APIer
 
-openqcode-serveren viser følgende APIer.
+homecode-serveren viser følgende APIer.
 
 ---
 

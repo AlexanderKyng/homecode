@@ -2,19 +2,19 @@ import { Popover as Kobalte } from "@kobalte/core/popover"
 import { Component, ComponentProps, createMemo, JSX, Show, ValidComponent } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLocal } from "@/context/local"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
 import { popularProviders } from "@/hooks/use-providers"
-import { Button } from "@openqcode-ai/ui/button"
-import { IconButton } from "@openqcode-ai/ui/icon-button"
-import { Tag } from "@openqcode-ai/ui/tag"
-import { Dialog } from "@openqcode-ai/ui/dialog"
-import { List } from "@openqcode-ai/ui/list"
-import { Tooltip } from "@openqcode-ai/ui/tooltip"
+import { Button } from "@homecode-ai/ui/button"
+import { IconButton } from "@homecode-ai/ui/icon-button"
+import { Tag } from "@homecode-ai/ui/tag"
+import { Dialog } from "@homecode-ai/ui/dialog"
+import { List } from "@homecode-ai/ui/list"
+import { Tooltip } from "@homecode-ai/ui/tooltip"
 import { ModelTooltip } from "./model-tooltip"
 import { useLanguage } from "@/context/language"
 
 const isFree = (provider: string, cost: { input: number } | undefined) =>
-  provider === "openqcode" && (!cost || cost.input === 0)
+  provider === "homecode" && (!cost || cost.input === 0)
 
 type ModelState = ReturnType<typeof useLocal>["model"]
 

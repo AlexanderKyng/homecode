@@ -1,8 +1,8 @@
 import { Component, For, Show } from "solid-js"
-import { FileIcon } from "@openqcode-ai/ui/file-icon"
-import { IconButton } from "@openqcode-ai/ui/icon-button"
-import { Tooltip } from "@openqcode-ai/ui/tooltip"
-import { getDirectory, getFilename, getFilenameTruncated } from "@openqcode-ai/core/util/path"
+import { FileIcon } from "@homecode-ai/ui/file-icon"
+import { IconButton } from "@homecode-ai/ui/icon-button"
+import { Tooltip } from "@homecode-ai/ui/tooltip"
+import { getDirectory, getFilename, getFilenameTruncated } from "@homecode-ai/core/util/path"
 import type { ContextItem } from "@/context/prompt"
 
 type PromptContextItem = ContextItem & { key: string }

@@ -1,5 +1,5 @@
-import type { SnapshotFileDiff, VcsFileDiff } from "@openqcode-ai/sdk/v2"
-import type { Message } from "@openqcode-ai/sdk/v2/client"
+import type { SnapshotFileDiff, VcsFileDiff } from "@homecode-ai/sdk/v2"
+import type { Message } from "@homecode-ai/sdk/v2/client"
 
 type Diff = SnapshotFileDiff | VcsFileDiff
 

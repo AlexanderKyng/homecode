@@ -3,11 +3,11 @@ title: Scorciatoie
 description: Personalizza le scorciatoie da tastiera.
 ---
 
-OpenQCode ha una lista di scorciatoie che puoi personalizzare tramite `tui.json`.
+HomeCode ha una lista di scorciatoie che puoi personalizzare tramite `tui.json`.
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "leader": "ctrl+x",
     "app_exit": "ctrl+c,ctrl+d,<leader>q",
@@ -109,7 +109,7 @@ OpenQCode ha una lista di scorciatoie che puoi personalizzare tramite `tui.json`
 
 ## Tasto leader
 
-OpenQCode usa un tasto `leader` per la maggior parte delle scorciatoie. Questo evita conflitti nel terminale.
+HomeCode usa un tasto `leader` per la maggior parte delle scorciatoie. Questo evita conflitti nel terminale.
 
 Per impostazione predefinita, `ctrl+x` e il tasto leader e la maggior parte delle azioni richiede di premere prima il leader e poi la scorciatoia. Per esempio, per avviare una nuova sessione premi `ctrl+x` e poi `n`.
 
@@ -123,7 +123,7 @@ Puoi disabilitare una scorciatoia aggiungendo la chiave in `tui.json` con valore
 
 ```json title="tui.json"
 {
-  "$schema": "https://openqcode.ai/tui.json",
+  "$schema": "https://homecode.ai/tui.json",
   "keybinds": {
     "session_compact": "none"
   }
@@ -134,7 +134,7 @@ Puoi disabilitare una scorciatoia aggiungendo la chiave in `tui.json` con valore
 
 ## Scorciatoie del prompt desktop
 
-Il campo di input del prompt nell'app desktop di OpenQCode supporta scorciatoie comuni in stile Readline/Emacs per modificare il testo. Sono integrate e al momento non configurabili tramite `openqcode.json`.
+Il campo di input del prompt nell'app desktop di HomeCode supporta scorciatoie comuni in stile Readline/Emacs per modificare il testo. Sono integrate e al momento non configurabili tramite `homecode.json`.
 
 | Scorciatoia | Azione                                     |
 | ----------- | ------------------------------------------ |

@@ -1,11 +1,11 @@
-import { Resource } from "@openqcode-ai/console-resource"
-import { Actor } from "@openqcode-ai/console-core/actor.js"
+import { Resource } from "@homecode-ai/console-resource"
+import { Actor } from "@homecode-ai/console-core/actor.js"
 import { action, json, query } from "@solidjs/router"
 import { withActor } from "~/context/auth.withActor"
-import { Billing } from "@openqcode-ai/console-core/billing.js"
-import { and, Database, desc, eq, isNull } from "@openqcode-ai/console-core/drizzle/index.js"
-import { WorkspaceTable } from "@openqcode-ai/console-core/schema/workspace.sql.js"
-import { UserTable } from "@openqcode-ai/console-core/schema/user.sql.js"
+import { Billing } from "@homecode-ai/console-core/billing.js"
+import { and, Database, desc, eq, isNull } from "@homecode-ai/console-core/drizzle/index.js"
+import { WorkspaceTable } from "@homecode-ai/console-core/schema/workspace.sql.js"
+import { UserTable } from "@homecode-ai/console-core/schema/user.sql.js"
 
 export function formatDateForTable(date: Date) {
   const options: Intl.DateTimeFormatOptions = {

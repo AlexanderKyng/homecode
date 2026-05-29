@@ -116,7 +116,7 @@ export interface Interface {
   readonly forService: (serviceID: ServiceID) => Effect.Effect<Info[], Error>
 }
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/v2/Account") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/v2/Account") {}
 
 export const layer = Layer.effect(
   Service,

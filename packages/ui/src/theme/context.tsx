@@ -9,10 +9,10 @@ import type { DesktopTheme } from "./types"
 export type ColorScheme = "light" | "dark" | "system"
 
 const STORAGE_KEYS = {
-  THEME_ID: "openqcode-theme-id",
-  COLOR_SCHEME: "openqcode-color-scheme",
-  THEME_CSS_LIGHT: "openqcode-theme-css-light",
-  THEME_CSS_DARK: "openqcode-theme-css-dark",
+  THEME_ID: "homecode-theme-id",
+  COLOR_SCHEME: "homecode-color-scheme",
+  THEME_CSS_LIGHT: "homecode-theme-css-light",
+  THEME_CSS_DARK: "homecode-theme-css-dark",
 } as const
 
 const THEME_STYLE_ID = "oc-theme"
@@ -66,7 +66,7 @@ const names: Record<string, string> = {
   nord: "Nord",
   "one-dark": "One Dark",
   onedarkpro: "One Dark Pro",
-  openqcode: "OpenQCode",
+  homecode: "HomeCode",
   orng: "Orng",
   "osaka-jade": "Osaka Jade",
   palenight: "Palenight",

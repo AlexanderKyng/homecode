@@ -1,13 +1,13 @@
-import { AppIcon } from "@openqcode-ai/ui/app-icon"
-import { Button } from "@openqcode-ai/ui/button"
-import { DropdownMenu } from "@openqcode-ai/ui/dropdown-menu"
-import { Icon } from "@openqcode-ai/ui/icon"
-import { IconButton } from "@openqcode-ai/ui/icon-button"
-import { Keybind } from "@openqcode-ai/ui/keybind"
-import { Spinner } from "@openqcode-ai/ui/spinner"
-import { showToast } from "@openqcode-ai/ui/toast"
-import { Tooltip, TooltipKeybind } from "@openqcode-ai/ui/tooltip"
-import { getFilename } from "@openqcode-ai/core/util/path"
+import { AppIcon } from "@homecode-ai/ui/app-icon"
+import { Button } from "@homecode-ai/ui/button"
+import { DropdownMenu } from "@homecode-ai/ui/dropdown-menu"
+import { Icon } from "@homecode-ai/ui/icon"
+import { IconButton } from "@homecode-ai/ui/icon-button"
+import { Keybind } from "@homecode-ai/ui/keybind"
+import { Spinner } from "@homecode-ai/ui/spinner"
+import { showToast } from "@homecode-ai/ui/toast"
+import { Tooltip, TooltipKeybind } from "@homecode-ai/ui/tooltip"
+import { getFilename } from "@homecode-ai/core/util/path"
 import { createEffect, createMemo, createSignal, For, onMount, Show } from "solid-js"
 import { createStore } from "solid-js/store"
 import { Portal } from "solid-js/web"
@@ -25,8 +25,8 @@ import { messageAgentColor } from "@/utils/agent"
 import { decode64 } from "@/utils/base64"
 import { Persist, persisted } from "@/utils/persist"
 import { StatusPopover, StatusPopoverV2 } from "../status-popover"
-import { IconButtonV2 } from "@openqcode-ai/ui/v2/components/icon-button-v2.jsx"
-import { Icon as IconV2 } from "@openqcode-ai/ui/v2/components/icon.jsx"
+import { IconButtonV2 } from "@homecode-ai/ui/v2/components/icon-button-v2.jsx"
+import { Icon as IconV2 } from "@homecode-ai/ui/v2/components/icon.jsx"
 
 const OPEN_APPS = [
   "vscode",
@@ -282,8 +282,8 @@ export function SessionHeader() {
   const [centerMount, setCenterMount] = createSignal<HTMLElement | null>(null)
   const [rightMount, setRightMount] = createSignal<HTMLElement | null>(null)
   onMount(() => {
-    setCenterMount(document.getElementById("openqcode-titlebar-center"))
-    setRightMount(document.getElementById("openqcode-titlebar-right"))
+    setCenterMount(document.getElementById("homecode-titlebar-center"))
+    setRightMount(document.getElementById("homecode-titlebar-right"))
   })
 
   return (

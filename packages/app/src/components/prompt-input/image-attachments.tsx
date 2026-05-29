@@ -1,6 +1,6 @@
 import { Component, For, Show } from "solid-js"
-import { Icon } from "@openqcode-ai/ui/icon"
-import { Tooltip } from "@openqcode-ai/ui/tooltip"
+import { Icon } from "@homecode-ai/ui/icon"
+import { Tooltip } from "@homecode-ai/ui/tooltip"
 import type { ImageAttachmentPart } from "@/context/prompt"
 
 type PromptImageAttachmentsProps = {

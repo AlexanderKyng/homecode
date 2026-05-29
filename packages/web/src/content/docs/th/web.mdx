@@ -1,28 +1,28 @@
 ---
 title: เว็บ
-description: การใช้ OpenQCode ในเบราว์เซอร์ของคุณ
+description: การใช้ HomeCode ในเบราว์เซอร์ของคุณ
 ---
 
-OpenQCode สามารถทำงานเป็นเว็บแอปพลิเคชันในเบราว์เซอร์ของคุณได้ โดยมอบประสบการณ์การเขียนโค้ด AI อันทรงพลังแบบเดียวกันโดยไม่ต้องใช้ terminal
+HomeCode สามารถทำงานเป็นเว็บแอปพลิเคชันในเบราว์เซอร์ของคุณได้ โดยมอบประสบการณ์การเขียนโค้ด AI อันทรงพลังแบบเดียวกันโดยไม่ต้องใช้ terminal
 
-![เว็บ OpenQCode - เซสชันใหม่](../../../assets/web/web-homepage-new-session.png)
+![เว็บ HomeCode - เซสชันใหม่](../../../assets/web/web-homepage-new-session.png)
 
 ## เริ่มต้นใช้งาน
 
 เริ่มเว็บอินเตอร์เฟสด้วยการรัน:
 
 ```bash
-openqcode web
+homecode web
 ```
 
-สิ่งนี้จะเริ่มต้นเซิร์ฟเวอร์ท้องถิ่นบน `127.0.0.1` ด้วยพอร์ตที่มีอยู่แบบสุ่มและเปิด OpenQCode โดยอัตโนมัติในเบราว์เซอร์เริ่มต้นของคุณ
+สิ่งนี้จะเริ่มต้นเซิร์ฟเวอร์ท้องถิ่นบน `127.0.0.1` ด้วยพอร์ตที่มีอยู่แบบสุ่มและเปิด HomeCode โดยอัตโนมัติในเบราว์เซอร์เริ่มต้นของคุณ
 
 :::caution
 หากไม่ได้ตั้งค่า `OPENCODE_SERVER_PASSWORD` เซิร์ฟเวอร์จะไม่ปลอดภัย นี่เป็นเรื่องปกติสำหรับการใช้งานภายในเครื่อง แต่ควรตั้งค่าสำหรับการเข้าถึงเครือข่าย
 :::
 
 :::tip[ผู้ใช้ Windows]
-เพื่อประสบการณ์ที่ดีที่สุด ให้เรียกใช้ `openqcode web` จาก [WSL](/docs/windows-wsl) แทนที่จะเป็น PowerShell สิ่งนี้ทำให้มั่นใจได้ถึงการเข้าถึงระบบไฟล์ที่เหมาะสมและการรวม terminal
+เพื่อประสบการณ์ที่ดีที่สุด ให้เรียกใช้ `homecode web` จาก [WSL](/docs/windows-wsl) แทนที่จะเป็น PowerShell สิ่งนี้ทำให้มั่นใจได้ถึงการเข้าถึงระบบไฟล์ที่เหมาะสมและการรวม terminal
 :::
 
 ---
@@ -33,21 +33,21 @@ openqcode web
 
 ### พอร์ต
 
-ตามค่าเริ่มต้น OpenQCode จะเลือกพอร์ตที่พร้อมใช้งาน คุณสามารถระบุพอร์ต:
+ตามค่าเริ่มต้น HomeCode จะเลือกพอร์ตที่พร้อมใช้งาน คุณสามารถระบุพอร์ต:
 
 ```bash
-openqcode web --port 4096
+homecode web --port 4096
 ```
 
 ### ชื่อโฮสต์
 
-ตามค่าเริ่มต้น เซิร์ฟเวอร์จะเชื่อมโยงกับ `127.0.0.1` (เฉพาะโลคัลโฮสต์เท่านั้น) หากต้องการให้ OpenQCode เข้าถึงได้บนเครือข่ายของคุณ:
+ตามค่าเริ่มต้น เซิร์ฟเวอร์จะเชื่อมโยงกับ `127.0.0.1` (เฉพาะโลคัลโฮสต์เท่านั้น) หากต้องการให้ HomeCode เข้าถึงได้บนเครือข่ายของคุณ:
 
 ```bash
-openqcode web --hostname 0.0.0.0
+homecode web --hostname 0.0.0.0
 ```
 
-เมื่อใช้ `0.0.0.0` OpenQCode จะแสดงทั้งที่อยู่ในท้องถิ่นและเครือข่าย:
+เมื่อใช้ `0.0.0.0` HomeCode จะแสดงทั้งที่อยู่ในท้องถิ่นและเครือข่าย:
 
 ```
   Local access:       http://localhost:4096
@@ -59,15 +59,15 @@ openqcode web --hostname 0.0.0.0
 เปิดใช้งาน mDNS เพื่อให้เซิร์ฟเวอร์ของคุณค้นพบได้บนเครือข่ายท้องถิ่น:
 
 ```bash
-openqcode web --mdns
+homecode web --mdns
 ```
 
-สิ่งนี้จะตั้งชื่อโฮสต์เป็น `0.0.0.0` โดยอัตโนมัติและโฆษณาเซิร์ฟเวอร์เป็น `openqcode.local`
+สิ่งนี้จะตั้งชื่อโฮสต์เป็น `0.0.0.0` โดยอัตโนมัติและโฆษณาเซิร์ฟเวอร์เป็น `homecode.local`
 
 คุณสามารถปรับแต่งชื่อโดเมน mDNS เพื่อเรียกใช้หลายอินสแตนซ์บนเครือข่ายเดียวกันได้:
 
 ```bash
-openqcode web --mdns --mdns-domain myproject.local
+homecode web --mdns --mdns-domain myproject.local
 ```
 
 ### CORS
@@ -75,7 +75,7 @@ openqcode web --mdns --mdns-domain myproject.local
 หากต้องการอนุญาตโดเมนเพิ่มเติมสำหรับ CORS (มีประโยชน์สำหรับส่วนหน้าที่กำหนดเอง):
 
 ```bash
-openqcode web --cors https://example.com
+homecode web --cors https://example.com
 ```
 
 ### การรับรองความถูกต้อง
@@ -83,28 +83,28 @@ openqcode web --cors https://example.com
 เพื่อป้องกันการเข้าถึง ให้ตั้งรหัสผ่านโดยใช้ตัวแปรสภาพแวดล้อม `OPENCODE_SERVER_PASSWORD`:
 
 ```bash
-OPENCODE_SERVER_PASSWORD=secret openqcode web
+OPENCODE_SERVER_PASSWORD=secret homecode web
 ```
 
-ชื่อผู้ใช้มีค่าเริ่มต้นเป็น `openqcode` แต่สามารถเปลี่ยนได้ด้วย `OPENCODE_SERVER_USERNAME`
+ชื่อผู้ใช้มีค่าเริ่มต้นเป็น `homecode` แต่สามารถเปลี่ยนได้ด้วย `OPENCODE_SERVER_USERNAME`
 
 ---
 
 ## การใช้เว็บอินเตอร์เฟส
 
-เมื่อเริ่มต้นแล้ว เว็บอินเตอร์เฟสจะให้สิทธิ์การเข้าถึงเซสชัน OpenQCode ของคุณ
+เมื่อเริ่มต้นแล้ว เว็บอินเตอร์เฟสจะให้สิทธิ์การเข้าถึงเซสชัน HomeCode ของคุณ
 
 ### เซสชัน
 
 ดูและจัดการเซสชันของคุณจากหน้าแรก คุณสามารถดูเซสชันที่ใช้งานอยู่และเริ่มต้นเซสชันใหม่ได้
 
-![OpenQCode Web - เซสชันที่ใช้งานอยู่](../../../assets/web/web-homepage-active-session.png)
+![HomeCode Web - เซสชันที่ใช้งานอยู่](../../../assets/web/web-homepage-active-session.png)
 
 ### สถานะเซิร์ฟเวอร์
 
 คลิก "ดูเซิร์ฟเวอร์" เพื่อดูเซิร์ฟเวอร์ที่เชื่อมต่อและสถานะ
 
-![เว็บ OpenQCode - ดูเซิร์ฟเวอร์](../../../assets/web/web-homepage-see-servers.png)
+![เว็บ HomeCode - ดูเซิร์ฟเวอร์](../../../assets/web/web-homepage-see-servers.png)
 
 ---
 
@@ -114,10 +114,10 @@ OPENCODE_SERVER_PASSWORD=secret openqcode web
 
 ```bash
 # Start the web server
-openqcode web --port 4096
+homecode web --port 4096
 
 # In another terminal, attach the TUI
-openqcode attach http://localhost:4096
+homecode attach http://localhost:4096
 ```
 
 ซึ่งจะทำให้คุณสามารถใช้ทั้งเว็บอินเทอร์เฟซและ terminal พร้อมกัน โดยแชร์เซสชันและสถานะเดียวกัน
@@ -126,7 +126,7 @@ openqcode attach http://localhost:4096
 
 ## ไฟล์กำหนดค่า
 
-คุณยังสามารถกำหนดการตั้งค่าเซิร์ฟเวอร์ในไฟล์กำหนดค่า `openqcode.json` ของคุณได้:
+คุณยังสามารถกำหนดการตั้งค่าเซิร์ฟเวอร์ในไฟล์กำหนดค่า `homecode.json` ของคุณได้:
 
 ```json
 {

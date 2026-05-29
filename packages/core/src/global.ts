@@ -6,7 +6,7 @@ import { Context, Effect, Layer } from "effect"
 import { Flock } from "./util/flock"
 import { Flag } from "./flag/flag"
 
-const app = "openqcode"
+const app = "homecode"
 const data = path.join(xdgData!, app)
 const cache = path.join(xdgCache!, app)
 const config = path.join(xdgConfig!, app)
@@ -41,7 +41,7 @@ await Promise.all([
   fs.mkdir(Path.repos, { recursive: true }),
 ])
 
-export class Service extends Context.Service<Service, Interface>()("@openqcode/Global") {}
+export class Service extends Context.Service<Service, Interface>()("@homecode/Global") {}
 
 export interface Interface {
   readonly home: string

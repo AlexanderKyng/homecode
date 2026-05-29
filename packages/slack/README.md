@@ -1,6 +1,6 @@
-# @openqcode-ai/slack
+# @homecode-ai/slack
 
-Slack bot integration for openqcode that creates threaded conversations.
+Slack bot integration for homecode that creates threaded conversations.
 
 ## Setup
 
@@ -24,4 +24,4 @@ Slack bot integration for openqcode that creates threaded conversations.
 bun dev
 ```
 
-The bot will respond to messages in channels where it's added, creating separate openqcode sessions for each thread.
+The bot will respond to messages in channels where it's added, creating separate homecode sessions for each thread.

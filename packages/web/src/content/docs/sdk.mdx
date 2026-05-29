@@ -1,13 +1,13 @@
 ---
 title: SDK
-description: Type-safe JS client for openqcode server.
+description: Type-safe JS client for homecode server.
 ---
 
 import config from "../../../config.mjs"
 export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
 
-The openqcode JS/TS SDK provides a type-safe client for interacting with the server.
-Use it to build integrations and control openqcode programmatically.
+The homecode JS/TS SDK provides a type-safe client for interacting with the server.
+Use it to build integrations and control homecode programmatically.
 
 [Learn more](/docs/server) about how the server works. For examples, check out the [projects](/docs/ecosystem#projects) built by the community.
 
@@ -18,17 +18,17 @@ Use it to build integrations and control openqcode programmatically.
 Install the SDK from npm:
 
 ```bash
-npm install @openqcode-ai/sdk
+npm install @homecode-ai/sdk
 ```
 
 ---
 
 ## Create client
 
-Create an instance of openqcode:
+Create an instance of homecode:
 
 ```javascript
-import { createOpencode } from "@openqcode-ai/sdk"
+import { createOpencode } from "@homecode-ai/sdk"
 
 const { client } = await createOpencode()
 ```
@@ -49,12 +49,12 @@ This starts both a server and a client
 
 ## Config
 
-You can pass a configuration object to customize behavior. The instance still picks up your `openqcode.json`, but you can override or add configuration inline:
+You can pass a configuration object to customize behavior. The instance still picks up your `homecode.json`, but you can override or add configuration inline:
 
 ```javascript
-import { createOpencode } from "@openqcode-ai/sdk"
+import { createOpencode } from "@homecode-ai/sdk"
 
-const openqcode = await createOpencode({
+const homecode = await createOpencode({
   hostname: "127.0.0.1",
   port: 4096,
   config: {
@@ -62,17 +62,17 @@ const openqcode = await createOpencode({
   },
 })
 
-console.log(`Server running at ${openqcode.server.url}`)
+console.log(`Server running at ${homecode.server.url}`)
 
-openqcode.server.close()
+homecode.server.close()
 ```
 
 ## Client only
 
-If you already have a running instance of openqcode, you can create a client instance to connect to it:
+If you already have a running instance of homecode, you can create a client instance to connect to it:
 
 ```javascript
-import { createOpencodeClient } from "@openqcode-ai/sdk"
+import { createOpencodeClient } from "@homecode-ai/sdk"
 
 const client = createOpencodeClient({
   baseUrl: "http://localhost:4096",
@@ -96,7 +96,7 @@ const client = createOpencodeClient({
 The SDK includes TypeScript definitions for all API types. Import them directly:
 
 ```typescript
-import type { Session, Message, Part } from "@openqcode-ai/sdk"
+import type { Session, Message, Part } from "@homecode-ai/sdk"
 ```
 
 All types are generated from the server's OpenAPI specification and available in the <a href={typesUrl}>types file</a>.
@@ -376,7 +376,7 @@ await client.session.prompt({
 ```javascript
 // Search and read files
 const textResults = await client.find.text({
-  query: { pattern: "function.*openqcode" },
+  query: { pattern: "function.*homecode" },
 })
 
 const files = await client.find.files({

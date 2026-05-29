@@ -1,5 +1,5 @@
 {
-  "name": "@openqcode-ai/function",
+  "name": "@homecode-ai/function",
   "version": "1.15.11",
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,

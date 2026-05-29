@@ -1,19 +1,19 @@
 ---
 title: Servidor
-description: Interaja com o servidor openqcode via HTTP.
+description: Interaja com o servidor homecode via HTTP.
 ---
 
 import config from "../../../../config.mjs"
 export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
 
-O comando `openqcode serve` executa um servidor HTTP sem cabeça que expõe um endpoint OpenAPI que um cliente openqcode pode usar.
+O comando `homecode serve` executa um servidor HTTP sem cabeça que expõe um endpoint OpenAPI que um cliente homecode pode usar.
 
 ---
 
 ### Uso
 
 ```bash
-openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+homecode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 ```
 
 #### Opções
@@ -23,38 +23,38 @@ openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 | `--port`        | Porta para escutar                                | `4096`           |
 | `--hostname`    | Nome do host para escutar                         | `127.0.0.1`      |
 | `--mdns`        | Habilitar descoberta mDNS                         | `false`          |
-| `--mdns-domain` | Nome de domínio personalizado para o serviço mDNS | `openqcode.local` |
+| `--mdns-domain` | Nome de domínio personalizado para o serviço mDNS | `homecode.local` |
 | `--cors`        | Origens adicionais de navegador a permitir        | `[]`             |
 
 `--cors` pode ser passado várias vezes:
 
 ```bash
-openqcode serve --cors http://localhost:5173 --cors https://app.example.com
+homecode serve --cors http://localhost:5173 --cors https://app.example.com
 ```
 
 ---
 
 ### Autenticação
 
-Defina `OPENCODE_SERVER_PASSWORD` para proteger o servidor com autenticação básica HTTP. O nome de usuário padrão é `openqcode`, ou defina `OPENCODE_SERVER_USERNAME` para substituí-lo. Isso se aplica tanto ao `openqcode serve` quanto ao `openqcode web`.
+Defina `OPENCODE_SERVER_PASSWORD` para proteger o servidor com autenticação básica HTTP. O nome de usuário padrão é `homecode`, ou defina `OPENCODE_SERVER_USERNAME` para substituí-lo. Isso se aplica tanto ao `homecode serve` quanto ao `homecode web`.
 
 ```bash
-OPENCODE_SERVER_PASSWORD=your-password openqcode serve
+OPENCODE_SERVER_PASSWORD=your-password homecode serve
 ```
 
 ---
 
 ### Como funciona
 
-Quando você executa `openqcode`, ele inicia um TUI e um servidor. Onde o TUI é o cliente que se comunica com o servidor. O servidor expõe um endpoint de especificação OpenAPI 3.1. Este endpoint também é usado para gerar um [SDK](/docs/sdk).
+Quando você executa `homecode`, ele inicia um TUI e um servidor. Onde o TUI é o cliente que se comunica com o servidor. O servidor expõe um endpoint de especificação OpenAPI 3.1. Este endpoint também é usado para gerar um [SDK](/docs/sdk).
 
 :::tip
-Use o servidor openqcode para interagir com o openqcode programaticamente.
+Use o servidor homecode para interagir com o homecode programaticamente.
 :::
 
-Essa arquitetura permite que o openqcode suporte múltiplos clientes e permite que você interaja com o openqcode programaticamente.
+Essa arquitetura permite que o homecode suporte múltiplos clientes e permite que você interaja com o homecode programaticamente.
 
-Você pode executar `openqcode serve` para iniciar um servidor autônomo. Se você tiver o TUI do openqcode em execução, `openqcode serve` iniciará um novo servidor.
+Você pode executar `homecode serve` para iniciar um servidor autônomo. Se você tiver o TUI do homecode em execução, `homecode serve` iniciará um novo servidor.
 
 ---
 
@@ -62,7 +62,7 @@ Você pode executar `openqcode serve` para iniciar um servidor autônomo. Se voc
 
 Quando você inicia o TUI, ele atribui aleatoriamente uma porta e um nome de host. Você pode passar os [flags](/docs/cli) `--hostname` e `--port`. Em seguida, use isso para se conectar ao seu servidor.
 
-O endpoint [`/tui`](#tui) pode ser usado para controlar o TUI através do servidor. Por exemplo, você pode preencher ou executar um prompt. Essa configuração é usada pelos plugins do openqcode [IDE](/docs/ide).
+O endpoint [`/tui`](#tui) pode ser usado para controlar o TUI através do servidor. Por exemplo, você pode preencher ou executar um prompt. Essa configuração é usada pelos plugins do homecode [IDE](/docs/ide).
 
 ---
 
@@ -80,7 +80,7 @@ Por exemplo, `http://localhost:4096/doc`. Use a especificação para gerar clien
 
 ## APIs
 
-O servidor openqcode expõe as seguintes APIs.
+O servidor homecode expõe as seguintes APIs.
 
 ---
 

@@ -7,8 +7,8 @@ import "./app.css"
 function AppMeta() {
   return (
     <>
-      <Title>openqcode stats</Title>
-      <Meta name="description" content="OpenQCode usage and stats." />
+      <Title>homecode stats</Title>
+      <Meta name="description" content="HomeCode usage and stats." />
     </>
   )
 }

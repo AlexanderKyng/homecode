@@ -11,7 +11,7 @@ import { LocaleLinks } from "~/component/locale-links"
 import { config } from "~/config"
 import { useI18n } from "~/context/i18n"
 import { useLanguage } from "~/context/language"
-import desktopAppIcon from "../../asset/lander/openqcode-desktop-icon.png"
+import desktopAppIcon from "../../asset/lander/homecode-desktop-icon.png"
 import type { DownloadPlatform } from "./types"
 
 type OS = "macOS" | "Windows" | "Linux" | null
@@ -118,34 +118,34 @@ export default function Download() {
             <div data-component="section-content">
               <button
                 data-component="cli-row"
-                onClick={handleCopyClick("curl -fsSL https://openqcode.ai/install | bash")}
+                onClick={handleCopyClick("curl -fsSL https://homecode.ai/install | bash")}
               >
                 <code>
-                  curl -fsSL https://<strong>openqcode.ai/install</strong> | bash
+                  curl -fsSL https://<strong>homecode.ai/install</strong> | bash
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("npm i -g openqcode-ai")}>
+              <button data-component="cli-row" onClick={handleCopyClick("npm i -g homecode-ai")}>
                 <code>
-                  npm i -g <strong>openqcode-ai</strong>
+                  npm i -g <strong>homecode-ai</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("bun add -g openqcode-ai")}>
+              <button data-component="cli-row" onClick={handleCopyClick("bun add -g homecode-ai")}>
                 <code>
-                  bun add -g <strong>openqcode-ai</strong>
+                  bun add -g <strong>homecode-ai</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("brew install anomalyco/tap/openqcode")}>
+              <button data-component="cli-row" onClick={handleCopyClick("brew install anomalyco/tap/homecode")}>
                 <code>
-                  brew install <strong>anomalyco/tap/openqcode</strong>
+                  brew install <strong>anomalyco/tap/homecode</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("paru -S openqcode")}>
+              <button data-component="cli-row" onClick={handleCopyClick("paru -S homecode")}>
                 <code>
-                  paru -S <strong>openqcode</strong>
+                  paru -S <strong>homecode</strong>
                 </code>
                 <CopyStatus />
               </button>
@@ -157,9 +157,9 @@ export default function Download() {
               <span>[2]</span> {i18n.t("download.section.desktop")}
             </div>
             <div data-component="section-content">
-              <button data-component="cli-row" onClick={handleCopyClick("brew install --cask openqcode-desktop")}>
+              <button data-component="cli-row" onClick={handleCopyClick("brew install --cask homecode-desktop")}>
                 <code>
-                  brew install --cask <strong>openqcode-desktop</strong>
+                  brew install --cask <strong>homecode-desktop</strong>
                 </code>
                 <CopyStatus />
               </button>

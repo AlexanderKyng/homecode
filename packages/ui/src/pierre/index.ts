@@ -62,11 +62,11 @@ const unsafeCSS = `
   background-color: var(--diffs-bg-selection-text);
 }
 
-::highlight(openqcode-find) {
+::highlight(homecode-find) {
   background-color: rgb(from var(--surface-warning-base) r g b / 0.35);
 }
 
-::highlight(openqcode-find-current) {
+::highlight(homecode-find-current) {
   background-color: rgb(from var(--surface-warning-strong) r g b / 0.55);
 }
 
@@ -161,7 +161,7 @@ ${lineCommentStyles}
 
 export function createDefaultOptions<T>(style: FileDiffOptions<T>["diffStyle"]) {
   return {
-    theme: "OpenQCode",
+    theme: "HomeCode",
     themeType: "system",
     disableLineNumbers: false,
     overflow: "wrap",

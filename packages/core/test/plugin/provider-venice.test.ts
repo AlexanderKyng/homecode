@@ -1,7 +1,7 @@
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { PluginV2 } from "@openqcode-ai/core/plugin"
-import { VenicePlugin } from "@openqcode-ai/core/plugin/provider/venice"
+import { PluginV2 } from "@homecode-ai/core/plugin"
+import { VenicePlugin } from "@homecode-ai/core/plugin/provider/venice"
 import { fakeSelectorSdk, it, model } from "./provider-helper"
 
 describe("VenicePlugin", () => {

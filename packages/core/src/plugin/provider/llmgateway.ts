@@ -12,9 +12,9 @@ export const LLMGatewayPlugin = PluginV2.define({
           if (item.provider.endpoint.package !== "@ai-sdk/openai-compatible") continue
           if (item.provider.endpoint.url !== "https://api.llmgateway.io/v1") continue
           evt.provider.update(item.provider.id, (provider) => {
-            provider.options.headers["HTTP-Referer"] = "https://openqcode.ai/"
-            provider.options.headers["X-Title"] = "openqcode"
-            provider.options.headers["X-Source"] = "openqcode"
+            provider.options.headers["HTTP-Referer"] = "https://homecode.ai/"
+            provider.options.headers["X-Title"] = "homecode"
+            provider.options.headers["X-Source"] = "homecode"
           })
         }
       }),

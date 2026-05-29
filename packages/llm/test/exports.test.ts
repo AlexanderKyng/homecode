@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
-import { LLM, LLMClient, Provider } from "@openqcode-ai/llm"
-import { Route, Protocol } from "@openqcode-ai/llm/route"
-import { Provider as ProviderSubpath } from "@openqcode-ai/llm/provider"
+import { LLM, LLMClient, Provider } from "@homecode-ai/llm"
+import { Route, Protocol } from "@homecode-ai/llm/route"
+import { Provider as ProviderSubpath } from "@homecode-ai/llm/provider"
 import {
   CloudflareAIGateway,
   CloudflareWorkersAI,
@@ -9,10 +9,10 @@ import {
   OpenAICompatible,
   OpenRouter,
   XAI,
-} from "@openqcode-ai/llm/providers"
-import * as GitHubCopilot from "@openqcode-ai/llm/providers/github-copilot"
-import { OpenAIChat, OpenAICompatibleChat, OpenAIResponses } from "@openqcode-ai/llm/protocols"
-import * as AnthropicMessages from "@openqcode-ai/llm/protocols/anthropic-messages"
+} from "@homecode-ai/llm/providers"
+import * as GitHubCopilot from "@homecode-ai/llm/providers/github-copilot"
+import { OpenAIChat, OpenAICompatibleChat, OpenAIResponses } from "@homecode-ai/llm/protocols"
+import * as AnthropicMessages from "@homecode-ai/llm/protocols/anthropic-messages"
 
 describe("public exports", () => {
   test("root exposes app-facing runtime APIs", () => {

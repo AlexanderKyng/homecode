@@ -1,68 +1,68 @@
 ---
 title: GitLab
-description: Используйте openqcode в задачах GitLab и мерж-реквестах.
+description: Используйте homecode в задачах GitLab и мерж-реквестах.
 ---
 
-openqcode интегрируется с вашим рабочим процессом GitLab через конвейер GitLab CI/CD или с GitLab Duo.
+homecode интегрируется с вашим рабочим процессом GitLab через конвейер GitLab CI/CD или с GitLab Duo.
 
-В обоих случаях openqcode будет работать на ваших программах GitLab.
+В обоих случаях homecode будет работать на ваших программах GitLab.
 
 ---
 
 ## GitLab
 
-openqcode работает в обычном конвейере GitLab. Вы можете встроить его в конвейер как [CI-компонент](https://docs.gitlab.com/ee/ci/components/)
+homecode работает в обычном конвейере GitLab. Вы можете встроить его в конвейер как [CI-компонент](https://docs.gitlab.com/ee/ci/components/)
 
-Здесь мы используем созданный сообществом компонент CI/CD для openqcode — [nagyv/gitlab-openqcode](https://gitlab.com/nagyv/gitlab-openqcode).
+Здесь мы используем созданный сообществом компонент CI/CD для homecode — [nagyv/gitlab-homecode](https://gitlab.com/nagyv/gitlab-homecode).
 
 ---
 
 ### Функции
 
-- **Использовать пользовательскую конфигурацию для каждого задания**. Настройте openqcode с помощью пользовательского каталога конфигурации, например `./config/#custom-directory`, чтобы включать или отключать функциональность для каждого вызова openqcode.
-- **Минимальная настройка**: компонент CI настраивает openqcode в фоновом режиме, вам нужно только создать конфигурацию openqcode и начальное приглашение.
+- **Использовать пользовательскую конфигурацию для каждого задания**. Настройте homecode с помощью пользовательского каталога конфигурации, например `./config/#custom-directory`, чтобы включать или отключать функциональность для каждого вызова homecode.
+- **Минимальная настройка**: компонент CI настраивает homecode в фоновом режиме, вам нужно только создать конфигурацию homecode и начальное приглашение.
 - **Гибкость**: компонент CI поддерживает несколько входных данных для настройки его поведения.
 
 ---
 
 ### Настройка
 
-1. Сохраните JSON аутентификации openqcode как переменные среды CI типа файла в разделе **Настройки** > **CI/CD** > **Переменные**. Обязательно пометьте их как «Замаскированные и скрытые».
+1. Сохраните JSON аутентификации homecode как переменные среды CI типа файла в разделе **Настройки** > **CI/CD** > **Переменные**. Обязательно пометьте их как «Замаскированные и скрытые».
 2. Добавьте следующее в файл `.gitlab-ci.yml`.
 
    ```yaml title=".gitlab-ci.yml"
    include:
-     - component: $CI_SERVER_FQDN/nagyv/gitlab-openqcode/openqcode@2
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-homecode/homecode@2
        inputs:
-         config_dir: ${CI_PROJECT_DIR}/openqcode-config
-         auth_json: $OPENCODE_AUTH_JSON # The variable name for your OpenQCode authentication JSON
+         config_dir: ${CI_PROJECT_DIR}/homecode-config
+         auth_json: $OPENCODE_AUTH_JSON # The variable name for your HomeCode authentication JSON
          command: optional-custom-command
          message: "Your prompt here"
    ```
 
-Дополнительные сведения и варианты использования см. в документации ](https://gitlab.com/explore/catalog/nagyv/gitlab-openqcode) для этого компонента.
+Дополнительные сведения и варианты использования см. в документации ](https://gitlab.com/explore/catalog/nagyv/gitlab-homecode) для этого компонента.
 
 ---
 
 ## GitLab Duo
 
-openqcode интегрируется с вашим рабочим процессом GitLab.
-Упомяните `@openqcode` в комментарии, и openqcode выполнит задачи в вашем конвейере GitLab CI.
+homecode интегрируется с вашим рабочим процессом GitLab.
+Упомяните `@homecode` в комментарии, и homecode выполнит задачи в вашем конвейере GitLab CI.
 
 ---
 
 ### Функции
 
-- **Триаж задач (Issue Triage)**. Попросите openqcode разобраться в проблеме и объяснить ее вам.
-- **Исправление и реализация**. Попросите openqcode исправить проблему или реализовать функцию.
+- **Триаж задач (Issue Triage)**. Попросите homecode разобраться в проблеме и объяснить ее вам.
+- **Исправление и реализация**. Попросите homecode исправить проблему или реализовать функцию.
   Он создаст новую ветку и создаст мерж-реквест с изменениями.
-- **Безопасность**: openqcode работает на ваших программах GitLab.
+- **Безопасность**: homecode работает на ваших программах GitLab.
 
 ---
 
 ### Настройка
 
-openqcode работает в вашем конвейере GitLab CI/CD. Вот что вам понадобится для его настройки:
+homecode работает в вашем конвейере GitLab CI/CD. Вот что вам понадобится для его настройки:
 
 :::tip
 Ознакомьтесь с [**документацией GitLab**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) для получения актуальных инструкций.
@@ -82,8 +82,8 @@ openqcode работает в вашем конвейере GitLab CI/CD. Вот
     ```yaml
     image: node:22-slim
     commands:
-      - echo "Installing openqcode"
-      - npm install --global openqcode-ai
+      - echo "Installing homecode"
+      - npm install --global homecode-ai
       - echo "Installing glab"
       - export GITLAB_TOKEN=$GITLAB_TOKEN_OPENCODE
       - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
@@ -91,10 +91,10 @@ openqcode работает в вашем конвейере GitLab CI/CD. Вот
       - apt-get install --yes glab
       - echo "Configuring glab"
       - echo $GITLAB_HOST
-      - echo "Creating OpenQCode auth configuration"
-      - mkdir --parents ~/.local/share/openqcode
+      - echo "Creating HomeCode auth configuration"
+      - mkdir --parents ~/.local/share/homecode
       - |
-        cat > ~/.local/share/openqcode/auth.json << EOF
+        cat > ~/.local/share/homecode/auth.json << EOF
         {
           "anthropic": {
             "type": "api",
@@ -103,13 +103,13 @@ openqcode работает в вашем конвейере GitLab CI/CD. Вот
         }
         EOF
       - echo "Configuring git"
-      - git config --global user.email "openqcode@gitlab.com"
-      - git config --global user.name "OpenQCode"
+      - git config --global user.email "homecode@gitlab.com"
+      - git config --global user.name "HomeCode"
       - echo "Testing glab"
       - glab issue list
-      - echo "Running OpenQCode"
+      - echo "Running HomeCode"
       - |
-        openqcode run "
+        homecode run "
         You are an AI assistant helping with GitLab operations.
 
         Context: $AI_FLOW_CONTEXT
@@ -158,10 +158,10 @@ openqcode работает в вашем конвейере GitLab CI/CD. Вот
 
 ### Примеры
 
-Вот несколько примеров того, как вы можете использовать openqcode в GitLab.
+Вот несколько примеров того, как вы можете использовать homecode в GitLab.
 
 :::tip
-Вы можете настроить использование триггерной фразы, отличной от `@openqcode`.
+Вы можете настроить использование триггерной фразы, отличной от `@homecode`.
 :::
 
 - **Объяснение проблемы**
@@ -169,27 +169,27 @@ openqcode работает в вашем конвейере GitLab CI/CD. Вот
   Добавьте этот комментарий в issue GitLab.
 
   ```
-  @openqcode explain this issue
+  @homecode explain this issue
   ```
 
-  openqcode прочитает проблему и ответит с четким объяснением.
+  homecode прочитает проблему и ответит с четким объяснением.
 
 - **Исправление проблемы**
 
   В issue GitLab напишите:
 
   ```
-  @openqcode fix this
+  @homecode fix this
   ```
 
-  openqcode создаст новую ветку, внедрит изменения и откроет мерж-реквест с изменениями.
+  homecode создаст новую ветку, внедрит изменения и откроет мерж-реквест с изменениями.
 
 - **Проверка Merge Request**
 
   Оставьте следующий комментарий к мерж-реквесту GitLab.
 
   ```
-  @openqcode review this merge request
+  @homecode review this merge request
   ```
 
-  openqcode рассмотрит мерж-реквест и предоставит отзыв.
+  homecode рассмотрит мерж-реквест и предоставит отзыв.

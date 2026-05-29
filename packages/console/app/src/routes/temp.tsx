@@ -67,7 +67,7 @@ export default function Home() {
               <span>
                 <span>curl -fsSL </span>
                 <span data-slot="protocol">https://</span>
-                <span data-slot="highlight">openqcode.ai/install</span>
+                <span data-slot="highlight">homecode.ai/install</span>
                 <span> | bash</span>
               </span>
               <CopyStatus />
@@ -113,7 +113,7 @@ export default function Home() {
             <h3 data-component="title">npm</h3>
             <button data-copy data-slot="button">
               <span>
-                npm install -g <strong>openqcode-ai</strong>
+                npm install -g <strong>homecode-ai</strong>
               </span>
               <CopyStatus />
             </button>
@@ -122,7 +122,7 @@ export default function Home() {
             <h3 data-component="title">bun</h3>
             <button data-copy data-slot="button">
               <span>
-                bun install -g <strong>openqcode-ai</strong>
+                bun install -g <strong>homecode-ai</strong>
               </span>
               <CopyStatus />
             </button>
@@ -131,7 +131,7 @@ export default function Home() {
             <h3 data-component="title">homebrew</h3>
             <button data-copy data-slot="button">
               <span>
-                brew install <strong>openqcode</strong>
+                brew install <strong>homecode</strong>
               </span>
               <CopyStatus />
             </button>
@@ -140,7 +140,7 @@ export default function Home() {
             <h3 data-component="title">paru</h3>
             <button data-copy data-slot="button">
               <span>
-                paru -S <strong>openqcode-bin</strong>
+                paru -S <strong>homecode-bin</strong>
               </span>
               <CopyStatus />
             </button>
@@ -158,13 +158,13 @@ export default function Home() {
 
         <footer data-component="footer">
           <div data-slot="cell">
-            <a href="https://x.com/openqcode">{i18n.t("footer.x")}</a>
+            <a href="https://x.com/homecode">{i18n.t("footer.x")}</a>
           </div>
           <div data-slot="cell">
-            <a href="https://github.com/anomalyco/openqcode">{i18n.t("footer.github")}</a>
+            <a href="https://github.com/anomalyco/homecode">{i18n.t("footer.github")}</a>
           </div>
           <div data-slot="cell">
-            <a href="https://openqcode.ai/discord">{i18n.t("footer.discord")}</a>
+            <a href="https://homecode.ai/discord">{i18n.t("footer.discord")}</a>
           </div>
         </footer>
       </div>

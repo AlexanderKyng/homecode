@@ -1,9 +1,9 @@
 ---
 title: Supporto ACP
-description: Usa OpenQCode in qualunque editor compatibile con ACP.
+description: Usa HomeCode in qualunque editor compatibile con ACP.
 ---
 
-OpenQCode supporta [Agent Client Protocol](https://agentclientprotocol.com) (ACP), permettendoti di usarlo direttamente in editor e IDE compatibili.
+HomeCode supporta [Agent Client Protocol](https://agentclientprotocol.com) (ACP), permettendoti di usarlo direttamente in editor e IDE compatibili.
 
 :::tip
 Per una lista di editor e tool che supportano ACP, vedi l'[ACP progress report](https://zed.dev/blog/acp-progress-report#available-now).
@@ -15,9 +15,9 @@ ACP e è un protocollo aperto che standardizza la comunicazione tra editor di co
 
 ## Configurazione
 
-Per usare OpenQCode via ACP, configura l'editor in modo che esegua il comando `openqcode acp`.
+Per usare HomeCode via ACP, configura l'editor in modo che esegua il comando `homecode acp`.
 
-Il comando avvia OpenQCode come sottoprocesso compatibile con ACP che comunica con l'editor via JSON-RPC su stdio.
+Il comando avvia HomeCode come sottoprocesso compatibile con ACP che comunica con l'editor via JSON-RPC su stdio.
 
 Qui sotto trovi esempi per editor popolari che supportano ACP.
 
@@ -30,8 +30,8 @@ Aggiungi alla configurazione di [Zed](https://zed.dev) (`~/.config/zed/settings.
 ```json title="~/.config/zed/settings.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "openqcode",
+    "HomeCode": {
+      "command": "homecode",
       "args": ["acp"]
     }
   }
@@ -51,9 +51,9 @@ Puoi anche assegnare una scorciatoia da tastiera modificando `keymap.json`:
         {
           "agent": {
             "custom": {
-              "name": "OpenQCode",
+              "name": "HomeCode",
               "command": {
-                "command": "openqcode",
+                "command": "homecode",
                 "args": ["acp"]
               }
             }
@@ -74,15 +74,15 @@ Aggiungi al tuo acp.json per [JetBrains IDE](https://www.jetbrains.com/) secondo
 ```json title="acp.json"
 {
   "agent_servers": {
-    "OpenQCode": {
-      "command": "/absolute/path/bin/openqcode",
+    "HomeCode": {
+      "command": "/absolute/path/bin/homecode",
       "args": ["acp"]
     }
   }
 }
 ```
 
-Per aprirlo, seleziona il nuovo agente 'OpenQCode' nel selettore agenti di AI Chat.
+Per aprirlo, seleziona il nuovo agente 'HomeCode' nel selettore agenti di AI Chat.
 
 ---
 
@@ -93,8 +93,8 @@ Aggiungi alla configurazione di [Avante.nvim](https://github.com/yetone/avante.n
 ```lua
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" }
     }
   }
@@ -106,8 +106,8 @@ Se devi passare variabili d'ambiente:
 ```lua {6-8}
 {
   acp_providers = {
-    ["openqcode"] = {
-      command = "openqcode",
+    ["homecode"] = {
+      command = "homecode",
       args = { "acp" },
       env = {
         OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY")
@@ -121,14 +121,14 @@ Se devi passare variabili d'ambiente:
 
 ### CodeCompanion.nvim
 
-Per usare OpenQCode come agente ACP in [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), aggiungi quanto segue alla config di Neovim:
+Per usare HomeCode come agente ACP in [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), aggiungi quanto segue alla config di Neovim:
 
 ```lua
 require("codecompanion").setup({
   interactions = {
     chat = {
       adapter = {
-        name = "openqcode",
+        name = "homecode",
         model = "claude-sonnet-4",
       },
     },
@@ -136,20 +136,20 @@ require("codecompanion").setup({
 })
 ```
 
-Questa config imposta CodeCompanion per usare OpenQCode come agente ACP per la chat.
+Questa config imposta CodeCompanion per usare HomeCode come agente ACP per la chat.
 
 Se devi passare variabili d'ambiente (come `OPENCODE_API_KEY`), vedi [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) nella documentazione di CodeCompanion.nvim.
 
 ## Supporto
 
-OpenQCode funziona via ACP come nel terminale. Tutte le funzionalita sono supportate:
+HomeCode funziona via ACP come nel terminale. Tutte le funzionalita sono supportate:
 :::note
 Alcuni comandi slash integrati come `/undo` e `/redo` non sono attualmente supportati.
 :::
 
 - Strumenti integrati (operazioni sui file, comandi da terminale, ecc.)
 - Strumenti personalizzati e comandi slash
-- Server MCP configurati nella tua configurazione OpenQCode
+- Server MCP configurati nella tua configurazione HomeCode
 - Regole specifiche del progetto da `AGENTS.md`
 - Formatter e linter personalizzati
 - Sistema di agenti e permessi

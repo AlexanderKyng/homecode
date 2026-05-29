@@ -1,4 +1,4 @@
-import type { PermissionRequest, QuestionRequest, Session } from "@openqcode-ai/sdk/v2/client"
+import type { PermissionRequest, QuestionRequest, Session } from "@homecode-ai/sdk/v2/client"
 
 function sessionTreeRequest<T>(
   session: Session[],

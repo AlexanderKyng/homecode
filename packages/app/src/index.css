@@ -1,5 +1,5 @@
-@import "@openqcode-ai/ui/styles/tailwind";
-@import "@openqcode-ai/ui/v2/styles/tailwind.css";
+@import "@homecode-ai/ui/styles/tailwind";
+@import "@homecode-ai/ui/v2/styles/tailwind.css";
 
 @font-face {
   font-family: "JetBrainsMono Nerd Font Mono";

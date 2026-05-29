@@ -31,7 +31,7 @@ export default defineConfig({
     configSchema(),
     solidJs(),
     starlight({
-      title: "OpenQCode",
+      title: "HomeCode",
       defaultLocale: "root",
       locales: {
         root: {
@@ -314,7 +314,7 @@ function configSchema() {
     hooks: {
       "astro:build:done": async () => {
         console.log("generating config schema")
-        spawnSync("../openqcode/script/schema.ts", ["./dist/config.json", "./dist/tui.json"])
+        spawnSync("../homecode/script/schema.ts", ["./dist/config.json", "./dist/tui.json"])
       },
     },
   }

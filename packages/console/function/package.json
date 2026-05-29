@@ -1,5 +1,5 @@
 {
-  "name": "@openqcode-ai/console-function",
+  "name": "@homecode-ai/console-function",
   "version": "1.15.11",
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,
@@ -20,8 +20,8 @@
     "@ai-sdk/anthropic": "3.0.64",
     "@ai-sdk/openai": "3.0.48",
     "@ai-sdk/openai-compatible": "2.0.37",
-    "@openqcode-ai/console-core": "workspace:*",
-    "@openqcode-ai/console-resource": "workspace:*",
+    "@homecode-ai/console-core": "workspace:*",
+    "@homecode-ai/console-resource": "workspace:*",
     "@openauthjs/openauth": "0.0.0-20250322224806",
     "ai": "catalog:",
     "zod": "catalog:"

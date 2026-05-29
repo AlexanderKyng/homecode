@@ -1,9 +1,9 @@
 import { lakeAthenaWorkgroup, lakeCatalog, lakeCluster, lakeQueryPermissions, lakeRegion, tableBucket } from "./lake"
 
 const domain = (() => {
-  if ($app.stage === "production") return "stats.openqcode.ai"
-  if ($app.stage === "dev") return "stats.dev.openqcode.ai"
-  return `stats.${$app.stage}.dev.openqcode.ai`
+  if ($app.stage === "production") return "stats.homecode.ai"
+  if ($app.stage === "dev") return "stats.dev.homecode.ai"
+  return `stats.${$app.stage}.dev.homecode.ai`
 })()
 
 ////////////////
@@ -107,7 +107,7 @@ export const inferenceEvent = new sst.Linkable("InferenceEvent", {
 ////////////////
 
 const cluster = planetscale.getDatabaseOutput({
-  name: "openqcode-stats",
+  name: "homecode-stats",
   organization: "anomalyco",
 })
 

@@ -1,5 +1,5 @@
-import { useFilteredList } from "@openqcode-ai/ui/hooks"
-import { getDirectory, getFilename } from "@openqcode-ai/core/util/path"
+import { useFilteredList } from "@homecode-ai/ui/hooks"
+import { getDirectory, getFilename } from "@homecode-ai/core/util/path"
 import { createSignal, For, onMount, Show, splitProps, type JSX } from "solid-js"
 import { Button } from "./button"
 import { FileIcon } from "./file-icon"

@@ -4,7 +4,7 @@ const current = aws.getCallerIdentityOutput({})
 const partition = aws.getPartitionOutput({})
 const region = aws.getRegionOutput({})
 
-const tableBucketName = `openqcode-${$app.stage}-lake`
+const tableBucketName = `homecode-${$app.stage}-lake`
 const glueCatalogName = "s3tablescatalog"
 const glueCatalogArn = $interpolate`arn:${partition.partition}:glue:${region.region}:${current.accountId}:catalog`
 const glueS3TablesCatalogArn = $interpolate`${glueCatalogArn}/${glueCatalogName}`
@@ -52,17 +52,17 @@ const s3TablesCatalog = new aws.cloudcontrol.Resource(
 )
 
 const athenaResultsBucket = new aws.s3.Bucket("LakeAthenaResults", {
-  bucket: `openqcode-${$app.stage}-lake-athena-results`,
+  bucket: `homecode-${$app.stage}-lake-athena-results`,
   forceDestroy: $app.stage !== "production",
 })
 
 const firehoseErrorBucket = new aws.s3.Bucket("LakeFirehoseErrors", {
-  bucket: `openqcode-${$app.stage}-lake-firehose-errors`,
+  bucket: `homecode-${$app.stage}-lake-firehose-errors`,
   forceDestroy: $app.stage !== "production",
 })
 
 const athenaWorkgroup = new aws.athena.Workgroup("LakeAthenaWorkgroup", {
-  name: `openqcode-${$app.stage}-lake-workgroup`,
+  name: `homecode-${$app.stage}-lake-workgroup`,
   forceDestroy: $app.stage !== "production",
   configuration: {
     enforceWorkgroupConfiguration: true,
@@ -156,7 +156,7 @@ const firehosePolicy = new aws.iam.RolePolicy("LakeFirehosePolicy", {
 const firehose = new aws.kinesis.FirehoseDeliveryStream(
   "LakeFirehose",
   {
-    name: `openqcode-${$app.stage}-lake-ingest`,
+    name: `homecode-${$app.stage}-lake-ingest`,
     destination: "iceberg",
     icebergConfiguration: {
       appendOnly: true,

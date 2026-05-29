@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: OpenQCode CLI muligheder og kommandoer.
+description: HomeCode CLI muligheder og kommandoer.
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-OpenQCode CLI starter som standard [TUI](/docs/tui), når den kører uden nogen argumenter.
+HomeCode CLI starter som standard [TUI](/docs/tui), når den kører uden nogen argumenter.
 
 ```bash
-openqcode
+homecode
 ```
 
-Men den accepterer også kommandoer som dokumenteret på denne side. Dette giver dig mulighed for at interagere med OpenQCode programmatisk.
+Men den accepterer også kommandoer som dokumenteret på denne side. Dette giver dig mulighed for at interagere med HomeCode programmatisk.
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-Start OpenQCode terminalbrugergrænsefladen.
+Start HomeCode terminalbrugergrænsefladen.
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### Flag
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## Kommandoer
 
-OpenQCode CLI har også følgende kommandoer.
+HomeCode CLI har også følgende kommandoer.
 
 ---
 
 ### agent
 
-Administrer agenter i OpenQCode.
+Administrer agenter i HomeCode.
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-Tilslut en terminal til en allerede kørende OpenQCode backend-server startet via `serve` eller `web` kommandoer.
+Tilslut en terminal til en allerede kørende HomeCode backend-server startet via `serve` eller `web` kommandoer.
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-Dette gør det muligt at bruge TUI med en ekstern OpenQCode backend. For eksempel:
+Dette gør det muligt at bruge TUI med en ekstern HomeCode backend. For eksempel:
 
 ```bash
 # Start the backend server for web/mobile access
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # In another terminal, attach the TUI to the running backend
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### Flag
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s` | Sessions-id for at fortsætte                                                      |
 | <nobr><code>{"--fork"}</code></nobr>     |      | Forgren sessionen ved fortsættelse (brug med `--continue` eller `--session`)      |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | Adgangskode til basic auth (standard: `OPENCODE_SERVER_PASSWORD`)                 |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | Brugernavn til basic auth (standard: `OPENCODE_SERVER_USERNAME` eller `openqcode`) |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Brugernavn til basic auth (standard: `OPENCODE_SERVER_USERNAME` eller `homecode`) |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 Opret en ny agent med brugerdefineret konfiguration.
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 Denne kommando vil guide dig gennem oprettelse af en ny agent med en brugerdefineret systemprompt og værktøjskonfiguration.
@@ -106,7 +106,7 @@ Denne kommando vil guide dig gennem oprettelse af en ny agent med en brugerdefin
 Liste over alle tilgængelige agenter.
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 Kommando til at administrere legitimationsoplysninger og login for udbydere.
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-OpenQCode drives af udbyderlisten på [Models.dev](https://models.dev), så du kan bruge `openqcode auth login` til at konfigurere API-nøgler for enhver udbyder, du vil bruge. Dette er gemt i `~/.local/share/openqcode/auth.json`.
+HomeCode drives af udbyderlisten på [Models.dev](https://models.dev), så du kan bruge `homecode auth login` til at konfigurere API-nøgler for enhver udbyder, du vil bruge. Dette er gemt i `~/.local/share/homecode/auth.json`.
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-Når OpenQCode starter op, indlæser den udbyderne fra legitimationsfilen. Og hvis der er nogen nøgler defineret i dine miljøer eller en `.env` fil i dit projekt.
+Når HomeCode starter op, indlæser den udbyderne fra legitimationsfilen. Og hvis der er nogen nøgler defineret i dine miljøer eller en `.env` fil i dit projekt.
 
 ---
 
@@ -138,13 +138,13 @@ Når OpenQCode starter op, indlæser den udbyderne fra legitimationsfilen. Og hv
 Viser alle de godkendte udbydere som gemt i legitimationsfilen.
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 Eller den korte version.
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 Logger dig ud af en udbyder ved at rydde den fra legitimationsfilen.
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 Administrator GitHub-agenten til lagerautomatisering.
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 Installatør GitHub-agenten i dit lager.
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 Dette opsætter det nødvendige GitHub Actions workflow og guider dig gennem konfigurationsprocessen. [Learn more](/docs/github).
@@ -186,7 +186,7 @@ Dette opsætter det nødvendige GitHub Actions workflow og guider dig gennem kon
 Kør GitHub-agenten. Dette bruges typisk i GitHub Actions.
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### Flag
@@ -203,7 +203,7 @@ openqcode github run
 Administrator Model Context Protocol-servere.
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 Tilføj en MCP-server til din konfiguration.
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 Denne kommando vil guide dig gennem tilføjelse af enten en lokal eller ekstern MCP-server.
@@ -225,13 +225,13 @@ Denne kommando vil guide dig gennem tilføjelse af enten en lokal eller ekstern 
 Liste over alle konfigurerede MCP-servere og deres forbindelsesstatus.
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 Eller brug den korte version.
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 Godkendt med en OAuth-aktiveret MCP-server.
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 Hvis du ikke angiver et servernavn, bliver du bedt om at vælge blandt tilgængelige OAuth-kompatible servere.
@@ -249,13 +249,13 @@ Hvis du ikke angiver et servernavn, bliver du bedt om at vælge blandt tilgænge
 Du kan også angive OAuth-kompatible servere og deres godkendelsesstatus.
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 Eller brug den korte version.
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 Fjern OAuth-legitimationsoplysninger for en MCP-server.
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 Fejlfinding af OAuth-forbindelsesproblemer for en MCP-server.
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 Liste over alle tilgængelige modeller fra konfigurerede udbydere.
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 Denne kommando viser alle tilgængelige modeller på tværs af dine konfigurerede udbydere i formatet `provider/model`.
@@ -295,7 +295,7 @@ Dette er nyttigt til at finde ud af det nøjagtige modelnavn, der skal bruges i 
 Du kan eventuelt videregive et udbyder-id for at filtrere modeller efter den udbyder.
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### Flag
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | Opdater modelcachen fra models.dev                                      |
 | <nobr><code>{"--verbose"}</code></nobr> | Brug mere detaljeret modeloutput (inkluderer metadata som omkostninger) |
 
-Brug flaget `--refresh` til at opdatere den cachelagrede modelliste. Dette er nyttigt, når nye modeller er blevet tilføjet til en udbyder, og du vil se dem i OpenQCode.
+Brug flaget `--refresh` til at opdatere den cachelagrede modelliste. Dette er nyttigt, når nye modeller er blevet tilføjet til en udbyder, og du vil se dem i HomeCode.
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-Kør openqcode i ikke-interaktiv tilstand ved at sende en prompt direkte.
+Kør homecode i ikke-interaktiv tilstand ved at sende en prompt direkte.
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 Dette er nyttigt til scripting, automatisering, eller når du vil have et hurtigt svar uden at starte hele TUI. F.eks.
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-Du kan også vedhæfte til en kørende `openqcode serve`-instans for at undgå MCP serverens kolde opstartstider ved hver kørsel:
+Du kan også vedhæfte til en kørende `homecode serve`-instans for at undgå MCP serverens kolde opstartstider ved hver kørsel:
 
 ```bash
 # Start a headless server in one terminal
-openqcode serve
+homecode serve
 
 # In another terminal, run commands that attach to it
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### Flag
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f` | Fil(er), der skal vedhæftes til meddelelsen                                         |
 | <nobr><code>{"--format"}</code></nobr>   |      | Format: standard (formateret) eller json (rå JSON hændelser)                        |
 | <nobr><code>{"--title"}</code></nobr>    |      | Titel for sessionen (bruger trunkeret prompt, hvis der ikke er angivet nogen værdi) |
-| <nobr><code>{"--attach"}</code></nobr>   |      | Tilslut til en kørende openqcode-server (f.eks. http://localhost:4096)               |
+| <nobr><code>{"--attach"}</code></nobr>   |      | Tilslut til en kørende homecode-server (f.eks. http://localhost:4096)               |
 | <nobr><code>{"--password"}</code></nobr> | `-p` | Adgangskode til basic auth (standard: `OPENCODE_SERVER_PASSWORD`)                   |
-| <nobr><code>{"--username"}</code></nobr> | `-u` | Brugernavn til basic auth (standard: `OPENCODE_SERVER_USERNAME` eller `openqcode`)   |
+| <nobr><code>{"--username"}</code></nobr> | `-u` | Brugernavn til basic auth (standard: `OPENCODE_SERVER_USERNAME` eller `homecode`)   |
 | <nobr><code>{"--dir"}</code></nobr>      |      | Mappe at køre i, eller sti på fjernserveren ved tilkobling                          |
 | <nobr><code>{"--variant"}</code></nobr>  |      | Modelvariant (udbyder-specifik ræsonneringsindsats)                                 |
 | <nobr><code>{"--thinking"}</code></nobr> |      | Vis tænkeblokke                                                                     |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-Start en hovedløs OpenQCode-server til API-adgang. Tjek [server docs](/docs/server) for den fulde HTTP-grænseflade.
+Start en hovedløs HomeCode-server til API-adgang. Tjek [server docs](/docs/server) for den fulde HTTP-grænseflade.
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-Dette starter en HTTP-server, der giver API-adgang til openqcode-funktionalitet uden TUI-grænsefladen. Indstil `OPENCODE_SERVER_PASSWORD` for at aktivere HTTP grundlæggende godkendelse (brugernavn er standard til `openqcode`).
+Dette starter en HTTP-server, der giver API-adgang til homecode-funktionalitet uden TUI-grænsefladen. Indstil `OPENCODE_SERVER_PASSWORD` for at aktivere HTTP grundlæggende godkendelse (brugernavn er standard til `homecode`).
 
 #### Flag
 
@@ -384,20 +384,20 @@ Dette starter en HTTP-server, der giver API-adgang til openqcode-funktionalitet 
 
 ### session
 
-Administrator OpenQCode sessionsholder.
+Administrator HomeCode sessionsholder.
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-Liste over alle OpenQCode sessioner.
+Liste over alle HomeCode sessioner.
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### Flag
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-Vis tokenbrug og omkostningsstatistikker for dine OpenQCode-sessioner.
+Vis tokenbrug og omkostningsstatistikker for dine HomeCode-sessioner.
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### Flag
@@ -433,7 +433,7 @@ openqcode stats
 Eksporter sessionsdata som JSON.
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 Hvis du ikke angiver et sessions-id, bliver du bedt om at vælge mellem tilgængelige sessioner.
@@ -442,30 +442,30 @@ Hvis du ikke angiver et sessions-id, bliver du bedt om at vælge mellem tilgæng
 
 ### import
 
-Importer sessionsdata fra en JSON fil eller OpenQCode del URL.
+Importer sessionsdata fra en JSON fil eller HomeCode del URL.
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-Du kan importere fra en lokal fil eller en OpenQCode share URL.
+Du kan importere fra en lokal fil eller en HomeCode share URL.
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-Start en hovedløs OpenQCode-server med en webgrænseflade.
+Start en hovedløs HomeCode-server med en webgrænseflade.
 
 ```bash
-openqcode web
+homecode web
 ```
 
-Dette starter en HTTP-server og åbner en webbrowser for at få adgang til OpenQCode via en webgrænseflade. Indstil `OPENCODE_SERVER_PASSWORD` for at aktivere HTTP grundlæggende godkendelse (brugernavn er standard til `openqcode`).
+Dette starter en HTTP-server og åbner en webbrowser for at få adgang til HomeCode via en webgrænseflade. Indstil `OPENCODE_SERVER_PASSWORD` for at aktivere HTTP grundlæggende godkendelse (brugernavn er standard til `homecode`).
 
 #### Flag
 
@@ -483,7 +483,7 @@ Dette starter en HTTP-server og åbner en webbrowser for at få adgang til OpenQ
 Start en ACP-server (Agent Client Protocol).
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 Denne kommando starter en ACP-server, der kommunikerer via stdin/stdout ved hjælp af nd-JSON.
@@ -500,10 +500,10 @@ Denne kommando starter en ACP-server, der kommunikerer via stdin/stdout ved hjæ
 
 ### uninstall
 
-Afinstaller OpenQCode og fjern alle relaterede filer.
+Afinstaller HomeCode og fjern alle relaterede filer.
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### Flag
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-Opdaterer OpenQCode til den nyeste version eller en specifik version.
+Opdaterer HomeCode til den nyeste version eller en specifik version.
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 For at opgradere til den nyeste version.
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 For at opgradere til en bestemt version.
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### upgrade
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## Globale flag
 
-openqcode CLI tager følgende globale flag.
+homecode CLI tager følgende globale flag.
 
 | Flag                                       | Kort | Beskrivelse                          |
 | ------------------------------------------ | ---- | ------------------------------------ |
@@ -560,7 +560,7 @@ openqcode CLI tager følgende globale flag.
 
 ## Miljøvariabler
 
-OpenQCode kan konfigureres ved hjælp af miljøvariabler.
+HomeCode kan konfigureres ved hjælp af miljøvariabler.
 
 | Variabel                              | Skriv   | Beskrivelse                                                           |
 | ------------------------------------- | ------- | --------------------------------------------------------------------- |
@@ -586,7 +586,7 @@ OpenQCode kan konfigureres ved hjælp af miljøvariabler.
 | `OPENCODE_CLIENT`                     | string  | Klient-id (standard til `cli`)                                        |
 | `OPENCODE_ENABLE_EXA`                 | boolean | Aktiver Exa-websøgeværktøjer                                          |
 | `OPENCODE_SERVER_PASSWORD`            | string  | Aktiver grundlæggende godkendelse for `serve`/`web`                   |
-| `OPENCODE_SERVER_USERNAME`            | string  | Tilsidesæt grundlæggende godkendelsesbrugernavn (standard `openqcode`) |
+| `OPENCODE_SERVER_USERNAME`            | string  | Tilsidesæt grundlæggende godkendelsesbrugernavn (standard `homecode`) |
 | `OPENCODE_MODELS_URL`                 | string  | Brugerdefineret URL til hentning af modelkonfiguration                |
 
 ---

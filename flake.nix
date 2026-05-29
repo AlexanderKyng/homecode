@@ -1,5 +1,5 @@
 {
-  description = "OpenQCode development flake";
+  description = "HomeCode development flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -39,11 +39,11 @@
             };
           in
           rec {
-            openqcode = final.callPackage ./nix/openqcode.nix {
+            homecode = final.callPackage ./nix/homecode.nix {
               inherit node_modules;
             };
-            openqcode-desktop = final.callPackage ./nix/desktop.nix {
-              inherit openqcode;
+            homecode-desktop = final.callPackage ./nix/desktop.nix {
+              inherit homecode;
             };
           };
       };
@@ -56,12 +56,12 @@
           };
         in
         rec {
-          default = openqcode;
-          openqcode = pkgs.callPackage ./nix/openqcode.nix {
+          default = homecode;
+          homecode = pkgs.callPackage ./nix/homecode.nix {
             inherit node_modules;
           };
-          openqcode-desktop = pkgs.callPackage ./nix/desktop.nix {
-            inherit openqcode;
+          homecode-desktop = pkgs.callPackage ./nix/desktop.nix {
+            inherit homecode;
           };
           # Updater derivation with fakeHash - build fails and reveals correct hash
           node_modules_updater = node_modules.override {

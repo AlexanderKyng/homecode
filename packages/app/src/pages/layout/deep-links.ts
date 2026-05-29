@@ -1,7 +1,7 @@
-export const deepLinkEvent = "openqcode:deep-link"
+export const deepLinkEvent = "homecode:deep-link"
 
 const parseUrl = (input: string) => {
-  if (!input.startsWith("openqcode://")) return
+  if (!input.startsWith("homecode://")) return
   if (typeof URL.canParse === "function" && !URL.canParse(input)) return
   try {
     return new URL(input)
@@ -36,13 +36,13 @@ export const collectOpenProjectDeepLinks = (urls: string[]) =>
 export const collectNewSessionDeepLinks = (urls: string[]) =>
   urls.map(parseNewSessionDeepLink).filter((link): link is { directory: string; prompt?: string } => !!link)
 
-type OpenQCodeWindow = Window & {
+type HomeCodeWindow = Window & {
   __OPENCODE__?: {
     deepLinks?: string[]
   }
 }
 
-export const drainPendingDeepLinks = (target: OpenQCodeWindow) => {
+export const drainPendingDeepLinks = (target: HomeCodeWindow) => {
   const pending = target.__OPENCODE__?.deepLinks ?? []
   if (pending.length === 0) return []
   if (target.__OPENCODE__) target.__OPENCODE__.deepLinks = []

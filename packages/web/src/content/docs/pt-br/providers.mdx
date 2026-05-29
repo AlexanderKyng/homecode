@@ -1,29 +1,29 @@
 ---
 title: Provedores
-description: Usando qualquer provedor LLM no openqcode.
+description: Usando qualquer provedor LLM no homecode.
 ---
 
 import config from "../../../../config.mjs"
 export const console = config.console
 
-openqcode usa o [AI SDK](https://ai-sdk.dev/) e [Models.dev](https://models.dev) para suportar **75+ provedores LLM** e suporta a execução de modelos locais.
+homecode usa o [AI SDK](https://ai-sdk.dev/) e [Models.dev](https://models.dev) para suportar **75+ provedores LLM** e suporta a execução de modelos locais.
 
 Para adicionar um provedor, você precisa:
 
 1. Adicionar as chaves da API para o provedor usando o comando `/connect`.
-2. Configurar o provedor na sua configuração do openqcode.
+2. Configurar o provedor na sua configuração do homecode.
 
 ---
 
 ### Credenciais
 
-Quando você adiciona as chaves da API de um provedor com o comando `/connect`, elas são armazenadas em `~/.local/share/openqcode/auth.json`.
+Quando você adiciona as chaves da API de um provedor com o comando `/connect`, elas são armazenadas em `~/.local/share/homecode/auth.json`.
 
 ---
 
 ### Configuração
 
-Você pode personalizar os provedores através da seção `provider` na sua configuração do openqcode.
+Você pode personalizar os provedores através da seção `provider` na sua configuração do homecode.
 
 ---
 
@@ -31,9 +31,9 @@ Você pode personalizar os provedores através da seção `provider` na sua conf
 
 Você pode personalizar a URL base para qualquer provedor definindo a opção `baseURL`. Isso é útil ao usar serviços de proxy ou endpoints personalizados.
 
-```json title="openqcode.json" {6}
+```json title="homecode.json" {6}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -46,15 +46,15 @@ Você pode personalizar a URL base para qualquer provedor definindo a opção `b
 
 ---
 
-## OpenQCode Zen
+## HomeCode Zen
 
-OpenQCode Zen é uma lista de modelos fornecidos pela equipe do openqcode que foram testados e verificados para funcionar bem com o openqcode. [Saiba mais](/docs/zen).
+HomeCode Zen é uma lista de modelos fornecidos pela equipe do homecode que foram testados e verificados para funcionar bem com o homecode. [Saiba mais](/docs/zen).
 
 :::tip
-Se você é novo, recomendamos começar com o OpenQCode Zen.
+Se você é novo, recomendamos começar com o HomeCode Zen.
 :::
 
-1. Execute o comando `/connect` no TUI, selecione `OpenQCode Zen` e acesse [openqcode.ai/zen](https://openqcode.ai/zen).
+1. Execute o comando `/connect` no TUI, selecione `HomeCode Zen` e acesse [homecode.ai/zen](https://homecode.ai/zen).
 
    ```txt
    /connect
@@ -77,16 +77,16 @@ Se você é novo, recomendamos começar com o OpenQCode Zen.
    /models
    ```
 
-Funciona como qualquer outro provedor no openqcode e é completamente opcional.
+Funciona como qualquer outro provedor no homecode e é completamente opcional.
 
 ---
 
-## OpenQCode Go
+## HomeCode Go
 
-OpenQCode Go é um plano de assinatura de baixo custo que fornece acesso confiável a modelos de codificação abertos populares fornecidos pela equipe do openqcode que foram
-testados e verificados para funcionar bem com o openqcode.
+HomeCode Go é um plano de assinatura de baixo custo que fornece acesso confiável a modelos de codificação abertos populares fornecidos pela equipe do homecode que foram
+testados e verificados para funcionar bem com o homecode.
 
-1. Execute o comando `/connect` no TUI, selecione `OpenQCode Go` e acesse [openqcode.ai/zen](https://openqcode.ai/zen).
+1. Execute o comando `/connect` no TUI, selecione `HomeCode Go` e acesse [homecode.ai/zen](https://homecode.ai/zen).
 
    ```txt
    /connect
@@ -109,7 +109,7 @@ testados e verificados para funcionar bem com o openqcode.
    /models
    ```
 
-Funciona como qualquer outro provedor no openqcode e é completamente opcional.
+Funciona como qualquer outro provedor no homecode e é completamente opcional.
 
 ---
 
@@ -152,7 +152,7 @@ Não vê um provedor aqui? Envie um PR.
 
 ### Amazon Bedrock
 
-Para usar o Amazon Bedrock com o openqcode:
+Para usar o Amazon Bedrock com o homecode:
 
 1. Acesse o **Catálogo de Modelos** no console do Amazon Bedrock e solicite acesso aos modelos que você deseja.
 
@@ -166,17 +166,17 @@ Para usar o Amazon Bedrock com o openqcode:
 
    #### Variáveis de Ambiente (Início Rápido)
 
-   Defina uma dessas variáveis de ambiente ao executar o openqcode:
+   Defina uma dessas variáveis de ambiente ao executar o homecode:
 
    ```bash
    # Option 1: Using AWS access keys
-   AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=YYY openqcode
+   AWS_ACCESS_KEY_ID=XXX AWS_SECRET_ACCESS_KEY=YYY homecode
 
    # Option 2: Using named AWS profile
-   AWS_PROFILE=my-profile openqcode
+   AWS_PROFILE=my-profile homecode
 
    # Option 3: Using Bedrock bearer token
-   AWS_BEARER_TOKEN_BEDROCK=XXX openqcode
+   AWS_BEARER_TOKEN_BEDROCK=XXX homecode
    ```
 
    Ou adicione-as ao seu perfil bash:
@@ -190,11 +190,11 @@ Para usar o Amazon Bedrock com o openqcode:
 
    #### Arquivo de Configuração (Recomendado)
 
-   Para configuração específica do projeto ou persistente, use `openqcode.json`:
+   Para configuração específica do projeto ou persistente, use `homecode.json`:
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -221,9 +221,9 @@ Para usar o Amazon Bedrock com o openqcode:
 
    Se você estiver usando endpoints VPC para Bedrock:
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -270,9 +270,9 @@ Para usar o Amazon Bedrock com o openqcode:
 Para perfis de inferência personalizados, use o nome do modelo e do provedor na chave e defina a propriedade `id` para o arn. Isso garante o cache correto.
 :::
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "amazon-bedrock": {
       // ...
@@ -314,7 +314,7 @@ Para perfis de inferência personalizados, use o nome do modelo e do provedor na
    ```
 
 :::info
-Usar sua assinatura Claude Pro/Max no openqcode não é oficialmente suportado pela [Anthropic](https://anthropic.com).
+Usar sua assinatura Claude Pro/Max no homecode não é oficialmente suportado pela [Anthropic](https://anthropic.com).
 :::
 
 ##### Usando chaves da API
@@ -327,11 +327,11 @@ Ou, se você já tiver uma chave da API, pode selecionar **Inserir manualmente a
 
 ### Atomic Chat
 
-Você pode configurar o openqcode para usar modelos locais através do [Atomic Chat](https://atomic.chat), um aplicativo de desktop que executa LLMs locais por trás de um servidor API compatível com OpenAI (endpoint padrão `http://127.0.0.1:1337/v1`).
+Você pode configurar o homecode para usar modelos locais através do [Atomic Chat](https://atomic.chat), um aplicativo de desktop que executa LLMs locais por trás de um servidor API compatível com OpenAI (endpoint padrão `http://127.0.0.1:1337/v1`).
 
-```json title="openqcode.json" "atomic-chat" {5, 6, 8, 10-14}
+```json title="homecode.json" "atomic-chat" {5, 6, 8, 10-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "atomic-chat": {
       "npm": "@ai-sdk/openai-compatible",
@@ -376,7 +376,7 @@ Se você encontrar erros "Desculpe, mas não posso ajudar com esse pedido", tent
 2. Vá para [Azure AI Foundry](https://ai.azure.com/) e implante um modelo.
 
    :::note
-   O nome da implantação deve corresponder ao nome do modelo para que o openqcode funcione corretamente.
+   O nome da implantação deve corresponder ao nome do modelo para que o homecode funcione corretamente.
    :::
 
 3. Execute o comando `/connect` e procure por **Azure**.
@@ -397,7 +397,7 @@ Se você encontrar erros "Desculpe, mas não posso ajudar com esse pedido", tent
 5. Defina o nome do seu recurso como uma variável de ambiente:
 
    ```bash
-   AZURE_RESOURCE_NAME=XXX openqcode
+   AZURE_RESOURCE_NAME=XXX homecode
    ```
 
    Ou adicione ao seu perfil bash:
@@ -423,7 +423,7 @@ Se você encontrar erros "Desculpe, mas não posso ajudar com esse pedido", tent
 2. Vá para [Azure AI Foundry](https://ai.azure.com/) e implante um modelo.
 
    :::note
-   O nome da implantação deve corresponder ao nome do modelo para que o openqcode funcione corretamente.
+   O nome da implantação deve corresponder ao nome do modelo para que o homecode funcione corretamente.
    :::
 
 3. Execute o comando `/connect` e procure por **Azure Cognitive Services**.
@@ -444,7 +444,7 @@ Se você encontrar erros "Desculpe, mas não posso ajudar com esse pedido", tent
 5. Defina o nome do seu recurso como uma variável de ambiente:
 
    ```bash
-   AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX openqcode
+   AZURE_COGNITIVE_SERVICES_RESOURCE_NAME=XXX homecode
    ```
 
    Ou adicione ao seu perfil bash:
@@ -555,11 +555,11 @@ O Cloudflare AI Gateway permite que você acesse modelos do OpenAI, Anthropic, W
    /models
    ```
 
-   Você também pode adicionar modelos através da sua configuração do openqcode.
+   Você também pode adicionar modelos através da sua configuração do homecode.
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "cloudflare-ai-gateway": {
          "models": {
@@ -735,7 +735,7 @@ GitLab Duo fornece um chat agente com suporte a ferramentas nativas através do 
    #### Usando Token de Acesso Pessoal
    1. Vá para [Configurações do Usuário do GitLab > Tokens de Acesso](https://gitlab.com/-/user_settings/personal_access_tokens)
    2. Clique em **Adicionar novo token**
-   3. Nome: `OpenQCode`, Escopos: `api`
+   3. Nome: `HomeCode`, Escopos: `api`
    4. Copie o token (começa com `glpat-`)
    5. Insira-o no terminal
 
@@ -752,20 +752,20 @@ GitLab Duo fornece um chat agente com suporte a ferramentas nativas através do 
 
 :::note
 Você também pode especificar a variável de ambiente 'GITLAB_TOKEN' se não quiser
-armazenar o token no armazenamento de autenticação do openqcode.
+armazenar o token no armazenamento de autenticação do homecode.
 :::
 
 ##### GitLab Auto-Hospedado
 
 :::note[nota de conformidade]
-openqcode usa um pequeno modelo para algumas tarefas de AI, como gerar o título da sessão.
-Ele está configurado para usar gpt-5-nano por padrão, hospedado pela Zen. Para bloquear o openqcode
+homecode usa um pequeno modelo para algumas tarefas de AI, como gerar o título da sessão.
+Ele está configurado para usar gpt-5-nano por padrão, hospedado pela Zen. Para bloquear o homecode
 para usar apenas sua própria instância hospedada do GitLab, adicione o seguinte ao seu
-arquivo `openqcode.json`. Também é recomendado desativar o compartilhamento de sessões.
+arquivo `homecode.json`. Também é recomendado desativar o compartilhamento de sessões.
 
 ```json
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "small_model": "gitlab/duo-chat-haiku-4-5",
   "share": "disabled"
 }
@@ -823,11 +823,11 @@ Mais documentação na página [opencode-gitlab-auth](https://www.npmjs.com/pack
 
 ##### Configuração
 
-Personalize através do `openqcode.json`:
+Personalize através do `homecode.json`:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "gitlab": {
       "options": {
@@ -842,10 +842,10 @@ Personalize através do `openqcode.json`:
 
 Para acessar ferramentas do GitLab (merge requests, issues, pipelines, CI/CD, etc.):
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
-  "plugin": ["openqcode-gitlab-plugin"]
+  "$schema": "https://homecode.ai/config.json",
+  "plugin": ["homecode-gitlab-plugin"]
 }
 ```
 
@@ -855,7 +855,7 @@ Este plugin fornece capacidades abrangentes de gerenciamento de repositório do 
 
 ### GitHub Copilot
 
-Para usar sua assinatura do GitHub Copilot com o openqcode:
+Para usar sua assinatura do GitHub Copilot com o homecode:
 
 :::note
 Alguns modelos podem precisar de uma [assinatura Pro+](https://github.com/features/copilot/plans) para usar.
@@ -890,7 +890,7 @@ Alguns modelos podem precisar de uma [assinatura Pro+](https://github.com/featur
 
 ### Google Vertex AI
 
-Para usar o Google Vertex AI com o openqcode:
+Para usar o Google Vertex AI com o homecode:
 
 1. Acesse o **Model Garden** no Console do Google Cloud e verifique os
    modelos disponíveis na sua região.
@@ -906,10 +906,10 @@ Para usar o Google Vertex AI com o openqcode:
      - `GOOGLE_APPLICATION_CREDENTIALS`: Caminho para seu arquivo de chave JSON da conta de serviço
      - Autentique usando o CLI gcloud: `gcloud auth application-default login`
 
-   Defina-as ao executar o openqcode.
+   Defina-as ao executar o homecode.
 
    ```bash
-   GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json GOOGLE_CLOUD_PROJECT=your-project-id openqcode
+   GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json GOOGLE_CLOUD_PROJECT=your-project-id homecode
    ```
 
    Ou adicione-as ao seu perfil bash.
@@ -1019,13 +1019,13 @@ Para mais provedores e recursos avançados como cache e limitação de taxa, con
 
 #### Configurações Opcionais
 
-Caso você veja um recurso ou modelo do Helicone que não está configurado automaticamente através do openqcode, você sempre pode configurá-lo você mesmo.
+Caso você veja um recurso ou modelo do Helicone que não está configurado automaticamente através do homecode, você sempre pode configurá-lo você mesmo.
 
 Aqui está o [Diretório de Modelos do Helicone](https://helicone.ai/models), você precisará disso para pegar os IDs dos modelos que deseja adicionar.
 
-```jsonc title="~/.config/openqcode/openqcode.jsonc"
+```jsonc title="~/.config/homecode/homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1051,9 +1051,9 @@ Aqui está o [Diretório de Modelos do Helicone](https://helicone.ai/models), vo
 
 Helicone suporta cabeçalhos personalizados para recursos como cache, rastreamento de usuários e gerenciamento de sessões. Adicione-os à sua configuração do provedor usando `options.headers`:
 
-```jsonc title="~/.config/openqcode/openqcode.jsonc"
+```jsonc title="~/.config/homecode/homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1062,7 +1062,7 @@ Helicone suporta cabeçalhos personalizados para recursos como cache, rastreamen
         "baseURL": "https://ai-gateway.helicone.ai",
         "headers": {
           "Helicone-Cache-Enabled": "true",
-          "Helicone-User-Id": "openqcode",
+          "Helicone-User-Id": "homecode",
         },
       },
     },
@@ -1072,21 +1072,21 @@ Helicone suporta cabeçalhos personalizados para recursos como cache, rastreamen
 
 ##### Rastreamento de Sessões
 
-O recurso [Sessões](https://docs.helicone.ai/features/sessions) do Helicone permite que você agrupe solicitações LLM relacionadas. Use o plugin [openqcode-helicone-session](https://github.com/H2Shami/openqcode-helicone-session) para registrar automaticamente cada conversa do openqcode como uma sessão no Helicone.
+O recurso [Sessões](https://docs.helicone.ai/features/sessions) do Helicone permite que você agrupe solicitações LLM relacionadas. Use o plugin [homecode-helicone-session](https://github.com/H2Shami/homecode-helicone-session) para registrar automaticamente cada conversa do homecode como uma sessão no Helicone.
 
 ```bash
-npm install -g openqcode-helicone-session
+npm install -g homecode-helicone-session
 ```
 
 Adicione-o à sua configuração.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "plugin": ["openqcode-helicone-session"]
+  "plugin": ["homecode-helicone-session"]
 }
 ```
 
-O plugin injeta os cabeçalhos `Helicone-Session-Id` e `Helicone-Session-Name` em suas solicitações. Na página de Sessões do Helicone, você verá cada conversa do openqcode listada como uma sessão separada.
+O plugin injeta os cabeçalhos `Helicone-Session-Id` e `Helicone-Session-Name` em suas solicitações. Na página de Sessões do Helicone, você verá cada conversa do homecode listada como uma sessão separada.
 
 ##### Cabeçalhos Comuns do Helicone
 
@@ -1103,11 +1103,11 @@ Consulte o [Diretório de Cabeçalhos do Helicone](https://docs.helicone.ai/heli
 
 ### llama.cpp
 
-Você pode configurar o openqcode para usar modelos locais através da utilidade llama-server do [llama.cpp](https://github.com/ggml-org/llama.cpp)
+Você pode configurar o homecode para usar modelos locais através da utilidade llama-server do [llama.cpp](https://github.com/ggml-org/llama.cpp)
 
-```json title="openqcode.json" "llama.cpp" {5, 6, 8, 10-15}
+```json title="homecode.json" "llama.cpp" {5, 6, 8, 10-15}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1170,11 +1170,11 @@ IO.NET oferece 17 modelos otimizados para vários casos de uso:
 
 ### LM Studio
 
-Você pode configurar o openqcode para usar modelos locais através do LM Studio.
+Você pode configurar o homecode para usar modelos locais através do LM Studio.
 
-```json title="openqcode.json" "lmstudio" {5, 6, 8, 10-14}
+```json title="homecode.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1287,15 +1287,15 @@ Para usar Kimi K2 do Moonshot AI:
 
 ### Ollama
 
-Você pode configurar o openqcode para usar modelos locais através do Ollama.
+Você pode configurar o homecode para usar modelos locais através do Ollama.
 
 :::tip
-Ollama pode se configurar automaticamente para o openqcode. Consulte a [documentação de integração do Ollama](https://docs.ollama.com/integrations/openqcode) para detalhes.
+Ollama pode se configurar automaticamente para o homecode. Consulte a [documentação de integração do Ollama](https://docs.ollama.com/integrations/homecode) para detalhes.
 :::
 
-```json title="openqcode.json" "ollama" {5, 6, 8, 10-14}
+```json title="homecode.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1329,13 +1329,13 @@ Se chamadas de ferramentas não estiverem funcionando, tente aumentar `num_ctx` 
 
 ### Ollama Cloud
 
-Para usar o Ollama Cloud com o openqcode:
+Para usar o Ollama Cloud com o homecode:
 
 1. Acesse [https://ollama.com/](https://ollama.com/) e faça login ou crie uma conta.
 
 2. Navegue até **Configurações** > **Chaves** e clique em **Adicionar Chave da API** para gerar uma nova chave da API.
 
-3. Copie a chave da API para uso no openqcode.
+3. Copie a chave da API para uso no homecode.
 
 4. Execute o comando `/connect` e procure por **Ollama Cloud**.
 
@@ -1352,7 +1352,7 @@ Para usar o Ollama Cloud com o openqcode:
    └ enter
    ```
 
-6. **Importante**: Antes de usar modelos em nuvem no openqcode, você deve puxar as informações do modelo localmente:
+6. **Importante**: Antes de usar modelos em nuvem no homecode, você deve puxar as informações do modelo localmente:
 
    ```bash
    ollama pull gpt-oss:20b-cloud
@@ -1399,19 +1399,19 @@ Se você já tiver uma chave da API, pode selecionar **Inserir chave da API manu
 
 ---
 
-### OpenQCode Zen
+### HomeCode Zen
 
-OpenQCode Zen é uma lista de modelos testados e verificados fornecidos pela equipe do openqcode. [Saiba mais](/docs/zen).
+HomeCode Zen é uma lista de modelos testados e verificados fornecidos pela equipe do homecode. [Saiba mais](/docs/zen).
 
-1. Faça login em **<a href={console}>OpenQCode Zen</a>** e clique em **Criar Chave da API**.
+1. Faça login em **<a href={console}>HomeCode Zen</a>** e clique em **Criar Chave da API**.
 
-2. Execute o comando `/connect` e procure por **OpenQCode Zen**.
+2. Execute o comando `/connect` e procure por **HomeCode Zen**.
 
    ```txt
    /connect
    ```
 
-3. Insira sua chave da API do openqcode.
+3. Insira sua chave da API do homecode.
 
    ```txt
    ┌ API key
@@ -1453,11 +1453,11 @@ OpenQCode Zen é uma lista de modelos testados e verificados fornecidos pela equ
    /models
    ```
 
-   Você também pode adicionar modelos adicionais através da sua configuração do openqcode.
+   Você também pode adicionar modelos adicionais através da sua configuração do homecode.
 
-   ```json title="openqcode.json" {6}
+   ```json title="homecode.json" {6}
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1468,11 +1468,11 @@ OpenQCode Zen é uma lista de modelos testados e verificados fornecidos pela equ
    }
    ```
 
-5. Você também pode personalizá-los através da sua configuração do openqcode. Aqui está um exemplo de especificar um provedor
+5. Você também pode personalizá-los através da sua configuração do homecode. Aqui está um exemplo de especificar um provedor
 
-   ```json title="openqcode.json"
+   ```json title="homecode.json"
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1520,7 +1520,7 @@ SAP AI Core fornece acesso a mais de 40 modelos do OpenAI, Anthropic, Google, Am
    Ou defina a variável de ambiente `AICORE_SERVICE_KEY`:
 
    ```bash
-   AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}' openqcode
+   AICORE_SERVICE_KEY='{"clientid":"...","clientsecret":"...","url":"...","serviceurls":{"AI_API_URL":"..."}}' homecode
    ```
 
    Ou adicione ao seu perfil bash:
@@ -1532,7 +1532,7 @@ SAP AI Core fornece acesso a mais de 40 modelos do OpenAI, Anthropic, Google, Am
 4. Opcionalmente, defina o ID de implantação e o grupo de recursos:
 
    ```bash
-   AICORE_DEPLOYMENT_ID=your-deployment-id AICORE_RESOURCE_GROUP=your-resource-group openqcode
+   AICORE_DEPLOYMENT_ID=your-deployment-id AICORE_RESOURCE_GROUP=your-resource-group homecode
    ```
 
    :::note
@@ -1609,7 +1609,7 @@ O STACKIT AI Model Serving fornece um ambiente de hospedagem soberano totalmente
 
 ### Scaleway
 
-Para usar [APIs Generativas Scaleway](https://www.scaleway.com/en/docs/generative-apis/) com o openqcode:
+Para usar [APIs Generativas Scaleway](https://www.scaleway.com/en/docs/generative-apis/) com o homecode:
 
 1. Acesse as [configurações de IAM do Scaleway Console](https://console.scaleway.com/iam/api-keys) para gerar uma nova chave da API.
 
@@ -1717,11 +1717,11 @@ O Vercel AI Gateway permite que você acesse modelos do OpenAI, Anthropic, Googl
    /models
    ```
 
-Você também pode personalizar modelos através da sua configuração do openqcode. Aqui está um exemplo de especificar a ordem de roteamento do provedor.
+Você também pode personalizar modelos através da sua configuração do homecode. Aqui está um exemplo de especificar a ordem de roteamento do provedor.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "vercel": {
       "models": {
@@ -1827,11 +1827,11 @@ Algumas opções de roteamento úteis:
    /models
    ```
 
-   Você também pode adicionar modelos adicionais através da sua configuração do openqcode.
+   Você também pode adicionar modelos adicionais através da sua configuração do homecode.
 
-   ```json title="openqcode.json" {6}
+   ```json title="homecode.json" {6}
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "zenmux": {
          "models": {
@@ -1849,7 +1849,7 @@ Algumas opções de roteamento úteis:
 Para adicionar qualquer provedor **compatível com OpenAI** que não esteja listado no comando `/connect`:
 
 :::tip
-Você pode usar qualquer provedor compatível com OpenAI com o openqcode. A maioria dos provedores de AI modernos oferece APIs compatíveis com OpenAI.
+Você pode usar qualquer provedor compatível com OpenAI com o homecode. A maioria dos provedores de AI modernos oferece APIs compatíveis com OpenAI.
 :::
 
 1. Execute o comando `/connect` e role para baixo até **Outro**.
@@ -1888,18 +1888,18 @@ Você pode usar qualquer provedor compatível com OpenAI com o openqcode. A maio
 
    ┌  Adicionar credencial
    │
-   ▲  Isso armazena apenas uma credencial para myprovider - você precisará configurá-lo no openqcode.json, verifique a documentação para exemplos.
+   ▲  Isso armazena apenas uma credencial para myprovider - você precisará configurá-lo no homecode.json, verifique a documentação para exemplos.
    │
    ◇  Digite sua chave de API
    │  sk-...
    └
    ```
 
-4. Crie ou atualize seu arquivo `openqcode.json` no diretório do seu projeto:
+4. Crie ou atualize seu arquivo `homecode.json` no diretório do seu projeto:
 
-   ```json title="openqcode.json" ""myprovider"" {5-15}
+   ```json title="homecode.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://openqcode.ai/config.json",
+     "$schema": "https://homecode.ai/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -1935,9 +1935,9 @@ Você pode usar qualquer provedor compatível com OpenAI com o openqcode. A maio
 
 Aqui está um exemplo definindo as opções `apiKey`, `headers` e `limit` do modelo.
 
-```json title="openqcode.json" {9,11,17-20}
+```json title="homecode.json" {9,11,17-20}
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1970,7 +1970,7 @@ Detalhes da configuração:
 - **limit.context**: Máximo de tokens de entrada que o modelo aceita.
 - **limit.output**: Máximo de tokens que o modelo pode gerar.
 
-Os campos `limit` permitem que o openqcode entenda quanto contexto você tem disponível. Provedores padrão puxam isso automaticamente do models.dev.
+Os campos `limit` permitem que o homecode entenda quanto contexto você tem disponível. Provedores padrão puxam isso automaticamente do models.dev.
 
 ---
 
@@ -1978,12 +1978,12 @@ Os campos `limit` permitem que o openqcode entenda quanto contexto você tem dis
 
 Se você estiver tendo problemas para configurar um provedor, verifique o seguinte:
 
-1. **Verifique a configuração de autenticação**: Execute `openqcode auth list` para ver se as credenciais
+1. **Verifique a configuração de autenticação**: Execute `homecode auth list` para ver se as credenciais
    para o provedor estão adicionadas à sua configuração.
 
    Isso não se aplica a provedores como Amazon Bedrock, que dependem de variáveis de ambiente para sua autenticação.
 
-2. Para provedores personalizados, verifique a configuração do openqcode e:
-   - Certifique-se de que o ID do provedor usado no comando `/connect` corresponda ao ID na sua configuração do openqcode.
+2. Para provedores personalizados, verifique a configuração do homecode e:
+   - Certifique-se de que o ID do provedor usado no comando `/connect` corresponda ao ID na sua configuração do homecode.
    - O pacote npm correto está sendo usado para o provedor. Por exemplo, use `@ai-sdk/cerebras` para Cerebras. E para todos os outros provedores compatíveis com OpenAI, use `@ai-sdk/openai-compatible`.
    - Verifique se o endpoint da API correto está sendo usado no campo `options.baseURL`.

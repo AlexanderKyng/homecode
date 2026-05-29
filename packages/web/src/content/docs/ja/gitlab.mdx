@@ -1,68 +1,68 @@
 ---
 title: GitLab
-description: GitLab の問題とマージリクエストで OpenQCode を使用します。
+description: GitLab の問題とマージリクエストで HomeCode を使用します。
 ---
 
-OpenQCode は、GitLab CI/CD パイプラインまたは GitLab Duo を通じて GitLab ワークフローと統合します。
+HomeCode は、GitLab CI/CD パイプラインまたは GitLab Duo を通じて GitLab ワークフローと統合します。
 
-どちらの場合も、OpenQCode は GitLab ランナー上で実行されます。
+どちらの場合も、HomeCode は GitLab ランナー上で実行されます。
 
 ---
 
 ## GitLab CI
 
-OpenQCode は通常の GitLab パイプラインで動作します。 [CI コンポーネント](https://docs.gitlab.com/ee/ci/components/) としてパイプラインに組み込むことができます。
+HomeCode は通常の GitLab パイプラインで動作します。 [CI コンポーネント](https://docs.gitlab.com/ee/ci/components/) としてパイプラインに組み込むことができます。
 
-ここでは、コミュニティが作成した OpenQCode 用の CI/CD コンポーネント — [nagyv/gitlab-openqcode](https://gitlab.com/nagyv/gitlab-openqcode).
+ここでは、コミュニティが作成した HomeCode 用の CI/CD コンポーネント — [nagyv/gitlab-homecode](https://gitlab.com/nagyv/gitlab-homecode).
 
 ---
 
 ### 機能
 
-- **ジョブごとにカスタム設定を使用する**: カスタム設定ディレクトリ (`./config/#custom-directory` など) を使用して OpenQCode を構成し、OpenQCode の呼び出しごとに機能を有効または無効にします。
-- **最小限のセットアップ**: CI コンポーネントはバックグラウンドで OpenQCode をセットアップします。必要なのは、OpenQCode 設定と初期プロンプトを作成することだけです。
+- **ジョブごとにカスタム設定を使用する**: カスタム設定ディレクトリ (`./config/#custom-directory` など) を使用して HomeCode を構成し、HomeCode の呼び出しごとに機能を有効または無効にします。
+- **最小限のセットアップ**: CI コンポーネントはバックグラウンドで HomeCode をセットアップします。必要なのは、HomeCode 設定と初期プロンプトを作成することだけです。
 - **柔軟性**: CI コンポーネントは、動作をカスタマイズするための複数の入力をサポートしています。
 
 ---
 
 ### 設定
 
-1. OpenQCode 認証 JSON をファイルタイプ CI 環境変数として [**設定**] > [**CI/CD**] > [**変数**] に保存します。必ず「マスクして非表示」としてマークしてください。
+1. HomeCode 認証 JSON をファイルタイプ CI 環境変数として [**設定**] > [**CI/CD**] > [**変数**] に保存します。必ず「マスクして非表示」としてマークしてください。
 2. 以下を `.gitlab-ci.yml` ファイルに追加します。
 
    ```yaml title=".gitlab-ci.yml"
    include:
-     - component: $CI_SERVER_FQDN/nagyv/gitlab-openqcode/openqcode@2
+     - component: $CI_SERVER_FQDN/nagyv/gitlab-homecode/homecode@2
        inputs:
-         config_dir: ${CI_PROJECT_DIR}/openqcode-config
-         auth_json: $OPENCODE_AUTH_JSON # The variable name for your OpenQCode authentication JSON
+         config_dir: ${CI_PROJECT_DIR}/homecode-config
+         auth_json: $OPENCODE_AUTH_JSON # The variable name for your HomeCode authentication JSON
          command: optional-custom-command
          message: "Your prompt here"
    ```
 
-さらに多くの入力と使用例については、このコンポーネントの [ドキュメント](https://gitlab.com/explore/catalog/nagyv/gitlab-openqcode) をチェックしてください。
+さらに多くの入力と使用例については、このコンポーネントの [ドキュメント](https://gitlab.com/explore/catalog/nagyv/gitlab-homecode) をチェックしてください。
 
 ---
 
 ## GitLab Duo
 
-OpenQCode は GitLab ワークフローと統合します。
-コメントで `@openqcode` に言及すると、OpenQCode が GitLab CI パイプライン内でタスクを実行します。
+HomeCode は GitLab ワークフローと統合します。
+コメントで `@homecode` に言及すると、HomeCode が GitLab CI パイプライン内でタスクを実行します。
 
 ---
 
 ### 機能
 
-- **問題のトリアージ**: OpenQCode に問題を調べて説明してもらいます。
-- **修正と実装**: OpenQCode に問題の修正または機能の実装を依頼します。
+- **問題のトリアージ**: HomeCode に問題を調べて説明してもらいます。
+- **修正と実装**: HomeCode に問題の修正または機能の実装を依頼します。
   新しいブランチを作成し、変更を加えたマージリクエストを発行します。
-- **安全**: OpenQCode は GitLab ランナー上で実行されます。
+- **安全**: HomeCode は GitLab ランナー上で実行されます。
 
 ---
 
 ### 設定
 
-OpenQCode は GitLab CI/CD パイプラインで実行されます。セットアップするには次のものが必要です。
+HomeCode は GitLab CI/CD パイプラインで実行されます。セットアップするには次のものが必要です。
 
 :::tip
 最新の手順については、[**GitLab ドキュメント**](https://docs.gitlab.com/user/duo_agent_platform/agent_assistant/) を参照してください。
@@ -82,8 +82,8 @@ OpenQCode は GitLab CI/CD パイプラインで実行されます。セット�
     ```yaml
     image: node:22-slim
     commands:
-      - echo "Installing openqcode"
-      - npm install --global openqcode-ai
+      - echo "Installing homecode"
+      - npm install --global homecode-ai
       - echo "Installing glab"
       - export GITLAB_TOKEN=$GITLAB_TOKEN_OPENCODE
       - apt-get update --quiet && apt-get install --yes curl wget gpg git && rm --recursive --force /var/lib/apt/lists/*
@@ -91,10 +91,10 @@ OpenQCode は GitLab CI/CD パイプラインで実行されます。セット�
       - apt-get install --yes glab
       - echo "Configuring glab"
       - echo $GITLAB_HOST
-      - echo "Creating OpenQCode auth configuration"
-      - mkdir --parents ~/.local/share/openqcode
+      - echo "Creating HomeCode auth configuration"
+      - mkdir --parents ~/.local/share/homecode
       - |
-        cat > ~/.local/share/openqcode/auth.json << EOF
+        cat > ~/.local/share/homecode/auth.json << EOF
         {
           "anthropic": {
             "type": "api",
@@ -103,13 +103,13 @@ OpenQCode は GitLab CI/CD パイプラインで実行されます。セット�
         }
         EOF
       - echo "Configuring git"
-      - git config --global user.email "openqcode@gitlab.com"
-      - git config --global user.name "OpenQCode"
+      - git config --global user.email "homecode@gitlab.com"
+      - git config --global user.name "HomeCode"
       - echo "Testing glab"
       - glab issue list
-      - echo "Running OpenQCode"
+      - echo "Running HomeCode"
       - |
-        openqcode run "
+        homecode run "
         You are an AI assistant helping with GitLab operations.
 
         Context: $AI_FLOW_CONTEXT
@@ -158,10 +158,10 @@ OpenQCode は GitLab CI/CD パイプラインで実行されます。セット�
 
 ### 例
 
-GitLab で OpenQCode を使用する方法の例をいくつか示します。
+GitLab で HomeCode を使用する方法の例をいくつか示します。
 
 :::tip
-`@openqcode` とは異なるトリガーフレーズを使用するように設定できます。
+`@homecode` とは異なるトリガーフレーズを使用するように設定できます。
 :::
 
 - **問題の説明**
@@ -169,27 +169,27 @@ GitLab で OpenQCode を使用する方法の例をいくつか示します。
 このコメントを GitLab の問題に追加します。
 
 ```
-  @openqcode explain this issue
+  @homecode explain this issue
 ```
 
-OpenQCode は問題を読み、明確な説明を返信します。
+HomeCode は問題を読み、明確な説明を返信します。
 
 - **問題を修正**
 
 GitLab の問題では、次のように言います。
 
 ```
-  @openqcode fix this
+  @homecode fix this
 ```
 
-OpenQCode は新しいブランチを作成し、変更を実装し、変更を含むマージリクエストを開きます。
+HomeCode は新しいブランチを作成し、変更を実装し、変更を含むマージリクエストを開きます。
 
 - **マージリクエストを確認する**
 
 GitLab マージリクエストに次のコメントを残してください。
 
 ```
-  @openqcode review this merge request
+  @homecode review this merge request
 ```
 
-OpenQCode はマージリクエストをレビューし、フィードバックを提供します。
+HomeCode はマージリクエストをレビューし、フィードバックを提供します。

@@ -1,13 +1,13 @@
 import { createEffect, createMemo, For, mapArray, Match, Show, startTransition, Switch, untrack } from "solid-js"
 import { createStore, produce } from "solid-js/store"
 import { useLocation, useMatch, useNavigate, useParams } from "@solidjs/router"
-import { IconButton } from "@openqcode-ai/ui/icon-button"
-import { Icon } from "@openqcode-ai/ui/icon"
-import { Button } from "@openqcode-ai/ui/button"
-import { Tooltip, TooltipKeybind } from "@openqcode-ai/ui/tooltip"
-import { useTheme } from "@openqcode-ai/ui/theme/context"
-import { IconButtonV2 } from "@openqcode-ai/ui/v2/components/icon-button-v2.jsx"
-import { Icon as IconV2 } from "@openqcode-ai/ui/v2/components/icon.jsx"
+import { IconButton } from "@homecode-ai/ui/icon-button"
+import { Icon } from "@homecode-ai/ui/icon"
+import { Button } from "@homecode-ai/ui/button"
+import { Tooltip, TooltipKeybind } from "@homecode-ai/ui/tooltip"
+import { useTheme } from "@homecode-ai/ui/theme/context"
+import { IconButtonV2 } from "@homecode-ai/ui/v2/components/icon-button-v2.jsx"
+import { Icon as IconV2 } from "@homecode-ai/ui/v2/components/icon.jsx"
 
 import { getAvatarColors, useLayout, type LocalProject } from "@/context/layout"
 import { usePlatform } from "@/context/platform"
@@ -18,9 +18,9 @@ import { WindowsAppMenu } from "./windows-app-menu"
 import { applyPath, backPath, forwardPath } from "./titlebar-history"
 import { useServerSync } from "@/context/server-sync"
 import { decodeDirectory } from "@/pages/directory-layout"
-import { iife } from "@openqcode-ai/core/util/iife"
-import { base64Encode } from "@openqcode-ai/core/util/encode"
-import { Avatar as AvatarV2 } from "@openqcode-ai/ui/v2/components/avatar-v2.jsx"
+import { iife } from "@homecode-ai/core/util/iife"
+import { base64Encode } from "@homecode-ai/core/util/encode"
+import { Avatar as AvatarV2 } from "@homecode-ai/ui/v2/components/avatar-v2.jsx"
 import { displayName, getProjectAvatarSource, projectForSession } from "@/pages/layout/helpers"
 import { makeEventListener } from "@solid-primitives/event-listener"
 import { StatusPopoverV2 } from "@/components/status-popover"
@@ -650,7 +650,7 @@ export function Titlebar(props: { update?: TitlebarUpdate }) {
                         </Tooltip>
                       </div>
                     </Show>
-                    <div id="openqcode-titlebar-left" class="flex items-center gap-3 min-w-0 px-2" />
+                    <div id="homecode-titlebar-left" class="flex items-center gap-3 min-w-0 px-2" />
                     <ChannelIndicator />
                   </div>
                 </div>
@@ -659,7 +659,7 @@ export function Titlebar(props: { update?: TitlebarUpdate }) {
 
             <div class="min-w-0 flex items-center justify-center pointer-events-none">
               <div
-                id="openqcode-titlebar-center"
+                id="homecode-titlebar-center"
                 class="pointer-events-auto min-w-0 flex justify-center w-fit max-w-full"
               />
             </div>
@@ -672,7 +672,7 @@ export function Titlebar(props: { update?: TitlebarUpdate }) {
               data-tauri-drag-region
               onMouseDown={drag}
             >
-              <div id="openqcode-titlebar-right" class="flex items-center gap-1 shrink-0 justify-end" />
+              <div id="homecode-titlebar-right" class="flex items-center gap-1 shrink-0 justify-end" />
               <Show when={windows()}>
                 {!tauriApi() && <div class="shrink-0" style={{ width: windowsControlsWidth() }} />}
                 <div data-tauri-decorum-tb class="flex flex-row" />
@@ -709,7 +709,7 @@ function TitlebarV2Right(props: { state: TitlebarV2RightState }) {
           <StatusPopoverV2 scope="server" />
         </Tooltip>
       </Show>
-      <div id="openqcode-titlebar-right" class="flex shrink-0 items-center justify-end gap-0" />
+      <div id="homecode-titlebar-right" class="flex shrink-0 items-center justify-end gap-0" />
     </div>
   )
 }

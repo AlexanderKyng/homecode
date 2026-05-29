@@ -1,5 +1,5 @@
-import { createSimpleContext } from "@openqcode-ai/ui/context"
-import { checksum } from "@openqcode-ai/core/util/encode"
+import { createSimpleContext } from "@homecode-ai/ui/context"
+import { checksum } from "@homecode-ai/core/util/encode"
 import { useParams } from "@solidjs/router"
 import { batch, createMemo, createRoot, getOwner, onCleanup } from "solid-js"
 import { createStore, type SetStoreFunction } from "solid-js/store"

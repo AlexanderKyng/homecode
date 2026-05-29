@@ -11,18 +11,18 @@ export const dict = {
   "desktop.updater.checkFailed.title": "アップデートの確認に失敗しました",
   "desktop.updater.checkFailed.message": "アップデートを確認できませんでした",
   "desktop.updater.none.title": "利用可能なアップデートはありません",
-  "desktop.updater.none.message": "すでに最新バージョンの OpenQCode を使用しています",
+  "desktop.updater.none.message": "すでに最新バージョンの HomeCode を使用しています",
   "desktop.updater.downloadFailed.title": "アップデートに失敗しました",
   "desktop.updater.downloadFailed.message": "アップデートをダウンロードできませんでした",
   "desktop.updater.downloaded.title": "アップデートをダウンロードしました",
   "desktop.updater.downloaded.prompt":
-    "OpenQCode のバージョン {{version}} がダウンロードされました。インストールして再起動しますか？",
+    "HomeCode のバージョン {{version}} がダウンロードされました。インストールして再起動しますか？",
   "desktop.updater.installFailed.title": "アップデートに失敗しました",
   "desktop.updater.installFailed.message": "アップデートをインストールできませんでした",
 
   "desktop.cli.installed.title": "CLI をインストールしました",
   "desktop.cli.installed.message":
-    "CLI を {{path}} にインストールしました\n\nターミナルを再起動して 'openqcode' コマンドを使用してください。",
+    "CLI を {{path}} にインストールしました\n\nターミナルを再起動して 'homecode' コマンドを使用してください。",
   "desktop.cli.failed.title": "インストールに失敗しました",
   "desktop.cli.failed.message": "CLI のインストールに失敗しました: {{error}}",
 }

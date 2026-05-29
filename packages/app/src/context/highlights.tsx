@@ -1,13 +1,13 @@
 import { createEffect, onCleanup } from "solid-js"
 import { createStore } from "solid-js/store"
-import { createSimpleContext } from "@openqcode-ai/ui/context"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
+import { createSimpleContext } from "@homecode-ai/ui/context"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
 import { usePlatform } from "@/context/platform"
 import { useSettings } from "@/context/settings"
 import { persisted } from "@/utils/persist"
 import { DialogReleaseNotes, type Highlight } from "@/components/dialog-release-notes"
 
-const CHANGELOG_URL = "https://openqcode.ai/changelog.json"
+const CHANGELOG_URL = "https://homecode.ai/changelog.json"
 
 type Store = {
   version?: string

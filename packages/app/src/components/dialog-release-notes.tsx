@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js"
-import { Dialog } from "@openqcode-ai/ui/dialog"
-import { Button } from "@openqcode-ai/ui/button"
-import { useDialog } from "@openqcode-ai/ui/context/dialog"
+import { Dialog } from "@homecode-ai/ui/dialog"
+import { Button } from "@homecode-ai/ui/button"
+import { useDialog } from "@homecode-ai/ui/context/dialog"
 import { useLanguage } from "@/context/language"
 import { useSettings } from "@/context/settings"
 

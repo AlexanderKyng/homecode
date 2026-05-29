@@ -4,7 +4,7 @@ import { OtlpLogger, OtlpSerialization } from "effect/unstable/observability"
 import * as EffectLogger from "./logger"
 import { Flag } from "../flag/flag"
 import { InstallationChannel, InstallationVersion } from "../installation/version"
-import { ensureProcessMetadata } from "../util/openqcode-process"
+import { ensureProcessMetadata } from "../util/homecode-process"
 
 const base = Flag.OTEL_EXPORTER_OTLP_ENDPOINT
 export const enabled = !!base
@@ -40,14 +40,14 @@ export function resource(): { serviceName: string; serviceVersion: string; attri
   })()
 
   return {
-    serviceName: "openqcode",
+    serviceName: "homecode",
     serviceVersion: InstallationVersion,
     attributes: {
       ...attributes,
       "deployment.environment.name": InstallationChannel,
-      "openqcode.client": Flag.OPENCODE_CLIENT,
-      "openqcode.process_role": processMetadata.processRole,
-      "openqcode.run_id": processMetadata.runID,
+      "homecode.client": Flag.OPENCODE_CLIENT,
+      "homecode.process_role": processMetadata.processRole,
+      "homecode.run_id": processMetadata.runID,
       "service.instance.id": processID,
     },
   }

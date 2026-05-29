@@ -1,30 +1,30 @@
 ---
 title: CLI
-description: OpenQCode CLI のオプションとコマンド。
+description: HomeCode CLI のオプションとコマンド。
 ---
 
 import { Tabs, TabItem } from "@astrojs/starlight/components"
 
-OpenQCode CLI は、引数なしで実行すると、デフォルトで [TUI](/docs/tui) を開始します。
+HomeCode CLI は、引数なしで実行すると、デフォルトで [TUI](/docs/tui) を開始します。
 
 ```bash
-openqcode
+homecode
 ```
 
-ただし、このページに記載されているようにコマンドも受け入れます。これにより、OpenQCode をプログラム的に操作できるようになります。
+ただし、このページに記載されているようにコマンドも受け入れます。これにより、HomeCode をプログラム的に操作できるようになります。
 
 ```bash
-openqcode run "Explain how closures work in JavaScript"
+homecode run "Explain how closures work in JavaScript"
 ```
 
 ---
 
 ### tui
 
-OpenQCode ターミナルユーザーインターフェイスを開始します。
+HomeCode ターミナルユーザーインターフェイスを開始します。
 
 ```bash
-openqcode [project]
+homecode [project]
 ```
 
 #### フラグ
@@ -44,36 +44,36 @@ openqcode [project]
 
 ## コマンド
 
-OpenQCode CLI には次のコマンドもあります。
+HomeCode CLI には次のコマンドもあります。
 
 ---
 
 ### agent
 
-OpenQCode のエージェントを管理します。
+HomeCode のエージェントを管理します。
 
 ```bash
-openqcode agent [command]
+homecode agent [command]
 ```
 
 ---
 
 ### attach
 
-`serve` または `web` コマンドを使用して起動された、すでに実行中の OpenQCode バックエンドサーバーにターミナルを接続します。
+`serve` または `web` コマンドを使用して起動された、すでに実行中の HomeCode バックエンドサーバーにターミナルを接続します。
 
 ```bash
-openqcode attach [url]
+homecode attach [url]
 ```
 
-これにより、リモート OpenQCode バックエンドで TUI を使用できるようになります。例えば：
+これにより、リモート HomeCode バックエンドで TUI を使用できるようになります。例えば：
 
 ```bash
 # Start the backend server for web/mobile access
-openqcode web --port 4096 --hostname 0.0.0.0
+homecode web --port 4096 --hostname 0.0.0.0
 
 # In another terminal, attach the TUI to the running backend
-openqcode attach http://10.20.30.40:4096
+homecode attach http://10.20.30.40:4096
 ```
 
 #### フラグ
@@ -85,7 +85,7 @@ openqcode attach http://10.20.30.40:4096
 | <nobr><code>{"--session"}</code></nobr>  | `-s`     | 続行するセッション ID                                                             |
 | <nobr><code>{"--fork"}</code></nobr>     |          | 続行時にセッションをフォーク（`--continue` または `--session` と使用）            |
 | <nobr><code>{"--password"}</code></nobr> | `-p`     | Basic 認証パスワード（デフォルトは `OPENCODE_SERVER_PASSWORD`）                   |
-| <nobr><code>{"--username"}</code></nobr> | `-u`     | Basic 認証ユーザー名（デフォルトは `OPENCODE_SERVER_USERNAME` または `openqcode`） |
+| <nobr><code>{"--username"}</code></nobr> | `-u`     | Basic 認証ユーザー名（デフォルトは `OPENCODE_SERVER_USERNAME` または `homecode`） |
 
 ---
 
@@ -94,7 +94,7 @@ openqcode attach http://10.20.30.40:4096
 カスタム構成で新しいエージェントを作成します。
 
 ```bash
-openqcode agent create
+homecode agent create
 ```
 
 このコマンドは、カスタムシステムプロンプトとツール構成を使用して新しいエージェントを作成する手順を示します。
@@ -106,7 +106,7 @@ openqcode agent create
 利用可能なエージェントをすべてリストします。
 
 ```bash
-openqcode agent list
+homecode agent list
 ```
 
 ---
@@ -116,20 +116,20 @@ openqcode agent list
 プロバイダーの資格情報とログインを管理するコマンド。
 
 ```bash
-openqcode auth [command]
+homecode auth [command]
 ```
 
 ---
 
 #### login
 
-OpenQCode は [Models.dev](https://models.dev) のプロバイダーリストを利用しているため、`openqcode auth login` を使用して、使用したいプロバイダーの API キーを構成できます。これは `~/.local/share/openqcode/auth.json` に保存されます。
+HomeCode は [Models.dev](https://models.dev) のプロバイダーリストを利用しているため、`homecode auth login` を使用して、使用したいプロバイダーの API キーを構成できます。これは `~/.local/share/homecode/auth.json` に保存されます。
 
 ```bash
-openqcode auth login
+homecode auth login
 ```
 
-OpenQCode が起動すると、認証情報ファイルからプロバイダーがロードされます。また、環境またはプロジェクト内の `.env` ファイルで定義されたキーがあるかどうかも確認します。
+HomeCode が起動すると、認証情報ファイルからプロバイダーがロードされます。また、環境またはプロジェクト内の `.env` ファイルで定義されたキーがあるかどうかも確認します。
 
 ---
 
@@ -138,13 +138,13 @@ OpenQCode が起動すると、認証情報ファイルからプロバイダー�
 認証情報ファイルに保存されているすべての認証されたプロバイダーをリストします。
 
 ```bash
-openqcode auth list
+homecode auth list
 ```
 
 またはショートバージョン。
 
 ```bash
-openqcode auth ls
+homecode auth ls
 ```
 
 ---
@@ -154,7 +154,7 @@ openqcode auth ls
 資格情報ファイルからプロバイダーをクリアすることで、プロバイダーからログアウトします。
 
 ```bash
-openqcode auth logout
+homecode auth logout
 ```
 
 ---
@@ -164,7 +164,7 @@ openqcode auth logout
 リポジトリ自動化のための GitHub エージェントを管理します。
 
 ```bash
-openqcode github [command]
+homecode github [command]
 ```
 
 ---
@@ -174,7 +174,7 @@ openqcode github [command]
 GitHub エージェントをリポジトリにインストールします。
 
 ```bash
-openqcode github install
+homecode github install
 ```
 
 これにより、必要な GitHub Actions ワークフローが設定され、構成プロセスがガイドされます。 [詳細はこちら](/docs/github)。
@@ -186,7 +186,7 @@ openqcode github install
 GitHub エージェントを実行します。これは通常、GitHub Actions で使用されます。
 
 ```bash
-openqcode github run
+homecode github run
 ```
 
 ##### フラグ
@@ -203,7 +203,7 @@ openqcode github run
 モデルコンテキストプロトコルサーバーを管理します。
 
 ```bash
-openqcode mcp [command]
+homecode mcp [command]
 ```
 
 ---
@@ -213,7 +213,7 @@ openqcode mcp [command]
 MCP サーバーを構成に追加します。
 
 ```bash
-openqcode mcp add
+homecode mcp add
 ```
 
 このコマンドは、ローカルまたはリモートの MCP サーバーを追加する手順を示します。
@@ -225,13 +225,13 @@ openqcode mcp add
 構成されているすべての MCP サーバーとその接続ステータスをリストします。
 
 ```bash
-openqcode mcp list
+homecode mcp list
 ```
 
 または、短いバージョンを使用してください。
 
 ```bash
-openqcode mcp ls
+homecode mcp ls
 ```
 
 ---
@@ -241,7 +241,7 @@ openqcode mcp ls
 OAuth 対応の MCP サーバーで認証します。
 
 ```bash
-openqcode mcp auth [name]
+homecode mcp auth [name]
 ```
 
 サーバー名を指定しない場合は、利用可能な OAuth 対応サーバーから選択するように求められます。
@@ -249,13 +249,13 @@ openqcode mcp auth [name]
 OAuth 対応サーバーとその認証ステータスを一覧表示することもできます。
 
 ```bash
-openqcode mcp auth list
+homecode mcp auth list
 ```
 
 または、短いバージョンを使用してください。
 
 ```bash
-openqcode mcp auth ls
+homecode mcp auth ls
 ```
 
 ---
@@ -265,7 +265,7 @@ openqcode mcp auth ls
 MCP サーバーの OAuth 資格情報を削除します。
 
 ```bash
-openqcode mcp logout [name]
+homecode mcp logout [name]
 ```
 
 ---
@@ -275,7 +275,7 @@ openqcode mcp logout [name]
 MCP サーバーの OAuth 接続の問題をデバッグします。
 
 ```bash
-openqcode mcp debug <name>
+homecode mcp debug <name>
 ```
 
 ---
@@ -285,7 +285,7 @@ openqcode mcp debug <name>
 構成されたプロバイダーから利用可能なすべてのモデルをリストします。
 
 ```bash
-openqcode models [provider]
+homecode models [provider]
 ```
 
 このコマンドは、構成されたプロバイダー全体で利用可能なすべてのモデルを `provider/model` の形式で表示します。
@@ -295,7 +295,7 @@ openqcode models [provider]
 オプションでプロバイダー ID を渡して、そのプロバイダーによってモデルをフィルターできます。
 
 ```bash
-openqcode models anthropic
+homecode models anthropic
 ```
 
 #### フラグ
@@ -305,36 +305,36 @@ openqcode models anthropic
 | <nobr><code>{"--refresh"}</code></nobr> | models.dev からモデルキャッシュを更新します。                   |
 | <nobr><code>{"--verbose"}</code></nobr> | より詳細なモデル出力を使用します (コストなどのメタデータを含む) |
 
-`--refresh` フラグを使用して、キャッシュされたモデルリストを更新します。これは、新しいモデルがプロバイダーに追加され、それを OpenQCode で確認したい場合に便利です。
+`--refresh` フラグを使用して、キャッシュされたモデルリストを更新します。これは、新しいモデルがプロバイダーに追加され、それを HomeCode で確認したい場合に便利です。
 
 ```bash
-openqcode models --refresh
+homecode models --refresh
 ```
 
 ---
 
 ### run
 
-プロンプトを直接渡して、非対話モードで openqcode を実行します。
+プロンプトを直接渡して、非対話モードで homecode を実行します。
 
 ```bash
-openqcode run [message..]
+homecode run [message..]
 ```
 
 これは、スクリプト作成、自動化、または完全な TUI を起動せずに迅速な回答が必要な場合に便利です。例えば。
 
-```bash "openqcode run"
-openqcode run Explain the use of context in Go
+```bash "homecode run"
+homecode run Explain the use of context in Go
 ```
 
-実行中の `openqcode serve` インスタンスにアタッチして、実行ごとの MCP サーバーのコールドブート時間を回避することもできます。
+実行中の `homecode serve` インスタンスにアタッチして、実行ごとの MCP サーバーのコールドブート時間を回避することもできます。
 
 ```bash
 # Start a headless server in one terminal
-openqcode serve
+homecode serve
 
 # In another terminal, run commands that attach to it
-openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
+homecode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 ```
 
 #### フラグ
@@ -351,9 +351,9 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 | <nobr><code>{"--file"}</code></nobr>     | `-f`     | メッセージに添付するファイル                                                              |
 | <nobr><code>{"--format"}</code></nobr>   |          | 形式: デフォルト (フォーマット済み) または json (生の JSON イベント)                      |
 | <nobr><code>{"--title"}</code></nobr>    |          | セッションのタイトル (値が指定されていない場合は、切り詰められたプロンプトが使用されます) |
-| <nobr><code>{"--attach"}</code></nobr>   |          | 実行中の openqcode サーバー (http://localhost:4096 など) に接続します。                    |
+| <nobr><code>{"--attach"}</code></nobr>   |          | 実行中の homecode サーバー (http://localhost:4096 など) に接続します。                    |
 | <nobr><code>{"--password"}</code></nobr> | `-p`     | Basic 認証パスワード（デフォルトは `OPENCODE_SERVER_PASSWORD`）                           |
-| <nobr><code>{"--username"}</code></nobr> | `-u`     | Basic 認証ユーザー名（デフォルトは `OPENCODE_SERVER_USERNAME` または `openqcode`）         |
+| <nobr><code>{"--username"}</code></nobr> | `-u`     | Basic 認証ユーザー名（デフォルトは `OPENCODE_SERVER_USERNAME` または `homecode`）         |
 | <nobr><code>{"--dir"}</code></nobr>      |          | 実行ディレクトリ、またはアタッチ時のリモートサーバー上のパス                              |
 | <nobr><code>{"--variant"}</code></nobr>  |          | モデルバリアント（プロバイダー固有の推論レベル）                                          |
 | <nobr><code>{"--thinking"}</code></nobr> |          | 思考ブロックを表示                                                                        |
@@ -363,13 +363,13 @@ openqcode run --attach http://localhost:4096 "Explain async/await in JavaScript"
 
 ### serve
 
-API アクセスのためにヘッドレス OpenQCode サーバーを起動します。完全な HTTP インターフェイスについては、[サーバーのドキュメント](/docs/server) を確認してください。
+API アクセスのためにヘッドレス HomeCode サーバーを起動します。完全な HTTP インターフェイスについては、[サーバーのドキュメント](/docs/server) を確認してください。
 
 ```bash
-openqcode serve
+homecode serve
 ```
 
-これにより、TUI インターフェイスを使用せずに openqcode 機能への API アクセスを提供する HTTP サーバーが起動します。 `OPENCODE_SERVER_PASSWORD` を設定して HTTP 基本認証を有効にします (ユーザー名のデフォルトは `openqcode`)。
+これにより、TUI インターフェイスを使用せずに homecode 機能への API アクセスを提供する HTTP サーバーが起動します。 `OPENCODE_SERVER_PASSWORD` を設定して HTTP 基本認証を有効にします (ユーザー名のデフォルトは `homecode`)。
 
 #### フラグ
 
@@ -384,20 +384,20 @@ openqcode serve
 
 ### session
 
-OpenQCode セッションを管理します。
+HomeCode セッションを管理します。
 
 ```bash
-openqcode session [command]
+homecode session [command]
 ```
 
 ---
 
 #### list
 
-すべての OpenQCode セッションをリストします。
+すべての HomeCode セッションをリストします。
 
 ```bash
-openqcode session list
+homecode session list
 ```
 
 ##### フラグ
@@ -411,10 +411,10 @@ openqcode session list
 
 ### stats
 
-OpenQCode セッションのトークンの使用状況とコストの統計を表示します。
+HomeCode セッションのトークンの使用状況とコストの統計を表示します。
 
 ```bash
-openqcode stats
+homecode stats
 ```
 
 #### フラグ
@@ -433,7 +433,7 @@ openqcode stats
 セッションデータを JSON としてエクスポートします。
 
 ```bash
-openqcode export [sessionID]
+homecode export [sessionID]
 ```
 
 セッション ID を指定しない場合は、利用可能なセッションから選択するように求められます。
@@ -442,30 +442,30 @@ openqcode export [sessionID]
 
 ### import
 
-JSON ファイルまたは OpenQCode 共有 URL からセッションデータをインポートします。
+JSON ファイルまたは HomeCode 共有 URL からセッションデータをインポートします。
 
 ```bash
-openqcode import <file>
+homecode import <file>
 ```
 
-ローカルファイルまたは OpenQCode 共有 URL からインポートできます。
+ローカルファイルまたは HomeCode 共有 URL からインポートできます。
 
 ```bash
-openqcode import session.json
-openqcode import https://opncd.ai/s/abc123
+homecode import session.json
+homecode import https://opncd.ai/s/abc123
 ```
 
 ---
 
 ### web
 
-Web インターフェイスを使用してヘッドレス OpenQCode サーバーを起動します。
+Web インターフェイスを使用してヘッドレス HomeCode サーバーを起動します。
 
 ```bash
-openqcode web
+homecode web
 ```
 
-これにより、HTTP サーバーが起動し、Web ブラウザが開き、Web インターフェイスを通じて OpenQCode にアクセスします。 `OPENCODE_SERVER_PASSWORD` を設定して HTTP 基本認証を有効にします (ユーザー名のデフォルトは `openqcode`)。
+これにより、HTTP サーバーが起動し、Web ブラウザが開き、Web インターフェイスを通じて HomeCode にアクセスします。 `OPENCODE_SERVER_PASSWORD` を設定して HTTP 基本認証を有効にします (ユーザー名のデフォルトは `homecode`)。
 
 #### フラグ
 
@@ -483,7 +483,7 @@ openqcode web
 ACP (エージェントクライアントプロトコル) サーバーを起動します。
 
 ```bash
-openqcode acp
+homecode acp
 ```
 
 このコマンドは、nd-JSON を使用して stdin/stdout 経由で通信する ACP サーバーを起動します。
@@ -500,10 +500,10 @@ openqcode acp
 
 ### uninstall
 
-OpenQCode をアンインストールし、関連ファイルをすべて削除します。
+HomeCode をアンインストールし、関連ファイルをすべて削除します。
 
 ```bash
-openqcode uninstall
+homecode uninstall
 ```
 
 #### フラグ
@@ -519,22 +519,22 @@ openqcode uninstall
 
 ### upgrade
 
-openqcode を最新バージョンまたは特定のバージョンに更新します。
+homecode を最新バージョンまたは特定のバージョンに更新します。
 
 ```bash
-openqcode upgrade [target]
+homecode upgrade [target]
 ```
 
 最新バージョンにアップグレードするには。
 
 ```bash
-openqcode upgrade
+homecode upgrade
 ```
 
 特定のバージョンにアップグレードするには。
 
 ```bash
-openqcode upgrade v0.1.48
+homecode upgrade v0.1.48
 ```
 
 #### フラグ
@@ -547,7 +547,7 @@ openqcode upgrade v0.1.48
 
 ## グローバルフラグ
 
-openqcode CLI は次のグローバルフラグを受け取ります。
+homecode CLI は次のグローバルフラグを受け取ります。
 
 | フラグ                                     | ショート | 説明                                  |
 | ------------------------------------------ | -------- | ------------------------------------- |
@@ -560,7 +560,7 @@ openqcode CLI は次のグローバルフラグを受け取ります。
 
 ## 環境変数
 
-OpenQCode は環境変数を使用して構成できます。
+HomeCode は環境変数を使用して構成できます。
 
 | 変数                                  | タイプ   | 説明                                                                |
 | ------------------------------------- | -------- | ------------------------------------------------------------------- |
@@ -585,7 +585,7 @@ OpenQCode は環境変数を使用して構成できます。
 | `OPENCODE_CLIENT`                     | 文字列   | クライアント識別子 (デフォルトは `cli`)                             |
 | `OPENCODE_ENABLE_EXA`                 | ブール値 | Exa Web 検索ツールを有効にする                                      |
 | `OPENCODE_SERVER_PASSWORD`            | 文字列   | `serve`/`web` の基本認証を有効にする                                |
-| `OPENCODE_SERVER_USERNAME`            | 文字列   | 基本認証ユーザー名 (デフォルト `openqcode`) をオーバーライドします。 |
+| `OPENCODE_SERVER_USERNAME`            | 文字列   | 基本認証ユーザー名 (デフォルト `homecode`) をオーバーライドします。 |
 | `OPENCODE_MODELS_URL`                 | 文字列   | モデル設定を取得するためのカスタム URL                              |
 
 ---

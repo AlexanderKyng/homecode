@@ -1,21 +1,21 @@
 ---
 title: Web
-description: Bruke OpenQCode i nettleseren din.
+description: Bruke HomeCode i nettleseren din.
 ---
 
-OpenQCode kan kjøres som en nettapplikasjon i nettleseren din, og gir den samme kraftige AI-kodingsopplevelsen uten at du trenger en terminal.
+HomeCode kan kjøres som en nettapplikasjon i nettleseren din, og gir den samme kraftige AI-kodingsopplevelsen uten at du trenger en terminal.
 
-![OpenQCode Web - Ny økt](../../../assets/web/web-homepage-new-session.png)
+![HomeCode Web - Ny økt](../../../assets/web/web-homepage-new-session.png)
 
 ## Komme i gang
 
 Start web-grensesnittet ved å kjøre:
 
 ```bash
-openqcode web
+homecode web
 ```
 
-Dette starter en lokal server på `127.0.0.1` med en tilfeldig tilgjengelig port og åpner automatisk OpenQCode i standard nettleser.
+Dette starter en lokal server på `127.0.0.1` med en tilfeldig tilgjengelig port og åpner automatisk HomeCode i standard nettleser.
 
 ---
 
@@ -25,18 +25,18 @@ Du kan konfigurere webserveren ved å bruke kommandolinjeflagg eller i [konfigur
 
 ### Port
 
-Som standard velger OpenQCode en tilgjengelig port. Du kan spesifisere en port:
+Som standard velger HomeCode en tilgjengelig port. Du kan spesifisere en port:
 
 ```bash
-openqcode web --port 4096
+homecode web --port 4096
 ```
 
 ### Vertsnavn
 
-Som standard binder serveren seg til `127.0.0.1` (kun localhost). Slik gjør du OpenQCode tilgjengelig på nettverket ditt:
+Som standard binder serveren seg til `127.0.0.1` (kun localhost). Slik gjør du HomeCode tilgjengelig på nettverket ditt:
 
 ```bash
-openqcode web --hostname 0.0.0.0
+homecode web --hostname 0.0.0.0
 ```
 
 ---
@@ -46,28 +46,28 @@ openqcode web --hostname 0.0.0.0
 For å beskytte tilgang, angi et passord ved hjelp av miljøvariabelen `OPENCODE_SERVER_PASSWORD`:
 
 ```bash
-OPENCODE_SERVER_PASSWORD=secret openqcode web
+OPENCODE_SERVER_PASSWORD=secret homecode web
 ```
 
-Brukernavnet er satt til `openqcode` som standard, men kan endres med `OPENCODE_SERVER_USERNAME`.
+Brukernavnet er satt til `homecode` som standard, men kan endres med `OPENCODE_SERVER_USERNAME`.
 
 ---
 
 ## Bruke webgrensesnittet
 
-Når den er startet, gir nettgrensesnittet tilgang til dine OpenQCode-økter.
+Når den er startet, gir nettgrensesnittet tilgang til dine HomeCode-økter.
 
 ### Sesjoner
 
 Se og administrer øktene dine fra hjemmesiden. Du kan se aktive økter og starte nye.
 
-![OpenQCode Web - Active Session](../../../assets/web/web-homepage-active-session.png)
+![HomeCode Web - Active Session](../../../assets/web/web-homepage-active-session.png)
 
 ### Serverstatus
 
 Klikk på "Se servere" for å se tilkoblede servere og deres status.
 
-![OpenQCode Web - Se servere](../../../assets/web/web-homepage-see-servers.png)
+![HomeCode Web - Se servere](../../../assets/web/web-homepage-see-servers.png)
 
 ---
 
@@ -77,10 +77,10 @@ Du kan koble en terminal TUI til en kjørende webserver:
 
 ```bash
 # Start the web server
-openqcode web --port 4096
+homecode web --port 4096
 
 # In another terminal, attach the TUI
-openqcode attach http://localhost:4096
+homecode attach http://localhost:4096
 ```
 
 Dette lar deg bruke både nettgrensesnittet og terminalen samtidig, og deler samme økter og tilstand.
@@ -89,7 +89,7 @@ Dette lar deg bruke både nettgrensesnittet og terminalen samtidig, og deler sam
 
 ## Konfigurasjonsfil
 
-Du kan også konfigurere serverinnstillinger i `openqcode.json` konfigurasjonsfilen:
+Du kan også konfigurere serverinnstillinger i `homecode.json` konfigurasjonsfilen:
 
 ```json
 {

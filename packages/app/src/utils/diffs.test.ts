@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
-import type { SnapshotFileDiff } from "@openqcode-ai/sdk/v2"
-import type { Message } from "@openqcode-ai/sdk/v2/client"
+import type { SnapshotFileDiff } from "@homecode-ai/sdk/v2"
+import type { Message } from "@homecode-ai/sdk/v2/client"
 import { diffs, message } from "./diffs"
 
 const item = {

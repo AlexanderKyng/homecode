@@ -1,9 +1,9 @@
 ---
 title: ปลั๊กอิน
-description: เขียนปลั๊กอินของคุณเองเพื่อขยาย OpenQCode
+description: เขียนปลั๊กอินของคุณเองเพื่อขยาย HomeCode
 ---
 
-ปลั๊กอินช่วยให้คุณสามารถขยาย OpenQCode ได้โดยเชื่อมโยงกับเหตุการณ์ต่างๆ และปรับแต่งลักษณะการทำงาน คุณสามารถสร้างปลั๊กอินเพื่อเพิ่มคุณสมบัติใหม่ บูรณาการกับบริการภายนอก หรือแก้ไขการทำงานเริ่มต้นของ OpenQCode
+ปลั๊กอินช่วยให้คุณสามารถขยาย HomeCode ได้โดยเชื่อมโยงกับเหตุการณ์ต่างๆ และปรับแต่งลักษณะการทำงาน คุณสามารถสร้างปลั๊กอินเพื่อเพิ่มคุณสมบัติใหม่ บูรณาการกับบริการภายนอก หรือแก้ไขการทำงานเริ่มต้นของ HomeCode
 
 ตัวอย่างเช่น ลองดู [ปลั๊กอิน](/docs/ecosystem#ปลั๊กอิน) ที่สร้างโดยชุมชน
 
@@ -19,8 +19,8 @@ description: เขียนปลั๊กอินของคุณเอง�
 
 วางไฟล์ JavaScript หรือ TypeScript ในไดเร็กทอรีปลั๊กอิน
 
-- `.openqcode/plugins/` - ​​ปลั๊กอินระดับโครงการ
-- `~/.config/openqcode/plugins/` - ​​ปลั๊กอินทั่วโลก
+- `.homecode/plugins/` - ​​ปลั๊กอินระดับโครงการ
+- `~/.config/homecode/plugins/` - ​​ปลั๊กอินทั่วโลก
 
 ไฟล์ในไดเร็กทอรีเหล่านี้จะถูกโหลดโดยอัตโนมัติเมื่อเริ่มต้นระบบ
 
@@ -30,10 +30,10 @@ description: เขียนปลั๊กอินของคุณเอง�
 
 ระบุแพ็คเกจ npm ในไฟล์ปรับแต่งของคุณ
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
-  "plugin": ["openqcode-helicone-session", "openqcode-wakatime", "@my-org/custom-plugin"]
+  "$schema": "https://homecode.ai/config.json",
+  "plugin": ["homecode-helicone-session", "homecode-wakatime", "@my-org/custom-plugin"]
 }
 ```
 
@@ -45,7 +45,7 @@ description: เขียนปลั๊กอินของคุณเอง�
 
 ### วิธีการติดตั้งปลั๊กอิน
 
-**ปลั๊กอิน npm** ได้รับการติดตั้งโดยอัตโนมัติโดยใช้ Bun เมื่อเริ่มต้น แพ็คเกจและการขึ้นต่อกันถูกแคชไว้ใน `~/.cache/openqcode/node_modules/`
+**ปลั๊กอิน npm** ได้รับการติดตั้งโดยอัตโนมัติโดยใช้ Bun เมื่อเริ่มต้น แพ็คเกจและการขึ้นต่อกันถูกแคชไว้ใน `~/.cache/homecode/node_modules/`
 
 **ปลั๊กอินท้องถิ่น** โหลดโดยตรงจากไดเร็กทอรีปลั๊กอิน หากต้องการใช้แพ็คเกจภายนอก คุณต้องสร้าง `package.json` ภายในไดเร็กทอรีการกำหนดค่าของคุณ (ดู [การพึ่งพา](#dependencies)) หรือเผยแพร่ปลั๊กอินไปที่ npm และ [เพิ่มลงในการกำหนดค่าของคุณ](/docs/config#plugins)
 
@@ -55,10 +55,10 @@ description: เขียนปลั๊กอินของคุณเอง�
 
 ปลั๊กอินถูกโหลดจากทุกแหล่งและ hooks ทั้งหมดทำงานตามลำดับ ลำดับการโหลดคือ:
 
-1. การกำหนดค่าส่วนกลาง (`~/.config/openqcode/openqcode.json`)
-2. การกำหนดค่าโครงการ (`openqcode.json`)
-3. ไดเร็กทอรีปลั๊กอินสากล (`~/.config/openqcode/plugins/`)
-4. ไดเรกทอรีปลั๊กอินโครงการ (`.openqcode/plugins/`)
+1. การกำหนดค่าส่วนกลาง (`~/.config/homecode/homecode.json`)
+2. การกำหนดค่าโครงการ (`homecode.json`)
+3. ไดเร็กทอรีปลั๊กอินสากล (`~/.config/homecode/plugins/`)
+4. ไดเรกทอรีปลั๊กอินโครงการ (`.homecode/plugins/`)
 
 แพ็กเกจ npm ที่ซ้ำกันซึ่งมีชื่อและเวอร์ชันเดียวกันจะถูกโหลดหนึ่งครั้ง อย่างไรก็ตาม ทั้งปลั๊กอินในเครื่องและปลั๊กอิน npm ที่มีชื่อคล้ายกันจะโหลดแยกกัน
 
@@ -75,7 +75,7 @@ description: เขียนปลั๊กอินของคุณเอง�
 
 ปลั๊กอินท้องถิ่นและเครื่องมือแบบกำหนดเองสามารถใช้แพ็คเกจ npm ภายนอกได้ เพิ่ม `package.json` ลงในไดเร็กทอรี config ของคุณด้วยการอ้างอิงที่คุณต้องการ
 
-```json title=".openqcode/package.json"
+```json title=".homecode/package.json"
 {
   "dependencies": {
     "shescape": "^2.1.0"
@@ -83,9 +83,9 @@ description: เขียนปลั๊กอินของคุณเอง�
 }
 ```
 
-OpenQCode รัน `bun install` เมื่อเริ่มต้นเพื่อติดตั้งสิ่งเหล่านี้ ปลั๊กอินและเครื่องมือของคุณสามารถนำเข้าได้
+HomeCode รัน `bun install` เมื่อเริ่มต้นเพื่อติดตั้งสิ่งเหล่านี้ ปลั๊กอินและเครื่องมือของคุณสามารถนำเข้าได้
 
-```ts title=".openqcode/plugins/my-plugin.ts"
+```ts title=".homecode/plugins/my-plugin.ts"
 import { escape } from "shescape"
 
 export const MyPlugin = async (ctx) => {
@@ -103,7 +103,7 @@ export const MyPlugin = async (ctx) => {
 
 ### โครงสร้างพื้นฐาน
 
-```js title=".openqcode/plugins/example.js"
+```js title=".homecode/plugins/example.js"
 export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
   console.log("Plugin initialized!")
 
@@ -118,7 +118,7 @@ export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
 - `project`: ข้อมูลโครงการปัจจุบัน
 - `directory`: ไดเร็กทอรีการทำงานปัจจุบัน
 - `worktree`: เส้นทางเวิร์กทรีคอมไพล์
-- `client`: ไคลเอนต์ openqcode SDK สำหรับการโต้ตอบกับ AI
+- `client`: ไคลเอนต์ homecode SDK สำหรับการโต้ตอบกับ AI
 - `$`: [shell API](https://bun.com/docs/runtime/shell) ของ Bun สำหรับการดำเนินการคำสั่ง
 
 ---
@@ -128,7 +128,7 @@ export const MyPlugin = async ({ project, client, $, directory, worktree }) => {
 สำหรับปลั๊กอิน TypeScript คุณสามารถนำเข้าประเภทจากแพ็คเกจปลั๊กอินได้:
 
 ```ts title="my-plugin.ts" {1}
-import type { Plugin } from "@openqcode-ai/plugin"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree }) => {
   return {
@@ -211,7 +211,7 @@ export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree
 
 ## ตัวอย่าง
 
-นี่คือตัวอย่างบางส่วนของปลั๊กอินที่คุณสามารถใช้เพื่อขยาย openqcode
+นี่คือตัวอย่างบางส่วนของปลั๊กอินที่คุณสามารถใช้เพื่อขยาย homecode
 
 ---
 
@@ -219,13 +219,13 @@ export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree
 
 ส่งการแจ้งเตือนเมื่อมีเหตุการณ์บางอย่างเกิดขึ้น:
 
-```js title=".openqcode/plugins/notification.js"
+```js title=".homecode/plugins/notification.js"
 export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {
   return {
     event: async ({ event }) => {
       // Send notification on session completion
       if (event.type === "session.idle") {
-        await $`osascript -e 'display notification "Session completed!" with title "openqcode"'`
+        await $`osascript -e 'display notification "Session completed!" with title "homecode"'`
       }
     },
   }
@@ -235,16 +235,16 @@ export const NotificationPlugin = async ({ project, client, $, directory, worktr
 เรากำลังใช้ `osascript` เพื่อเรียกใช้ AppleScript บน macOS ที่นี่เราใช้มันเพื่อส่งการแจ้งเตือน
 
 :::note
-หากคุณใช้แอปเดสก์ท็อป OpenQCode แอปสามารถส่งการแจ้งเตือนของระบบโดยอัตโนมัติเมื่อมีการตอบกลับพร้อมหรือเมื่อเซสชันเกิดข้อผิดพลาด
+หากคุณใช้แอปเดสก์ท็อป HomeCode แอปสามารถส่งการแจ้งเตือนของระบบโดยอัตโนมัติเมื่อมีการตอบกลับพร้อมหรือเมื่อเซสชันเกิดข้อผิดพลาด
 :::
 
 ---
 
 ### การป้องกัน .env
 
-ป้องกันไม่ให้ openqcode อ่านไฟล์ `.env`:
+ป้องกันไม่ให้ homecode อ่านไฟล์ `.env`:
 
-```javascript title=".openqcode/plugins/env-protection.js"
+```javascript title=".homecode/plugins/env-protection.js"
 export const EnvProtection = async ({ project, client, $, directory, worktree }) => {
   return {
     "tool.execute.before": async (input, output) => {
@@ -262,7 +262,7 @@ export const EnvProtection = async ({ project, client, $, directory, worktree })
 
 แทรกตัวแปรสภาพแวดล้อมลงในการดำเนินการ shell ทั้งหมด (เครื่องมือ AI และ terminal ผู้ใช้):
 
-```javascript title=".openqcode/plugins/inject-env.js"
+```javascript title=".homecode/plugins/inject-env.js"
 export const InjectEnvPlugin = async () => {
   return {
     "shell.env": async (input, output) => {
@@ -277,10 +277,10 @@ export const InjectEnvPlugin = async () => {
 
 ### เครื่องมือที่กำหนดเอง
 
-ปลั๊กอินยังสามารถเพิ่มเครื่องมือที่กำหนดเองให้กับ openqcode:
+ปลั๊กอินยังสามารถเพิ่มเครื่องมือที่กำหนดเองให้กับ homecode:
 
-```ts title=".openqcode/plugins/custom-tools.ts"
-import { type Plugin, tool } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/custom-tools.ts"
+import { type Plugin, tool } from "@homecode-ai/plugin"
 
 export const CustomToolsPlugin: Plugin = async (ctx) => {
   return {
@@ -300,13 +300,13 @@ export const CustomToolsPlugin: Plugin = async (ctx) => {
 }
 ```
 
-ตัวช่วย `tool` สร้างเครื่องมือแบบกำหนดเองที่สามารถเรียกใช้ openqcode ได้ ใช้ฟังก์ชัน Zod schema และส่งกลับคำจำกัดความของเครื่องมือด้วย:
+ตัวช่วย `tool` สร้างเครื่องมือแบบกำหนดเองที่สามารถเรียกใช้ homecode ได้ ใช้ฟังก์ชัน Zod schema และส่งกลับคำจำกัดความของเครื่องมือด้วย:
 
 - `description`: เครื่องมือนี้ทำอะไร
 - `args`: Zod schema สำหรับข้อโต้แย้งของเครื่องมือ
 - `execute`: ฟังก์ชั่นที่ทำงานเมื่อมีการเรียกใช้เครื่องมือ
 
-เครื่องมือที่คุณกำหนดเองจะพร้อมใช้งานสำหรับ openqcode ควบคู่ไปกับเครื่องมือในตัว
+เครื่องมือที่คุณกำหนดเองจะพร้อมใช้งานสำหรับ homecode ควบคู่ไปกับเครื่องมือในตัว
 
 :::note
 หากเครื่องมือปลั๊กอินใช้ชื่อเดียวกับเครื่องมือในตัว เครื่องมือปลั๊กอินจะมีความสำคัญเหนือกว่า
@@ -318,7 +318,7 @@ export const CustomToolsPlugin: Plugin = async (ctx) => {
 
 ใช้ `client.app.log()` แทน `console.log` สำหรับการบันทึกแบบมีโครงสร้าง:
 
-```ts title=".openqcode/plugins/my-plugin.ts"
+```ts title=".homecode/plugins/my-plugin.ts"
 export const MyPlugin = async ({ client }) => {
   await client.app.log({
     body: {
@@ -331,7 +331,7 @@ export const MyPlugin = async ({ client }) => {
 }
 ```
 
-ระดับ: `debug`, `info`, `warn`, `error` ดู[SDKเอกสารประกอบ](https://openqcode.ai/docs/sdk)สำหรับรายละเอียด
+ระดับ: `debug`, `info`, `warn`, `error` ดู[SDKเอกสารประกอบ](https://homecode.ai/docs/sdk)สำหรับรายละเอียด
 
 ---
 
@@ -339,8 +339,8 @@ export const MyPlugin = async ({ client }) => {
 
 ปรับแต่งบริบทที่รวมไว้เมื่อมีการกระชับเซสชัน:
 
-```ts title=".openqcode/plugins/compaction.ts"
-import type { Plugin } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/compaction.ts"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const CompactionPlugin: Plugin = async (ctx) => {
   return {
@@ -363,8 +363,8 @@ Include any state that should persist across compaction:
 
 คุณยังสามารถแทนที่พรอมต์การกระชับข้อมูลทั้งหมดได้โดยตั้งค่า `output.prompt`:
 
-```ts title=".openqcode/plugins/custom-compaction.ts"
-import type { Plugin } from "@openqcode-ai/plugin"
+```ts title=".homecode/plugins/custom-compaction.ts"
+import type { Plugin } from "@homecode-ai/plugin"
 
 export const CustomCompactionPlugin: Plugin = async (ctx) => {
   return {

@@ -1,4 +1,4 @@
-import { Resource } from "@openqcode-ai/console-resource"
+import { Resource } from "@homecode-ai/console-resource"
 import type { TraceItem } from "@cloudflare/workers-types"
 
 export default {

@@ -1,19 +1,19 @@
 ---
 title: Server
-description: Interact with openqcode server over HTTP.
+description: Interact with homecode server over HTTP.
 ---
 
 import config from "../../../config.mjs"
 export const typesUrl = `${config.github}/blob/dev/packages/sdk/js/src/gen/types.gen.ts`
 
-The `openqcode serve` command runs a headless HTTP server that exposes an OpenAPI endpoint that an openqcode client can use.
+The `homecode serve` command runs a headless HTTP server that exposes an OpenAPI endpoint that an homecode client can use.
 
 ---
 
 ### Usage
 
 ```bash
-openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
+homecode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 ```
 
 #### Options
@@ -23,41 +23,41 @@ openqcode serve [--port <number>] [--hostname <string>] [--cors <origin>]
 | `--port`        | Port to listen on                   | `4096`           |
 | `--hostname`    | Hostname to listen on               | `127.0.0.1`      |
 | `--mdns`        | Enable mDNS discovery               | `false`          |
-| `--mdns-domain` | Custom domain name for mDNS service | `openqcode.local` |
+| `--mdns-domain` | Custom domain name for mDNS service | `homecode.local` |
 | `--cors`        | Additional browser origins to allow | `[]`             |
 
 `--cors` can be passed multiple times:
 
 ```bash
-openqcode serve --cors http://localhost:5173 --cors https://app.example.com
+homecode serve --cors http://localhost:5173 --cors https://app.example.com
 ```
 
 ---
 
 ### Authentication
 
-Set `OPENCODE_SERVER_PASSWORD` to protect the server with HTTP basic auth. The username defaults to `openqcode`, or set `OPENCODE_SERVER_USERNAME` to override it. This applies to both `openqcode serve` and `openqcode web`.
+Set `OPENCODE_SERVER_PASSWORD` to protect the server with HTTP basic auth. The username defaults to `homecode`, or set `OPENCODE_SERVER_USERNAME` to override it. This applies to both `homecode serve` and `homecode web`.
 
 ```bash
-OPENCODE_SERVER_PASSWORD=your-password openqcode serve
+OPENCODE_SERVER_PASSWORD=your-password homecode serve
 ```
 
 ---
 
 ### How it works
 
-When you run `openqcode` it starts a TUI and a server. Where the TUI is the
+When you run `homecode` it starts a TUI and a server. Where the TUI is the
 client that talks to the server. The server exposes an OpenAPI 3.1 spec
 endpoint. This endpoint is also used to generate an [SDK](/docs/sdk).
 
 :::tip
-Use the openqcode server to interact with openqcode programmatically.
+Use the homecode server to interact with homecode programmatically.
 :::
 
-This architecture lets openqcode support multiple clients and allows you to interact with openqcode programmatically.
+This architecture lets homecode support multiple clients and allows you to interact with homecode programmatically.
 
-You can run `openqcode serve` to start a standalone server. If you have the
-openqcode TUI running, `openqcode serve` will start a new server.
+You can run `homecode serve` to start a standalone server. If you have the
+homecode TUI running, `homecode serve` will start a new server.
 
 ---
 
@@ -65,7 +65,7 @@ openqcode TUI running, `openqcode serve` will start a new server.
 
 When you start the TUI it randomly assigns a port and hostname. You can instead pass in the `--hostname` and `--port` [flags](/docs/cli). Then use this to connect to its server.
 
-The [`/tui`](#tui) endpoint can be used to drive the TUI through the server. For example, you can prefill or run a prompt. This setup is used by the OpenQCode [IDE](/docs/ide) plugins.
+The [`/tui`](#tui) endpoint can be used to drive the TUI through the server. For example, you can prefill or run a prompt. This setup is used by the HomeCode [IDE](/docs/ide) plugins.
 
 ---
 
@@ -83,7 +83,7 @@ For example, `http://localhost:4096/doc`. Use the spec to generate clients or in
 
 ## APIs
 
-The openqcode server exposes the following APIs.
+The homecode server exposes the following APIs.
 
 ---
 

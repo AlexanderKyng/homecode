@@ -1,4 +1,4 @@
-import type { FileContent } from "@openqcode-ai/sdk/v2"
+import type { FileContent } from "@homecode-ai/sdk/v2"
 
 export type MediaKind = "image" | "audio" | "svg"
 

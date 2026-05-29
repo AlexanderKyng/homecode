@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { Script } from "@openqcode-ai/script"
+import { Script } from "@homecode-ai/script"
 import { $ } from "bun"
 import { fileURLToPath } from "url"
 

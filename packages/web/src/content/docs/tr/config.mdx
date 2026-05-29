@@ -1,21 +1,21 @@
 ---
 title: Yapılandırma
-description: openqcode JSON yapılandırması kullanır.
+description: homecode JSON yapılandırması kullanır.
 ---
 
-openqcode'u JSON yapılandırma dosyası kullanarak yapılandırabilirsiniz.
+homecode'u JSON yapılandırma dosyası kullanarak yapılandırabilirsiniz.
 
 ---
 
 ## Format
 
-openqcode hem **JSON** hem de **JSONC** (JSON Yorumlarla birlikte) formatlarını destekler.
+homecode hem **JSON** hem de **JSONC** (JSON Yorumlarla birlikte) formatlarını destekler.
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   // Theme configuration
-  "theme": "openqcode",
+  "theme": "homecode",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
 }
@@ -34,7 +34,7 @@ Yapılandırma dosyaları **birleştirilir**, değiştirilmez.
 
 Yapılandırma dosyaları değiştirilmez, birleştirilir. Aşağıdaki yapılandırma konumlarındaki ayarlar birleştirilir. Daha sonraki yapılandırmalar, yalnızca çakışan anahtarlar için önceki yapılandırmaları geçersiz kılar. Tüm yapılandırmalardaki çakışmayan ayarlar korunur.
 
-Örneğin, genel ayarınız `theme: "openqcode"` ve `autoupdate: true`'yi ayarlıyorsa ve proje ayarlarınız `model: "anthropic/claude-sonnet-4-5"`'yi ayarlıyorsa, nihai yapılandırma üç ayarı da içerecektir.
+Örneğin, genel ayarınız `theme: "homecode"` ve `autoupdate: true`'yi ayarlıyorsa ve proje ayarlarınız `model: "anthropic/claude-sonnet-4-5"`'yi ayarlıyorsa, nihai yapılandırma üç ayarı da içerecektir.
 
 ---
 
@@ -42,30 +42,30 @@ Yapılandırma dosyaları değiştirilmez, birleştirilir. Aşağıdaki yapılan
 
 Yapılandırma kaynakları bu sırayla yüklenir (sonraki kaynaklar öncekileri geçersiz kılar):
 
-1. **Uzak yapılandırma** (`.well-known/openqcode`'dan) - kurumsal varsayılanlar
-2. **Genel yapılandırma** (`~/.config/openqcode/openqcode.json`) - kullanıcı tercihleri
+1. **Uzak yapılandırma** (`.well-known/homecode`'dan) - kurumsal varsayılanlar
+2. **Genel yapılandırma** (`~/.config/homecode/homecode.json`) - kullanıcı tercihleri
 3. **Özel yapılandırma** (`OPENCODE_CONFIG` env var) - özel geçersiz kılmalar
-4. **Proje yapılandırması** (projedeki `openqcode.json`) - projeye özgü ayarlar
-5. **`.openqcode` dizinleri** - agent'lar, komutlar, eklentiler
+4. **Proje yapılandırması** (projedeki `homecode.json`) - projeye özgü ayarlar
+5. **`.homecode` dizinleri** - agent'lar, komutlar, eklentiler
 6. **Satır içi yapılandırma** (`OPENCODE_CONFIG_CONTENT` env var) - çalışma zamanı geçersiz kılmaları
 
 Bu, proje yapılandırmalarının genel varsayılanları geçersiz kılabileceği ve genel yapılandırmaların uzak organizasyonel varsayılanları geçersiz kılabileceği anlamına gelir.
 
 :::note
-`.openqcode` ve `~/.config/openqcode` dizinleri alt dizinler için **çoğul adlar** kullanır: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` ve `themes/`. Tekil adlar (örneğin, `agent/`) da geriye dönük uyumluluk açısından desteklenir.
+`.homecode` ve `~/.config/homecode` dizinleri alt dizinler için **çoğul adlar** kullanır: `agents/`, `commands/`, `modes/`, `plugins/`, `skills/`, `tools/` ve `themes/`. Tekil adlar (örneğin, `agent/`) da geriye dönük uyumluluk açısından desteklenir.
 :::
 
 ---
 
 ### Uzak
 
-Kuruluşlar, `.well-known/openqcode` uç noktası aracılığıyla varsayılan yapılandırmayı sağlayabilir. Bu, onu destekleyen bir sağlayıcıyla kimlik doğrulaması yaptığınızda otomatik olarak alınır.
+Kuruluşlar, `.well-known/homecode` uç noktası aracılığıyla varsayılan yapılandırmayı sağlayabilir. Bu, onu destekleyen bir sağlayıcıyla kimlik doğrulaması yaptığınızda otomatik olarak alınır.
 
 Uzak yapılandırma ilk olarak yüklenir ve temel katman görevi görür. Diğer tüm yapılandırma kaynakları (genel, proje) bu varsayılanları geçersiz kılabilir.
 
 Örneğin, kuruluşunuz varsayılan olarak devre dışı bırakılan MCP sunucuları sağlıyorsa:
 
-```json title="Remote config from .well-known/openqcode"
+```json title="Remote config from .well-known/homecode"
 {
   "mcp": {
     "jira": {
@@ -79,7 +79,7 @@ Uzak yapılandırma ilk olarak yüklenir ve temel katman görevi görür. Diğer
 
 Yerel yapılandırmanızda belirli sunucuları etkinleştirebilirsiniz:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
   "mcp": {
     "jira": {
@@ -95,7 +95,7 @@ Yerel yapılandırmanızda belirli sunucuları etkinleştirebilirsiniz:
 
 ### Global
 
-Global openqcode yapılandırmanızı `~/.config/openqcode/openqcode.json` içine yerleştirin. Temalar, sağlayıcılar veya tuş atamaları gibi kullanıcı çapındaki tercihler için genel yapılandırmayı kullanın.
+Global homecode yapılandırmanızı `~/.config/homecode/homecode.json` içine yerleştirin. Temalar, sağlayıcılar veya tuş atamaları gibi kullanıcı çapındaki tercihler için genel yapılandırmayı kullanın.
 
 Genel yapılandırma, uzak kurumsal varsayılanları geçersiz kılar.
 
@@ -103,13 +103,13 @@ Genel yapılandırma, uzak kurumsal varsayılanları geçersiz kılar.
 
 ### Proje başına
 
-Proje kökünüze `openqcode.json` ekleyin. Proje yapılandırması, standart yapılandırma dosyaları arasında en yüksek önceliğe sahiptir; hem genel hem de uzak yapılandırmaları geçersiz kılar.
+Proje kökünüze `homecode.json` ekleyin. Proje yapılandırması, standart yapılandırma dosyaları arasında en yüksek önceliğe sahiptir; hem genel hem de uzak yapılandırmaları geçersiz kılar.
 
 :::tip
 Projeye özel yapılandırmayı projenizin köküne yerleştirin.
 :::
 
-openqcode başlatıldığında geçerli dizinde bir yapılandırma dosyası arar veya en yakın Git dizinine gider.
+homecode başlatıldığında geçerli dizinde bir yapılandırma dosyası arar veya en yakın Git dizinine gider.
 
 Bunun Git'te kontrol edilmesi de güvenlidir ve global olanla aynı şemayı kullanır.
 
@@ -121,7 +121,7 @@ Bunun Git'te kontrol edilmesi de güvenlidir ve global olanla aynı şemayı kul
 
 ```bash
 export OPENCODE_CONFIG=/path/to/my/custom-config.json
-openqcode run "Hello world"
+homecode run "Hello world"
 ```
 
 Özel yapılandırma genel ve proje yapılandırmaları arasında öncelik sırasına göre yüklenir.
@@ -132,21 +132,21 @@ openqcode run "Hello world"
 
 `OPENCODE_CONFIG_DIR` kullanarak özel bir yapılandırma dizini belirtin
 ortam değişkeni. Bu dizin agent'lar, komutlar için aranacaktır.
-modlar ve eklentiler tıpkı standart `.openqcode` dizini gibi olmalıdır ve
+modlar ve eklentiler tıpkı standart `.homecode` dizini gibi olmalıdır ve
 aynı yapıyı takip edin.
 
 ```bash
 export OPENCODE_CONFIG_DIR=/path/to/my/config-directory
-openqcode run "Hello world"
+homecode run "Hello world"
 ```
 
-Özel dizin, genel yapılandırma ve `.openqcode` dizinlerinden sonra yüklenir, böylece bunların ayarlarını **geçersiz kılabilir**.
+Özel dizin, genel yapılandırma ve `.homecode` dizinlerinden sonra yüklenir, böylece bunların ayarlarını **geçersiz kılabilir**.
 
 ---
 
 ## Şema
 
-Yapılandırma dosyası [**`openqcode.ai/config.json`**](https://openqcode.ai/config.json)'da tanımlanan bir şemaya sahiptir.
+Yapılandırma dosyası [**`homecode.ai/config.json`**](https://homecode.ai/config.json)'da tanımlanan bir şemaya sahiptir.
 
 Editörünüz şemaya göre doğrulama ve otomatik tamamlama yapabilmelidir.
 
@@ -156,9 +156,9 @@ Editörünüz şemaya göre doğrulama ve otomatik tamamlama yapabilmelidir.
 
 TUI'ye özgü ayarları `tui` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "tui": {
     "scroll_speed": 3,
     "scroll_acceleration": {
@@ -181,11 +181,11 @@ Mevcut seçenekler:
 
 ### Sunucu
 
-`openqcode serve` ve `openqcode web` komutları için sunucu ayarlarını `server` seçeneği aracılığıyla yapılandırabilirsiniz.
+`homecode serve` ve `homecode web` komutları için sunucu ayarlarını `server` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -200,8 +200,8 @@ Mevcut seçenekler:
 
 - `port` - Dinlenecek port.
 - `hostname` - Dinlenecek ana bilgisayar adı. `mdns` etkinleştirildiğinde ve hiçbir ana bilgisayar adı ayarlanmadığında, varsayılan değer `0.0.0.0` olur.
-- `mdns` - mDNS hizmet bulmayı etkinleştirin. Bu, ağdaki diğer cihazların openqcode sunucunuzu keşfetmesine olanak tanır.
-- `mdnsDomain` - mDNS hizmeti için özel alan adı. Varsayılan olarak `openqcode.local` şeklindedir. Aynı ağda birden fazla örneği çalıştırmak için kullanışlıdır.
+- `mdns` - mDNS hizmet bulmayı etkinleştirin. Bu, ağdaki diğer cihazların homecode sunucunuzu keşfetmesine olanak tanır.
+- `mdnsDomain` - mDNS hizmeti için özel alan adı. Varsayılan olarak `homecode.local` şeklindedir. Aynı ağda birden fazla örneği çalıştırmak için kullanışlıdır.
 - `cors` - Tarayıcı tabanlı bir istemciden HTTP sunucusunu kullanırken CORS'ye izin verecek ek kaynaklar. Değerler tam kaynaklar olmalıdır (şema + ana bilgisayar + isteğe bağlı bağlantı noktası), örneğin `https://app.example.com`.
 
 [Sunucu hakkında daha fazla bilgi](/docs/server).
@@ -212,9 +212,9 @@ Mevcut seçenekler:
 
 Bir LLM'nin kullanabileceği araçları `tools` seçeneği aracılığıyla yönetebilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -228,24 +228,24 @@ Bir LLM'nin kullanabileceği araçları `tools` seçeneği aracılığıyla yön
 
 ### Modeller
 
-openqcode yapılandırmanızda kullanmak istediğiniz sağlayıcıları ve modelleri `provider`, `model` ve `small_model` seçenekleri aracılığıyla yapılandırabilirsiniz.
+homecode yapılandırmanızda kullanmak istediğiniz sağlayıcıları ve modelleri `provider`, `model` ve `small_model` seçenekleri aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
 }
 ```
 
-`small_model` seçeneği, başlık oluşturma gibi hafif görevler için ayrı bir model yapılandırır. Varsayılan olarak openqcode, sağlayıcınızda mevcutsa daha ucuz bir model kullanmaya çalışır, aksi takdirde ana modelinize geri döner.
+`small_model` seçeneği, başlık oluşturma gibi hafif görevler için ayrı bir model yapılandırır. Varsayılan olarak homecode, sağlayıcınızda mevcutsa daha ucuz bir model kullanmaya çalışır, aksi takdirde ana modelinize geri döner.
 
 Sağlayıcı seçenekleri `timeout` ve `setCacheKey` içerebilir:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -272,9 +272,9 @@ Bazı sağlayıcılar genel `timeout` ve `apiKey` ayarlarının ötesinde ek yap
 
 Amazon Bedrock, AWS'a özgü yapılandırmayı destekler:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -301,11 +301,11 @@ Taşıyıcı belirteçleri (`AWS_BEARER_TOKEN_BEDROCK` veya `/connect`) profil t
 
 ### Temalar
 
-openqcode yapılandırmanızda kullanmak istediğiniz temayı `theme` seçeneği aracılığıyla yapılandırabilirsiniz.
+homecode yapılandırmanızda kullanmak istediğiniz temayı `theme` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "theme": ""
 }
 ```
@@ -318,9 +318,9 @@ openqcode yapılandırmanızda kullanmak istediğiniz temayı `theme` seçeneği
 
 `agent` seçeneği aracılığıyla özel görevlere yönelik özel agent'ları yapılandırabilirsiniz.
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -337,7 +337,7 @@ openqcode yapılandırmanızda kullanmak istediğiniz temayı `theme` seçeneği
 }
 ```
 
-Agent'ları `~/.config/openqcode/agents/` veya `.openqcode/agents/` içindeki Markdown dosyalarıyla da tanımlayabilirsiniz. [Daha fazla bilgi](/docs/agents).
+Agent'ları `~/.config/homecode/agents/` veya `.homecode/agents/` içindeki Markdown dosyalarıyla da tanımlayabilirsiniz. [Daha fazla bilgi](/docs/agents).
 
 ---
 
@@ -345,16 +345,16 @@ Agent'ları `~/.config/openqcode/agents/` veya `.openqcode/agents/` içindeki Ma
 
 `default_agent` seçeneğini kullanarak varsayılan agent'ı ayarlayabilirsiniz. Bu, hiçbiri açıkça belirtilmediğinde hangi agent'ın kullanılacağını belirler.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "default_agent": "plan"
 }
 ```
 
-Varsayılan agent, birincil agent olmalıdır (alt agent değil). Bu, `"build"` veya `"plan"` gibi yerleşik bir agent ya da tanımladığınız bir [özel agent](/docs/agents) olabilir. Belirtilen agent mevcut değilse veya bir alt agent ise, openqcode bir uyarıyla birlikte `"build"`'ye geri döner.
+Varsayılan agent, birincil agent olmalıdır (alt agent değil). Bu, `"build"` veya `"plan"` gibi yerleşik bir agent ya da tanımladığınız bir [özel agent](/docs/agents) olabilir. Belirtilen agent mevcut değilse veya bir alt agent ise, homecode bir uyarıyla birlikte `"build"`'ye geri döner.
 
-Bu ayar tüm arayüzler için geçerlidir: TUI, CLI (`openqcode run`), masaüstü uygulaması ve GitHub Action.
+Bu ayar tüm arayüzler için geçerlidir: TUI, CLI (`homecode run`), masaüstü uygulaması ve GitHub Action.
 
 ---
 
@@ -362,9 +362,9 @@ Bu ayar tüm arayüzler için geçerlidir: TUI, CLI (`openqcode run`), masaüst�
 
 [share](/docs/share) özelliğini `share` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "share": "manual"
 }
 ```
@@ -383,9 +383,9 @@ Varsayılan olarak paylaşım, `/share` komutunu kullanarak konuşmaları açık
 
 `command` seçeneği aracılığıyla tekrarlanan görevler için özel komutlar yapılandırabilirsiniz.
 
-```jsonc title="openqcode.jsonc"
+```jsonc title="homecode.jsonc"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -401,7 +401,7 @@ Varsayılan olarak paylaşım, `/share` komutunu kullanarak konuşmaları açık
 }
 ```
 
-Komutları `~/.config/openqcode/commands/` veya `.openqcode/commands/` içindeki Markdown dosyalarıyla da tanımlayabilirsiniz. [Daha fazla bilgi](/docs/commands).
+Komutları `~/.config/homecode/commands/` veya `.homecode/commands/` içindeki Markdown dosyalarıyla da tanımlayabilirsiniz. [Daha fazla bilgi](/docs/commands).
 
 ---
 
@@ -409,9 +409,9 @@ Komutları `~/.config/openqcode/commands/` veya `.openqcode/commands/` içindeki
 
 Tuş atamalarınızı `keybinds` seçeneği aracılığıyla özelleştirebilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "keybinds": {}
 }
 ```
@@ -422,11 +422,11 @@ Tuş atamalarınızı `keybinds` seçeneği aracılığıyla özelleştirebilirs
 
 ### Otomatik Güncelleme
 
-openqcode başlatıldığında yeni güncellemeleri otomatik olarak indirecektir. Bunu `autoupdate` seçeneğiyle devre dışı bırakabilirsiniz.
+homecode başlatıldığında yeni güncellemeleri otomatik olarak indirecektir. Bunu `autoupdate` seçeneğiyle devre dışı bırakabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "autoupdate": false
 }
 ```
@@ -440,9 +440,9 @@ Bunun yalnızca Homebrew gibi bir paket yöneticisi kullanılarak yüklenmemişs
 
 Kod formatlayıcılarını `formatter` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -464,13 +464,13 @@ Kod formatlayıcılarını `formatter` seçeneği aracılığıyla yapılandıra
 
 ### İzinler
 
-Varsayılan olarak, openqcode açık bir onay gerektirmeden **tüm işlemlere izin verir**. `permission` seçeneğini kullanarak bunu değiştirebilirsiniz.
+Varsayılan olarak, homecode açık bir onay gerektirmeden **tüm işlemlere izin verir**. `permission` seçeneğini kullanarak bunu değiştirebilirsiniz.
 
 Örneğin, `edit` ve `bash` araçlarının kullanıcı onayı gerektirdiğinden emin olmak için:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -486,9 +486,9 @@ Varsayılan olarak, openqcode açık bir onay gerektirmeden **tüm işlemlere iz
 
 Bağlam sıkıştırma davranışını `compaction` seçeneği aracılığıyla kontrol edebilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "compaction": {
     "auto": true,
     "prune": true,
@@ -507,9 +507,9 @@ Bağlam sıkıştırma davranışını `compaction` seçeneği aracılığıyla 
 
 Dosya izleyicinin yok sayma kalıplarını `watcher` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -524,9 +524,9 @@ Desenler glob sözdizimini takip eder. Gürültülü dizinleri dosya izlemenin d
 
 Kullanmak istediğiniz MCP sunucularını `mcp` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "mcp": {}
 }
 ```
@@ -537,14 +537,14 @@ Kullanmak istediğiniz MCP sunucularını `mcp` seçeneği aracılığıyla yap�
 
 ### Eklentiler
 
-[Eklentiler](/docs/plugins) openqcode'u özel araçlar, kancalar ve entegrasyonlarla genişletin.
+[Eklentiler](/docs/plugins) homecode'u özel araçlar, kancalar ve entegrasyonlarla genişletin.
 
-Eklenti dosyalarını `.openqcode/plugins/` veya `~/.config/openqcode/plugins/` içine yerleştirin. Ayrıca eklentileri `plugin` seçeneği aracılığıyla npm'den de yükleyebilirsiniz.
+Eklenti dosyalarını `.homecode/plugins/` veya `~/.config/homecode/plugins/` içine yerleştirin. Ayrıca eklentileri `plugin` seçeneği aracılığıyla npm'den de yükleyebilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
-  "plugin": ["openqcode-helicone-session", "@my-org/custom-plugin"]
+  "$schema": "https://homecode.ai/config.json",
+  "plugin": ["homecode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
 
@@ -556,9 +556,9 @@ Eklenti dosyalarını `.openqcode/plugins/` veya `~/.config/openqcode/plugins/` 
 
 Kullandığınız modele ilişkin talimatları `instructions` seçeneği aracılığıyla yapılandırabilirsiniz.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -571,9 +571,9 @@ Bu, talimat dosyalarına giden bir dizi yolu ve glob desenini alır. [Kurallar h
 
 `disabled_providers` seçeneği aracılığıyla otomatik olarak yüklenen sağlayıcıları devre dışı bırakabilirsiniz. Bu, belirli sağlayıcıların kimlik bilgileri mevcut olsa bile yüklenmesini engellemek istediğinizde kullanışlıdır.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -594,14 +594,14 @@ Bu, talimat dosyalarına giden bir dizi yolu ve glob desenini alır. [Kurallar h
 
 `enabled_providers` seçeneğini kullanarak sağlayıcıların izin verilenler listesini belirtebilirsiniz. Ayarlandığında yalnızca belirtilen sağlayıcılar etkinleştirilecek ve diğerleri göz ardı edilecektir.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
 
-Bu, openqcode'u tek tek devre dışı bırakmak yerine yalnızca belirli sağlayıcıları kullanacak şekilde kısıtlamak istediğinizde kullanışlıdır.
+Bu, homecode'u tek tek devre dışı bırakmak yerine yalnızca belirli sağlayıcıları kullanacak şekilde kısıtlamak istediğinizde kullanışlıdır.
 
 :::note
 `disabled_providers`, `enabled_providers`'ye göre önceliklidir.
@@ -615,9 +615,9 @@ Bir sağlayıcı hem `enabled_providers` hem de `disabled_providers`'de görün�
 
 `experimental` anahtarı aktif olarak geliştirilmekte olan seçenekleri içerir.
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "experimental": {}
 }
 ```
@@ -638,9 +638,9 @@ Ortam değişkenlerine ve dosya içeriklerine referans vermek için yapılandır
 
 Ortam değişkenlerini değiştirmek için `{env:VARIABLE_NAME}` kullanın:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "model": "{env:OPENCODE_MODEL}",
   "provider": {
     "anthropic": {
@@ -661,9 +661,9 @@ Ortam değişkeni ayarlanmamışsa boş bir dizeyle değiştirilecektir.
 
 Bir dosyanın biçimini değiştirmek için `{file:path/to/file}` kullanın:
 
-```json title="openqcode.json"
+```json title="homecode.json"
 {
-  "$schema": "https://openqcode.ai/config.json",
+  "$schema": "https://homecode.ai/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {
