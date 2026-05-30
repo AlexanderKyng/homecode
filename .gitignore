@@ -23,6 +23,7 @@ a.out
 target
 .scripts
 .direnv/
+packages/homecode/test/
 
 # Local dev files
 opencode-dev

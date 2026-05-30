@@ -31,3 +31,6 @@ It is important to remember:
 
 - You must include a header with your intended action (Add/Delete/Update)
 - You must prefix new lines with `+` even when creating a new file
+
+Output:
+- The output includes each modified file's content with line hashes in format `lineNumber|hash| content`. These hashes reflect the actual on-disk content (including any auto-formatting). Use them directly with the edit tool's hashline mode for follow-up edits without re-reading the files.

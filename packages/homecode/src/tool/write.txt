@@ -6,3 +6,6 @@ Usage:
 - ALWAYS prefer editing existing files in the codebase. NEVER write new files unless explicitly required.
 - NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
 - Only use emojis if the user explicitly requests it. Avoid writing emojis to files unless asked.
+
+Output:
+- The output includes each line with its hash in format `lineNumber|hash| content`. These hashes reflect the actual on-disk content (including any auto-formatting). Use them directly with the edit tool's hashline mode for follow-up edits without re-reading the file.

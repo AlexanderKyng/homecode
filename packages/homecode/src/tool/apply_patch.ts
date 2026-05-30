@@ -14,6 +14,7 @@ import DESCRIPTION from "./apply_patch.txt"
 import { File } from "../file"
 import { Format } from "../format"
 import * as Bom from "@/util/bom"
+import { formatHashedLines } from "./hash"
 
 export const Parameters = Schema.Struct({
   patchText: Schema.String.annotate({ description: "The full patch text that describes all changes to be made" }),
@@ -290,6 +291,19 @@ export const ApplyPatchTool = Tool.define(
         if (!block) continue
         const rel = path.relative(instance.worktree, target).replaceAll("\\", "/")
         output += `\n\nLSP errors detected in ${rel}, please fix:\n${block}`
+      }
+
+      const hashedFileOutputs: string[] = []
+      for (const change of fileChanges) {
+        if (change.type === "delete") continue
+        const target = change.movePath ?? change.filePath
+        const finalSource = yield* Bom.readFile(afs, target)
+        const { output: hashedContent } = formatHashedLines(finalSource.text)
+        hashedFileOutputs.push(`\n<path>${target}</path>\n<type>file</type>\n${hashedContent}`)
+      }
+
+      if (hashedFileOutputs.length > 0) {
+        output += `\n${hashedFileOutputs.join("\n")}`
       }
 
       return {

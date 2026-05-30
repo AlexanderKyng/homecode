@@ -14,6 +14,7 @@ import { InstanceState } from "@/effect/instance-state"
 import { trimDiff } from "./edit"
 import { assertExternalDirectoryEffect } from "./external-directory"
 import * as Bom from "@/util/bom"
+import { formatHashedLines } from "./hash"
 
 const MAX_PROJECT_DIAGNOSTICS_FILES = 5
 
@@ -71,23 +72,27 @@ export const WriteTool = Tool.define(
             event: exists ? "change" : "add",
           })
 
-          let output = "Wrote file successfully."
           yield* lsp.touchFile(filepath, "document")
           const diagnostics = yield* lsp.diagnostics()
           const normalizedFilepath = AppFileSystem.normalizePath(filepath)
           let projectDiagnosticsCount = 0
+          let diagnosticsOutput = ""
           for (const [file, issues] of Object.entries(diagnostics)) {
             const current = file === normalizedFilepath
             if (!current && projectDiagnosticsCount >= MAX_PROJECT_DIAGNOSTICS_FILES) continue
             const block = LSP.Diagnostic.report(current ? filepath : file, issues)
             if (!block) continue
             if (current) {
-              output += `\n\nLSP errors detected in this file, please fix:\n${block}`
+              diagnosticsOutput += `\n\nLSP errors detected in this file, please fix:\n${block}`
               continue
             }
             projectDiagnosticsCount++
-            output += `\n\nLSP errors detected in other files:\n${block}`
+            diagnosticsOutput += `\n\nLSP errors detected in other files:\n${block}`
           }
+
+          // AJUSTEMENT : Lecture du fichier formaté final sur le disque pour garantir l'intégrité des hashes
+          const finalSource = yield* Bom.readFile(fs, filepath)
+          const { output: hashedContent } = formatHashedLines(finalSource.text)
 
           return {
             title: path.relative(instance.worktree, filepath),
@@ -96,7 +101,11 @@ export const WriteTool = Tool.define(
               filepath,
               exists: exists,
             },
-            output,
+            output: `Wrote file successfully.${diagnosticsOutput}
+
+<path>${filepath}</path>
+<type>file</type>
+${hashedContent}`,
           }
         }).pipe(Effect.orDie),
     }
