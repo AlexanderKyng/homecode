@@ -29,6 +29,7 @@ import { RepositoryCache } from "@/reference/repository-cache"
 import * as Log from "@homecode-ai/core/util/log"
 import { LspTool } from "./lsp"
 import { GitHubTool } from "./github"
+import { MempalaceTool } from "./mempalace"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
 import { Glob } from "@homecode-ai/core/util/glob"
@@ -136,6 +137,7 @@ export const layer: Layer.Layer<
     const patchtool = yield* ApplyPatchTool
     const skilltool = yield* SkillTool
     const github = yield* GitHubTool
+    const mempalace = yield* MempalaceTool
     const agent = yield* Agent.Service
 
     const state = yield* InstanceState.make<State>(
@@ -247,6 +249,7 @@ export const layer: Layer.Layer<
           lsp: Tool.init(lsptool),
           plan: Tool.init(plan),
           github: Tool.init(github),
+          mempalace: Tool.init(mempalace),
         })
 
         return {
@@ -271,6 +274,7 @@ export const layer: Layer.Layer<
             tool.patch,
             ...(flags.experimentalLspTool ? [tool.lsp] : []),
             ...(flags.experimentalPlanMode && flags.client === "cli" ? [tool.plan] : []),
+            ...(flags.disableMempalace ? [] : [tool.mempalace]),
           ],
           task: tool.task,
           read: tool.read,
