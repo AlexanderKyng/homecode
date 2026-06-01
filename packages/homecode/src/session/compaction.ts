@@ -12,6 +12,7 @@ import { Plugin } from "@/plugin"
 import { Config } from "@/config/config"
 import { NotFoundError } from "@/storage/storage"
 import { ModelID, ProviderID } from "@/provider/schema"
+import { ProviderTransform } from "@/provider/transform"
 import { Effect, Layer, Context, Schema } from "effect"
 import * as DateTime from "effect/DateTime"
 import { InstanceState } from "@/effect/instance-state"
@@ -39,7 +40,9 @@ const PRUNE_PROTECTED_TOOLS = ["skill"]
 const DEFAULT_TAIL_TURNS = 2
 const MIN_PRESERVE_RECENT_TOKENS = 2_000
 const MAX_PRESERVE_RECENT_TOKENS = 8_000
-const SUMMARY_TEMPLATE = `Output exactly the Markdown structure shown inside <template> and keep the section order unchanged. Do not include the <template> tags in your response.
+const SUMMARY_TEMPLATE = `Be concise. Total output must not exceed 400 words.
+
+Output exactly the Markdown structure shown inside <template> and keep the section order unchanged. Do not include the <template> tags in your response.
 <template>
 ## Goal
 - [single-sentence task summary]
@@ -95,7 +98,7 @@ type CompletedCompaction = {
 function summaryText(message: MessageV2.WithParts) {
   const text = message.parts
     .filter((part): part is MessageV2.TextPart => part.type === "text")
-    .map((part) => part.text.trim())
+    .map((part) => part.text.replace(/\x3cthink\x3e[\s\S]*?\x3c\/think\x3e/g, "").trim())
     .filter(Boolean)
     .join("\n\n")
     .trim()
@@ -136,7 +139,13 @@ function buildPrompt(input: { previousSummary?: string; context: string[] }) {
 function preserveRecentBudget(input: { cfg: Config.Info; model: Provider.Model }) {
   return (
     input.cfg.compaction?.preserve_recent_tokens ??
-    Math.min(MAX_PRESERVE_RECENT_TOKENS, Math.max(MIN_PRESERVE_RECENT_TOKENS, Math.floor(usable(input) * 0.25)))
+    Math.min(
+      MAX_PRESERVE_RECENT_TOKENS,
+      Math.max(
+        MIN_PRESERVE_RECENT_TOKENS,
+        Math.floor(usable(input) * (input.model.api.id.match(/\bqwen3\.[56]/i) ? 0.15 : 0.25)),
+      ),
+    )
   )
 }
 
@@ -238,7 +247,7 @@ export const layer = Layer.effect(
       messages: MessageV2.WithParts[]
       model: Provider.Model
     }) {
-      const msgs = yield* MessageV2.toModelMessagesEffect(input.messages, input.model)
+      const msgs = yield* MessageV2.toModelMessagesEffect(input.messages, input.model, { stripThinking: true })
       return Token.estimate(JSON.stringify(msgs))
     })
 
@@ -247,7 +256,8 @@ export const layer = Layer.effect(
       cfg: Config.Info
       model: Provider.Model
     }) {
-      const limit = input.cfg.compaction?.tail_turns ?? DEFAULT_TAIL_TURNS
+      const defaultTailTurns = input.model.api.id.match(/\bqwen3\.[56]/i) ? 1 : DEFAULT_TAIL_TURNS
+      const limit = input.cfg.compaction?.tail_turns ?? defaultTailTurns
       if (limit <= 0) return { head: input.messages, tail_start_id: undefined }
       const budget = preserveRecentBudget({ cfg: input.cfg, model: input.model })
       const all = turns(input.messages)
@@ -405,6 +415,7 @@ export const layer = Layer.effect(
       yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
       const modelMessages = yield* MessageV2.toModelMessagesEffect(msgs, model, {
         stripMedia: true,
+        stripThinking: true,
         toolOutputMaxChars: TOOL_OUTPUT_MAX_CHARS,
       })
       const ctx = yield* InstanceState.context
@@ -440,6 +451,7 @@ export const layer = Layer.effect(
         sessionID: input.sessionID,
         model,
       })
+      const compactionMaxTokens = Math.min(2000, ProviderTransform.maxOutputTokens(model, flags.outputTokenMax))
       const result = yield* processor.process({
         user: userMessage,
         agent,
@@ -454,6 +466,7 @@ export const layer = Layer.effect(
           },
         ],
         model,
+        maxOutputTokens: compactionMaxTokens,
       })
 
       if (result === "compact") {
