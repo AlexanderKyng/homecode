@@ -15,7 +15,7 @@
     "lint": "oxlint",
     "typecheck": "bun turbo typecheck",
     "upgrade-opentui": "bun run script/upgrade-opentui.ts",
-    "postinstall": "bun run --cwd packages/homecode fix-node-pty",
+    "postinstall": "bun run --cwd packages/homecode fix-node-pty && bun run --cwd packages/homecode fix-css-tree",
     "prepare": "husky",
     "random": "echo 'Random script'",
     "sso": "aws sso login --sso-session=homecode --no-browser",

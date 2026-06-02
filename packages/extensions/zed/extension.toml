@@ -1,36 +1,37 @@
 id = "homecode"
 name = "HomeCode"
-description = "The open source coding agent."
-version = "1.15.11"
+description = "The open source coding agent for local LLMs."
+version = "1.0.0"
 schema_version = 1
-authors = ["Anomaly"]
-repository = "https://github.com/anomalyco/homecode"
+authors = ["Anomaly", "AlexanderKyng"]
+repository = "https://github.com/AlexanderKyng/homecode"
 
 [agent_servers.homecode]
 name = "HomeCode"
 icon = "./icons/homecode.svg"
 
 [agent_servers.homecode.targets.darwin-aarch64]
-archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-darwin-arm64.zip"
+archive = "https://github.com/AlexanderKyng/homecode/releases/download/v1.0.0/homecode-darwin-arm64.zip"
 cmd = "./homecode"
 args = ["acp"]
 
 [agent_servers.homecode.targets.darwin-x86_64]
-archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-darwin-x64.zip"
+archive = "https://github.com/AlexanderKyng/homecode/releases/download/v1.0.0/homecode-darwin-x64.zip"
 cmd = "./homecode"
 args = ["acp"]
 
 [agent_servers.homecode.targets.linux-aarch64]
-archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-linux-arm64.tar.gz"
+archive = "https://github.com/AlexanderKyng/homecode/releases/download/v1.0.0/homecode-linux-arm64.tar.gz"
 cmd = "./homecode"
 args = ["acp"]
 
 [agent_servers.homecode.targets.linux-x86_64]
-archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-linux-x64.tar.gz"
+archive = "https://github.com/AlexanderKyng/homecode/releases/download/v1.0.0/homecode-linux-x64.tar.gz"
 cmd = "./homecode"
 args = ["acp"]
 
 [agent_servers.homecode.targets.windows-x86_64]
-archive = "https://github.com/anomalyco/homecode/releases/download/v1.15.11/homecode-windows-x64.zip"
+archive = "https://github.com/AlexanderKyng/homecode/releases/download/v1.0.0/homecode-windows-x64.zip"
 cmd = "./homecode.exe"
 args = ["acp"]
+

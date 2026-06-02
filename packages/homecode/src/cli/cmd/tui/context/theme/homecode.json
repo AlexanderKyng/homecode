@@ -103,11 +103,11 @@
     },
     "diffAdded": {
       "dark": "#4d9375",
-      "light": "#1e754f"
+      "light": "#24292f"
     },
     "diffRemoved": {
       "dark": "#cb7676",
-      "light": "#ab5959"
+      "light": "#24292f"
     },
     "diffContext": {
       "dark": "#959da5",
@@ -127,11 +127,11 @@
     },
     "diffAddedBg": {
       "dark": "#4d9375",
-      "light": "#1c6b48"
+      "light": "#42916e"
     },
     "diffRemovedBg": {
       "dark": "#ab5959",
-      "light": "#ab5959"
+      "light": "#dc5349"
     },
     "diffContextBg": {
       "dark": "darkStep2",

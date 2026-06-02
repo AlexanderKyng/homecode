@@ -2,6 +2,7 @@ import type { TuiPlugin, TuiPluginApi } from "@homecode-ai/plugin/tui"
 import type { InternalTuiPlugin } from "../../plugin/internal"
 import { createMemo, Match, Show, Switch } from "solid-js"
 import { Global } from "@homecode-ai/core/global"
+import { InstallationChannel } from "@homecode-ai/core/installation/version"
 
 const id = "internal:home-footer"
 
@@ -70,7 +71,9 @@ function View(props: { api: TuiPluginApi }) {
       <Directory api={props.api} />
       <Mcp api={props.api} />
       <box flexGrow={1} />
-      <Version api={props.api} />
+      <Show when={InstallationChannel !== "local"}>
+        <Version api={props.api} />
+      </Show>
     </box>
   )
 }
