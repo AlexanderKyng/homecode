@@ -1,12 +1,11 @@
-import { Effect, Schema, Schedule } from "effect"
+import { Cause, Effect, Schema, Schedule } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
-import { Parser } from "htmlparser2"
 import * as Tool from "./tool"
 import TurndownService from "turndown"
 import DESCRIPTION from "./webfetch.txt"
 import { isImageAttachment } from "@/util/media"
 import { Readability } from "@mozilla/readability"
-// @ts-ignore - jsdom v29 lacks TypeScript declarations
+// @ts-ignore
 import { JSDOM } from "jsdom"
 import { encode } from "@toon-format/toon"
 import { isIP } from "node:net"
@@ -45,6 +44,14 @@ interface FetchToolResult {
   }>
 }
 
+function returnError(url: string, message: string): FetchToolResult {
+  return {
+    title: `${url} (error)`,
+    output: encode({ status: "error", message }),
+    metadata: {},
+  }
+}
+
 export const WebFetchTool = Tool.define(
   "webfetch",
   Effect.gen(function* () {
@@ -58,68 +65,47 @@ export const WebFetchTool = Tool.define(
       execute: (
         params: Schema.Schema.Type<typeof Parameters>,
         ctx: Tool.Context,
-      ): Effect.Effect<FetchToolResult, never, never> =>
-        Effect.gen(function* () {
+      ): Effect.Effect<FetchToolResult, never, never> => {
+        const pipeline = Effect.gen(function* () {
           if (!params.url.startsWith("http://") && !params.url.startsWith("https://")) {
-            throw new Error("URL must start with http:// or https://")
+            return returnError(params.url, "URL must start with http:// or https://")
           }
 
           const safe = yield* isSafeUrl(params.url)
           if (!safe) {
-            throw new Error("Fetching private or internal addresses is not allowed")
+            return returnError(params.url, "Fetching private or internal addresses is not allowed")
           }
 
           yield* ctx.ask({
             permission: "webfetch",
             patterns: [params.url],
             always: ["*"],
-            metadata: {
-              url: params.url,
-              format: params.format,
-              timeout: params.timeout,
-            },
+            metadata: { url: params.url, format: params.format, timeout: params.timeout },
           })
 
           const timeout = params.timeout != null ? Math.min(params.timeout * 1000, MAX_TIMEOUT) : DEFAULT_TIMEOUT
 
-          let acceptHeader = "*/*"
-          switch (params.format) {
-            case "markdown":
-              acceptHeader = "text/markdown;q=1.0, text/x-markdown;q=0.9, text/plain;q=0.8, text/html;q=0.7, */*;q=0.1"
-              break
-            case "text":
-              acceptHeader = "text/plain;q=1.0, text/markdown;q=0.9, text/html;q=0.8, */*;q=0.1"
-              break
-            case "html":
-              acceptHeader =
-                "text/html;q=1.0, application/xhtml+xml;q=0.9, text/plain;q=0.8, text/markdown;q=0.7, */*;q=0.1"
-              break
-            default:
-              acceptHeader =
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"
-          }
           const headers = {
             "User-Agent":
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
-            Accept: acceptHeader,
-            "Accept-Language": "en-US,en;q=0.9",
-            "Accept-Encoding": "gzip, deflate, br",
+              "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
           }
 
           const request = HttpClientRequest.get(params.url).pipe(HttpClientRequest.setHeaders(headers))
-
           const maxLen = params.max_chars ?? 150_000
 
           const response = yield* httpClient.execute(request).pipe(
             Effect.catchIf(
-              (err: any) =>
-                err.reason._tag === "StatusCodeError" &&
-                err.reason.response.status === 403 &&
-                err.reason.response.headers["cf-mitigated"] === "challenge",
+              (err: any) => err.reason?._tag === "StatusCodeError" && err.reason.response?.status === 403,
               () =>
                 httpClient.execute(
                   HttpClientRequest.get(params.url).pipe(
-                    HttpClientRequest.setHeaders({ ...headers, "User-Agent": "homecode" }),
+                    HttpClientRequest.setHeaders({
+                      ...headers,
+                      "User-Agent":
+                        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+                    }),
                   ),
                 ),
             ),
@@ -128,13 +114,13 @@ export const WebFetchTool = Tool.define(
           )
 
           const contentLength = response.headers["content-length"]
-          if (contentLength && parseInt(contentLength) > MAX_RESPONSE_SIZE) {
-            throw new Error("Response too large (exceeds 5MB limit)")
+          if (contentLength && parseInt(contentLength, 10) > MAX_RESPONSE_SIZE) {
+            return returnError(params.url, "Response too large (exceeds 5MB limit)")
           }
 
           const arrayBuffer = yield* response.arrayBuffer
           if (arrayBuffer.byteLength > MAX_RESPONSE_SIZE) {
-            throw new Error("Response too large (exceeds 5MB limit)")
+            return returnError(params.url, "Response too large (exceeds 5MB limit)")
           }
 
           const contentType = response.headers["content-type"] || ""
@@ -147,13 +133,7 @@ export const WebFetchTool = Tool.define(
               title,
               output: encode({ status: "success", message: "Image fetched successfully", mode: "binary_attachment" }),
               metadata: {},
-              attachments: [
-                {
-                  type: "file" as const,
-                  mime,
-                  url: `data:${mime};base64,${base64Content}`,
-                },
-              ],
+              attachments: [{ type: "file" as const, mime, url: `data:${mime};base64,${base64Content}` }],
             }
           }
 
@@ -162,12 +142,7 @@ export const WebFetchTool = Tool.define(
 
           if (mime === "application/json" || mime === "text/json") {
             const formatted = formatJSON(content, maxLen)
-            finalPayload = encode({
-              status: "success",
-              url: params.url,
-              format: "json",
-              content: formatted.content,
-            })
+            finalPayload = encode({ status: "success", url: params.url, format: "json", content: formatted.content })
           } else if (mime === "application/xml" || mime === "text/xml") {
             finalPayload = encode({
               status: "success",
@@ -179,18 +154,9 @@ export const WebFetchTool = Tool.define(
             switch (params.format) {
               case "markdown":
                 if (contentType.includes("text/html")) {
-                  if (content.length > 2_000_000) {
-                    finalPayload = encode({ status: "error", message: "Page too large to process safely" })
-                  } else {
-                    const cleaned = extractReadableContent(content, params.url)
-                    const markdown = cleanMarkdown(convertHTMLToMarkdown(cleaned)).slice(0, maxLen)
-                    finalPayload = encode({
-                      status: "success",
-                      url: params.url,
-                      format: "markdown",
-                      content: markdown,
-                    })
-                  }
+                  const cleaned = extractReadableContent(content, params.url)
+                  const markdown = cleanMarkdown(convertHTMLToMarkdown(cleaned)).slice(0, maxLen)
+                  finalPayload = encode({ status: "success", url: params.url, format: "markdown", content: markdown })
                 } else {
                   finalPayload = encode({
                     status: "success",
@@ -203,17 +169,14 @@ export const WebFetchTool = Tool.define(
 
               case "text":
                 if (mime === "text/html" || mime === "application/xhtml+xml") {
-                  if (content.length > 2_000_000) {
-                    finalPayload = encode({ status: "error", message: "Page too large to process safely" })
-                  } else {
-                    const readable = extractReadableContent(content, params.url, false)
-                    const text = extractTextFromHTML(readable)
-                    finalPayload = encode({
-                      status: "success",
-                      url: params.url,
-                      content: cleanText(text).slice(0, maxLen),
-                    })
-                  }
+                  const readable = extractReadableContent(content, params.url, false)
+                  const dom = new JSDOM(readable)
+                  const text = dom.window.document.body?.textContent || ""
+                  finalPayload = encode({
+                    status: "success",
+                    url: params.url,
+                    content: cleanText(text).slice(0, maxLen),
+                  })
                 } else {
                   finalPayload = encode({
                     status: "success",
@@ -242,74 +205,23 @@ export const WebFetchTool = Tool.define(
             }
           }
 
-          return {
-            output: finalPayload,
-            title,
-            metadata: {},
-          }
-        }).pipe(Effect.orDie, Effect.provideService(HttpClient.HttpClient, http)) as any,
+          return { output: finalPayload, title, metadata: {} }
+        })
+
+        return pipeline.pipe(
+          Effect.catchCause((cause) =>
+            Effect.succeed({
+              title: `${params.url} (fault)`,
+              output: encode({ status: "error", message: Cause.pretty(cause) }),
+              metadata: {},
+            }),
+          ),
+          Effect.provideService(HttpClient.HttpClient, http),
+        )
+      },
     }
   }),
 )
-
-function extractTextFromHTML(html: string) {
-  let text = ""
-  let skipDepth = 0
-
-  const skippedTags = new Set(["script", "style", "noscript", "iframe", "object", "embed"])
-  const blockTags = new Set([
-    "p",
-    "div",
-    "li",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "br",
-    "tr",
-    "blockquote",
-    "section",
-    "article",
-    "pre",
-  ])
-
-  const parser = new Parser({
-    onopentag(name) {
-      if (skipDepth > 0) {
-        skipDepth++
-        return
-      }
-      if (skippedTags.has(name)) {
-        skipDepth = 1
-        return
-      }
-      if (blockTags.has(name) && text.length > 0 && !text.endsWith("\n")) {
-        text += "\n"
-      }
-    },
-    ontext(input) {
-      if (skipDepth === 0) text += input
-    },
-    onclosetag(name) {
-      if (skipDepth > 0) {
-        skipDepth--
-        return
-      }
-      if (blockTags.has(name)) {
-        if (text.length > 0 && !text.endsWith("\n")) text += "\n"
-      } else {
-        if (text.length > 0 && !text.endsWith(" ") && !text.endsWith("\n")) text += " "
-      }
-    },
-  })
-
-  parser.write(html)
-  parser.end()
-
-  return text.trim()
-}
 
 function extractReadableContent(html: string, url?: string, withMarkdownMeta = true): string {
   let dom: JSDOM | null = null
@@ -327,7 +239,7 @@ function extractReadableContent(html: string, url?: string, withMarkdownMeta = t
       ".sidebar",
       "#sidebar",
     ]) {
-      doc.querySelectorAll(sel).forEach((el: Element) => el.remove())
+      doc.querySelectorAll(sel).forEach((el: any) => el.remove())
     }
 
     const reader = new Readability(doc)
@@ -363,81 +275,41 @@ function convertHTMLToMarkdown(html: string): string {
     codeBlockStyle: "fenced",
     emDelimiter: "*",
   })
-  turndownService.remove(["script", "style", "meta", "link", "video", "noscript", "figure", "figcaption"])
-  turndownService.remove((node) => node.nodeName === "svg")
-  turndownService.addRule("strip-decorative-images", {
-    filter: (node: Node) => {
-      if (node.nodeName !== "IMG") return false
-      const alt = (node as HTMLElement).getAttribute("alt") || ""
-      return !alt.trim()
-    },
-    replacement: () => "",
-  })
-  turndownService.addRule("fenced-code-blocks", {
-    filter: (node: Node) => node.nodeName === "PRE" && node.firstChild?.nodeName === "CODE",
-    replacement: (_content, node: Node) => {
-      const code = node.firstChild as HTMLElement
-      const className = code.getAttribute?.("class") || ""
-      const lang = (className.match(/language-(\S+)/) || [])[1] || ""
-      const text = code.textContent || ""
-      return `\n\`\`\`${lang}\n${text.trim()}\n\`\`\`\n`
-    },
-  })
-  turndownService.addRule("clean-links", {
-    filter: "a",
-    replacement: (content, node: Node) => {
-      const href = (node as HTMLElement).getAttribute?.("href") || ""
-      const text = content.trim()
-      if (!text) return ""
-      if (href.startsWith("http") && text !== href) {
-        return `[${text}](${href})`
-      }
-      return text
-    },
-  })
-  html = html.replace(/data:image\/[^;]+;base64,[^"]+/gi, "")
+  turndownService.remove(["script", "style", "meta", "link", "video", "noscript", "figure", "figcaption", "svg"])
   return turndownService.turndown(html)
 }
 
-function cleanMarkdown(markdown: string) {
+function cleanMarkdown(markdown: string): string {
   return markdown
     .replace(/[ \t]+/g, " ")
-    .replace(/\\?\[\\?\*\\?\]/g, "")
-    .replace(/^Fig\.?\s*\d+\.?\s*$/gim, "")
-    .replace(/^Your browser does not support.*$/gim, "")
-    .replace(/^\s*-\s*\n/gm, "")
     .replace(/\n{3,}/g, "\n\n")
-    .replace(/[ \t]+\n/g, "\n")
     .trim()
 }
 
 function cleanText(text: string): string {
   return text
-    .replace(/\[\*\]/g, "")
-    .replace(/Fig\.?\s*\d+\.?/gi, "")
-    .replace(/Your browser does not support[^.]*\./gi, "")
     .replace(/[ \t]+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
-    .replace(/[ \t]+\n/g, "\n")
     .trim()
 }
 
 function isPrivateIP(ip: string): boolean {
   const version = isIP(ip)
   if (version === 4) {
-    if (ip.startsWith("127.")) return true
-    if (ip.startsWith("10.")) return true
-    if (ip.startsWith("192.168.")) return true
-    if (ip.startsWith("169.254.")) return true
-    if (ip.startsWith("0.")) return true
+    if (
+      ip.startsWith("127.") ||
+      ip.startsWith("10.") ||
+      ip.startsWith("192.168.") ||
+      ip.startsWith("169.254.") ||
+      ip.startsWith("0.")
+    )
+      return true
     if (ip.startsWith("172.")) {
       const second = parseInt(ip.split(".")[1], 10)
       if (second >= 16 && second <= 31) return true
     }
   } else if (version === 6) {
-    if (ip === "::1" || ip === "::") return true
-    if (ip.startsWith("fe80:")) return true
-    if (ip.startsWith("fc") || ip.startsWith("fd")) return true
+    if (ip === "::1" || ip === "::" || ip.startsWith("fe80:") || ip.startsWith("fc") || ip.startsWith("fd")) return true
   }
   return false
 }
