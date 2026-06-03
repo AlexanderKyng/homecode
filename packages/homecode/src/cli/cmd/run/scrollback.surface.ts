@@ -369,6 +369,12 @@ export class RunScrollbackStream {
     this.active = undefined
   }
 
+  public async complete(): Promise<void> {
+    if (this.active) {
+      this.markRendered(await this.finishActive(true))
+    }
+  }
+
   public destroy(): void {
     this.resetActive()
   }

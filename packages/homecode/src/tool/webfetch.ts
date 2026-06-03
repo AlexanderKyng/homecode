@@ -6,6 +6,7 @@ import TurndownService from "turndown"
 import DESCRIPTION from "./webfetch.txt"
 import { isImageAttachment } from "@/util/media"
 import { Readability } from "@mozilla/readability"
+// @ts-ignore - jsdom v29 lacks TypeScript declarations
 import { JSDOM } from "jsdom"
 import { encode } from "@toon-format/toon"
 import { isIP } from "node:net"
@@ -49,7 +50,7 @@ export const WebFetchTool = Tool.define(
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient
     const httpOk = HttpClient.filterStatusOk(http)
-    const httpClient = httpOk.pipe(HttpClient.followRedirects)
+    const httpClient = HttpClient.followRedirects(httpOk)
 
     return {
       description: DESCRIPTION,
@@ -362,7 +363,8 @@ function convertHTMLToMarkdown(html: string): string {
     codeBlockStyle: "fenced",
     emDelimiter: "*",
   })
-  turndownService.remove(["script", "style", "meta", "link", "svg", "video", "noscript", "figure", "figcaption"])
+  turndownService.remove(["script", "style", "meta", "link", "video", "noscript", "figure", "figcaption"])
+  turndownService.remove((node) => node.nodeName === "svg")
   turndownService.addRule("strip-decorative-images", {
     filter: (node: Node) => {
       if (node.nodeName !== "IMG") return false

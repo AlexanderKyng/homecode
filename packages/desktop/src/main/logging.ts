@@ -33,8 +33,6 @@ export function initLogging() {
   return (logger = log)
 }
 
-
-
 export async function startNetLog() {
   if (netLog.currentlyLogging) return
   netLogPath = join(run, "network.netlog")
@@ -55,7 +53,7 @@ export async function exportDebugLogs() {
       { name: "manifest.json", data: Buffer.from(JSON.stringify(manifest(), null, 2)) },
       ...collect(root, "desktop"),
       ...serverLogRoots().flatMap((dir, i) => collect(dir, `server-${i + 1}`)),
-...collect(app.getPath(
+      ...collect(app.getPath("crashDumps"), "crashpad"),
     ])
     shell.showItemInFolder(output)
     return output
