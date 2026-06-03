@@ -209,13 +209,16 @@ export const WebFetchTool = Tool.define(
         })
 
         return pipeline.pipe(
-          Effect.catchCause((cause) =>
-            Effect.succeed({
+          Effect.catchCause((cause) => {
+            const squashed = Cause.squash(cause)
+            const errorMsg = squashed instanceof Error ? squashed.message : String(squashed)
+
+            return Effect.succeed({
               title: `${params.url} (fault)`,
-              output: encode({ status: "error", message: Cause.pretty(cause) }),
+              output: encode({ status: "error", message: errorMsg }),
               metadata: {},
-            }),
-          ),
+            })
+          }),
           Effect.provideService(HttpClient.HttpClient, http),
         )
       },

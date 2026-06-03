@@ -7,123 +7,63 @@
     </picture>
   </a>
 </p>
-<p align="center">The open source AI coding agent.</p>
+<p align="center">The open source AI coding agent, redezined for local LLMs.</p>
 <p align="center">
-  <a href="https://homecode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
   <a href="https://www.npmjs.com/package/homecode-ai"><img alt="npm" src="https://img.shields.io/npm/v/homecode-ai?style=flat-square" /></a>
   <a href="https://github.com/anomalyco/homecode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/homecode/publish.yml?style=flat-square&branch=dev" /></a>
 </p>
 
-<p align="center">
-  <a href="README.md">English</a> |
-  <a href="README.zh.md">简体中文</a> |
-  <a href="README.zht.md">繁體中文</a> |
-  <a href="README.ko.md">한국어</a> |
-  <a href="README.de.md">Deutsch</a> |
-  <a href="README.es.md">Español</a> |
-  <a href="README.fr.md">Français</a> |
-  <a href="README.it.md">Italiano</a> |
-  <a href="README.da.md">Dansk</a> |
-  <a href="README.ja.md">日本語</a> |
-  <a href="README.pl.md">Polski</a> |
-  <a href="README.ru.md">Русский</a> |
-  <a href="README.bs.md">Bosanski</a> |
-  <a href="README.ar.md">العربية</a> |
-  <a href="README.no.md">Norsk</a> |
-  <a href="README.br.md">Português (Brasil)</a> |
-  <a href="README.th.md">ไทย</a> |
-  <a href="README.tr.md">Türkçe</a> |
-  <a href="README.uk.md">Українська</a> |
-  <a href="README.bn.md">বাংলা</a> |
-  <a href="README.gr.md">Ελληνικά</a> |
-  <a href="README.vi.md">Tiếng Việt</a>
-</p>
-
-[![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://homecode.ai)
+![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)
 
 ---
 
 ### Installation
 
-```bash
-# YOLO
-curl -fsSL https://homecode.ai/install | bash
-
-# Package managers
-npm i -g homecode-ai@latest        # or bun/pnpm/yarn
-scoop install homecode             # Windows
-choco install homecode             # Windows
-brew install anomalyco/tap/homecode # macOS and Linux (recommended, always up to date)
-brew install homecode              # macOS and Linux (official brew formula, updated less)
-sudo pacman -S homecode            # Arch Linux (Stable)
-paru -S homecode-bin               # Arch Linux (Latest from AUR)
-mise use -g homecode               # Any OS
-nix run nixpkgs#homecode           # or github:anomalyco/homecode for latest dev branch
-```
-
-> [!TIP]
-> Remove versions older than 0.1.x before installing.
-
-### Desktop App (BETA)
-
-HomeCode is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/homecode/releases) or [homecode.ai/download](https://homecode.ai/download).
-
-| Platform              | Download                           |
-| --------------------- | ---------------------------------- |
-| macOS (Apple Silicon) | `homecode-desktop-mac-arm64.dmg`   |
-| macOS (Intel)         | `homecode-desktop-mac-x64.dmg`     |
-| Windows               | `homecode-desktop-windows-x64.exe` |
-| Linux                 | `.deb`, `.rpm`, or `.AppImage`     |
+HomeCode is currently under active development and needs to be built from source.
 
 ```bash
-# macOS (Homebrew)
-brew install --cask homecode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/homecode-desktop
+git clone https://github.com/AlexanderKyng/homecode.git
+cd homecode/packages/homecode
+OPENCODE_VERSION=1.0.0 OPENCODE_CHANNEL=latest bun run build
 ```
 
-#### Installation Directory
+NPM and Homebrew installation methods will be added once the project stabilizes.
 
-The install script respects the following priority order for the installation path:
+> [!NOTE]
+> HomeCode is still in early development. Bugs may occur, and the full benefits of the optimizations are not yet fully realized. Expect frequent updates.
 
-1. `$OPENCODE_INSTALL_DIR` - Custom installation directory
-2. `$XDG_BIN_DIR` - XDG Base Directory Specification compliant path
-3. `$HOME/bin` - Standard user binary directory (if it exists or can be created)
-4. `$HOME/.homecode/bin` - Default fallback
+### What Makes HomeCode Different
 
-```bash
-# Examples
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://homecode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://homecode.ai/install | bash
-```
+HomeCode is a fork of [Opencode](https://github.com/AnomalyCo/opencode) redesigned from the ground up for local LLM workflows.
 
-### Agents
+| Feature                     | Description                                                                                                                                     |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hash-Based Editing**      | Read, Edit, Write, and apply_patch use a line-level hash system, modifying only the lines that change instead of rewriting entire files         |
+| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and MemPalace (persistent local memory) are not available in Opencode |
+| **Toon Compression**        | Tool outputs are compressed via Toon to reduce token usage and verbosity                                                                        |
+| **Local SearXNG**           | WebSearch and CodeSearch run through a local SearXNG instance (Docker deployment required) for privacy and self-hosted control                  |
+| **Zero Telemetry**          | All tracking and telemetry is fully suppressed for complete privacy                                                                             |
+| **Optimized System Prompt** | Revamped tool explanations and system prompt that use fewer tokens while increasing LLM capability                                              |
+| **Vitesse Theme**           | Personalized terminal theme based on the Vitesse VS Code theme                                                                                  |
 
-HomeCode includes two built-in agents you can switch between with the `Tab` key.
+### Targeted Models
 
-- **build** - Default, full-access agent for development work
-- **plan** - Read-only agent for analysis and code exploration
-  - Denies file edits by default
-  - Asks permission before running bash commands
-  - Ideal for exploring unfamiliar codebases or planning changes
+HomeCode is optimized for mid-sized local models that benefit most from reduced token overhead:
 
-Also included is a **general** subagent for complex searches and multistep tasks.
-This is used internally and can be invoked using `@general` in messages.
+- **Qwen 3.5 / 3.6 27B and 35B-A3B**
 
-Learn more about [agents](https://homecode.ai/docs/agents).
+The optimizations provide significant benefits for many other local LLMs ranging from 8 to 80B parameters.
 
-### Documentation
+### Roadmap
 
-For more info on how to configure HomeCode, [**head over to our docs**](https://homecode.ai/docs).
+Upcoming work includes, but is not limited to:
+
+- **Memory Tool** — Purpose-built memory system designed for local LLM workflows
+- **ZED IDE Integration** — Native integration with the ZED editor
+- **Revamped Hashing** — Improved hashing method to resolve current edge-case bugs
+- **Prompt & Tool Alignment** — Further refinement of system prompts and tool definitions for better LLM alignment
+- **Python Executor** — All-new, secured Python execution environment (Qwen models have shown strong capability with Python tooling)
 
 ### Contributing
 
-If you're interested in contributing to HomeCode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
-
-### Building on HomeCode
-
-If you are working on a project that's related to HomeCode and is using "homecode" as part of its name, for example "homecode-dashboard" or "homecode-mobile", please add a note to your README to clarify that it is not built by the HomeCode team and is not affiliated with us in any way.
-
----
-
-**Join our community** [Discord](https://discord.gg/homecode) | [X.com](https://x.com/homecode)
+HomeCode is in active development. If you'd like to contribute, feel free to open issues or submit pull requests. For questions and discussion, use the [GitHub discussions](https://github.com/AlexanderKyng/homecode/discussions) or [issues](https://github.com/AlexanderKyng/homecode/issues) page.
