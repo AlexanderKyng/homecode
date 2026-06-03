@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "version": "1.15.11",
+  "version": "1.0.0",
   "name": "@homecode-ai/core",
   "type": "module",
   "license": "MIT",

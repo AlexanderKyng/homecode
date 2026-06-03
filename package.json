@@ -1,6 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "homecode",
+  "version": "1.0.0",
+  "description": "AI-powered development tool (fork of OpenCode by Anomaly)",
+  "author": "Alexander Kyng",
   "description": "AI-powered development tool",
   "private": true,
   "type": "module",
@@ -112,6 +115,13 @@
     "typescript": "catalog:"
   },
   "repository": {
+    "type": "git",
+    "url": "https://github.com/anomalyco/homecode"
+  },
+  "originalRepository": {
+    "type": "git",
+    "url": "https://github.com/AnomalyCo/opencode"
+  },
     "type": "git",
     "url": "https://github.com/anomalyco/homecode"
   },
