@@ -1,5 +1,4 @@
 import { TextField } from "@homecode-ai/ui/text-field"
-import * as Sentry from "@sentry/solid"
 import { Logo } from "@homecode-ai/ui/logo"
 import { Button } from "@homecode-ai/ui/button"
 import { Component, createSignal, onMount, Show } from "solid-js"
@@ -222,27 +221,10 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
   const platform = usePlatform()
   const language = useLanguage()
   const formattedError = () => formatError(props.error, language.t)
-  let recordedFatalError: Promise<void> | undefined
   const [store, setStore] = createStore({
     checking: false,
     version: undefined as string | undefined,
     actionError: undefined as string | undefined,
-  })
-
-  function ensureFatalErrorRecorded() {
-    recordedFatalError ??=
-      platform.recordFatalRendererError?.({
-        error: formattedError(),
-        url: location.href,
-        version: platform.version,
-        platform: platform.platform,
-        os: platform.os,
-      }) ?? Promise.resolve()
-    return recordedFatalError
-  }
-
-  onMount(() => {
-    void ensureFatalErrorRecorded().catch(() => undefined)
   })
 
   async function checkForUpdates() {
@@ -275,7 +257,7 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
   async function exportDebugLogs() {
     const exportLogs = platform.exportDebugLogs
     if (!exportLogs) return
-    await ensureFatalErrorRecorded()
+    await exportLogs()
       .then(() => exportLogs())
       .then(() => setStore("actionError", undefined))
       .catch((err) => {
@@ -309,23 +291,7 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
               {language.t("error.page.action.exportLogs")}
             </Button>
           </Show>
-          <Show when={Sentry.isEnabled}>
-            {(_) => {
-              const [reported, setReported] = createSignal(false)
-              return (
-                <Button
-                  size="large"
-                  disabled={reported()}
-                  onClick={() => {
-                    Sentry.captureException(props.error)
-                    setReported(true)
-                  }}
-                >
-                  {language.t(reported() ? "error.page.action.reported" : "error.page.action.report")}
-                </Button>
-              )
-            }}
-          </Show>
+
           <Show when={platform.checkUpdate}>
             <Show
               when={store.version}
@@ -352,7 +318,7 @@ export const ErrorPage: Component<ErrorPageProps> = (props) => {
             <button
               type="button"
               class="flex items-center text-text-interactive-base gap-1"
-              onClick={() => platform.openLink("https://homecode.ai/desktop-feedback")}
+              onClick={() => platform.openLink("https://github.com/AlexanderKyng/homecode/issues")}
             >
               <div>{language.t("error.page.report.discord")}</div>
               <Icon name="discord" class="text-text-interactive-base" />

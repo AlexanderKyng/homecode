@@ -363,7 +363,7 @@ function useIssueId() {
 }
 
 function useShareUrl() {
-  return isMock() ? "https://dev.homecode.ai" : "https://homecode.ai"
+  return isMock() ? "https://github.com/AlexanderKyng/homecode" : "https://github.com/AlexanderKyng/homecode"
 }
 
 async function getAccessToken() {
@@ -374,7 +374,7 @@ async function getAccessToken() {
 
   let response
   if (isMock()) {
-    response = await fetch("https://api.homecode.ai/exchange_github_app_token_with_pat", {
+    response = await fetch("https://api.homecode.ai/local/exchange_github_app_token_with_pat", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${useEnvMock().mockToken}`,
@@ -383,7 +383,7 @@ async function getAccessToken() {
     })
   } else {
     const oidcToken = await core.getIDToken("homecode-github-action")
-    response = await fetch("https://api.homecode.ai/exchange_github_app_token", {
+    response = await fetch("https://api.homecode.ai/local/exchange_github_app_token", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${oidcToken}`,

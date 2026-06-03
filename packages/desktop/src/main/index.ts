@@ -15,7 +15,7 @@ import type { InitStep, ServerReadyData, SqliteMigrationProgress, WslConfig } fr
 import { checkAppExists, resolveAppPath, wslPath } from "./apps"
 import { CHANNEL, UPDATER_ENABLED } from "./constants"
 import { registerIpcHandlers, sendDeepLinks, sendMenuCommand, sendSqliteMigrationProgress } from "./ipc"
-import { exportDebugLogs, initCrashReporter, initLogging, startNetLog, write as writeLog } from "./logging"
+import { exportDebugLogs, initLogging, startNetLog, write as writeLog } from "./logging"
 import { parseMarkdown } from "./markdown"
 import { createMenu } from "./menu"
 import {
@@ -143,7 +143,6 @@ const main = Effect.gen(function* () {
   )
   if (onboardingTestRoot) app.setPath("sessionData", join(onboardingTestRoot, "session"))
   logger = initLogging()
-  initCrashReporter()
 
   try {
     setDefaultCACertificates([...new Set([...getCACertificates("default"), ...getCACertificates("system")])])
@@ -257,7 +256,6 @@ const main = Effect.gen(function* () {
     installUpdate: async () => installUpdate(killSidecar),
     setBackgroundColor: (color) => setBackgroundColor(color),
     exportDebugLogs: () => exportDebugLogs(),
-    recordFatalRendererError: (error) => writeLog("renderer", "fatal renderer error", { ...error }, "error"),
   })
 
   yield* Effect.promise(() => app.whenReady())

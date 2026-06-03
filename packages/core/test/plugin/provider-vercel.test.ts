@@ -25,7 +25,6 @@ describe("VercelPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel"))).options.headers).toEqual({
         Existing: "1",
-        "http-referer": "https://homecode.ai/",
         "x-title": "homecode",
       })
     }),
@@ -46,7 +45,10 @@ describe("VercelPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel"))).options.headers).not.toHaveProperty(
         "HTTP-Referer",
       )
-      expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel"))).options.headers).not.toHaveProperty("X-Title")
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel"))).options.headers).not.toHaveProperty(
+        "http-referer",
+      )
+      expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel"))).options.headers).toHaveProperty("x-title")
     }),
   )
 

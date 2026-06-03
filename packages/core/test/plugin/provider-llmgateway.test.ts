@@ -43,7 +43,6 @@ describe("LLMGatewayPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("llmgateway"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
         "X-Source": "homecode",
       })

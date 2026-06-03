@@ -137,7 +137,7 @@ export const dict = {
   "provider.connect.homecodeZen.line2":
     "ด้วยคีย์ API เดียวคุณจะได้รับการเข้าถึงโมเดล เช่น Claude, GPT, Gemini, GLM และอื่น ๆ",
   "provider.connect.homecodeZen.visit.prefix": "เยี่ยมชม ",
-  "provider.connect.homecodeZen.visit.link": "homecode.ai/zen",
+  "provider.connect.homecodeZen.visit.link": "https://github.com/AlexanderKyng/homecode",
   "provider.connect.homecodeZen.visit.suffix": " เพื่อรวบรวมคีย์ API ของคุณ",
   "provider.connect.oauth.code.visit.prefix": "เยี่ยมชม ",
   "provider.connect.oauth.code.visit.link": "ลิงก์นี้",

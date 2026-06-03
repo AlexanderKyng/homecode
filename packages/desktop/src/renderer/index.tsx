@@ -14,7 +14,6 @@ import {
   ServerConnection,
   useCommand,
 } from "@homecode-ai/app"
-import * as Sentry from "@sentry/solid"
 import type { AsyncStorage } from "@solid-primitives/storage"
 import { MemoryRouter } from "@solidjs/router"
 import { createEffect, createResource, onCleanup, onMount, Show } from "solid-js"
@@ -28,29 +27,6 @@ import { useTheme } from "@homecode-ai/ui/theme"
 const root = document.getElementById("root")
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   throw new Error(t("error.dev.rootNotFound"))
-}
-
-if (import.meta.env.VITE_SENTRY_DSN) {
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: import.meta.env.VITE_SENTRY_ENVIRONMENT ?? import.meta.env.MODE,
-    release: import.meta.env.VITE_SENTRY_RELEASE ?? `desktop@${pkg.version}`,
-    initialScope: {
-      tags: {
-        platform: "desktop",
-      },
-    },
-    integrations: (integrations) => {
-      return integrations.filter(
-        (i) =>
-          i.name !== "Breadcrumbs" &&
-          !(
-            import.meta.env.OPENCODE_CHANNEL === "prod" &&
-            (i.name === "GlobalHandlers" || i.name === "BrowserApiErrors")
-          ),
-      )
-    },
-  })
 }
 
 void initI18n()
@@ -218,8 +194,6 @@ const createPlatform = (): Platform => {
 
     exportDebugLogs: () => window.api.exportDebugLogs(),
 
-    recordFatalRendererError: (error) => window.api.recordFatalRendererError(error),
-
     restart: async () => {
       await window.api.killSidecar().catch(() => undefined)
       window.api.relaunch()
@@ -231,7 +205,7 @@ const createPlatform = (): Platform => {
 
       const notification = new Notification(title, {
         body: description ?? "",
-        icon: "https://homecode.ai/favicon-96x96-v3.png",
+        icon: "/favicon-96x96-v3.png",
       })
       notification.onclick = () => {
         void window.api.showWindow()

@@ -2,14 +2,14 @@
   "$schema": "https://opencode.ai/theme.json",
   "defs": {
     "darkStep1": "#1E1E1E",
-    "darkStep2": "#4d9375",
+    "darkStep2": "#151718",
     "darkStep3": "#181A1B",
     "darkStep4": "#222222",
     "darkStep5": "#282828",
     "darkStep6": "#2f363d",
     "darkStep7": "#191919",
     "darkStep8": "#4d9375",
-    "darkStep9": "#4d9375",
+    "darkStep9": "#5e9d82",
     "darkStep10": "#4d9375",
     "darkStep11": "#808080",
     "darkStep12": "#dbd7ca",
@@ -32,7 +32,7 @@
     "lightStep10": "#b56959",
     "lightStep11": "#98999E",
     "lightStep12": "#393a34",
-    "lightSecondary": "#296aa3",
+    "lightSecondary": "#3e78ac",
     "lightAccent": "#1c6b48",
     "lightRed": "#ab5959",
     "lightOrange": "#a65e2b",
@@ -102,11 +102,11 @@
       "light": "lightStep6"
     },
     "diffAdded": {
-      "dark": "#4d9375",
+      "dark": "darkStep12",
       "light": "#24292f"
     },
     "diffRemoved": {
-      "dark": "#cb7676",
+      "dark": "darkStep12",
       "light": "#24292f"
     },
     "diffContext": {
@@ -126,12 +126,12 @@
       "light": "#ab5959"
     },
     "diffAddedBg": {
-      "dark": "#4d9375",
-      "light": "#42916e"
+      "dark": "#458469",
+      "light": "#a0c8b6"
     },
     "diffRemovedBg": {
-      "dark": "#ab5959",
-      "light": "#dc5349"
+      "dark": "#884747",
+      "light": "#e6867f"
     },
     "diffContextBg": {
       "dark": "darkStep2",

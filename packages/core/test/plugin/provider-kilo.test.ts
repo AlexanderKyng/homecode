@@ -36,7 +36,6 @@ describe("KiloPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter)).options.headers).toEqual({})
@@ -60,10 +59,8 @@ describe("KiloPlugin", () => {
 
       const result = yield* catalog.provider.get(ProviderV2.ID.make("kilo"))
       expect(result.options.headers).toEqual({
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
       })
-      expect(result.options.headers).not.toHaveProperty("http-referer")
       expect(result.options.headers).not.toHaveProperty("x-title")
       expect(result.options.headers).not.toHaveProperty("X-Source")
     }),
@@ -91,7 +88,6 @@ describe("KiloPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("kilo"))).options.headers).toEqual({
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("custom-kilo"))).options.headers).toEqual({})

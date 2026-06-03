@@ -1,7 +1,7 @@
 import { Effect, Fiber, Layer, ManagedRuntime } from "effect"
 import * as Context from "effect/Context"
 import { InstanceRef, WorkspaceRef } from "./instance-ref"
-import * as Observability from "@homecode-ai/core/effect/observability"
+import * as EffectLogger from "@homecode-ai/core/effect/logger"
 import { WorkspaceContext } from "@/control-plane/workspace-context"
 import type { InstanceContext } from "@/project/instance-context"
 import { memoMap } from "@homecode-ai/core/effect/memo-map"
@@ -32,7 +32,7 @@ export function attach<A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A
 
 export function makeRuntime<I, S, E>(service: Context.Service<I, S>, layer: Layer.Layer<I, E>) {
   let rt: ManagedRuntime.ManagedRuntime<I, E> | undefined
-  const getRuntime = () => (rt ??= ManagedRuntime.make(Layer.provideMerge(layer, Observability.layer), { memoMap }))
+  const getRuntime = () => (rt ??= ManagedRuntime.make(Layer.provideMerge(layer, EffectLogger.layer), { memoMap }))
 
   return {
     runSync: <A, Err>(fn: (svc: S) => Effect.Effect<A, Err, I>) => getRuntime().runSync(attach(service.use(fn))),

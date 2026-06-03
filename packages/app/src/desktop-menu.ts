@@ -200,7 +200,7 @@ export const DESKTOP_MENU: DesktopMenu[] = [
     id: "help",
     label: "Help",
     items: [
-      { type: "item", label: "HomeCode Documentation", href: "https://homecode.ai/docs" },
+      { type: "item", label: "HomeCode Documentation", href: "https://github.com/AlexanderKyng/homecode" },
       { type: "item", label: "Support Forum", href: "https://discord.com/invite/homecode" },
       { type: "item", label: "Export Logs...", command: "logs.export" },
       { type: "separator" },

@@ -5,7 +5,6 @@ import type { DesktopMenuAction } from "@homecode-ai/app/desktop-menu"
 
 import type {
   InitStep,
-  FatalRendererError,
   ServerReadyData,
   SqliteMigrationProgress,
   TitlebarTheme,
@@ -42,7 +41,6 @@ type Deps = {
   installUpdate: () => Promise<void> | void
   setBackgroundColor: (color: string) => void
   exportDebugLogs: () => Promise<string>
-  recordFatalRendererError: (error: FatalRendererError) => Promise<void> | void
 }
 
 export function registerIpcHandlers(deps: Deps) {
@@ -75,9 +73,7 @@ export function registerIpcHandlers(deps: Deps) {
   ipcMain.handle("install-update", () => deps.installUpdate())
   ipcMain.handle("set-background-color", (_event: IpcMainInvokeEvent, color: string) => deps.setBackgroundColor(color))
   ipcMain.handle("export-debug-logs", () => deps.exportDebugLogs())
-  ipcMain.handle("record-fatal-renderer-error", (_event: IpcMainInvokeEvent, error: FatalRendererError) =>
-    deps.recordFatalRendererError(error),
-  )
+
   ipcMain.handle("store-get", (_event: IpcMainInvokeEvent, name: string, key: string) => {
     try {
       const store = getStore(name)

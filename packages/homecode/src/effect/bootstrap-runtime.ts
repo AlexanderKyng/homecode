@@ -1,5 +1,6 @@
 import { Layer, ManagedRuntime } from "effect"
 
+import * as EffectLogger from "@homecode-ai/core/effect/logger"
 import { Plugin } from "@/plugin"
 import { LSP } from "@/lsp/lsp"
 import { FileWatcher } from "@/file/watcher"
@@ -10,7 +11,6 @@ import { Vcs } from "@/project/vcs"
 import { Snapshot } from "@/snapshot"
 import { Bus } from "@/bus"
 import { Config } from "@/config/config"
-import * as Observability from "@homecode-ai/core/effect/observability"
 import { memoMap } from "@homecode-ai/core/effect/memo-map"
 
 export const BootstrapLayer = Layer.mergeAll(
@@ -24,6 +24,6 @@ export const BootstrapLayer = Layer.mergeAll(
   Vcs.defaultLayer,
   Snapshot.defaultLayer,
   Bus.defaultLayer,
-).pipe(Layer.provide(Observability.layer))
+)
 
-export const BootstrapRuntime = ManagedRuntime.make(BootstrapLayer, { memoMap })
+export const BootstrapRuntime = ManagedRuntime.make(Layer.provideMerge(BootstrapLayer, EffectLogger.layer), { memoMap })

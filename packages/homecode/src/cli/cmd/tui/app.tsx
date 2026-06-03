@@ -787,7 +787,7 @@ function App(props: { onSnapshot?: () => Promise<string[]> }) {
         name: "docs.open",
         title: "Open docs",
         run: () => {
-          open("https://homecode.ai/docs").catch(() => {})
+          open("https://github.com/AlexanderKyng/homecode").catch(() => {})
           dialog.clear()
         },
         category: "System",

@@ -369,7 +369,7 @@ function ApiMethod(props: ApiMethodProps) {
                 key.
               </text>
               <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://homecode.ai/zen</span> to get a key
+                Go to <span style={{ fg: theme.primary }}>https://github.com/AlexanderKyng/homecode</span> to get a key
               </text>
             </box>
           ),
@@ -380,7 +380,8 @@ function ApiMethod(props: ApiMethodProps) {
                 with generous usage limits.
               </text>
               <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://homecode.ai/zen</span> and enable HomeCode Go
+                Go to <span style={{ fg: theme.primary }}>https://github.com/AlexanderKyng/homecode</span> and enable
+                HomeCode Go
               </text>
             </box>
           ),

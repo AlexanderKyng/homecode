@@ -125,7 +125,7 @@ export const dict = {
   "provider.connect.homecodeZen.line2":
     "Z jednym kluczem API uzyskasz dostęp do modeli takich jak Claude, GPT, Gemini, GLM i więcej.",
   "provider.connect.homecodeZen.visit.prefix": "Odwiedź ",
-  "provider.connect.homecodeZen.visit.link": "homecode.ai/zen",
+  "provider.connect.homecodeZen.visit.link": "https://github.com/AlexanderKyng/homecode",
   "provider.connect.homecodeZen.visit.suffix": ", aby odebrać swój klucz API.",
   "provider.connect.oauth.code.visit.prefix": "Odwiedź ",
   "provider.connect.oauth.code.visit.link": "ten link",

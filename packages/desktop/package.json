@@ -4,10 +4,10 @@
   "version": "1.15.11",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://homecode.ai",
+  "homepage": "https://github.com/AlexanderKyng/homecode",
   "author": {
     "name": "HomeCode",
-    "email": "hello@homecode.ai"
+    "email": ""
   },
   "scripts": {
     "typecheck": "tsgo -b",
@@ -39,8 +39,6 @@
     "@lydell/node-pty": "catalog:",
     "@homecode-ai/app": "workspace:*",
     "@homecode-ai/ui": "workspace:*",
-    "@sentry/solid": "catalog:",
-    "@sentry/vite-plugin": "catalog:",
     "@solid-primitives/i18n": "2.2.1",
     "@solid-primitives/storage": "catalog:",
     "@solidjs/meta": "catalog:",

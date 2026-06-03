@@ -1,6 +1,6 @@
 import { Layer, ManagedRuntime } from "effect"
 import { attach } from "./run-service"
-import * as Observability from "@homecode-ai/core/effect/observability"
+import * as EffectLogger from "@homecode-ai/core/effect/logger"
 
 import { AppFileSystem } from "@homecode-ai/core/filesystem"
 import { Bus } from "@/bus"
@@ -114,7 +114,7 @@ export const AppLayer = Layer.mergeAll(
   SyncEvent.defaultLayer,
   EventV2Bridge.defaultLayer,
   DataMigration.defaultLayer,
-).pipe(Layer.provideMerge(InstanceLayer.layer), Layer.provideMerge(Observability.layer))
+).pipe(Layer.provideMerge(InstanceLayer.layer), Layer.provideMerge(EffectLogger.layer))
 
 const rt = ManagedRuntime.make(AppLayer, { memoMap })
 type Runtime = Pick<typeof rt, "runSync" | "runPromise" | "runPromiseExit" | "runFork" | "runCallback" | "dispose">

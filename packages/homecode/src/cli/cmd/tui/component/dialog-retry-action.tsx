@@ -7,7 +7,7 @@ import { Link } from "@tui/ui/link"
 import { BgPulse } from "./bg-pulse"
 import { useBindings } from "../keymap"
 
-const GO_URL = "https://homecode.ai/go"
+const GO_URL = "https://github.com/AlexanderKyng/homecode"
 const PAD_X = 3
 const PAD_TOP_OUTER = 1
 const FOREGROUND_ALPHA = 186

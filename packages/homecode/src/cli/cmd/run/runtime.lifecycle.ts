@@ -11,7 +11,6 @@
 import { createCliRenderer, type CliRenderer, type ScrollbackWriter } from "@opentui/core"
 import { Session as SessionApi } from "@/session/session"
 import * as Locale from "@/util/locale"
-import { withRunSpan } from "./otel"
 import { resolveInteractiveStdin } from "./runtime.stdin"
 import { entrySplash, exitSplash, splashMeta } from "./splash"
 import { resolveRunTheme } from "./theme"
@@ -156,158 +155,135 @@ function queueSplash(
 // scrollback commits and footer repaints happen in the same frame. After
 // the entry splash, RunFooter takes over the footer region.
 export async function createRuntimeLifecycle(input: LifecycleInput): Promise<Lifecycle> {
-  return withRunSpan(
-    "RunLifecycle.boot",
-    {
-      "homecode.agent.name": input.agent,
-      "homecode.directory": input.directory,
-      "homecode.first": input.first,
-      "homecode.model.provider": input.model?.providerID,
-      "homecode.model.id": input.model?.modelID,
-      "homecode.model.variant": input.variant,
-      "session.id": input.getSessionID?.() || input.sessionID || undefined,
-    },
-    async () => {
-      const source = resolveInteractiveStdin()
+  const source = resolveInteractiveStdin()
+
+  try {
+    const renderer = await createCliRenderer({
+      stdin: source.stdin,
+      targetFps: 30,
+      maxFps: 60,
+      useMouse: false,
+      autoFocus: false,
+      openConsoleOnError: false,
+      exitOnCtrlC: false,
+      useKittyKeyboard: { events: process.platform === "win32" },
+      screenMode: "split-footer",
+      footerHeight: FOOTER_HEIGHT,
+      externalOutputMode: "capture-stdout",
+      consoleMode: "disabled",
+      clearOnShutdown: false,
+    })
+    const theme = await resolveRunTheme(renderer)
+    renderer.setBackgroundColor(theme.background)
+    const state: SplashState = {
+      entry: false,
+      exit: false,
+    }
+    const splash = splashInfo(input.sessionTitle, input.history)
+    const meta = splashMeta({
+      title: splash.title,
+      session_id: input.sessionID,
+    })
+    const footerTask = import("./footer")
+    const wrote = queueSplash(
+      renderer,
+      state,
+      "entry",
+      entrySplash({
+        ...meta,
+        theme: theme.splash,
+        showSession: splash.showSession,
+      }),
+    )
+    await renderer.idle().catch(() => {})
+
+    const { RunFooter } = await footerTask
+
+    const labels = footerLabels({
+      agent: input.agent,
+      model: input.model,
+      variant: input.variant,
+    })
+    const footer = new RunFooter(renderer, {
+      directory: input.directory,
+      findFiles: input.findFiles,
+      agents: input.agents,
+      resources: input.resources,
+      sessionID: input.getSessionID ?? (() => input.sessionID),
+      ...labels,
+      model: input.model,
+      variant: input.variant,
+      first: input.first,
+      history: input.history,
+      theme,
+      wrote,
+      keybinds: input.keybinds,
+      diffStyle: input.diffStyle,
+      onPermissionReply: input.onPermissionReply,
+      onQuestionReply: input.onQuestionReply,
+      onQuestionReject: input.onQuestionReject,
+      onCycleVariant: input.onCycleVariant,
+      onModelSelect: input.onModelSelect,
+      onVariantSelect: input.onVariantSelect,
+      onInterrupt: input.onInterrupt,
+      onSubagentSelect: input.onSubagentSelect,
+    })
+
+    const sigint = () => {
+      footer.requestExit()
+    }
+    process.on("SIGINT", sigint)
+
+    let closed = false
+    const close = async (next: {
+      showExit: boolean
+      sessionTitle?: string
+      sessionID?: string
+      history?: RunPrompt[]
+    }) => {
+      if (closed) {
+        return
+      }
+
+      closed = true
+      process.off("SIGINT", sigint)
 
       try {
-        const renderer = await createCliRenderer({
-          stdin: source.stdin,
-          targetFps: 30,
-          maxFps: 60,
-          useMouse: false,
-          autoFocus: false,
-          openConsoleOnError: false,
-          exitOnCtrlC: false,
-          useKittyKeyboard: { events: process.platform === "win32" },
-          screenMode: "split-footer",
-          footerHeight: FOOTER_HEIGHT,
-          externalOutputMode: "capture-stdout",
-          consoleMode: "disabled",
-          clearOnShutdown: false,
-        })
-        const theme = await resolveRunTheme(renderer)
-        renderer.setBackgroundColor(theme.background)
-        const state: SplashState = {
-          entry: false,
-          exit: false,
-        }
-        const splash = splashInfo(input.sessionTitle, input.history)
-        const meta = splashMeta({
-          title: splash.title,
-          session_id: input.sessionID,
-        })
-        const footerTask = import("./footer")
-        const wrote = queueSplash(
-          renderer,
-          state,
-          "entry",
-          entrySplash({
-            ...meta,
-            theme: theme.splash,
-            showSession: splash.showSession,
-          }),
-        )
-        await renderer.idle().catch(() => {})
+        await footer.idle().catch(() => {})
 
-        const { RunFooter } = await footerTask
-
-        const labels = footerLabels({
-          agent: input.agent,
-          model: input.model,
-          variant: input.variant,
-        })
-        const footer = new RunFooter(renderer, {
-          directory: input.directory,
-          findFiles: input.findFiles,
-          agents: input.agents,
-          resources: input.resources,
-          sessionID: input.getSessionID ?? (() => input.sessionID),
-          ...labels,
-          model: input.model,
-          variant: input.variant,
-          first: input.first,
-          history: input.history,
-          theme,
-          wrote,
-          keybinds: input.keybinds,
-          diffStyle: input.diffStyle,
-          onPermissionReply: input.onPermissionReply,
-          onQuestionReply: input.onQuestionReply,
-          onQuestionReject: input.onQuestionReject,
-          onCycleVariant: input.onCycleVariant,
-          onModelSelect: input.onModelSelect,
-          onVariantSelect: input.onVariantSelect,
-          onInterrupt: input.onInterrupt,
-          onSubagentSelect: input.onSubagentSelect,
-        })
-
-        const sigint = () => {
-          footer.requestExit()
-        }
-        process.on("SIGINT", sigint)
-
-        let closed = false
-        const close = async (next: {
-          showExit: boolean
-          sessionTitle?: string
-          sessionID?: string
-          history?: RunPrompt[]
-        }) => {
-          if (closed) {
-            return
-          }
-
-          closed = true
-          return withRunSpan(
-            "RunLifecycle.close",
-            {
-              "homecode.show_exit": next.showExit,
-              "session.id": next.sessionID || input.getSessionID?.() || input.sessionID || undefined,
-            },
-            async () => {
-              process.off("SIGINT", sigint)
-
-              try {
-                await footer.idle().catch(() => {})
-
-                const show = renderer.isDestroyed ? false : next.showExit
-                if (!renderer.isDestroyed && show) {
-                  const sessionID = next.sessionID || input.getSessionID?.() || input.sessionID
-                  const splash = splashInfo(next.sessionTitle ?? input.sessionTitle, next.history ?? input.history)
-                  queueSplash(
-                    renderer,
-                    state,
-                    "exit",
-                    exitSplash({
-                      ...splashMeta({
-                        title: splash.title,
-                        session_id: sessionID,
-                      }),
-                      theme: theme.splash,
-                    }),
-                  )
-                  await renderer.idle().catch(() => {})
-                }
-              } finally {
-                footer.close()
-                await footer.idle().catch(() => {})
-                footer.destroy()
-                shutdown(renderer)
-                source.cleanup?.()
-              }
-            },
+        const show = renderer.isDestroyed ? false : next.showExit
+        if (!renderer.isDestroyed && show) {
+          const sessionID = next.sessionID || input.getSessionID?.() || input.sessionID
+          const splash = splashInfo(next.sessionTitle ?? input.sessionTitle, next.history ?? input.history)
+          queueSplash(
+            renderer,
+            state,
+            "exit",
+            exitSplash({
+              ...splashMeta({
+                title: splash.title,
+                session_id: sessionID,
+              }),
+              theme: theme.splash,
+            }),
           )
+          await renderer.idle().catch(() => {})
         }
-
-        return {
-          footer,
-          close,
-        }
-      } catch (error) {
+      } finally {
+        footer.close()
+        await footer.idle().catch(() => {})
+        footer.destroy()
+        shutdown(renderer)
         source.cleanup?.()
-        throw error
       }
-    },
-  )
+    }
+
+    return {
+      footer,
+      close,
+    }
+  } catch (error) {
+    source.cleanup?.()
+    throw error
+  }
 }

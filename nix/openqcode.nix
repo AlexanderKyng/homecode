@@ -94,7 +94,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   meta = {
     description = "The open source coding agent";
-    homepage = "https://homecode.ai";
+    homepage = "https://github.com/AlexanderKyng/homecode";
     license = lib.licenses.mit;
     mainProgram = "homecode";
     inherit (node_modules.meta) platforms;

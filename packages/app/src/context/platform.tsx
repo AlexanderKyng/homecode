@@ -12,14 +12,6 @@ type UpdateInfo = { updateAvailable: boolean; version?: string }
 type PlatformName = "web" | "desktop"
 type DesktopOS = "macos" | "windows" | "linux"
 
-export type FatalRendererErrorLog = {
-  error: string
-  url: string
-  version?: string
-  platform: PlatformName
-  os?: DesktopOS
-}
-
 export type Platform = {
   /** Platform discriminator */
   platform: PlatformName
@@ -110,9 +102,6 @@ export type Platform = {
 
   /** Export collected diagnostic logs (desktop only) */
   exportDebugLogs?(): Promise<string>
-
-  /** Record a fatal renderer error in platform logs (desktop only) */
-  recordFatalRendererError?(error: FatalRendererErrorLog): Promise<void>
 }
 
 export type DisplayBackend = "auto" | "wayland"

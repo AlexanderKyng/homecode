@@ -32,8 +32,8 @@ describe("ZenmuxPlugin", () => {
         })
       })
       const result = yield* catalog.provider.get(ProviderV2.ID.make("zenmux"))
-      expect(result.options.headers).toEqual({ "HTTP-Referer": "https://homecode.ai/", "X-Title": "homecode" })
-      expect(Object.keys(result.options.headers).sort()).toEqual(["HTTP-Referer", "X-Title"])
+      expect(result.options.headers).toEqual({ "X-Title": "homecode" })
+      expect(Object.keys(result.options.headers).sort()).toEqual(["X-Title"])
     }),
   )
 
@@ -56,7 +56,6 @@ describe("ZenmuxPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("zenmux"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
       })
     }),
@@ -72,7 +71,7 @@ describe("ZenmuxPlugin", () => {
         const item = provider("zenmux", {
           endpoint: { type: "aisdk", package: "@ai-sdk/openai-compatible", url: "https://zenmux.ai/api/v1" },
           options: {
-            headers: { "HTTP-Referer": "https://example.com/", "X-Title": "custom-title" },
+            headers: { "X-Title": "custom-title" },
             body: {},
             aisdk: { provider: {}, request: {} },
           },
@@ -84,7 +83,6 @@ describe("ZenmuxPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("zenmux"))).options.headers).toEqual({
-        "HTTP-Referer": "https://example.com/",
         "X-Title": "custom-title",
       })
     }),
@@ -99,7 +97,7 @@ describe("ZenmuxPlugin", () => {
       yield* load((catalog) => {
         const item = provider("openrouter", {
           options: {
-            headers: { "HTTP-Referer": "https://example.com/", "X-Title": "custom-title" },
+            headers: { "X-Title": "custom-title" },
             body: {},
             aisdk: { provider: {}, request: {} },
           },
@@ -110,7 +108,6 @@ describe("ZenmuxPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.openrouter)).options.headers).toEqual({
-        "HTTP-Referer": "https://example.com/",
         "X-Title": "custom-title",
       })
     }),

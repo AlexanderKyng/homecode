@@ -18,7 +18,7 @@ describe("OpenRouterPlugin", () => {
     ),
   )
 
-  it.effect("applies legacy referer headers only to openrouter", () =>
+  it.effect("applies legacy headers only to openrouter", () =>
     Effect.gen(function* () {
       const plugin = yield* PluginV2.Service
       const catalog = yield* Catalog.Service
@@ -38,7 +38,6 @@ describe("OpenRouterPlugin", () => {
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("openrouter"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({})

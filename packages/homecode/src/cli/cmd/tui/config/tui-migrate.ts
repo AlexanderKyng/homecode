@@ -11,7 +11,7 @@ import * as ConfigPaths from "@/config/paths"
 
 const log = Log.create({ service: "tui.migrate" })
 
-const TUI_SCHEMA_URL = "https://homecode.ai/tui.json"
+const TUI_SCHEMA_URL = "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/tui.json"
 
 const decodeTheme = Schema.decodeUnknownOption(Schema.String)
 const decodeRecord = Schema.decodeUnknownOption(Schema.Record(Schema.String, Schema.Unknown))

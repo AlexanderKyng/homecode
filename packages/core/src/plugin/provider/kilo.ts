@@ -11,7 +11,6 @@ export const KiloPlugin = PluginV2.define({
           if (item.provider.endpoint.package !== "@ai-sdk/openai-compatible") continue
           if (item.provider.endpoint.url !== "https://api.kilo.ai/api/gateway") continue
           evt.provider.update(item.provider.id, (provider) => {
-            provider.options.headers["HTTP-Referer"] = "https://homecode.ai/"
             provider.options.headers["X-Title"] = "homecode"
           })
         }

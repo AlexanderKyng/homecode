@@ -143,7 +143,8 @@ export const Info = Schema.Struct({
     description: "Server configuration for homecode serve and web commands",
   }),
   command: Schema.optional(Schema.Record(Schema.String, ConfigCommand.Info)).annotate({
-    description: "Command configuration, see https://homecode.ai/docs/commands",
+    description:
+      "Command configuration, see https://github.com/AlexanderKyng/homecode/blob/dev/packages/docs/docs/commands.md",
   }),
   skills: Schema.optional(ConfigSkills.Info).annotate({ description: "Additional skill folder paths" }),
   reference: Schema.optional(ConfigReference.Info).annotate({
@@ -216,7 +217,10 @@ export const Info = Schema.Struct({
       }),
       [Schema.Record(Schema.String, ConfigAgent.Info)],
     ),
-  ).annotate({ description: "Agent configuration, see https://homecode.ai/docs/agents" }),
+  ).annotate({
+    description:
+      "Agent configuration, see https://github.com/AlexanderKyng/homecode/blob/dev/packages/docs/docs/agents.md",
+  }),
   provider: Schema.optional(Schema.Record(Schema.String, ConfigProvider.Info)).annotate({
     description: "Custom provider configurations and model overrides",
   }),
@@ -289,9 +293,6 @@ export const Info = Schema.Struct({
     Schema.Struct({
       disable_paste_summary: Schema.optional(Schema.Boolean),
       batch_tool: Schema.optional(Schema.Boolean).annotate({ description: "Enable the batch tool" }),
-      openTelemetry: Schema.optional(Schema.Boolean).annotate({
-        description: "Enable OpenTelemetry spans for AI SDK calls (using the 'experimental_telemetry' flag)",
-      }),
       primary_tools: Schema.optional(Schema.mutable(Schema.Array(Schema.String))).annotate({
         description: "Tools that should only be available to primary agents.",
       }),
@@ -426,8 +427,11 @@ export const layer = Layer.effect(
 
       yield* Effect.promise(() => resolveLoadedPlugins(data, options.path))
       if (!data.$schema) {
-        data.$schema = "https://homecode.ai/config.json"
-        const updated = text.replace(/^\s*\{/, '{\n  "$schema": "https://homecode.ai/config.json",')
+        data.$schema = "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/config.json"
+        const updated = text.replace(
+          /^\s*\{/,
+          '{\n  "$schema": "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/config.json",',
+        )
         yield* fs.writeFileString(options.path, updated).pipe(Effect.catch(() => Effect.void))
       }
       return data
@@ -448,7 +452,14 @@ export const layer = Layer.effect(
         const file = globalConfigFile()
         if (!existsSync(file)) {
           yield* fs
-            .writeWithDirs(file, JSON.stringify({ $schema: "https://homecode.ai/config.json" }, null, 2))
+            .writeWithDirs(
+              file,
+              JSON.stringify(
+                { $schema: "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/config.json" },
+                null,
+                2,
+              ),
+            )
             .pipe(Effect.catch(() => Effect.void))
         }
       }
@@ -463,7 +474,7 @@ export const layer = Layer.effect(
             .then(async (mod) => {
               const { provider, model, ...rest } = mod.default
               if (provider && model) result.model = `${provider}/${model}`
-              result["$schema"] = "https://homecode.ai/config.json"
+              result["$schema"] = "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/config.json"
               result = mergeConfig(result, rest)
               await fsNode.writeFile(path.join(Global.Path.config, "config.json"), JSON.stringify(result, null, 2))
               await fsNode.unlink(legacy)
@@ -576,7 +587,8 @@ export const layer = Layer.effect(
                 })
               : {}
             const remoteConfig = mergeConfig(isRecord(wellknown.config) ? wellknown.config : {}, fetchedConfig)
-            if (!remoteConfig.$schema) remoteConfig.$schema = "https://homecode.ai/config.json"
+            if (!remoteConfig.$schema)
+              remoteConfig.$schema = "https://raw.githubusercontent.com/AlexanderKyng/homecode/dev/schema/config.json"
             const source = wellknownURL
             const next = yield* loadConfig(
               JSON.stringify(remoteConfig),

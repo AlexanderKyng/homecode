@@ -14,7 +14,6 @@ import {
   type ScrollbackSurface,
 } from "@opentui/core"
 import { entryBody, entryCanStream, entryDone, entryFlags } from "./entry.body"
-import { withRunSpan } from "./otel"
 import { entryColor, entryLook, entrySyntax } from "./scrollback.shared"
 import { entryWriter, sameEntryGroup, separatorRows, spacerWriter } from "./scrollback.writer"
 import { type RunTheme } from "./theme"
@@ -368,20 +367,6 @@ export class RunScrollbackStream {
     }
 
     this.active = undefined
-  }
-
-  public async complete(trailingNewline = false): Promise<void> {
-    return withRunSpan(
-      "RunScrollbackStream.complete",
-      {
-        "homecode.entry.active": !!this.active,
-        "homecode.trailing_newline": trailingNewline,
-        "session.id": this.sessionID?.() || undefined,
-      },
-      async () => {
-        this.markRendered(await this.finishActive(trailingNewline))
-      },
-    )
   }
 
   public destroy(): void {

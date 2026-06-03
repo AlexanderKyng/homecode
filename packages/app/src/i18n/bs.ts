@@ -137,7 +137,7 @@ export const dict = {
   "provider.connect.homecodeZen.line2":
     "Sa jednim API ključem dobijaš pristup modelima kao što su Claude, GPT, Gemini, GLM i drugi.",
   "provider.connect.homecodeZen.visit.prefix": "Posjeti ",
-  "provider.connect.homecodeZen.visit.link": "homecode.ai/zen",
+  "provider.connect.homecodeZen.visit.link": "https://github.com/AlexanderKyng/homecode",
   "provider.connect.homecodeZen.visit.suffix": " da preuzmeš svoj API ključ.",
   "provider.connect.oauth.code.visit.prefix": "Posjeti ",
   "provider.connect.oauth.code.visit.link": "ovaj link",

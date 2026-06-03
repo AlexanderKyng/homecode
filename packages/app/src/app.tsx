@@ -1,5 +1,4 @@
 import "@/index.css"
-import * as Sentry from "@sentry/solid"
 import { I18nProvider } from "@homecode-ai/ui/context"
 import { DialogProvider } from "@homecode-ai/ui/context/dialog"
 import { FileComponentProvider } from "@homecode-ai/ui/context/file"
@@ -166,7 +165,7 @@ export function AppBaseProviders(props: ParentProps<{ locale?: Locale }>) {
           <UiI18nBridge>
             <ErrorBoundary
               fallback={(error) => {
-                Sentry.captureException(error)
+                return <ErrorPage error={error} />
                 return <ErrorPage error={error} />
               }}
             >

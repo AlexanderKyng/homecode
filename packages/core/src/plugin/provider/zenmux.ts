@@ -11,7 +11,6 @@ export const ZenmuxPlugin = PluginV2.define({
           if (item.provider.endpoint.package !== "@ai-sdk/openai-compatible") continue
           if (item.provider.endpoint.url !== "https://zenmux.ai/api/v1") continue
           evt.provider.update(item.provider.id, (provider) => {
-            provider.options.headers["HTTP-Referer"] ??= "https://homecode.ai/"
             provider.options.headers["X-Title"] ??= "homecode"
           })
         }

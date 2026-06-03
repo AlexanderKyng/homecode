@@ -36,7 +36,6 @@ describe("NvidiaPlugin", () => {
       })
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
         "X-BILLING-INVOKE-ORIGIN": "HomeCode",
       })
@@ -62,7 +61,6 @@ describe("NvidiaPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
         "X-BILLING-INVOKE-ORIGIN": "HomeCode",
       })
@@ -91,7 +89,6 @@ describe("NvidiaPlugin", () => {
       })
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia"))).options.headers).toEqual({
-        "HTTP-Referer": "https://homecode.ai/",
         "X-Title": "homecode",
         "X-BILLING-INVOKE-ORIGIN": "CustomOrigin",
       })

@@ -141,7 +141,7 @@ export const dict = {
   "provider.connect.homecodeZen.line2":
     "Tek bir API anahtarıyla Claude, GPT, Gemini, GLM ve daha fazlası gibi modellere erişebilirsiniz.",
   "provider.connect.homecodeZen.visit.prefix": "",
-  "provider.connect.homecodeZen.visit.link": "homecode.ai/zen",
+  "provider.connect.homecodeZen.visit.link": "https://github.com/AlexanderKyng/homecode",
   "provider.connect.homecodeZen.visit.suffix": " adresini ziyaret ederek API anahtarınızı alın.",
   "provider.connect.oauth.code.visit.prefix":
     "Hesabınızı bağlamak ve HomeCode'da {{provider}} modellerini kullanmak için ",

@@ -429,7 +429,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://homecode.ai/",
             "X-Title": "homecode",
             "X-Source": "homecode",
           },
@@ -440,7 +439,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://homecode.ai/",
             "X-Title": "homecode",
           },
         },
@@ -450,7 +448,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: provider.source === "config",
         options: {
           headers: {
-            "HTTP-Referer": "https://homecode.ai/",
             "X-Title": "homecode",
             "X-BILLING-INVOKE-ORIGIN": "HomeCode",
           },
@@ -461,7 +458,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "http-referer": "https://homecode.ai/",
             "x-title": "homecode",
           },
         },
@@ -567,7 +563,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://homecode.ai/",
             "X-Title": "homecode",
           },
         },
@@ -853,7 +848,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://homecode.ai/",
             "X-Title": "homecode",
           },
         },

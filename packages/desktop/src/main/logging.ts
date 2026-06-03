@@ -1,6 +1,6 @@
 import { MainLogger } from "electron-log"
 import log from "electron-log/main.js"
-import { app, crashReporter, netLog, shell } from "electron"
+import { app, netLog, shell } from "electron"
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs"
 import { ZipWriter, BlobWriter, BlobReader } from "@zip.js/zip.js"
 import { dirname, join } from "node:path"
@@ -33,13 +33,7 @@ export function initLogging() {
   return (logger = log)
 }
 
-export function initCrashReporter() {
-  const dir = join(app.getPath("userData"), "Crashpad")
-  mkdirSync(dir, { recursive: true })
-  app.setPath("crashDumps", dir)
-  crashReporter.start({ uploadToServer: false, compress: true })
-  write("crash", "crash reporter started", { path: dir })
-}
+
 
 export async function startNetLog() {
   if (netLog.currentlyLogging) return
@@ -61,7 +55,7 @@ export async function exportDebugLogs() {
       { name: "manifest.json", data: Buffer.from(JSON.stringify(manifest(), null, 2)) },
       ...collect(root, "desktop"),
       ...serverLogRoots().flatMap((dir, i) => collect(dir, `server-${i + 1}`)),
-      ...collect(app.getPath("crashDumps"), "crashpad"),
+...collect(app.getPath(
     ])
     shell.showItemInFolder(output)
     return output
@@ -143,7 +137,6 @@ function manifest() {
     userData: app.getPath("userData"),
     logs: root,
     currentRun: run,
-    crashDumps: app.getPath("crashDumps"),
     serverLogs: serverLogRoots(),
     netLog: netLogPath,
   }

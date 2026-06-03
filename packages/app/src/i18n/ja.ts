@@ -124,7 +124,7 @@ export const dict = {
     "HomeCode Zenは、コーディングエージェント向けに最適化された信頼性の高いモデルへのアクセスを提供します。",
   "provider.connect.homecodeZen.line2": "1つのAPIキーで、Claude、GPT、Gemini、GLMなどのモデルにアクセスできます。",
   "provider.connect.homecodeZen.visit.prefix": " ",
-  "provider.connect.homecodeZen.visit.link": "homecode.ai/zen",
+  "provider.connect.homecodeZen.visit.link": "https://github.com/AlexanderKyng/homecode",
   "provider.connect.homecodeZen.visit.suffix": " にアクセスしてAPIキーを取得してください。",
   "provider.connect.oauth.code.visit.prefix": " ",
   "provider.connect.oauth.code.visit.link": "このリンク",

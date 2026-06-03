@@ -16,7 +16,6 @@ import { Auth } from "@/auth"
 import { Bus } from "@/bus"
 import { Config } from "@/config/config"
 import { Command } from "@/command"
-import * as Observability from "@homecode-ai/core/effect/observability"
 import { File } from "@/file"
 import { FileWatcher } from "@/file/watcher"
 import { Ripgrep } from "@/file/ripgrep"
@@ -238,7 +237,6 @@ export function createRoutes(
     ]),
     Layer.provide(Layer.succeed(CorsConfig)(corsOptions)),
     Layer.provide(InstanceLayer.layer),
-    Layer.provide(Observability.layer),
   )
 }
 

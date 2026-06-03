@@ -1209,7 +1209,7 @@ export type Config = {
     diff_style?: "auto" | "stacked"
   }
   /**
-   * Command configuration, see https://homecode.ai/docs/commands
+   * Command configuration, see https://github.com/AlexanderKyng/homecode/blob/dev/packages/docs/docs/commands.md
    */
   command?: {
     [key: string]: {
@@ -1266,7 +1266,7 @@ export type Config = {
     [key: string]: AgentConfig | undefined
   }
   /**
-   * Agent configuration, see https://homecode.ai/docs/agent
+   * Agent configuration, see https://github.com/AlexanderKyng/homecode/blob/dev/packages/docs/docs/agents.md
    */
   agent?: {
     plan?: AgentConfig
@@ -1369,10 +1369,7 @@ export type Config = {
      * Enable the batch tool
      */
     batch_tool?: boolean
-    /**
-     * Enable OpenTelemetry spans for AI SDK calls (using the 'experimental_telemetry' flag)
-     */
-    openTelemetry?: boolean
+
     /**
      * Tools that should only be available to primary agents.
      */
