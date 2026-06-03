@@ -2,6 +2,7 @@ import "./init-projectors"
 
 import { NodeHttpServer } from "@effect/platform-node"
 import * as Log from "@homecode-ai/core/util/log"
+import * as EffectLogger from "@homecode-ai/core/effect/logger"
 import { ConfigProvider, Context, Effect, Exit, Layer, Scope } from "effect"
 import { HttpRouter, HttpServer } from "effect/unstable/http"
 import { OpenApi } from "effect/unstable/httpapi"
@@ -73,12 +74,13 @@ export async function openapi() {
 export let url: URL
 
 export async function listen(opts: ListenOptions): Promise<Listener> {
-  const listener = await Effect.runPromise(listenEffect(opts))
+  const listener = await Effect.runPromise(listenEffect(opts).pipe(Effect.provide(EffectLogger.layer)))
   return {
     hostname: listener.hostname,
     port: listener.port,
     url: listener.url,
-    stop: (close?: boolean) => Effect.runPromiseExit(listener.stop(close)).then(() => undefined),
+    stop: (close?: boolean) =>
+      Effect.runPromiseExit(listener.stop(close).pipe(Effect.provide(EffectLogger.layer))).then(() => undefined),
   }
 }
 

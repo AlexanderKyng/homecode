@@ -1,3 +1,4 @@
+import * as EffectLogger from "@homecode-ai/core/effect/logger"
 import { Config as EffectConfig, Context, Effect, Layer } from "effect"
 import { HttpApiBuilder, OpenApi } from "effect/unstable/httpapi"
 import {
@@ -237,6 +238,7 @@ export function createRoutes(
     ]),
     Layer.provide(Layer.succeed(CorsConfig)(corsOptions)),
     Layer.provide(InstanceLayer.layer),
+    Layer.provideMerge(EffectLogger.layer),
   )
 }
 
