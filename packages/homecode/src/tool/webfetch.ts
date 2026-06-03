@@ -278,7 +278,17 @@ function convertHTMLToMarkdown(html: string): string {
     codeBlockStyle: "fenced",
     emDelimiter: "*",
   })
-  turndownService.remove(["script", "style", "meta", "link", "video", "noscript", "figure", "figcaption", "svg"])
+  turndownService.remove([
+    "script",
+    "style",
+    "meta",
+    "link",
+    "video",
+    "noscript",
+    "figure",
+    "figcaption",
+    "svg" as keyof HTMLElementTagNameMap,
+  ])
   return turndownService.turndown(html)
 }
 
