@@ -1,0 +1,27 @@
+Execute Python code and manage files inside a secure, isolated WebAssembly (WASM) sandbox powered by Pyodide.
+
+## Python Execution
+
+Run Python code with persistent state (like a REPL). Variables, imports, and functions
+persist across calls within the same session. The sandbox comes pre-loaded with common
+packages like numpy, pandas, matplotlib, and others.
+
+## Package Installation
+
+Use the 'command' parameter with 'pip install <package>' to install additional pure Python
+packages from PyPI via micropip. Note that native C-extensions may not be supported
+unless specifically built for Pyodide.
+
+## File Operations
+
+Read and write files inside the sandbox's virtual in-memory filesystem (MEMFS).
+Files can also be accessed via Python code (open(), pandas.read_csv(), etc.).
+Note: This is an isolated virtual filesystem; files do not persist on the host system.
+
+## Key Points
+
+- State persists across python calls within a session (REPL-like behavior).
+- Use reset=true to clear the Python execution context and start fresh.
+- The sandbox runs entirely in-process using WebAssembly (no Docker required).
+- Each execution has a default 60-second timeout.
+- The sandbox is completely isolated from the host filesystem and network.

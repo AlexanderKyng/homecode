@@ -30,6 +30,8 @@ import * as Log from "@homecode-ai/core/util/log"
 import { LspTool } from "./lsp"
 import { GitHubTool } from "./github"
 import { MempalaceTool } from "./mempalace"
+import { makePythonTool } from "./python/python"
+import { layer as PythonSandboxLayer, Service as PythonSandboxService } from "./python/sandbox"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
 import { Glob } from "@homecode-ai/core/util/glob"
@@ -40,6 +42,7 @@ import { FetchHttpClient, HttpClient } from "effect/unstable/http"
 import { ChildProcessSpawner } from "effect/unstable/process/ChildProcessSpawner"
 import { CrossSpawnSpawner } from "@homecode-ai/core/cross-spawn-spawner"
 import { Ripgrep } from "../file/ripgrep"
+import { InstanceRef } from "@/effect/instance-ref"
 import { Format } from "../format"
 import { InstanceState } from "@/effect/instance-state"
 import { EffectBridge } from "@/effect/bridge"
@@ -107,6 +110,7 @@ export const layer: Layer.Layer<
   | Format.Service
   | Truncate.Service
   | RuntimeFlags.Service
+  | PythonSandboxService
 > = Layer.effect(
   Service,
   Effect.gen(function* () {
@@ -138,10 +142,12 @@ export const layer: Layer.Layer<
     const skilltool = yield* SkillTool
     const github = yield* GitHubTool
     const mempalace = yield* MempalaceTool
+    const pythonSvc = yield* PythonSandboxService
+    const python = yield* makePythonTool(pythonSvc)
     const agent = yield* Agent.Service
 
-    const state = yield* InstanceState.make<State>(
-      Effect.fn("ToolRegistry.state")(function* (ctx) {
+    const state = yield* InstanceState.make<State>((ctx) =>
+      Effect.gen(function* () {
         const custom: Tool.Def[] = []
 
         function fromPlugin(id: string, def: ToolDefinition): Tool.Def {
@@ -250,6 +256,7 @@ export const layer: Layer.Layer<
           plan: Tool.init(plan),
           github: Tool.init(github),
           mempalace: Tool.init(mempalace),
+          python: Tool.init(python),
         })
 
         return {
@@ -275,11 +282,12 @@ export const layer: Layer.Layer<
             ...(flags.experimentalLspTool ? [tool.lsp] : []),
             ...(flags.experimentalPlanMode && flags.client === "cli" ? [tool.plan] : []),
             ...(flags.disableMempalace ? [] : [tool.mempalace]),
+            tool.python,
           ],
           task: tool.task,
           read: tool.read,
         }
-      }),
+      }).pipe(Effect.provideService(InstanceRef, ctx)),
     )
 
     const all: Interface["all"] = Effect.fn("ToolRegistry.all")(function* () {
@@ -405,7 +413,8 @@ export const defaultLayer = Layer.suspend(() =>
       Layer.provide(Ripgrep.defaultLayer),
       Layer.provide(Truncate.defaultLayer),
     )
-    .pipe(Layer.provide(RuntimeFlags.defaultLayer)),
+    .pipe(Layer.provide(RuntimeFlags.defaultLayer))
+    .pipe(Layer.provide(PythonSandboxLayer)),
 )
 
 function isZodType(value: unknown): value is z.ZodType {
