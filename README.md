@@ -17,6 +17,9 @@
 
 ---
 
+> [!IMPORTANT]
+> This is a fork of [Opencode](https://github.com/AnomalyCo/opencode), it is not affiliated with any of the original project's creators or contributors.
+
 ### Installation
 
 HomeCode is currently under active development and needs to be built from source.
@@ -36,15 +39,16 @@ NPM and Homebrew installation methods will be added once the project stabilizes.
 
 HomeCode is a fork of [Opencode](https://github.com/AnomalyCo/opencode) redesigned from the ground up for local LLM workflows.
 
-| Feature                     | Description                                                                                                                                     |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Hash-Based Editing**      | Read, Edit, Write, and apply_patch use a line-level hash system, modifying only the lines that change instead of rewriting entire files         |
-| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and MemPalace (persistent local memory) are not available in Opencode |
-| **Toon Compression**        | Tool outputs are compressed via Toon to reduce token usage and verbosity                                                                        |
-| **Local SearXNG**           | WebSearch and CodeSearch run through a local SearXNG instance (Docker deployment required) for privacy and self-hosted control                  |
-| **Zero Telemetry**          | All tracking and telemetry is fully suppressed for complete privacy                                                                             |
-| **Optimized System Prompt** | Revamped tool explanations and system prompt that use fewer tokens while increasing LLM capability                                              |
-| **Vitesse Theme**           | Personalized terminal theme based on the Vitesse VS Code theme                                                                                  |
+| Feature                     | Description                                                                                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Hash-Based Editing**      | Read, Edit, Write, and apply_patch use a line-level hash system, modifying only the lines that change instead of rewriting entire files                       |
+| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and MemPalace (persistent local memory) are not available in Opencode               |
+| **All New Python Tool**     | An original, made from scratch, Python tool built with security and speed in mind. Enables your model to perform quick operations, calculations, you name it. |
+| **Toon Compression**        | Tool outputs are compressed via Toon to reduce token usage and verbosity                                                                                      |
+| **Local SearXNG**           | WebSearch and CodeSearch run through a local SearXNG instance (Docker deployment required) for privacy and self-hosted control                                |
+| **Zero Telemetry**          | All tracking and telemetry is fully suppressed for complete privacy                                                                                           |
+| **Optimized System Prompt** | Revamped tool explanations and system prompt that use fewer tokens while increasing LLM capability                                                            |
+| **Vitesse Theme**           | Personalized terminal theme based on the Vitesse VS Code theme                                                                                                |
 
 ### Targeted Models
 
@@ -62,7 +66,6 @@ Upcoming work includes, but is not limited to:
 - **ZED IDE Integration** — Native integration with the ZED editor
 - **Revamped Hashing** — Improved hashing method to resolve current edge-case bugs
 - **Prompt & Tool Alignment** — Further refinement of system prompts and tool definitions for better LLM alignment
-- **Python Executor** — All-new, secured Python execution environment (Qwen models have shown strong capability with Python tooling)
 
 ### Contributing
 
