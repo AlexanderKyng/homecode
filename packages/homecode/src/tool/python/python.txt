@@ -23,5 +23,6 @@ Note: This is an isolated virtual filesystem; files do not persist on the host s
 - State persists across python calls within a session (REPL-like behavior).
 - Use reset=true to clear the Python execution context and start fresh.
 - The sandbox runs entirely in-process using WebAssembly (no Docker required).
-- Each execution has a default 60-second timeout.
-- The sandbox is completely isolated from the host filesystem and network.
+- Each execution has a default 60-second timeout; long-running scripts are terminated.
+- The sandbox runs in an isolated worker thread that is terminated if a script exceeds its timeout.
+- The sandbox is isolated from the host filesystem via a virtual in-memory filesystem (MEMFS).

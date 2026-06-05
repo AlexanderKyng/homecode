@@ -79,6 +79,23 @@ const createEmbeddedWebUIBundle = async () => {
 }
 
 const embeddedFileMap = skipEmbedWebUi ? null : await createEmbeddedWebUIBundle()
+// Compile pyodide-worker.ts to a standalone ESM module for embedding
+const pyodideWorkerBuild = await Bun.build({
+  entrypoints: ["./src/tool/python/pyodide-worker.ts"],
+  format: "esm",
+  minify: true,
+  sourcemap: "none",
+  splitting: false,
+  target: "node",
+  external: ["pyodide"],
+})
+const pyodideWorkerSource = await pyodideWorkerBuild.outputs[0].text()
+console.log(`Pyodide worker source: ${pyodideWorkerSource.length} bytes`)
+
+// Read pyodide version for CDN fallback
+const pyodidePkgPath = path.join(dir, "node_modules/pyodide/package.json")
+const pyodidePkg = await Bun.file(pyodidePkgPath).json()
+const pyodideVersion = pyodidePkg.version
 
 const allTargets: {
   os: string
@@ -223,6 +240,8 @@ for (const item of targets) {
       OPENCODE_WORKER_PATH: workerPath,
       OPENCODE_CHANNEL: `'${Script.channel}'`,
       OPENCODE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
+      OPENCODE_PYODIDE_WORKER_SOURCE: JSON.stringify(pyodideWorkerSource),
+      OPENCODE_PYODIDE_VERSION: `'${pyodideVersion}'`,
     },
   })
 

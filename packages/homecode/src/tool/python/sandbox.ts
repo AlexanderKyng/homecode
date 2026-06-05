@@ -1,12 +1,42 @@
 import { Effect, Context, Layer } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Log from "@homecode-ai/core/util/log"
-import { loadPyodide, type PyodideInterface } from "pyodide"
+import { readFileSync } from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
 import { InstanceRef } from "@/effect/instance-ref"
 
 const log = Log.create({ service: "python.sandbox" })
+
+declare global {
+  const OPENCODE_PYODIDE_WORKER_SOURCE: string
+  const OPENCODE_PYODIDE_VERSION: string
+}
+
+function createWorkerBlobUrl(): string {
+  // Production/NPM/Standalone: use embedded worker source
+  if (typeof OPENCODE_PYODIDE_WORKER_SOURCE !== "undefined" && OPENCODE_PYODIDE_WORKER_SOURCE) {
+    const blob = new Blob([OPENCODE_PYODIDE_WORKER_SOURCE], { type: "text/javascript" })
+    return URL.createObjectURL(blob)
+  }
+  // Dev mode: read worker source relative to this file
+  const workerUrl = new URL("./pyodide-worker.ts", import.meta.url)
+  const src = readFileSync(fileURLToPath(workerUrl), "utf8")
+  const blob = new Blob([src], { type: "text/javascript" })
+  return URL.createObjectURL(blob)
+}
+
+function resolvePyodideIndexUrl(): string {
+  try {
+    const pyodideUrl = import.meta.resolve("pyodide/package.json")
+    const pyodidePath = fileURLToPath(pyodideUrl)
+    return path.dirname(pyodidePath) + "/"
+  } catch {
+    // Fallback to CDN for standalone binaries without local pyodide on disk
+    const version = typeof OPENCODE_PYODIDE_VERSION !== "undefined" ? OPENCODE_PYODIDE_VERSION : "0.29.4"
+    return `https://cdn.jsdelivr.net/pyodide/v${version}/full/`
+  }
+}
 
 export interface ExecutionResult {
   stdout: string
@@ -36,198 +66,337 @@ export interface Interface {
 
 export class Service extends Context.Service<Service, Interface>()("@homecode/PythonSandbox") {}
 
-export const state = InstanceState.make<Interface, never, never>(
-  (ctx) =>
-    Effect.gen(function* () {
-      let pyodide: PyodideInterface | null = null
-      let stdoutBuffer: string[] = []
-      let stderrBuffer: string[] = []
+// Worker message types (mirror of pyodide-worker.ts)
+interface WorkerResponse {
+  id: number
+  success: boolean
+  error?: string
+}
 
-      const ensureReady = () =>
-        Effect.gen(function* () {
-          try {
-            if (pyodide) return
+interface WorkerInitResponse extends WorkerResponse {
+  type: "init"
+}
 
-            log.info("Loading Pyodide...")
-            pyodide = yield* Effect.promise(() => {
-              // Ensure process is available globally for some Pyodide versions in workers
-              if (typeof globalThis.process === "undefined") {
-                // @ts-ignore
-                globalThis.process = process
-              }
+interface WorkerExecutePythonResponse extends WorkerResponse {
+  type: "executePython"
+  stdout: string
+  stderr: string
+  plots: string[]
+  result?: string
+  executionTimeMs: number
+}
 
-              // Get the directory of the installed pyodide package
-              const pyodideUrl = import.meta.resolve("pyodide/package.json")
-              const pyodidePath = fileURLToPath(pyodideUrl)
-              const indexURL = path.dirname(pyodidePath) + "/"
+interface WorkerExecuteShellResponse extends WorkerResponse {
+  type: "executeShell"
+  stdout: string
+  stderr: string
+  exitCode: number | null
+}
 
-              return loadPyodide({
-                indexURL,
-                stdout: (text) => {
-                  stdoutBuffer.push(text)
-                },
-                stderr: (text) => {
-                  stderrBuffer.push(text)
-                },
-              })
-            })
+interface WorkerReadFileResponse extends WorkerResponse {
+  type: "readFile"
+  content: string
+}
 
-            log.info("Pyodide loaded successfully")
+interface WorkerWriteFileResponse extends WorkerResponse {
+  type: "writeFile"
+}
 
-            // Load scientific stack
-            log.info("Loading scientific stack (numpy, pandas, matplotlib, scipy)...")
-            yield* Effect.promise(() => pyodide!.loadPackage(["micropip", "numpy", "pandas", "matplotlib", "scipy"]))
-            
-            // Set up matplotlib to use a non-interactive backend
-            yield* Effect.promise(() => pyodide!.runPythonAsync(`
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import io
-import base64
+interface WorkerResetResponse extends WorkerResponse {
+  type: "reset"
+}
 
-def _get_matplotlib_plots():
-    plots = []
-    for i in plt.get_fignums():
-        fig = plt.figure(i)
-        buf = io.BytesIO()
-        fig.savefig(buf, format='png')
-        buf.seek(0)
-        img_str = base64.b64encode(buf.read()).decode('utf-8')
-        plots.append(f"data:image/png;base64,{img_str}")
-    plt.close('all')
-    return plots
-`))
-            log.info("Scientific stack and matplotlib hooks ready")
-          } catch (e) {
-            return yield* Effect.fail(new Error(`Failed to initialize Pyodide: ${e}`))
+interface WorkerDestroyResponse extends WorkerResponse {
+  type: "destroy"
+}
+
+interface WorkerPongResponse extends WorkerResponse {
+  type: "pong"
+}
+
+type WorkerResponseMessage =
+  | WorkerInitResponse
+  | WorkerExecutePythonResponse
+  | WorkerExecuteShellResponse
+  | WorkerReadFileResponse
+  | WorkerWriteFileResponse
+  | WorkerResetResponse
+  | WorkerDestroyResponse
+  | WorkerPongResponse
+
+function resolveWorkerPath(): string {
+  return createWorkerBlobUrl()
+}
+
+function workerRequest<T extends WorkerResponseMessage>(
+  worker: Worker,
+  message: Record<string, unknown>,
+  timeoutMs: number,
+): Effect.Effect<T, Error, never> {
+  return Effect.promise(() => {
+    return new Promise<T>((resolve, reject) => {
+      const id = (Date.now() ^ (Math.random() * 0xffffff)) | 0
+      const timer = setTimeout(() => {
+        worker.removeEventListener("message", handler)
+        reject(new Error(`Python sandbox operation timed out after ${timeoutMs}ms`))
+      }, timeoutMs)
+
+      function handler(event: MessageEvent<WorkerResponseMessage>): void {
+        if (event.data.id === id) {
+          clearTimeout(timer)
+          worker.removeEventListener("message", handler)
+          if (event.data.success) {
+            resolve(event.data as T)
+          } else {
+            reject(new Error(event.data.error ?? "Worker returned failure"))
           }
-        })
+        }
+      }
 
-      const executePython = (code: string, _timeoutSeconds = 60) =>
-        Effect.gen(function* () {
-          try {
-            yield* ensureReady()
+      worker.addEventListener("message", handler)
+      worker.postMessage({ ...message, id })
+    })
+  })
+}
 
-            stdoutBuffer = []
-            stderrBuffer = []
-            const start = Date.now()
+function workerRequestWithTerminate<T extends WorkerResponseMessage>(
+  worker: Worker,
+  message: Record<string, unknown>,
+  timeoutMs: number,
+): Effect.Effect<T, Error, never> {
+  return Effect.promise(() => {
+    return new Promise<T>((resolve, reject) => {
+      const id = (Date.now() ^ (Math.random() * 0xffffff)) | 0
+      // Hard timeout that terminates the worker
+      const timer = setTimeout(() => {
+        worker.removeEventListener("message", handler)
+        worker.terminate()
+        reject(new Error(`Python sandbox operation timed out after ${timeoutMs}ms; worker terminated`))
+      }, timeoutMs)
 
-            try {
-              const result = yield* Effect.promise(() => pyodide!.runPythonAsync(code))
-              const plots = (yield* Effect.promise(() =>
-                pyodide!.runPythonAsync("_get_matplotlib_plots()"),
-              )) as any
-              const executionTimeMs = Date.now() - start
-
-              return {
-                stdout: stdoutBuffer.join("\n"),
-                stderr: stderrBuffer.join("\n"),
-                plots: Array.from(plots) as string[],
-                result: result === undefined ? undefined : String(result),
-                executionTimeMs,
-              }
-              } catch (err) {
-              const plots = (yield* Effect.promise(() =>
-                pyodide!.runPythonAsync("_get_matplotlib_plots()"),
-              ).pipe(Effect.orElseSucceed(() => []))) as any
-
-              return {
-                stdout: stdoutBuffer.join("\n"),
-                stderr: stderrBuffer.join("\n"),
-                plots: Array.from(plots) as string[],
-                error: String(err),
-                executionTimeMs: Date.now() - start,
-              }
-              }
-
-          } catch (e) {
-            return yield* Effect.fail(new Error(String(e)))
+      function handler(event: MessageEvent<WorkerResponseMessage>): void {
+        if (event.data.id === id) {
+          clearTimeout(timer)
+          worker.removeEventListener("message", handler)
+          if (event.data.success) {
+            resolve(event.data as T)
+          } else {
+            reject(new Error(event.data.error ?? "Worker returned failure"))
           }
+        }
+      }
+
+      worker.addEventListener("message", handler)
+      worker.postMessage({ ...message, id })
+    })
+  })
+}
+
+export const state = InstanceState.make<Interface, never, never>((ctx) =>
+  Effect.gen(function* () {
+    const workerPath = resolveWorkerPath()
+    let worker: Worker | null = null
+    let initialized = false
+
+    const createWorker = (): Worker => {
+      const w = new Worker(workerPath, { type: "module" } as WorkerOptions)
+      w.onerror = (e) => {
+        const msg = `Pyodide worker error: ${e.message} (${e.filename}:${e.lineno}:${e.colno})`
+        console.error(msg)
+        log.error("pyodide worker error", {
+          message: e.message,
+          filename: e.filename,
+          lineno: e.lineno,
+          colno: e.colno,
         })
+      }
+      return w
+    }
 
-      const executeShell = (command: string, _timeoutSeconds = 60) =>
-        Effect.gen(function* () {
-          try {
-            yield* ensureReady()
+    const getOrCreateWorker = (): Worker => {
+      if (!worker || !initialized) {
+        worker = createWorker()
+        initialized = false
+      }
+      return worker
+    }
 
-            if (command.trim().startsWith("pip install ")) {
-              const pkg = command.trim().replace("pip install ", "")
-              log.info(`Installing package via micropip: ${pkg}`)
-              try {
-                yield* Effect.promise(() => pyodide!.runPythonAsync(`import micropip; await micropip.install('${pkg}')`))
-                return { stdout: `Successfully installed ${pkg}`, stderr: "", exitCode: 0 }
-              } catch (err) {
-                return { stdout: "", stderr: String(err), exitCode: 1 }
-              }
+    // Quick health check: ping the worker and wait for a pong within 5s
+    const pingWorker = (w: Worker): Effect.Effect<void, Error, never> =>
+      Effect.promise(() => {
+        return new Promise<void>((resolve, reject) => {
+          const timer = setTimeout(() => {
+            w.removeEventListener("message", handler)
+            reject(new Error("Pyodide worker did not respond to health check"))
+          }, 5_000)
+
+          function handler(event: MessageEvent<WorkerResponseMessage>): void {
+            if (event.data.id === -1 && event.data.type === "pong") {
+              clearTimeout(timer)
+              w.removeEventListener("message", handler)
+              resolve()
             }
+          }
+
+          w.addEventListener("message", handler)
+          w.postMessage({ type: "ping", id: -1 })
+        })
+      })
+
+    const ensureReady = () =>
+      Effect.gen(function* () {
+        try {
+          if (initialized) return
+
+          const w = getOrCreateWorker()
+
+          // Health check before sending init
+          yield* pingWorker(w)
+
+          const indexURL = resolvePyodideIndexUrl()
+          log.info("Loading Pyodide...", { indexURL })
+
+          yield* workerRequest<WorkerInitResponse>(w, { type: "init", indexURL }, 120_000)
+
+          initialized = true
+          log.info("Pyodide loaded successfully")
+        } catch (e) {
+          // If worker failed during init, recreate it
+          if (worker) {
+            worker.terminate()
+            worker = null
+          }
+          initialized = false
+          return yield* Effect.fail(new Error(`Failed to initialize Pyodide: ${e}`))
+        }
+      })
+
+    const executePython = (code: string, timeoutSeconds = 60) =>
+      Effect.gen(function* () {
+        try {
+          yield* ensureReady()
+
+          const w = getOrCreateWorker()
+          const timeoutMs = timeoutSeconds * 1000
+
+          // Use terminate-on-timeout for Python execution (the dangerous path)
+          try {
+            const result = yield* workerRequestWithTerminate<WorkerExecutePythonResponse>(
+              w,
+              { type: "executePython", code },
+              timeoutMs,
+            )
+
+            return {
+              stdout: result.stdout,
+              stderr: result.stderr,
+              plots: result.plots,
+              result: result.result,
+              executionTimeMs: result.executionTimeMs,
+            }
+          } catch (err) {
+            // Worker was terminated due to timeout; recreate on next call
+            worker = null
+            initialized = false
 
             return {
               stdout: "",
-              stderr: "Shell commands are not fully supported in the WASM sandbox. Use 'pip install' for packages.",
-              exitCode: 1,
+              stderr: "",
+              plots: [],
+              error: String(err),
+              executionTimeMs: timeoutMs,
             }
-          } catch (e) {
-            return yield* Effect.fail(new Error(String(e)))
           }
-        })
+        } catch (e) {
+          return yield* Effect.fail(new Error(String(e)))
+        }
+      })
 
-      const readFile = (filePath: string) =>
-        Effect.gen(function* () {
-          try {
-            yield* ensureReady()
-            try {
-              const bytes = pyodide!.FS.readFile(filePath)
-              return new TextDecoder().decode(bytes)
-            } catch (err) {
-              return yield* Effect.fail(new Error(`Failed to read file ${filePath}: ${err}`))
-            }
-          } catch (e) {
-            return yield* Effect.fail(new Error(String(e)))
+    const executeShell = (command: string, timeoutSeconds = 60) =>
+      Effect.gen(function* () {
+        try {
+          yield* ensureReady()
+
+          const w = getOrCreateWorker()
+          const result = yield* workerRequest<WorkerExecuteShellResponse>(
+            w,
+            { type: "executeShell", command },
+            timeoutSeconds * 1000,
+          )
+
+          return {
+            stdout: result.stdout,
+            stderr: result.stderr,
+            exitCode: result.exitCode,
+            ...(result.exitCode !== 0 ? { error: result.stderr } : {}),
           }
-        })
+        } catch (e) {
+          return yield* Effect.fail(new Error(String(e)))
+        }
+      })
 
-      const writeFile = (filePath: string, content: string) =>
-        Effect.gen(function* () {
-          try {
-            yield* ensureReady()
-            try {
-              const dir = path.dirname(filePath)
-              if (dir !== "." && dir !== "/") {
-                try {
-                  pyodide!.FS.mkdirTree(dir)
-                } catch (e) {
-                  // Ignore if already exists
-                }
-              }
-              pyodide!.FS.writeFile(filePath, content)
-            } catch (err) {
-              return yield* Effect.fail(new Error(`Failed to write file ${filePath}: ${err}`))
-            }
-          } catch (e) {
-            return yield* Effect.fail(new Error(String(e)))
+    const readFile = (filePath: string) =>
+      Effect.gen(function* () {
+        try {
+          yield* ensureReady()
+
+          const w = getOrCreateWorker()
+          const result = yield* workerRequest<WorkerReadFileResponse>(w, { type: "readFile", filePath }, 30_000)
+
+          return result.content
+        } catch (e) {
+          return yield* Effect.fail(new Error(String(e)))
+        }
+      })
+
+    const writeFile = (filePath: string, content: string) =>
+      Effect.gen(function* () {
+        try {
+          yield* ensureReady()
+
+          const w = getOrCreateWorker()
+          yield* workerRequest<WorkerWriteFileResponse>(w, { type: "writeFile", filePath, content }, 30_000)
+        } catch (e) {
+          return yield* Effect.fail(new Error(String(e)))
+        }
+      })
+
+    const reset = () =>
+      Effect.gen(function* () {
+        try {
+          // Terminate old worker and recreate fresh
+          if (worker) {
+            worker.terminate()
+            worker = null
           }
-        })
+          initialized = false
+          yield* ensureReady()
+        } catch (e) {
+          return yield* Effect.fail(new Error(String(e)))
+        }
+      })
 
-      const reset = () =>
-        Effect.gen(function* () {
-          try {
-            pyodide = null
-            yield* ensureReady()
-          } catch (e) {
-            return yield* Effect.fail(new Error(String(e)))
-          }
-        })
+    const destroy = () =>
+      Effect.gen(function* () {
+        if (worker) {
+          worker.terminate()
+          worker = null
+        }
+        initialized = false
+      })
 
-      const destroy = () =>
-        Effect.gen(function* () {
-          pyodide = null
-        })
+    yield* Effect.addFinalizer(() =>
+      Effect.sync(() => {
+        if (worker) {
+          worker.terminate()
+          worker = null
+        }
+        initialized = false
+      }),
+    )
 
-      yield* Effect.addFinalizer(() => Effect.sync(() => destroy()))
-
-      return { ensureReady, executePython, executeShell, readFile, writeFile, reset, destroy }
-    }).pipe(Effect.provideService(InstanceRef, ctx)),
+    return { ensureReady, executePython, executeShell, readFile, writeFile, reset, destroy }
+  }).pipe(Effect.provideService(InstanceRef, ctx)),
 )
 
 const layer: Layer.Layer<Service> = Layer.effect(

@@ -62,7 +62,6 @@ async function target() {
   if (await Filesystem.exists(fileURLToPath(dist))) return dist
   return new URL("./worker.ts", import.meta.url)
 }
-
 async function input(value?: string) {
   const piped = process.stdin.isTTY ? undefined : await Bun.stdin.text()
   if (!value) return piped
