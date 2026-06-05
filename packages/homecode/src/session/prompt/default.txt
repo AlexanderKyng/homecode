@@ -100,9 +100,10 @@ assistant: `retryRequest` in src/network/client.ts:184
 When editing files, use the hashline workflow for reliability:
 
 1. Observe hashes from `read`, `write`, or `apply_patch` output in format `lineNumber|hash| content`.
-2. Pass those hashes to `edit` with the `edits` array using `replace`, `insert_after`, `delete`, or `replace_block` operations.
-3. Hashes are validated at execution time — if the file content has changed, the edit will fail with a hash mismatch. This prevents silent corruption.
+2. Pass those hashes to `edit` with the `edits` array using `replace`, `insert_after`, `delete`, or `replace_block` operations. Batch multiple non-contiguous edits in one call.
+3. Hashes are validated per-operation — invalid hashes are skipped with a report, valid ones are applied.
 4. After `write` or `apply_patch`, hashes are valid immediately — no `read` required before `edit`.
+5. If a hash mismatch occurs, use `anchorHash` in `read` to re-read only the relevant section instead of the full file.
 
 <example>
 user: Add a new function after line 42 in src/utils.ts

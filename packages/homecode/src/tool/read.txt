@@ -3,6 +3,7 @@ Read local files/directories.
 - filePath must be absolute
 - Returns up to 2000 lines by default
 - offset = starting line (1-based)
+- anchorHash = start from line with this hash (overrides offset). Use after edits shift line numbers.
 - Read later sections with larger offsets
 - Use grep for targeted search in large files
 - Use glob if the path is unknown

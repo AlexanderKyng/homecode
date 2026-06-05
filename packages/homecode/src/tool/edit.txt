@@ -6,6 +6,8 @@ Hashline Mode (edits array) - Preferred:
 - Provide an `edits` array with hash-anchored operations.
 - ALWAYS batch all changes for a file into one tool call.
 - BATCHING RULES: Never target the same line number twice with conflicting operations. For continuous line ranges, use a single `replace_block` instead of multiple `replace`/`delete` operations.
+- If an operation's hash is invalid, it is skipped and reported. Valid operations are still applied.
+- Example: `{ "edits": [{ "op": "replace", "line": 5, "hash": "abc123", "content": "new line" }, { "op": "delete", "line": 42, "hash": "def456" }] }`
 
 Legacy Mode (oldString/newString):
 - You must call the Read tool at least once before editing, or it will error.

@@ -10,7 +10,7 @@ import { assertExternalDirectoryEffect } from "./external-directory"
 import { Instruction } from "../session/instruction"
 import { isPdfAttachment, sniffAttachmentMime } from "@/util/media"
 import { Reference } from "@/reference/reference"
-import { hashLine } from "./hash"
+import { hashLine, normalize } from "./hash"
 
 const DEFAULT_READ_LIMIT = 2000
 const MAX_LINE_LENGTH = 2000
@@ -21,6 +21,47 @@ const SAMPLE_BYTES = 4096
 const SUPPORTED_IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp"])
 
 class ReadStop extends Schema.TaggedErrorClass<ReadStop>()("ReadStop", {}) {}
+
+// Scan a file for a hash anchor. Returns the 1-based line number if found,
+// or undefined with a list of nearby candidate hashes if not found.
+const findLineByHash = Effect.fn("ReadTool.findLineByHash")(function* (
+  fs: AppFileSystem.Interface,
+  filepath: string,
+  targetHash: string,
+) {
+  const decoder = new TextDecoder("utf-8")
+  let lineNum = 0
+  const candidates: Array<{ line: number; hash: string }> = []
+  const maxBytes = 50 * 1024
+  let bytes = 0
+
+  yield* fs.stream(filepath).pipe(
+    Stream.map((chunk) => decoder.decode(chunk, { stream: true })),
+    Stream.splitLines,
+    Stream.runForEach((text) =>
+      Effect.gen(function* () {
+        lineNum++
+        bytes += Buffer.byteLength(text, "utf-8") + 1
+
+        // Collect candidates around the last 20 lines for fallback
+        if (candidates.length >= 20) candidates.shift()
+
+        const hash = hashLine(normalize(text))
+        candidates.push({ line: lineNum, hash })
+
+        if (hash === targetHash) {
+          yield* new ReadStop()
+        }
+        if (bytes > maxBytes) {
+          yield* new ReadStop()
+        }
+      }),
+    ),
+    Effect.catchTag("ReadStop", () => Effect.void),
+  )
+
+  return { lineNum, candidates }
+})
 
 // `offset` and `limit` were originally `z.coerce.number()` — the runtime
 // coercion was useful when the tool was called from a shell but serves no
@@ -38,6 +79,10 @@ export const Parameters = Schema.Struct({
   hashLines: Schema.optional(Schema.Boolean).annotate({
     description:
       "Include short stable hashes for each line (format: lineNumber|hash| content). Default: true. Set to false for legacy line-only format.",
+  }),
+  anchorHash: Schema.optional(Schema.String).annotate({
+    description:
+      "Start reading from the line matching this hash (from a previous read/edit output). Overrides offset. Useful when line numbers have shifted.",
   }),
 })
 
@@ -297,7 +342,24 @@ export const ReadTool = Tool.define(
         return yield* Effect.fail(new Error(`Cannot read binary file: ${filepath}`))
       }
 
-      const file = yield* lines(filepath, { limit: params.limit ?? DEFAULT_READ_LIMIT, offset: params.offset || 1 })
+      // Resolve anchorHash to a line number if provided
+      let resolvedOffset = params.offset || 1
+      if (params.anchorHash) {
+        const { lineNum, candidates } = yield* findLineByHash(fs, filepath, params.anchorHash)
+        const found = candidates.length > 0 && candidates[candidates.length - 1].hash === params.anchorHash
+        if (!found) {
+          const nearby = candidates
+            .slice(-5)
+            .map((c) => `  Line ${c.line}: ${c.hash}`)
+            .join("\n")
+          return yield* Effect.fail(
+            new Error(`Hash "${params.anchorHash}" not found in file. Last scanned lines:\n${nearby}`),
+          )
+        }
+        resolvedOffset = lineNum
+      }
+
+      const file = yield* lines(filepath, { limit: params.limit ?? DEFAULT_READ_LIMIT, offset: resolvedOffset })
       if (file.count < file.offset && !(file.count === 0 && file.offset === 1)) {
         return yield* Effect.fail(
           new Error(`Offset ${file.offset} is out of range for this file (${file.count} lines)`),
@@ -305,6 +367,10 @@ export const ReadTool = Tool.define(
       }
 
       let output = [`<path>${filepath}</path>`, `<type>file</type>`, "<content>\n"].join("\n")
+      if (params.anchorHash) {
+        output += `(Reading from hash "${params.anchorHash}" at line ${file.offset})\n`
+      }
+
       const useHash = params.hashLines !== false
       output += file.raw
         .map((line, i) => {

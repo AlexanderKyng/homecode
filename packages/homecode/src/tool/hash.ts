@@ -14,7 +14,7 @@ export function hashLine(line: string): string {
     h = Math.imul(h, FNV_PRIME)
     h >>>= 0
   }
-  return h.toString(36).slice(0, 4)
+  return h.toString(36).slice(0, 6)
 }
 
 export function normalize(line: string): string {

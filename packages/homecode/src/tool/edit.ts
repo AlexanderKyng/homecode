@@ -75,7 +75,8 @@ export const Parameters = Schema.Struct({
     description: "Legacy: Replace all occurrences of oldString (default false)",
   }),
   edits: Schema.optional(Schema.Array(HashEditSchema)).annotate({
-    description: "Hash-anchored transactional edits (replace, insert_after, delete, replace_block)",
+    description:
+      "Hash-anchored edits (replace, insert_after, delete, replace_block). Multiple non-contiguous edits supported in one call. Invalid hashes are skipped with a report; valid ones are applied.",
   }),
 })
 
@@ -107,6 +108,7 @@ export const EditTool = Tool.define(
           let diff = ""
           let contentOld = ""
           let contentNew = ""
+          let editReport = ""
           yield* lock(filePath).withPermits(1)(
             Effect.gen(function* () {
               if (isHashline) {
@@ -116,10 +118,10 @@ export const EditTool = Tool.define(
                 const source = yield* Bom.readFile(afs, filePath)
                 contentOld = source.text
                 const result = yield* applyHashlineEdits(afs, filePath, params.edits!)
-                const next = Bom.split(result)
+                const next = Bom.split(result.content)
                 const desiredBom = source.bom || next.bom
                 contentNew = next.text
-
+                editReport = result.report ?? ""
                 diff = trimDiff(
                   createTwoFilesPatch(
                     filePath,
@@ -265,7 +267,7 @@ export const EditTool = Tool.define(
             },
           })
 
-          let output = "Edit applied successfully."
+          let output = editReport || "Edit applied successfully."
           yield* lsp.touchFile(filePath, "document")
           const diagnostics = yield* lsp.diagnostics()
           const normalizedFilePath = AppFileSystem.normalizePath(filePath)
@@ -712,25 +714,33 @@ export const ContextAwareReplacer: Replacer = function* (content, find) {
 }
 
 /**
- * Hashline transactional edit engine.
- * Validates hashes BEFORE applying edits. Rejects on mismatch.
+ * Hashline edit engine with partial failure support.
+ * Validates each operation independently. Applies valid ops, reports invalid ones.
  */
+export interface HashlineEditResult {
+  content: string
+  report?: string
+}
+
 export function applyHashlineEdits(
   afs: AppFileSystem.Interface,
   filePath: string,
   edits: readonly Schema.Schema.Type<typeof HashEditSchema>[],
-): Effect.Effect<string, Error, never> {
+): Effect.Effect<HashlineEditResult, Error, never> {
   return Effect.gen(function* () {
     const source = yield* Bom.readFile(afs, filePath)
     const lines = source.text.split(/\r?\n/)
     const ending = detectLineEnding(source.text)
 
-    const operations: Array<{
+    type Operation = {
       index: number
       type: "replace" | "insert" | "delete" | "block"
       endindex?: number
       content?: string
-    }> = []
+    }
+
+    const operations: Operation[] = []
+    const errors: string[] = []
 
     for (const edit of edits) {
       if (edit.op === "replace") {
@@ -744,9 +754,11 @@ export function applyHashlineEdits(
         const expected = normalize(lines[idx])
         const actualHash = hashLine(expected)
         if (actualHash !== edit.hash) {
-          throw new Error(
-            `Hash mismatch at line ${edit.line}: expected ${edit.hash}, got ${actualHash}. File content has changed.`,
+          const displayLine = lines[idx].length > 120 ? lines[idx].slice(0, 120) + "..." : lines[idx]
+          errors.push(
+            `Line ${edit.line}: hash mismatch (expected ${edit.hash}, got ${actualHash}). Current: ${JSON.stringify(displayLine)}`,
           )
+          continue
         }
         operations.push({ index: idx, type: "replace", content: edit.content })
       } else if (edit.op === "insert_after") {
@@ -760,9 +772,11 @@ export function applyHashlineEdits(
         const expected = normalize(lines[idx])
         const actualHash = hashLine(expected)
         if (actualHash !== edit.hash) {
-          throw new Error(
-            `Hash mismatch at line ${edit.line}: expected ${edit.hash}, got ${actualHash}. File content has changed.`,
+          const displayLine = lines[idx].length > 120 ? lines[idx].slice(0, 120) + "..." : lines[idx]
+          errors.push(
+            `Line ${edit.line}: hash mismatch (expected ${edit.hash}, got ${actualHash}). Current: ${JSON.stringify(displayLine)}`,
           )
+          continue
         }
         operations.push({ index: idx, type: "insert", content: edit.content })
       } else if (edit.op === "delete") {
@@ -776,9 +790,11 @@ export function applyHashlineEdits(
         const expected = normalize(lines[idx])
         const actualHash = hashLine(expected)
         if (actualHash !== edit.hash) {
-          throw new Error(
-            `Hash mismatch at line ${edit.line}: expected ${edit.hash}, got ${actualHash}. File content has changed.`,
+          const displayLine = lines[idx].length > 120 ? lines[idx].slice(0, 120) + "..." : lines[idx]
+          errors.push(
+            `Line ${edit.line}: hash mismatch (expected ${edit.hash}, got ${actualHash}). Current: ${JSON.stringify(displayLine)}`,
           )
+          continue
         }
         operations.push({ index: idx, type: "delete" })
       } else if (edit.op === "replace_block") {
@@ -803,17 +819,24 @@ export function applyHashlineEdits(
         }
         const startExpected = normalize(lines[startIdx])
         const startActualHash = hashLine(startExpected)
-        if (startActualHash !== edit.startHash) {
-          throw new Error(
-            `Hash mismatch at start line ${edit.startLine}: expected ${edit.startHash}, got ${startActualHash}. File content has changed.`,
-          )
-        }
         const endExpected = normalize(lines[endIdx])
         const endActualHash = hashLine(endExpected)
-        if (endActualHash !== edit.endHash) {
-          throw new Error(
-            `Hash mismatch at end line ${edit.endLine}: expected ${edit.endHash}, got ${endActualHash}. File content has changed.`,
-          )
+        if (startActualHash !== edit.startHash || endActualHash !== edit.endHash) {
+          const parts: string[] = []
+          if (startActualHash !== edit.startHash) {
+            const displayLine = lines[startIdx].length > 80 ? lines[startIdx].slice(0, 80) + "..." : lines[startIdx]
+            parts.push(
+              `start L${edit.startLine}: expected ${edit.startHash}, got ${startActualHash}. Current: ${JSON.stringify(displayLine)}`,
+            )
+          }
+          if (endActualHash !== edit.endHash) {
+            const displayLine = lines[endIdx].length > 80 ? lines[endIdx].slice(0, 80) + "..." : lines[endIdx]
+            parts.push(
+              `end L${edit.endLine}: expected ${edit.endHash}, got ${endActualHash}. Current: ${JSON.stringify(displayLine)}`,
+            )
+          }
+          errors.push(`Lines ${edit.startLine}-${edit.endLine}: ${parts.join("; ")}`)
+          continue
         }
         operations.push({ index: startIdx, type: "block", endindex: endIdx, content: edit.content ?? "" })
       }
@@ -846,7 +869,18 @@ export function applyHashlineEdits(
       }
     }
 
-    return working.join(ending)
+    // Build report
+    let report: string | undefined
+    if (errors.length > 0) {
+      const applied = operations.length
+      report = [
+        `Edit partially applied: ${applied} of ${edits.length} operations succeeded.`,
+        `Failed operations:`,
+        ...errors.map((e) => `  - ${e}`),
+      ].join("\n")
+    }
+
+    return { content: working.join(ending), report }
   })
 }
 

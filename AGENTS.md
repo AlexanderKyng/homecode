@@ -1,4 +1,4 @@
-This is an under-development fork of Opencode, redesigned for local LLMs.
+This is a fully developed, evolving fork of Opencode, redesigned for local LLMs.
 
 - To regenerate the JavaScript SDK, run `./packages/sdk/js/script/build.ts`.
 - The default branch in this repo is `dev`.
