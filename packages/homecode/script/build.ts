@@ -87,7 +87,6 @@ const pyodideWorkerBuild = await Bun.build({
   sourcemap: "none",
   splitting: false,
   target: "node",
-  external: ["pyodide"],
 })
 const pyodideWorkerSource = await pyodideWorkerBuild.outputs[0].text()
 console.log(`Pyodide worker source: ${pyodideWorkerSource.length} bytes`)
@@ -244,6 +243,10 @@ for (const item of targets) {
       OPENCODE_PYODIDE_VERSION: `'${pyodideVersion}'`,
     },
   })
+  // Copy pyodide runtime files alongside the binary
+  const pyodideSrc = path.join(dir, "node_modules", "pyodide")
+  const pyodideDst = `dist/${name}/bin/pyodide`
+  await $`cp -rL ${pyodideSrc} ${pyodideDst}`
 
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {

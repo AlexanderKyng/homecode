@@ -137,6 +137,16 @@ function installPackage(name) {
     if (result.status !== 0) return
     const packageDir = path.join(temp, "node_modules", name)
     copyBinary(path.join(packageDir, "bin", sourceBinary), targetBinary)
+    // Also copy pyodide runtime alongside the binary
+    const pyodideSrc = path.join(packageDir, "bin", "pyodide")
+    const pyodideDst = path.join(__dirname, "bin", "pyodide")
+    if (fs.existsSync(pyodideSrc)) {
+      fs.mkdirSync(path.dirname(pyodideDst), { recursive: true })
+      if (fs.existsSync(pyodideDst)) {
+        fs.rmSync(pyodideDst, { recursive: true, force: true })
+      }
+      fs.cpSync(pyodideSrc, pyodideDst, { recursive: true })
+    }
     return true
   } finally {
     fs.rmSync(temp, { recursive: true, force: true })
@@ -168,6 +178,18 @@ function main() {
   for (const name of packageNames()) {
     try {
       copyBinary(resolveBinary(name), targetBinary)
+      // Also copy pyodide if available
+      try {
+        const pkgPath = require.resolve(`${name}/package.json`, { paths: [process.cwd()] })
+        const pyodideSrc = path.join(path.dirname(pkgPath), "bin", "pyodide")
+        const pyodideDst = path.join(__dirname, "bin", "pyodide")
+        if (fs.existsSync(pyodideSrc)) {
+          if (fs.existsSync(pyodideDst)) fs.rmSync(pyodideDst, { recursive: true, force: true })
+          fs.cpSync(pyodideSrc, pyodideDst, { recursive: true })
+        }
+      } catch {
+        /* pyodide not available */
+      }
       if (verifyBinary()) return
     } catch {
       if (installPackage(name) && verifyBinary()) return

@@ -1,10 +1,12 @@
 import { Effect, Context, Layer } from "effect"
 import { InstanceState } from "@/effect/instance-state"
 import * as Log from "@homecode-ai/core/util/log"
-import { readFileSync } from "fs"
-import path from "path"
+import { readFileSync, cpSync, existsSync, mkdirSync, rmSync, readdirSync, readlinkSync } from "fs"
+import path, { dirname } from "path"
 import { fileURLToPath } from "url"
 import { InstanceRef } from "@/effect/instance-ref"
+import { randomUUID } from "crypto"
+import { createRequire } from "module"
 
 const log = Log.create({ service: "python.sandbox" })
 
@@ -26,18 +28,96 @@ function createWorkerBlobUrl(): string {
   return URL.createObjectURL(blob)
 }
 
-function resolvePyodideIndexUrl(): string {
+// Cached pyodide runtime staging path
+let stagedPyodidePath: string | undefined
+
+const require = createRequire(import.meta.url + ".js")
+
+function findPyodideRuntimeDir(): string | undefined {
+  // Strategy 1: Next to the running binary (compiled binary with shipped pyodide)
   try {
-    const pyodideUrl = import.meta.resolve("pyodide/package.json")
-    const pyodidePath = fileURLToPath(pyodideUrl)
-    return path.dirname(pyodidePath) + "/"
+    const binaryDir = dirname(process.execPath)
+    const besideBinary = path.join(binaryDir, "pyodide")
+    if (existsSync(path.join(besideBinary, "package.json"))) return besideBinary
   } catch {
-    // Fallback to CDN for standalone binaries without local pyodide on disk
-    const version = typeof OPENCODE_PYODIDE_VERSION !== "undefined" ? OPENCODE_PYODIDE_VERSION : "0.29.4"
-    return `https://cdn.jsdelivr.net/pyodide/v${version}/full/`
+    // fall through
   }
+  // Strategy 1b: Follow symlink chain of execPath (npm global bin -> package bin)
+  try {
+    let target = process.execPath
+    let visited = new Set()
+    while (visited.add(target)) {
+      try {
+        const link = readlinkSync(target)
+        target = path.isAbsolute(link) ? link : path.join(dirname(target), link)
+      } catch {
+        break
+      }
+    }
+    const resolvedDir = dirname(target)
+    const besideResolved = path.join(resolvedDir, "pyodide")
+    if (existsSync(path.join(besideResolved, "package.json"))) return besideResolved
+  } catch {
+    // fall through
+  }
+
+  // Strategy 2: createRequire
+  try {
+    const resolved = require.resolve("pyodide/package.json")
+    if (existsSync(resolved)) return dirname(resolved)
+  } catch {
+    // fall through
+  }
+
+  // Strategy 3: import.meta.resolve
+  try {
+    const url = import.meta.resolve("pyodide/package.json")
+    if (url.startsWith("file://")) {
+      const p = fileURLToPath(url)
+      if (existsSync(p)) return dirname(p)
+    }
+  } catch {
+    // fall through
+  }
+
+  // Strategy 4: Bun's global cache
+  const cacheBase = path.join(process.env.HOME || "/", ".bun", "install", "cache")
+  if (existsSync(cacheBase)) {
+    try {
+      for (const entry of readdirSync(cacheBase)) {
+        if (entry.startsWith("pyodide@")) {
+          const candidate = path.join(cacheBase, entry)
+          if (existsSync(path.join(candidate, "package.json"))) return candidate
+        }
+      }
+    } catch {
+      // fall through
+    }
+  }
+
+  return undefined
+}
+function resolvePyodideIndexUrl(): string {
+  // Return cached path if already staged
+  if (stagedPyodidePath) return stagedPyodidePath
+
+  const runtimeDir = findPyodideRuntimeDir()
+  if (!runtimeDir) {
+    throw new Error("Cannot locate pyodide runtime files")
+  }
+
+  // Stage to temp dir so the worker (running from blob URL) can resolve files
+  const tmpDir = path.join(TMPDIR(), `homecode-pyodide-${randomUUID()}`)
+  mkdirSync(tmpDir, { recursive: true })
+  cpSync(runtimeDir, tmpDir, { recursive: true, force: true })
+
+  stagedPyodidePath = tmpDir + "/"
+  return stagedPyodidePath
 }
 
+function TMPDIR(): string {
+  return process.env.TMPDIR || process.env.TMP || process.env.temp || process.env.tempdir || "/tmp"
+}
 export interface ExecutionResult {
   stdout: string
   stderr: string
