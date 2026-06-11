@@ -227,8 +227,8 @@ const discoverSkills = Effect.fnUntraced(function* (
   }
 
   return {
-    matches: Array.from(state.matches),
-    dirs: Array.from(state.dirs),
+    matches: Array.from(state.matches).sort(),
+    dirs: Array.from(state.dirs).sort(),
   }
 })
 

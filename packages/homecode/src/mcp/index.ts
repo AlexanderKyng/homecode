@@ -675,9 +675,9 @@ export const layer = Layer.effect(
       const config = cfg.mcp ?? {}
       const defaultTimeout = cfg.experimental?.mcp_timeout
 
-      const connectedClients = Object.entries(s.clients).filter(
-        ([clientName]) => s.status[clientName]?.status === "connected",
-      )
+      const connectedClients = Object.entries(s.clients)
+        .filter(([clientName]) => s.status[clientName]?.status === "connected")
+        .toSorted(([a], [b]) => a.localeCompare(b))
 
       yield* Effect.forEach(
         connectedClients,
