@@ -1,4 +1,4 @@
-Execute Python code and manage files inside a secure, isolated WebAssembly (WASM) sandbox powered by Pyodide.
+Execute Python code and manage files inside a secure, isolated WebAssembly (WASM) sandbox powered by Pyodide. Use this tool for ALL Python code execution — never run Python via Bash (except for host-filesystem tools like pytest, ruff, etc.).
 
 ## Python Execution
 

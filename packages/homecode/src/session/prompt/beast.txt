@@ -93,6 +93,10 @@ Carefully read the issue and think hard about a plan to solve it before coding.
 - To test hypotheses, you can also add test statements or functions
 - Revisit your assumptions if unexpected behavior occurs.
 
+# Python execution
+- Always use the dedicated Python tool for Python code execution. Never run Python via Bash (e.g., `python script.py`, `python -c`). Use Bash for Python only when host-filesystem access is required (pytest, ruff, etc.).
+
+
 
 # Communication Guidelines
 Always communicate clearly and concisely in a casual, friendly yet professional tone. 

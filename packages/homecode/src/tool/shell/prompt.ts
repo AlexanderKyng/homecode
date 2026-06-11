@@ -89,7 +89,13 @@ function bashCommandSection(chain: string, limits: Limits, defaultTimeoutMs: num
 Notes:
 - Command required. Default timeout: ${defaultTimeoutMs}ms.
 - Output > ${limits.maxLines} lines or ${limits.maxBytes} bytes truncates to file. Use 'Read'/'Grep' tools on file. NO \`head\`/\`tail\`.
-- USE NATIVE TOOLS over shell cmds unless strictly required:
+   - Python: Python (NOT bash python/pytest/ruff)
+   - File search: Glob (NOT find/ls)
+   - Content search: Grep (NOT grep/rg)
+   - Read files: Read (NOT cat/head/tail)
+   - Edit files: Edit (NOT sed/awk)
+   - Write files: Write (NOT echo >)
+   - Communication: Output text directly (NOT echo)
   - File search: Glob (NOT find/ls)
   - Content search: Grep (NOT grep/rg)
   - Read files: Read (NOT cat/head/tail)
@@ -117,7 +123,13 @@ function powershellCommandSection(
 Notes:
 - Command required. Default timeout: ${defaultTimeoutMs}ms.
 - Output > ${limits.maxLines} lines or ${limits.maxBytes} bytes truncates to file. Use 'Read'/'Grep' tools. NO \`Select-Object\`.
-- USE NATIVE TOOLS over shell cmdlets:
+   - Python: Python (NOT bash python/pytest/ruff)
+   - File search: Glob (NOT Get-ChildItem)
+   - Content search: Grep (NOT Select-String)
+   - Read files: Read (NOT Get-Content)
+   - Edit files: Edit (NOT Set-Content)
+   - Write files: Write (NOT Set-Content/Out-File)
+   - Comm: Output text directly (NOT Write-Host)
   - File search: Glob (NOT Get-ChildItem)
   - Content search: Grep (NOT Select-String)
   - Read files: Read (NOT Get-Content)
@@ -140,7 +152,13 @@ function cmdCommandSection(chain: string, limits: Limits, defaultTimeoutMs: numb
 Notes:
 - Command required. Default timeout: ${defaultTimeoutMs}ms.
 - Output > ${limits.maxLines} lines or ${limits.maxBytes} bytes truncates to file. Use 'Read'/'Grep' tools. NO \`more\`.
-- USE NATIVE TOOLS over shell cmds:
+   - Python: Python (NOT bash python/pytest/ruff)
+   - File search: Glob (NOT dir /s)
+   - Content search: Grep (NOT findstr)
+   - Read files: Read (NOT type)
+   - Edit files: Edit (NOT copy)
+   - Write files: Write (NOT echo >)
+   - Comm: Output text directly (NOT echo)
   - File search: Glob (NOT dir /s)
   - Content search: Grep (NOT findstr)
   - Read files: Read (NOT type)
