@@ -6,11 +6,12 @@ ${workdirSection}
 
 Use `${tmp}` for temporary work outside the workspace. This directory has already been created, already exists, and is pre-approved for external directory access.
 
-IMPORTANT: This tool is for terminal operations like git, npm, docker, etc. DO NOT use it for file operations (reading, writing, editing, searching, finding files) - use the specialized tools for this instead. DO NOT use it for Python execution - use the Python tool instead (except when running host-filesystem Python tools like pytest, ruff, etc.).
+IMPORTANT: This tool is for terminal operations like git, npm, docker, etc. DO NOT use it for file operations (reading, writing, editing, searching, finding files) — use the specialized tools for this instead. DO NOT use it for Python execution — use the Python tool instead (except when running host-filesystem Python tools like pytest, ruff, etc.).
 
 ${commandSection}
 
 # Git and GitHub
+
 - Only commit, amend, push, or create PRs when explicitly requested.
 - Before committing, inspect `git status`, `git diff`, and `git log --oneline -10`; stage only intended files and never commit secrets.
 - Write a concise commit message that matches the repo style.
