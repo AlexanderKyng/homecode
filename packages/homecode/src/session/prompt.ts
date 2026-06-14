@@ -59,7 +59,6 @@ import * as Database from "@/storage/db"
 import { SessionTable } from "./session.sql"
 import { referencePromptMetadata, referenceTextPart } from "./prompt/reference"
 import { SessionReminders } from "./reminders"
-import PLAN_MODE from "./prompt/plan-mode.txt"
 import { SessionTools } from "./tools"
 import { LLMEvent } from "@homecode-ai/llm"
 
@@ -1432,14 +1431,6 @@ export const layer = Layer.effect(
             }
 
             yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
-            const planModeSystem =
-              agent.name === "plan"
-                ? PLAN_MODE.replace("${planInfo}", () => {
-                    const planPath = Session.plan(session, ctx)
-                    const plan = path.relative(ctx.worktree, planPath)
-                    return `Plan file location: ${plan}. Write your plan here.`
-                  })
-                : undefined
 
             const [skills, env, instructions, modelMsgs] = yield* Effect.all([
               sys.skills(agent),
@@ -1447,12 +1438,7 @@ export const layer = Layer.effect(
               instruction.system().pipe(Effect.orDie),
               MessageV2.toModelMessagesEffect(msgs, model),
             ])
-            const system = [
-              ...env,
-              ...(planModeSystem ? [planModeSystem] : []),
-              ...instructions,
-              ...(skills ? [skills] : []),
-            ]
+            const system = [...env, ...instructions, ...(skills ? [skills] : [])]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
             const result = yield* handle.process({
