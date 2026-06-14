@@ -3,11 +3,9 @@ import { Effect } from "effect"
 import { Agent } from "@/agent/agent"
 import { AppFileSystem } from "@homecode-ai/core/filesystem"
 import { InstanceState } from "@/effect/instance-state"
-import { RuntimeFlags } from "@/effect/runtime-flags"
 import { PartID } from "./schema"
 import { MessageV2 } from "./message-v2"
 import * as Session from "./session"
-import PROMPT_PLAN from "./prompt/plan.txt"
 import BUILD_SWITCH from "./prompt/build-switch.txt"
 import PLAN_MODE from "./prompt/plan-mode.txt"
 
@@ -16,7 +14,6 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   agent: Agent.Info
   session: Session.Info
 }) {
-  const flags = yield* RuntimeFlags.Service
   const fsys = yield* AppFileSystem.Service
   const sessions = yield* Session.Service
   const userMessage = input.messages.findLast((msg) => msg.info.role === "user")
@@ -46,18 +43,12 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
     })
   }
 
-  if (!flags.experimentalPlanMode) {
-    if (input.agent.name === "plan") yield* addSynthetic(PROMPT_PLAN)
-    const wasPlan = input.messages.some((msg) => msg.info.role === "assistant" && msg.info.agent === "plan")
-    if (wasPlan && input.agent.name === "build") yield* addSynthetic(BUILD_SWITCH)
-    return input.messages
-  }
-
   const assistantMessage = input.messages.findLast((msg) => msg.info.role === "assistant")
   if (input.agent.name !== "plan" && assistantMessage?.info.agent === "plan") {
     const ctx = yield* InstanceState.context
-    const plan = Session.plan(input.session, ctx)
-    const exists = yield* fsys.existsSafe(plan)
+    const planPath = Session.plan(input.session, ctx)
+    const plan = path.relative(ctx.worktree, planPath)
+    const exists = yield* fsys.existsSafe(planPath)
     const text = exists
       ? `${BUILD_SWITCH}\n\nA plan file exists at ${plan}. You should execute on the plan defined within it`
       : BUILD_SWITCH
@@ -68,9 +59,10 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   if (input.agent.name !== "plan" || assistantMessage?.info.agent === "plan") return input.messages
 
   const ctx = yield* InstanceState.context
-  const plan = Session.plan(input.session, ctx)
-  const exists = yield* fsys.existsSafe(plan)
-  if (!exists) yield* fsys.ensureDir(path.dirname(plan)).pipe(Effect.catch(Effect.die))
+  const planPath = Session.plan(input.session, ctx)
+  const plan = path.relative(ctx.worktree, planPath)
+  const exists = yield* fsys.existsSafe(planPath)
+  if (!exists) yield* fsys.ensureDir(path.dirname(planPath)).pipe(Effect.catch(Effect.die))
   const text = PLAN_MODE.replace("${planInfo}", () =>
     exists
       ? `A plan file already exists at ${plan}. You can read it and make incremental edits using the edit tool.`

@@ -1343,6 +1343,43 @@ export const layer = Layer.effect(
             Effect.provideService(AppFileSystem.Service, fsys),
             Effect.provideService(Session.Service, sessions),
           )
+          // After SessionReminders, truncate plan agent context on transition to build
+          if (agent.name === "build") {
+            const buildUserMsg = msgs.findLast((m) => m.info.role === "user" && m.info.agent === "build")
+            if (buildUserMsg) {
+              const firstUserMsg = msgs.find((m) => m.info.role === "user")
+              const buildMsgID = buildUserMsg.info.id
+              const firstMsgID = firstUserMsg?.info.id ?? buildMsgID
+              msgs = msgs.filter((m) => m.info.id >= buildMsgID || m.info.id === firstMsgID)
+
+              // Add truncation indicator - a synthetic assistant message
+              const truncationMsg: MessageV2.Assistant = {
+                id: MessageID.ascending(),
+                parentID: buildMsgID,
+                role: "assistant",
+                mode: "build",
+                agent: "build",
+                variant: undefined,
+                path: { cwd: ctx.directory, root: ctx.worktree },
+                cost: 0,
+                tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
+                modelID: model.id,
+                providerID: model.providerID,
+                time: { created: Date.now() },
+                sessionID,
+              }
+
+              yield* sessions.updateMessage(truncationMsg)
+              yield* sessions.updatePart({
+                id: PartID.ascending(),
+                messageID: truncationMsg.id,
+                sessionID,
+                type: "text",
+                synthetic: true,
+                text: "Plan context has been compacted. The plan summary and plan content have been preserved in the following user message.",
+              })
+            }
+          }
 
           const msg: MessageV2.Assistant = {
             id: MessageID.ascending(),

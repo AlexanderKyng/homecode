@@ -24,7 +24,7 @@ import type { GlobTool } from "@/tool/glob"
 import type { GrepTool } from "@/tool/grep"
 import type { InvalidTool } from "@/tool/invalid"
 import type { LspTool } from "@/tool/lsp"
-import type { PlanExitTool } from "@/tool/plan"
+import type { PlanExitTool, PlanEnterTool } from "@/tool/plan"
 import type { QuestionTool } from "@/tool/question"
 import type { ReadTool } from "@/tool/read"
 import type { SkillTool } from "@/tool/skill"
@@ -114,6 +114,7 @@ type ToolDefs = {
   github: typeof GitHubTool
   skill: typeof SkillTool
   plan_exit: typeof PlanExitTool
+  plan_enter: typeof PlanEnterTool
 }
 
 type ToolName = keyof ToolDefs
@@ -494,6 +495,15 @@ function runPlanExit(p: ToolProps<typeof PlanExitTool>): ToolInline {
   return {
     icon: "→",
     title: text(p.frame.state.title) || "Switching to build agent",
+    mode: "block",
+    body: p.frame.status === "completed" ? text(p.frame.state.output) : undefined,
+  }
+}
+
+function runPlanEnter(p: ToolProps<typeof PlanEnterTool>): ToolInline {
+  return {
+    icon: "←",
+    title: text(p.frame.state.title) || "Switching to plan agent",
     mode: "block",
     body: p.frame.status === "completed" ? text(p.frame.state.output) : undefined,
   }
@@ -1289,6 +1299,16 @@ const TOOL_RULES = {
       final: false,
     },
     run: runPlanExit,
+    scroll: {
+      start: () => "",
+    },
+  },
+  plan_enter: {
+    view: {
+      output: true,
+      final: false,
+    },
+    run: runPlanEnter,
     scroll: {
       start: () => "",
     },
