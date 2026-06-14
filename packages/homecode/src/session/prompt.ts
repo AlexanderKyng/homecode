@@ -59,6 +59,7 @@ import * as Database from "@/storage/db"
 import { SessionTable } from "./session.sql"
 import { referencePromptMetadata, referenceTextPart } from "./prompt/reference"
 import { SessionReminders } from "./reminders"
+import PLAN_MODE from "./prompt/plan-mode.txt"
 import { SessionTools } from "./tools"
 import { LLMEvent } from "@homecode-ai/llm"
 
@@ -1343,43 +1344,6 @@ export const layer = Layer.effect(
             Effect.provideService(AppFileSystem.Service, fsys),
             Effect.provideService(Session.Service, sessions),
           )
-          // After SessionReminders, truncate plan agent context on transition to build
-          if (agent.name === "build") {
-            const buildUserMsg = msgs.findLast((m) => m.info.role === "user" && m.info.agent === "build")
-            if (buildUserMsg) {
-              const firstUserMsg = msgs.find((m) => m.info.role === "user")
-              const buildMsgID = buildUserMsg.info.id
-              const firstMsgID = firstUserMsg?.info.id ?? buildMsgID
-              msgs = msgs.filter((m) => m.info.id >= buildMsgID || m.info.id === firstMsgID)
-
-              // Add truncation indicator - a synthetic assistant message
-              const truncationMsg: MessageV2.Assistant = {
-                id: MessageID.ascending(),
-                parentID: buildMsgID,
-                role: "assistant",
-                mode: "build",
-                agent: "build",
-                variant: undefined,
-                path: { cwd: ctx.directory, root: ctx.worktree },
-                cost: 0,
-                tokens: { input: 0, output: 0, reasoning: 0, cache: { read: 0, write: 0 } },
-                modelID: model.id,
-                providerID: model.providerID,
-                time: { created: Date.now() },
-                sessionID,
-              }
-
-              yield* sessions.updateMessage(truncationMsg)
-              yield* sessions.updatePart({
-                id: PartID.ascending(),
-                messageID: truncationMsg.id,
-                sessionID,
-                type: "text",
-                synthetic: true,
-                text: "Plan context has been compacted. The plan summary and plan content have been preserved in the following user message.",
-              })
-            }
-          }
 
           const msg: MessageV2.Assistant = {
             id: MessageID.ascending(),
@@ -1468,6 +1432,14 @@ export const layer = Layer.effect(
             }
 
             yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
+            const planModeSystem =
+              agent.name === "plan"
+                ? PLAN_MODE.replace("${planInfo}", () => {
+                    const planPath = Session.plan(session, ctx)
+                    const plan = path.relative(ctx.worktree, planPath)
+                    return `Plan file location: ${plan}. Write your plan here.`
+                  })
+                : undefined
 
             const [skills, env, instructions, modelMsgs] = yield* Effect.all([
               sys.skills(agent),
@@ -1475,7 +1447,12 @@ export const layer = Layer.effect(
               instruction.system().pipe(Effect.orDie),
               MessageV2.toModelMessagesEffect(msgs, model),
             ])
-            const system = [...env, ...instructions, ...(skills ? [skills] : [])]
+            const system = [
+              ...env,
+              ...(planModeSystem ? [planModeSystem] : []),
+              ...instructions,
+              ...(skills ? [skills] : []),
+            ]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
             const result = yield* handle.process({

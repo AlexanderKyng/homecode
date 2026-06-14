@@ -145,7 +145,6 @@ export const layer = Layer.effect(
             ),
             mode: "primary",
             native: true,
-            steps: 25,
           },
           build: {
             name: "build",

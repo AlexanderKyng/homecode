@@ -47,6 +47,10 @@ When researching topics or processing multimedia files:
 - Once you generate or edit media files, read them back before proceeding to verify the content.
 - Avoid installing or deleting anything outside the current working directory. Ask the user for confirmation if necessary.
 
+## Memory
+
+Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
+
 ## Working Environment
 
 The operating environment is not sandboxed — your actions affect the user's system directly. Be cautious. Unless explicitly instructed, do not access files outside the working directory.

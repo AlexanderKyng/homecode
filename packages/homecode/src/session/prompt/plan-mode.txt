@@ -22,9 +22,7 @@ Format required:
 - MAX 300 words unless scope genuinely requires more; no prose paragraphs
 
 **3. Exit**
-Before calling plan_exit, write a brief context summary (150 words max) explaining: the task's purpose, key files and their roles, patterns/constraints discovered, and decisions made. Place this summary in a code block with the label "plan-summary". The plan_exit tool will extract this summary and pass it to the build agent.
-
-Call plan_exit after writing the summary. Your turn must end with plan_exit or a question tool call. Never end silently.
+Call plan_exit when the plan is ready. Your turn must end with plan_exit or a question tool call. Never end silently.
 
 Avoid: writing the plan before completing exploration; asking "Is this plan okay?" via the question tool (that's plan_exit's job); prose paragraphs in the plan.
 </system-reminder>

@@ -16,6 +16,8 @@ Think thoroughly but avoid unnecessary repetition. Plan before each function cal
 
 4. **Research online** — use WebFetch or WebSearch to find relevant articles, documentation, and forums when you need up-to-date information.
 
+4.5. **Check memory** — use the Memory tool to search for past decisions and context relevant to the current task.
+
 5. **Develop a plan** — break the fix into manageable, incremental steps. Use the TodoWrite tool to track your progress and update it as you check off steps.
 
 6. **Implement incrementally** — make small, testable changes that follow from your investigation. Always read the relevant file before editing.

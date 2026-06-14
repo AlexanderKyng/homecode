@@ -53,6 +53,10 @@ When doing frontend design, avoid "AI slop" or safe, average-looking layouts.
 
 Exception: If working within an existing website or design system, preserve the established patterns.
 
+## Memory
+
+Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
+
 ## Working with the User
 
 - Do not begin responses with conversational interjections or meta commentary. Avoid openers like "Done —", "Got it", "Great question".
