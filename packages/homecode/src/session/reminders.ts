@@ -46,33 +46,27 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   }
 
   // Remove stale plan mode reminders when the agent is no longer "plan".
+  // Only strip from the last user message to preserve KV cache prefix stability
+  // in prior messages that are already cached by the LLM server.
   if (agentName !== "plan") {
-    const cleaned = input.messages.map((msg) => {
-      if (msg.info.role !== "user") return msg
-      const parts = msg.parts.filter((p) => {
-        if (p.type !== "text" || !p.synthetic) return true
-        return !p.text.includes("Plan mode active")
-      })
-      if (parts.length === msg.parts.length) return msg
-      return { ...msg, parts }
+    const parts = userMessage.parts.filter((p) => {
+      if (p.type !== "text" || !p.synthetic) return true
+      return !p.text.includes("Plan mode active")
     })
+    userMessage.parts.length = 0
+    userMessage.parts.push(...parts)
 
-    // Inject build mode prompt for non-plan agents.
-    const text = BUILD_MODE
-    yield* addSynthetic(text)
-    return cleaned
+    yield* addSynthetic(BUILD_MODE)
+    return input.messages
   }
 
-  // Plan mode: also remove stale build mode reminders.
-  const cleaned = input.messages.map((msg) => {
-    if (msg.info.role !== "user") return msg
-    const parts = msg.parts.filter((p) => {
-      if (p.type !== "text" || !p.synthetic) return true
-      return !p.text.includes("Build mode active")
-    })
-    if (parts.length === msg.parts.length) return msg
-    return { ...msg, parts }
+  // Plan mode: remove stale build mode reminders only from the last user message.
+  const parts = userMessage.parts.filter((p) => {
+    if (p.type !== "text" || !p.synthetic) return true
+    return !p.text.includes("Build mode active")
   })
+  userMessage.parts.length = 0
+  userMessage.parts.push(...parts)
 
   // Plan mode: inject plan mode reminder with tool restrictions.
   const planPath = Session.plan(input.session, ctx)
@@ -85,7 +79,7 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
       : `No plan file exists yet. You should create your plan at ${plan} using the write tool.`,
   )
   yield* addSynthetic(text)
-  return cleaned
+  return input.messages
 })
 
 export * as SessionReminders from "./reminders"
