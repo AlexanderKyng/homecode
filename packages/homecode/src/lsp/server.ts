@@ -431,11 +431,7 @@ export const Ty: Info = {
     "Pipfile",
     "pyrightconfig.json",
   ]),
-  async spawn(root, _ctx, flags) {
-    if (!flags.experimentalLspTy) {
-      return undefined
-    }
-
+  async spawn(root, _ctx) {
     let binary = which("ty")
 
     const initialization: Record<string, string> = {}
@@ -470,7 +466,7 @@ export const Ty: Info = {
       return
     }
 
-    const proc = spawn(binary, ["server"], {
+    const proc = spawn(binary, ["server", "--output-format", "concise"], {
       cwd: root,
     })
 

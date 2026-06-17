@@ -98,19 +98,6 @@ const kinds = [
   SymbolKind.Enum,
 ]
 
-const filterExperimentalServers = (servers: Record<string, LSPServer.Info>, flags: RuntimeFlags.Info) => {
-  if (flags.experimentalLspTy) {
-    if (servers["pyright"]) {
-      log.info("LSP server pyright is disabled because OPENCODE_EXPERIMENTAL_LSP_TY is enabled")
-      delete servers["pyright"]
-    }
-  } else {
-    if (servers["ty"]) {
-      delete servers["ty"]
-    }
-  }
-}
-
 type LocInput = { file: string; line: number; character: number }
 
 interface State {
@@ -157,8 +144,6 @@ export const layer = Layer.effect(
           for (const server of Object.values(LSPServer)) {
             servers[server.id] = server
           }
-
-          filterExperimentalServers(servers, flags)
 
           if (cfg.lsp !== true) {
             for (const [name, item] of Object.entries(cfg.lsp)) {
