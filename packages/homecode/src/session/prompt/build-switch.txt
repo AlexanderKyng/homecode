@@ -1,3 +1,0 @@
-<system-reminder>
-Your operational mode has changed from plan to build. You are no longer in read-only mode — you may now make file changes, run shell commands, and use all of your tools as needed.
-</system-reminder>

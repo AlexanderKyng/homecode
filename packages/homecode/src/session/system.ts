@@ -12,8 +12,6 @@ import PROMPT_KIMI from "./prompt/kimi.txt"
 import PROMPT_CODEX from "./prompt/codex.txt"
 import PROMPT_TRINITY from "./prompt/trinity.txt"
 import type { Provider } from "@/provider/provider"
-import type { Agent } from "@/agent/agent"
-import { Permission } from "@/permission"
 import { Skill } from "@/skill"
 
 export function provider(model: Provider.Model) {
@@ -34,7 +32,8 @@ export function provider(model: Provider.Model) {
 
 export interface Interface {
   readonly environment: (model: Provider.Model) => Effect.Effect<string[]>
-  readonly skills: (agent: Agent.Info) => Effect.Effect<string | undefined>
+  readonly environmentDynamic: () => Effect.Effect<string | undefined>
+  readonly skills: () => Effect.Effect<string | undefined>
 }
 
 export class Service extends Context.Service<Service, Interface>()("@homecode/SystemPrompt") {}
@@ -56,16 +55,17 @@ export const layer = Layer.effect(
             `  Workspace root folder: ${ctx.worktree}`,
             `  Is directory a git repo: ${ctx.project.vcs === "git" ? "yes" : "no"}`,
             `  Platform: ${process.platform}`,
-            `  Today's date: ${new Date().toDateString()}`,
             `</env>`,
           ].join("\n"),
         ]
       }),
 
-      skills: Effect.fn("SystemPrompt.skills")(function* (agent: Agent.Info) {
-        if (Permission.disabled(["skill"], agent.permission).has("skill")) return
+      environmentDynamic: Effect.fn("SystemPrompt.environmentDynamic")(() =>
+        Effect.succeed(`Today's date: ${new Date().toDateString()}`),
+      ),
 
-        const list = yield* skill.available(agent)
+      skills: Effect.fn("SystemPrompt.skills")(function* () {
+        const list = yield* skill.all()
 
         return [
           "Skills provide specialized instructions and workflows for specific tasks.",

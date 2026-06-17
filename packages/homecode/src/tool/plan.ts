@@ -8,6 +8,7 @@ import { Provider } from "@/provider/provider"
 import { InstanceState } from "@/effect/instance-state"
 import { MessageID, PartID } from "../session/schema"
 import EXIT_DESCRIPTION from "./plan-exit.txt"
+import ENTER_DESCRIPTION from "./plan-enter.txt"
 
 export const Parameters = Schema.Struct({})
 
@@ -25,7 +26,9 @@ export const PlanExitTool = Tool.define(
         Effect.gen(function* () {
           const instance = yield* InstanceState.context
           const info = yield* session.get(ctx.sessionID)
-          const plan = path.relative(instance.worktree, Session.plan(info, instance))
+          const planPath = Session.plan(info, instance)
+          const plan = path.relative(instance.worktree, planPath)
+
           const answers = yield* question.ask({
             sessionID: ctx.sessionID,
             questions: [
@@ -46,30 +49,95 @@ export const PlanExitTool = Tool.define(
 
           const messages = yield* session.messages({ sessionID: ctx.sessionID }).pipe(Effect.orDie)
           const lastUser = messages.findLast((item) => item.info.role === "user" && item.info.model)
-          const model =
+          const modelRef =
             lastUser?.info.role === "user" && lastUser.info.model ? lastUser.info.model : yield* provider.defaultModel()
 
+          // Switch agent by creating a synthetic user message with the new agent field
           const msg: MessageV2.User = {
             id: MessageID.ascending(),
             sessionID: ctx.sessionID,
             role: "user",
             time: { created: Date.now() },
             agent: "build",
-            model,
+            model: modelRef,
           }
           yield* session.updateMessage(msg)
           yield* session.updatePart({
             id: PartID.ascending(),
             messageID: msg.id,
             sessionID: ctx.sessionID,
-            type: "text",
-            text: `The plan at ${plan} has been approved, you can now edit files. Execute the plan`,
+            type: "text" as const,
+            text: "The plan has been approved. Proceed with implementation.",
             synthetic: true,
-          } satisfies MessageV2.TextPart)
+          })
 
           return {
             title: "Switching to build agent",
             output: "User approved switching to build agent. Wait for further instructions.",
+            metadata: {},
+          }
+        }).pipe(Effect.orDie),
+    }
+  }),
+)
+
+export const PlanEnterTool = Tool.define(
+  "plan_enter",
+  Effect.gen(function* () {
+    const session = yield* Session.Service
+    const question = yield* Question.Service
+    const provider = yield* Provider.Service
+
+    return {
+      description: ENTER_DESCRIPTION,
+      parameters: Parameters,
+      execute: (_params: {}, ctx: Tool.Context) =>
+        Effect.gen(function* () {
+          const answers = yield* question.ask({
+            sessionID: ctx.sessionID,
+            questions: [
+              {
+                question: "Would you like to switch to the plan agent to plan before implementing?",
+                header: "Plan Agent",
+                custom: false,
+                options: [
+                  { label: "Yes", description: "Switch to plan agent to create a plan first" },
+                  { label: "No", description: "Stay with build agent and continue implementing" },
+                ],
+              },
+            ],
+            tool: ctx.callID ? { messageID: ctx.messageID, callID: ctx.callID } : undefined,
+          })
+
+          if (answers[0]?.[0] === "No") yield* new Question.RejectedError()
+
+          const messages = yield* session.messages({ sessionID: ctx.sessionID }).pipe(Effect.orDie)
+          const lastUser = messages.findLast((item) => item.info.role === "user" && item.info.model)
+          const modelRef =
+            lastUser?.info.role === "user" && lastUser.info.model ? lastUser.info.model : yield* provider.defaultModel()
+
+          // Switch agent by creating a synthetic user message with the new agent field
+          const msg: MessageV2.User = {
+            id: MessageID.ascending(),
+            sessionID: ctx.sessionID,
+            role: "user",
+            time: { created: Date.now() },
+            agent: "plan",
+            model: modelRef,
+          }
+          yield* session.updateMessage(msg)
+          yield* session.updatePart({
+            id: PartID.ascending(),
+            messageID: msg.id,
+            sessionID: ctx.sessionID,
+            type: "text" as const,
+            text: "The user has requested to switch to plan mode.",
+            synthetic: true,
+          })
+
+          return {
+            title: "Switching to plan agent",
+            output: "User approved switching to plan agent. Wait for further instructions.",
             metadata: {},
           }
         }).pipe(Effect.orDie),

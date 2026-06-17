@@ -70,6 +70,7 @@ Always use the dedicated Python tool for Python code execution. Never run Python
 - Batch independent tool calls in one response when they can run in parallel.
 - When the user's request is vague, use the question tool to clarify before reading files or making changes.
 - If a tool call fails, reassess why before trying again with the same parameters.
+- Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
 
 Tool results and user messages may include <system-reminder> tags. These are injected by the system — treat them as high-priority context.
 

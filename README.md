@@ -62,7 +62,6 @@ The optimizations provide significant benefits for many other local LLMs ranging
 
 Upcoming work includes, but is not limited to:
 
-- **Memory Tool** — Purpose-built memory system designed for local LLM workflows
 - **ZED IDE Integration** — Native integration with the ZED editor
 - **Revamped Hashing** — Improved hashing method to resolve current edge-case bugs
 - **Prompt & Tool Alignment** — Further refinement of system prompts and tool definitions for better LLM alignment

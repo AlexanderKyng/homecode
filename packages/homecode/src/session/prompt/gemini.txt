@@ -64,6 +64,7 @@ When fixing bugs, adding features, refactoring, or explaining code:
 - Use background processes (`&`) for commands unlikely to stop on their own (e.g., `node server.js &`).
 - Prefer non-interactive command versions (e.g., `npm init -y`).
 - If a user cancels a tool call, respect their choice — do not retry unless they ask.
+- Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
 
 ## Python
 

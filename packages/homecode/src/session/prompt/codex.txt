@@ -34,6 +34,10 @@ When doing frontend design, avoid bland, generic layouts. Aim for intentional, d
 
 Exception: If working within an existing website or design system, preserve the established patterns.
 
+## Memory
+
+Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
+
 ## Presenting Your Work
 
 You are producing plain text that the CLI will style. Follow these rules:

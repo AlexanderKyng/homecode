@@ -1,4 +1,4 @@
-import { PlanExitTool } from "./plan"
+import { PlanExitTool, PlanEnterTool } from "./plan"
 import { Session } from "@/session/session"
 import { QuestionTool } from "./question"
 import { ShellTool } from "./shell"
@@ -55,10 +55,10 @@ import { Bus } from "../bus"
 import { Agent } from "../agent/agent"
 import { Git } from "@/git"
 import { Skill } from "../skill"
-import { Permission } from "@/permission"
 import { Reference } from "@/reference/reference"
 import { BackgroundJob } from "@/background/job"
 import { RuntimeFlags } from "@/effect/runtime-flags"
+import { Permission } from "@/permission"
 
 const log = Log.create({ service: "tool.registry" })
 
@@ -127,7 +127,8 @@ export const layer: Layer.Layer<
     const question = yield* QuestionTool
     const todo = yield* TodoWriteTool
     const lsptool = yield* LspTool
-    const plan = yield* PlanExitTool
+    const planExit = yield* PlanExitTool
+    const planEnter = yield* PlanEnterTool
     const webfetch = yield* WebFetchTool
     const websearch = yield* WebSearchTool
     const codesearch = yield* CodeSearchTool
@@ -253,7 +254,8 @@ export const layer: Layer.Layer<
           patch: Tool.init(patchtool),
           question: Tool.init(question),
           lsp: Tool.init(lsptool),
-          plan: Tool.init(plan),
+          plan: Tool.init(planExit),
+          planEnter: Tool.init(planEnter),
           github: Tool.init(github),
           mempalace: Tool.init(mempalace),
           python: Tool.init(python),
@@ -280,7 +282,8 @@ export const layer: Layer.Layer<
             tool.skill,
             tool.patch,
             ...(flags.experimentalLspTool ? [tool.lsp] : []),
-            ...(flags.experimentalPlanMode && flags.client === "cli" ? [tool.plan] : []),
+            tool.plan,
+            tool.planEnter,
             ...(flags.disableMempalace ? [] : [tool.mempalace]),
             tool.python,
           ],
@@ -299,8 +302,8 @@ export const layer: Layer.Layer<
       return (yield* all()).map((tool) => tool.id)
     })
 
-    const describeSkill = Effect.fn("ToolRegistry.describeSkill")(function* (agent: Agent.Info) {
-      const list = yield* skill.available(agent)
+    const describeSkill = Effect.fn("ToolRegistry.describeSkill")(function* () {
+      const list = yield* skill.all()
       if (list.length === 0) return "No skills are currently available."
       return [
         "Load a specialized skill that provides domain-specific instructions and workflows.",
@@ -318,12 +321,9 @@ export const layer: Layer.Layer<
       ].join("\n")
     })
 
-    const describeTask = Effect.fn("ToolRegistry.describeTask")(function* (agent: Agent.Info) {
+    const describeTask = Effect.fn("ToolRegistry.describeTask")(function* () {
       const items = (yield* agents.list()).filter((item) => item.mode !== "primary")
-      const filtered = items.filter(
-        (item) => Permission.evaluate("task", item.name, agent.permission).action !== "deny",
-      )
-      const list = filtered.toSorted((a, b) => a.name.localeCompare(b.name))
+      const list = items.toSorted((a, b) => a.name.localeCompare(b.name))
       const description = list
         .map(
           (item) =>
@@ -365,8 +365,8 @@ export const layer: Layer.Layer<
             id: tool.id,
             description: [
               output.description,
-              tool.id === TaskTool.id ? yield* describeTask(input.agent) : undefined,
-              tool.id === SkillTool.id ? yield* describeSkill(input.agent) : undefined,
+              tool.id === TaskTool.id ? yield* describeTask() : undefined,
+              tool.id === SkillTool.id ? yield* describeSkill() : undefined,
             ]
               .filter(Boolean)
               .join("\n"),

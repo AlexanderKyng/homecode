@@ -1,0 +1,5 @@
+<system-reminder>
+Build mode active — you have full access to all tools. You may edit, write, execute code, and run shell commands.
+
+The plan_exit tool is only usable in Plan mode. If the user asks you to go back to planning, use plan_enter instead.
+</system-reminder>
