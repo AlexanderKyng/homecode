@@ -7,14 +7,14 @@ import { PartID } from "./schema"
 import { MessageV2 } from "./message-v2"
 import * as Session from "./session"
 import PLAN_MODE from "./prompt/plan-mode.txt"
+import BUILD_MODE from "./prompt/build-mode.txt"
 
 export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   messages: MessageV2.WithParts[]
   agent: Agent.Info
   session: Session.Info
 }) {
-  if (input.agent.name !== "plan") return input.messages
-
+  const agentName = input.agent.name
   const fsys = yield* AppFileSystem.Service
   const sessions = yield* Session.Service
   const ctx = yield* InstanceState.context
@@ -45,6 +45,36 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
     })
   }
 
+  // Remove stale plan mode reminders when the agent is no longer "plan".
+  if (agentName !== "plan") {
+    const cleaned = input.messages.map((msg) => {
+      if (msg.info.role !== "user") return msg
+      const parts = msg.parts.filter((p) => {
+        if (p.type !== "text" || !p.synthetic) return true
+        return !p.text.includes("Plan mode active")
+      })
+      if (parts.length === msg.parts.length) return msg
+      return { ...msg, parts }
+    })
+
+    // Inject build mode prompt for non-plan agents.
+    const text = BUILD_MODE
+    yield* addSynthetic(text)
+    return cleaned
+  }
+
+  // Plan mode: also remove stale build mode reminders.
+  const cleaned = input.messages.map((msg) => {
+    if (msg.info.role !== "user") return msg
+    const parts = msg.parts.filter((p) => {
+      if (p.type !== "text" || !p.synthetic) return true
+      return !p.text.includes("Build mode active")
+    })
+    if (parts.length === msg.parts.length) return msg
+    return { ...msg, parts }
+  })
+
+  // Plan mode: inject plan mode reminder with tool restrictions.
   const planPath = Session.plan(input.session, ctx)
   const plan = path.relative(ctx.worktree, planPath)
   const exists = yield* fsys.existsSafe(planPath)
@@ -55,7 +85,7 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
       : `No plan file exists yet. You should create your plan at ${plan} using the write tool.`,
   )
   yield* addSynthetic(text)
-  return input.messages
+  return cleaned
 })
 
 export * as SessionReminders from "./reminders"

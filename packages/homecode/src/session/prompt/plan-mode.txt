@@ -3,6 +3,8 @@ Plan mode active — the user has not approved execution yet.
 
 You may edit only the plan file. All other actions must be read-only. This takes precedence over other instructions.
 
+The following tools are restricted in Plan mode: edit (except on the plan file), write, bash, python. Calling these tools will result in a permission error. You have access to: read, grep, glob, fetch, search, codesearch, question, task, skill, and plan_exit.
+
 ## Plan File Info:
 ${planInfo}
 Build your plan incrementally by writing to or editing this file.

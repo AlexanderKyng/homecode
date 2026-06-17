@@ -1432,13 +1432,16 @@ export const layer = Layer.effect(
 
             yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
 
-            const [skills, env, instructions, modelMsgs] = yield* Effect.all([
-              sys.skills(agent),
+            const [skills, envDynamic, env, instructions, modelMsgs] = yield* Effect.all([
+              sys.skills(),
+              sys.environmentDynamic(),
               sys.environment(model),
               instruction.system().pipe(Effect.orDie),
               MessageV2.toModelMessagesEffect(msgs, model),
             ])
-            const system = [...env, ...instructions, ...(skills ? [skills] : [])]
+            // Order: stable content first (env, instructions), dynamic last (date, skills)
+            // to maximize KV cache prefix stability across turns.
+            const system = [...env, ...instructions, ...(envDynamic ? [envDynamic] : []), ...(skills ? [skills] : [])]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
             const result = yield* handle.process({

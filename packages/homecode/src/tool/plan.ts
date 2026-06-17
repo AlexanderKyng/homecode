@@ -62,6 +62,14 @@ export const PlanExitTool = Tool.define(
             model: modelRef,
           }
           yield* session.updateMessage(msg)
+          yield* session.updatePart({
+            id: PartID.ascending(),
+            messageID: msg.id,
+            sessionID: ctx.sessionID,
+            type: "text" as const,
+            text: "The plan has been approved. Proceed with implementation.",
+            synthetic: true,
+          })
 
           return {
             title: "Switching to build agent",
@@ -118,6 +126,14 @@ export const PlanEnterTool = Tool.define(
             model: modelRef,
           }
           yield* session.updateMessage(msg)
+          yield* session.updatePart({
+            id: PartID.ascending(),
+            messageID: msg.id,
+            sessionID: ctx.sessionID,
+            type: "text" as const,
+            text: "The user has requested to switch to plan mode.",
+            synthetic: true,
+          })
 
           return {
             title: "Switching to plan agent",

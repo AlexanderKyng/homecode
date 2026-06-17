@@ -18,8 +18,10 @@ import { SessionProcessor } from "./processor"
 import { PartID } from "./schema"
 import * as Log from "@homecode-ai/core/util/log"
 import { EffectBridge } from "@/effect/bridge"
+import { Wildcard } from "@homecode-ai/core/util/wildcard"
 
 const log = Log.create({ service: "session.tools" })
+const EDIT_TOOLS = ["edit", "write", "apply_patch"]
 
 export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
   agent: Agent.Info
@@ -84,6 +86,20 @@ export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
       execute(args, options) {
         return run.promise(
           Effect.gen(function* () {
+            // Gate: reject denied tools at execution time so the backend sees a stable
+            // tool list with identical descriptions every turn. HomeCode enforces what's
+            // usable via permissions, not by filtering from the request.
+            const ruleset = Permission.merge(input.agent.permission, input.session.permission ?? [])
+            const checkPermission = EDIT_TOOLS.includes(item.id) ? "edit" : item.id
+            const deniedRule = ruleset.findLast((r) => Wildcard.match(checkPermission, r.permission))
+            if (deniedRule?.pattern === "*" && deniedRule.action === "deny") {
+              return {
+                title: `Tool "${item.id}" is not available in this mode`,
+                output: `The tool "${item.id}" is not permitted in the current agent mode. Please use an alternative tool or switch to a different agent mode if needed.`,
+                metadata: {},
+              }
+            }
+
             const ctx = context(args, options)
             yield* plugin.trigger(
               "tool.execute.before",
