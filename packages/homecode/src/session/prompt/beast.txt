@@ -49,6 +49,7 @@ Communicate clearly and concisely in a casual, friendly yet professional tone. B
 ## Research
 
 When you need up-to-date information about third-party packages, frameworks, or dependencies, use WebFetch or WebSearch to verify. Your training data may be outdated — check current documentation before implementing.
+- Use the GitHub tool for anything GitHub-related — reading repos, PRs, issues, CI/CD — instead of WebSearch or WebFetch.
 
 ## Reading Files
 

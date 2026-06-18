@@ -434,7 +434,7 @@ function unsupportedParts(msgs: ModelMessage[], model: Provider.Model): ModelMes
 export function message(msgs: ModelMessage[], model: Provider.Model, options: Record<string, unknown>) {
   msgs = unsupportedParts(msgs, model)
   msgs = normalizeMessages(msgs, model, options)
-  if (
+  const isAnthropicOrAlibaba =
     (model.providerID === "anthropic" ||
       model.providerID === "google-vertex-anthropic" ||
       model.api.id.includes("anthropic") ||
@@ -444,7 +444,9 @@ export function message(msgs: ModelMessage[], model: Provider.Model, options: Re
       model.api.npm === "@ai-sdk/anthropic" ||
       model.api.npm === "@ai-sdk/alibaba") &&
     model.api.npm !== "@ai-sdk/gateway"
-  ) {
+  const isOpenAICompatible =
+    model.api.npm === "@ai-sdk/openai-compatible" || (model.api.npm === "@ai-sdk/openai" && options?.setCacheKey)
+  if (isAnthropicOrAlibaba || isOpenAICompatible) {
     msgs = applyCaching(msgs, model)
   }
 

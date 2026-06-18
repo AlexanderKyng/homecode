@@ -53,6 +53,11 @@ When fixing bugs, adding features, refactoring, or explaining code:
 
 ## Safety
 
+## Research and GitHub
+
+- Use CodeSearch as your default when looking for coding solutions, ideas, implementation examples, debugging references, or framework usage.
+- Use the GitHub tool for anything GitHub-related — reading repos, PRs, issues, CI/CD — instead of WebSearch or WebFetch.
+
 - Before executing bash commands that modify the file system, codebase, or system state, provide a brief explanation of the command's purpose and potential impact.
 - Apply security best practices — keep secrets, API keys, and sensitive information out of code and commits.
 

@@ -38,6 +38,7 @@ When working on an existing codebase:
 Avoid running `git commit`, `git push`, `git reset`, `git rebase`, or other git mutations unless explicitly asked. Ask for confirmation each time.
 
 ## Research and Data Processing
+- Use the GitHub tool for anything GitHub-related — reading repos, PRs, issues, CI/CD — instead of WebSearch or WebFetch.
 
 When researching topics or processing multimedia files:
 - Understand the user's requirements thoroughly. Ask for clarification before starting if needed.

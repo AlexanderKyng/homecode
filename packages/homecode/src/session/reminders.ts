@@ -45,39 +45,70 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
     })
   }
 
-  // Remove stale plan mode reminders when the agent is no longer "plan".
+  // Remove stale mode reminders from both in-memory and DB.
   // Only strip from the last user message to preserve KV cache prefix stability
   // in prior messages that are already cached by the LLM server.
-  if (agentName !== "plan") {
-    const parts = userMessage.parts.filter((p) => {
-      if (p.type !== "text" || !p.synthetic) return true
-      return !p.text.includes("Plan mode active")
+  const removeModeReminders = (marker: string) => {
+    return Effect.gen(function* () {
+      for (const p of userMessage.parts) {
+        if (p.type !== "text" || !p.synthetic || !p.text.includes(marker)) continue
+        yield* sessions.removePart({
+          sessionID: userMessage.info.sessionID,
+          messageID: userMessage.info.id,
+          partID: p.id,
+        })
+      }
+      // Also remove from in-memory array to keep it consistent with DB.
+      const parts = userMessage.parts.filter((p) => {
+        if (p.type !== "text" || !p.synthetic) return true
+        return !p.text.includes(marker)
+      })
+      userMessage.parts.length = 0
+      userMessage.parts.push(...parts)
     })
-    userMessage.parts.length = 0
-    userMessage.parts.push(...parts)
+  }
 
+  // Build mode: remove stale plan mode reminders, inject build mode.
+  if (agentName !== "plan") {
+    yield* removeModeReminders("Plan mode active")
     yield* addSynthetic(BUILD_MODE)
     return input.messages
   }
 
-  // Plan mode: remove stale build mode reminders only from the last user message.
-  const parts = userMessage.parts.filter((p) => {
-    if (p.type !== "text" || !p.synthetic) return true
-    return !p.text.includes("Build mode active")
-  })
-  userMessage.parts.length = 0
-  userMessage.parts.push(...parts)
+  // Plan mode: remove stale build mode reminders, then ensure plan reminder is present.
+  yield* removeModeReminders("Build mode active")
 
-  // Plan mode: inject plan mode reminder with tool restrictions.
+  // Inject plan mode reminder with tool restrictions.
   const planPath = Session.plan(input.session, ctx)
   const plan = path.relative(ctx.worktree, planPath)
   const exists = yield* fsys.existsSafe(planPath)
   if (!exists) yield* fsys.ensureDir(path.dirname(planPath)).pipe(Effect.catch(Effect.die))
+
   const text = PLAN_MODE.replace("${planInfo}", () =>
     exists
       ? `A plan file already exists at ${plan}. You can read it and make incremental edits using the edit tool.`
       : `No plan file exists yet. You should create your plan at ${plan} using the write tool.`,
   )
+
+  // If a plan-mode reminder already exists, only update if content changed (e.g., plan file state).
+  const existingPlanPart = userMessage.parts.find(
+    (p) => p.type === "text" && p.synthetic && p.text.includes("Plan mode active"),
+  ) as MessageV2.TextPart | undefined
+  if (existingPlanPart) {
+    if (existingPlanPart.text === text) {
+      return input.messages
+    }
+    // Content changed — remove old part from DB and memory, then add new one.
+    yield* sessions.removePart({
+      sessionID: userMessage.info.sessionID,
+      messageID: userMessage.info.id,
+      partID: existingPlanPart.id,
+    })
+    const parts = userMessage.parts.filter((p) => p.id !== existingPlanPart.id)
+    userMessage.parts.length = 0
+    userMessage.parts.push(...parts)
+  }
+
   yield* addSynthetic(text)
   return input.messages
 })

@@ -55,6 +55,11 @@ Exception: If working within an existing website or design system, preserve the 
 
 ## Memory
 
+## Research and GitHub
+
+- Use CodeSearch as your default when looking for coding solutions, ideas, implementation examples, debugging references, or framework usage.
+- Use the GitHub tool for anything GitHub-related — reading repos, PRs, issues, CI/CD — instead of WebSearch or WebFetch.
+
 Use the Memory tool to keep track of project advancements, structure, and context across long sessions.
 
 ## Working with the User

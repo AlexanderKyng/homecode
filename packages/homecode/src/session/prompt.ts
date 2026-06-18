@@ -1413,19 +1413,27 @@ export const layer = Layer.effect(
               yield* summary.summarize({ sessionID, messageID: lastUser.id }).pipe(Effect.ignore, Effect.forkIn(scope))
 
             if (step > 1 && lastFinished) {
+              // When a new user message arrived while the agent was still working,
+              // add a synthetic instruction part instead of wrapping the user's text.
+              // This preserves the original prompt for KV cache stability.
+              const FOLLOW_UP_INSTRUCTION =
+                "<system-reminder>\nThe user sent a follow-up message while you were working. Please address this message and continue with your tasks.\n</system-reminder>"
+              const hasSyntheticFollowUp = (parts: MessageV2.Part[]) =>
+                parts.some(
+                  (p) => p.type === "text" && p.synthetic && p.text.includes("The user sent a follow-up message"),
+                )
+              ;("<system-reminder>\nThe user sent a follow-up message while you were working. Please address this message and continue with your tasks.\n</system-reminder>")
               for (const m of msgs) {
                 if (m.info.role !== "user" || m.info.id <= lastFinished.id) continue
-                for (const p of m.parts) {
-                  if (p.type !== "text" || p.ignored || p.synthetic) continue
-                  if (!p.text.trim()) continue
-                  p.text = [
-                    "<system-reminder>",
-                    "The user sent the following message:",
-                    p.text,
-                    "",
-                    "Please address this message and continue with your tasks.",
-                    "</system-reminder>",
-                  ].join("\n")
+                if (!hasSyntheticFollowUp(m.parts)) {
+                  m.parts.push({
+                    id: PartID.ascending(),
+                    messageID: m.info.id,
+                    sessionID: m.info.sessionID,
+                    type: "text" as const,
+                    text: FOLLOW_UP_INSTRUCTION,
+                    synthetic: true,
+                  })
                 }
               }
             }
