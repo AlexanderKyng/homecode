@@ -11,7 +11,7 @@ import * as Session from "./session"
 import { LLM } from "./llm"
 import { MessageV2 } from "./message-v2"
 import { isOverflow } from "./overflow"
-import { PartID } from "./schema"
+import { PartID, MessageID } from "./schema"
 import type { SessionID } from "./schema"
 import { SessionRetry } from "./retry"
 import { SessionStatus } from "./status"
@@ -78,6 +78,14 @@ interface ProcessorContext extends Input {
   needsCompaction: boolean
   currentText: MessageV2.TextPart | undefined
   reasoningMap: Record<string, MessageV2.ReasoningPart>
+  doomLoopIntervention:
+    | {
+        tool: string
+        input: Record<string, any>
+        count: number
+        message: string
+      }
+    | undefined
 }
 
 type StreamEvent = LLMEvent
@@ -91,9 +99,7 @@ export const layer = Layer.effect(
     const config = yield* Config.Service
     const bus = yield* Bus.Service
     const snapshot = yield* Snapshot.Service
-    const agents = yield* Agent.Service
     const llm = yield* LLM.Service
-    const permission = yield* Permission.Service
     const plugin = yield* Plugin.Service
     const summary = yield* SessionSummary.Service
     const scope = yield* Scope.Scope
@@ -118,6 +124,7 @@ export const layer = Layer.effect(
         needsCompaction: false,
         currentText: undefined,
         reasoningMap: {},
+        doomLoopIntervention: undefined,
       }
       let aborted = false
       const slog = log.clone().tag("session.id", input.sessionID).tag("messageID", input.assistantMessage.id)
@@ -436,16 +443,14 @@ export const layer = Layer.effect(
             ) {
               return
             }
-
-            const agent = yield* agents.get(ctx.assistantMessage.agent)
-            yield* permission.ask({
-              permission: "doom_loop",
-              patterns: [value.name],
-              sessionID: ctx.assistantMessage.sessionID,
-              metadata: { tool: value.name, input },
-              always: [value.name],
-              ruleset: agent.permission,
-            })
+            const interventionMessage = `You have attempted the tool call ${value.name} with arguments ${JSON.stringify(input)} for ${DOOM_LOOP_THRESHOLD} consecutive steps without changing the system state. But wait, let me think again. This approach is failing. You are strictly forbidden from calling ${value.name} in the next step. Instead, perform a meta-analysis of the previous failures and move to the next logical step in the plan.`
+            yield* failToolCall(value.id, new Error(interventionMessage))
+            ctx.doomLoopIntervention = {
+              tool: value.name,
+              input,
+              count: DOOM_LOOP_THRESHOLD,
+              message: interventionMessage,
+            }
             return
           }
 
@@ -791,7 +796,7 @@ export const layer = Layer.effect(
 
             yield* stream.pipe(
               Stream.tap((event) => handleEvent(event)),
-              Stream.takeUntil(() => ctx.needsCompaction),
+              Stream.takeUntil(() => ctx.needsCompaction || ctx.doomLoopIntervention !== undefined),
               Stream.runDrain,
             )
           }).pipe(
@@ -842,6 +847,29 @@ export const layer = Layer.effect(
             Effect.ensuring(cleanup()),
           )
 
+          if (ctx.doomLoopIntervention) {
+            ctx.assistantMessage.finish = "tool-calls"
+            ctx.assistantMessage.time.completed = Date.now()
+            yield* session.updateMessage(ctx.assistantMessage)
+            const interventionUserMsg: MessageV2.User = {
+              id: MessageID.ascending(),
+              sessionID: ctx.sessionID,
+              role: "user",
+              time: { created: Date.now() },
+              agent: ctx.assistantMessage.agent,
+              model: { providerID: ctx.model.providerID, modelID: ctx.model.id },
+            }
+            yield* session.updateMessage(interventionUserMsg)
+            yield* session.updatePart({
+              id: PartID.ascending(),
+              messageID: interventionUserMsg.id,
+              sessionID: ctx.sessionID,
+              type: "text",
+              text: ctx.doomLoopIntervention.message,
+              synthetic: true,
+            } satisfies MessageV2.TextPart)
+            return "continue"
+          }
           if (ctx.needsCompaction) return "compact"
           if (ctx.blocked || ctx.assistantMessage.error) return "stop"
           return "continue"
