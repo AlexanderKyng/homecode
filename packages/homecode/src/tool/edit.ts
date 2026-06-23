@@ -804,18 +804,22 @@ export function applyHashlineEdits(
           edit.endLine === undefined ||
           edit.endHash === undefined
         ) {
-          throw new Error("replace_block operation requires startLine, startHash, endLine, and endHash")
+          errors.push("replace_block operation requires startLine, startHash, endLine, and endHash")
+          continue
         }
         const startIdx = edit.startLine - 1
         const endIdx = edit.endLine - 1
         if (startIdx < 0 || startIdx >= lines.length) {
-          throw new Error(`Start line ${edit.startLine} out of range (file has ${lines.length} lines)`)
+          errors.push(`Start line ${edit.startLine} out of range (file has ${lines.length} lines)`)
+          continue
         }
         if (endIdx < 0 || endIdx >= lines.length) {
-          throw new Error(`End line ${edit.endLine} out of range (file has ${lines.length} lines)`)
+          errors.push(`End line ${edit.endLine} out of range (file has ${lines.length} lines)`)
+          continue
         }
         if (startIdx > endIdx) {
-          throw new Error(`Start line ${edit.startLine} must not be greater than end line ${edit.endLine}`)
+          errors.push(`Start line ${edit.startLine} must not be greater than end line ${edit.endLine}`)
+          continue
         }
         const startExpected = normalize(lines[startIdx])
         const startActualHash = hashLine(startExpected)
@@ -842,21 +846,52 @@ export function applyHashlineEdits(
       }
     }
 
+    const sortPriority = { insert: 4, replace: 3, block: 2, delete: 1 } as const
+
+    // Detect overlapping operations — keep highest priority, report rest as errors
+    const accepted: Operation[] = []
+    for (const op of operations) {
+      const rangeStart = op.index
+      const rangeEnd = op.endindex ?? op.index
+      let dominated = false
+      for (const existing of accepted) {
+        const exStart = existing.index
+        const exEnd = existing.endindex ?? existing.index
+        if (rangeStart <= exEnd && rangeEnd >= exStart) {
+          // Overlapping ranges — keep the one with higher sort priority
+          if (sortPriority[op.type] > sortPriority[existing.type]) {
+            errors.push(`Line ${op.index + 1}: overlapping operation, previous lower-priority operation skipped`)
+            const ei = accepted.indexOf(existing)
+            accepted.splice(ei, 1, op)
+          } else {
+            errors.push(`Line ${op.index + 1}: overlapping with already accepted operation, this operation skipped`)
+          }
+          dominated = true
+          break
+        }
+      }
+      if (!dominated) {
+        accepted.push(op)
+      }
+    }
+
     const working = [...lines]
 
-    const sortPriority = { insert: 4, replace: 3, block: 2, delete: 1 } as const
-    operations.sort((a, b) => {
+    accepted.sort((a, b) => {
       if (b.index !== a.index) return b.index - a.index
       return sortPriority[b.type] - sortPriority[a.type]
     })
 
-    for (const op of operations) {
+    for (const op of accepted) {
       if (op.type === "delete") {
         working.splice(op.index, 1)
         continue
       }
 
-      if (op.content === undefined) continue
+      if (op.content === undefined) {
+        errors.push(`Line ${op.index + 1}: replace operation has no content`)
+        continue
+      }
 
       const newLines = op.content.split(/\r?\n/)
 
@@ -872,7 +907,7 @@ export function applyHashlineEdits(
     // Build report
     let report: string | undefined
     if (errors.length > 0) {
-      const applied = operations.length
+      const applied = accepted.length
       report = [
         `Edit partially applied: ${applied} of ${edits.length} operations succeeded.`,
         `Failed operations:`,

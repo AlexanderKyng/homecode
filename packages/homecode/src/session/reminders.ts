@@ -78,38 +78,42 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   // Plan mode: remove stale build mode reminders, then ensure plan reminder is present.
   yield* removeModeReminders("Build mode active")
 
-  // Inject plan mode reminder with tool restrictions.
+  // Inject stable plan mode reminder first. This part never changes within a session,
+  // ensuring KV cache prefix stability across tool-call turns.
+  yield* addSynthetic(PLAN_MODE)
+
+  // Inject dynamic plan file state as a separate synthetic part at the end.
+  // This part may change (file created/deleted during tools) but is placed after
+  // the stable reminder so it doesn't break cache prefix for earlier content.
   const planPath = Session.plan(input.session, ctx)
   const plan = path.relative(ctx.worktree, planPath)
   const exists = yield* fsys.existsSafe(planPath)
   if (!exists) yield* fsys.ensureDir(path.dirname(planPath)).pipe(Effect.catch(Effect.die))
 
-  const text = PLAN_MODE.replace("${planInfo}", () =>
-    exists
-      ? `A plan file already exists at ${plan}. You can read it and make incremental edits using the edit tool.`
-      : `No plan file exists yet. You should create your plan at ${plan} using the write tool.`,
-  )
+  const planStateText = exists
+    ? `[Plan file: exists at ${plan}. You can read it and make incremental edits using the edit tool.]`
+    : `[Plan file: not yet created at ${plan}. You should create your plan there using the write tool.]`
 
-  // If a plan-mode reminder already exists, only update if content changed (e.g., plan file state).
-  const existingPlanPart = userMessage.parts.find(
-    (p) => p.type === "text" && p.synthetic && p.text.includes("Plan mode active"),
+  // Remove old plan state part if it exists (content may have changed)
+  const existingPlanState = userMessage.parts.find(
+    (p) => p.type === "text" && p.synthetic && p.text.startsWith("[Plan file:"),
   ) as MessageV2.TextPart | undefined
-  if (existingPlanPart) {
-    if (existingPlanPart.text === text) {
+  if (existingPlanState) {
+    if (existingPlanState.text === planStateText) {
       return input.messages
     }
-    // Content changed — remove old part from DB and memory, then add new one.
+    // Content changed — remove old part from DB and memory
     yield* sessions.removePart({
       sessionID: userMessage.info.sessionID,
       messageID: userMessage.info.id,
-      partID: existingPlanPart.id,
+      partID: existingPlanState.id,
     })
-    const parts = userMessage.parts.filter((p) => p.id !== existingPlanPart.id)
+    const parts = userMessage.parts.filter((p) => p.id !== existingPlanState.id)
     userMessage.parts.length = 0
     userMessage.parts.push(...parts)
   }
 
-  yield* addSynthetic(text)
+  yield* addSynthetic(planStateText)
   return input.messages
 })
 
