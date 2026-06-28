@@ -151,17 +151,27 @@ export const layer = Layer.effect(
           $: typeof Bun === "undefined" ? undefined : Bun.$,
         }
 
-        for (const plugin of flags.disableDefaultPlugins ? [] : INTERNAL_PLUGINS) {
-          log.info("loading internal plugin", { name: plugin.name })
-          const init = yield* Effect.tryPromise({
-            try: () => plugin(input),
-            catch: (err) => {
-              log.error("failed to load internal plugin", { name: plugin.name, error: err })
-            },
-          }).pipe(Effect.option)
-          if (init._tag === "Some") hooks.push(init.value)
+        // Load internal plugins in parallel since they are independent.
+        const internalPlugins = flags.disableDefaultPlugins ? [] : INTERNAL_PLUGINS
+        if (internalPlugins.length > 0) {
+          const results = yield* Effect.forEach(
+            internalPlugins,
+            (plugin) =>
+              Effect.gen(function* () {
+                log.info("loading internal plugin", { name: plugin.name })
+                return yield* Effect.tryPromise({
+                  try: () => plugin(input),
+                  catch: (err) => {
+                    log.error("failed to load internal plugin", { name: plugin.name, error: err })
+                  },
+                }).pipe(Effect.option)
+              }),
+            { concurrency: "unbounded" },
+          )
+          for (const init of results) {
+            if (init._tag === "Some") hooks.push(init.value)
+          }
         }
-
         const plugins = flags.pure ? [] : (cfg.plugin_origins ?? [])
         if (flags.pure && cfg.plugin_origins?.length) {
           log.info("skipping external plugins in pure mode", { count: cfg.plugin_origins.length })

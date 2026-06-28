@@ -1,47 +1,87 @@
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
-import { RunCommand } from "./cli/cmd/run"
-import { GenerateCommand } from "./cli/cmd/generate"
-import * as Log from "@homecode-ai/core/util/log"
-import { ConsoleCommand } from "./cli/cmd/account"
-import { ProvidersCommand } from "./cli/cmd/providers"
-import { AgentCommand } from "./cli/cmd/agent"
-import { UpgradeCommand } from "./cli/cmd/upgrade"
-import { UninstallCommand } from "./cli/cmd/uninstall"
-import { ModelsCommand } from "./cli/cmd/models"
-import { UI } from "./cli/ui"
-import { Installation } from "./installation"
-import { InstallationVersion } from "@homecode-ai/core/installation/version"
-import { NamedError } from "@homecode-ai/core/util/error"
-import { FormatError } from "./cli/error"
-import { ServeCommand } from "./cli/cmd/serve"
-import { Filesystem } from "@/util/filesystem"
-import { DebugCommand } from "./cli/cmd/debug"
-import { StatsCommand } from "./cli/cmd/stats"
-import { McpCommand } from "./cli/cmd/mcp"
-import { GithubCommand } from "./cli/cmd/github"
-import { ExportCommand } from "./cli/cmd/export"
-import { ImportCommand } from "./cli/cmd/import"
-import { AttachCommand } from "./cli/cmd/tui/attach"
-import { TuiThreadCommand } from "./cli/cmd/tui/thread"
-import { AcpCommand } from "./cli/cmd/acp"
-import { EOL } from "os"
-import { WebCommand } from "./cli/cmd/web"
-import { PrCommand } from "./cli/cmd/pr"
-import { SessionCommand } from "./cli/cmd/session"
-import { DbCommand } from "./cli/cmd/db"
 import path from "path"
-import { Global } from "@homecode-ai/core/global"
-import { JsonMigration } from "@/storage/json-migration"
-import { Database } from "@/storage/db"
-import { errorMessage } from "./util/error"
-import { PluginCommand } from "./cli/cmd/plug"
-import { Heap } from "./cli/heap"
-import { drizzle } from "drizzle-orm/bun-sqlite"
+import { EOL } from "os"
 import { ensureProcessMetadata } from "@homecode-ai/core/util/homecode-process"
-import { isRecord } from "@/util/record"
 
 const processMetadata = ensureProcessMetadata("main")
+
+const args = hideBin(process.argv)
+
+// Handle --version immediately without any heavy imports.
+if (args.includes("-v") || args.includes("--version")) {
+  const { InstallationVersion } = await import("@homecode-ai/core/installation/version")
+  process.stdout.write(InstallationVersion + EOL)
+  process.exit(0)
+}
+
+// Lazily load all dependencies only after version check passes.
+const Log = await import("@homecode-ai/core/util/log")
+const UI = (await import("./cli/ui")).UI
+const Installation = (await import("./installation")).Installation
+const NamedError = (await import("@homecode-ai/core/util/error")).NamedError
+const FormatError = (await import("./cli/error")).FormatError
+const Filesystem = (await import("@/util/filesystem")).Filesystem
+const Global = (await import("@homecode-ai/core/global")).Global
+const JsonMigration = (await import("@/storage/json-migration")).JsonMigration
+const Database = (await import("@/storage/db")).Database
+const errorMessage = (await import("./util/error")).errorMessage
+const Heap = (await import("./cli/heap")).Heap
+const isRecord = (await import("@/util/record")).isRecord
+const drizzle = (await import("drizzle-orm/bun-sqlite")).drizzle
+const InstallationVersion = (await import("@homecode-ai/core/installation/version")).InstallationVersion
+
+const commands = await Promise.all([
+  import("./cli/cmd/acp").then((m) => m.AcpCommand),
+  import("./cli/cmd/mcp").then((m) => m.McpCommand),
+  import("./cli/cmd/tui/thread").then((m) => m.TuiThreadCommand),
+  import("./cli/cmd/tui/attach").then((m) => m.AttachCommand),
+  import("./cli/cmd/run").then((m) => m.RunCommand),
+  import("./cli/cmd/generate").then((m) => m.GenerateCommand),
+  import("./cli/cmd/debug").then((m) => m.DebugCommand),
+  import("./cli/cmd/account").then((m) => m.ConsoleCommand),
+  import("./cli/cmd/providers").then((m) => m.ProvidersCommand),
+  import("./cli/cmd/agent").then((m) => m.AgentCommand),
+  import("./cli/cmd/upgrade").then((m) => m.UpgradeCommand),
+  import("./cli/cmd/uninstall").then((m) => m.UninstallCommand),
+  import("./cli/cmd/serve").then((m) => m.ServeCommand),
+  import("./cli/cmd/web").then((m) => m.WebCommand),
+  import("./cli/cmd/models").then((m) => m.ModelsCommand),
+  import("./cli/cmd/stats").then((m) => m.StatsCommand),
+  import("./cli/cmd/export").then((m) => m.ExportCommand),
+  import("./cli/cmd/import").then((m) => m.ImportCommand),
+  import("./cli/cmd/github").then((m) => m.GithubCommand),
+  import("./cli/cmd/pr").then((m) => m.PrCommand),
+  import("./cli/cmd/session").then((m) => m.SessionCommand),
+  import("./cli/cmd/plug").then((m) => m.PluginCommand),
+  import("./cli/cmd/db").then((m) => m.DbCommand),
+])
+
+const [
+  AcpCommand,
+  McpCommand,
+  TuiThreadCommand,
+  AttachCommand,
+  RunCommand,
+  GenerateCommand,
+  DebugCommand,
+  ConsoleCommand,
+  ProvidersCommand,
+  AgentCommand,
+  UpgradeCommand,
+  UninstallCommand,
+  ServeCommand,
+  WebCommand,
+  ModelsCommand,
+  StatsCommand,
+  ExportCommand,
+  ImportCommand,
+  GithubCommand,
+  PrCommand,
+  SessionCommand,
+  PluginCommand,
+  DbCommand,
+] = commands
 
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
@@ -54,8 +94,6 @@ process.on("uncaughtException", (e) => {
     e: errorMessage(e),
   })
 })
-
-const args = hideBin(process.argv)
 
 function show(out: string) {
   const text = out.trimStart()
@@ -97,7 +135,7 @@ const cli = yargs(args)
       print: process.argv.includes("--print-logs"),
       dev: Installation.isLocal(),
       level: (() => {
-        if (opts.logLevel) return opts.logLevel as Log.Level
+        if (opts.logLevel) return opts.logLevel as "DEBUG" | "INFO" | "WARN" | "ERROR"
         if (Installation.isLocal()) return "DEBUG"
         return "INFO"
       })(),
@@ -234,6 +272,7 @@ try {
       importKind: e.importKind,
     })
   }
+
   Log.Default.error("fatal", data)
   const formatted = FormatError(e)
   if (formatted) UI.error(formatted)
