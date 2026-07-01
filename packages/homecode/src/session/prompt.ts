@@ -1300,6 +1300,7 @@ export const layer = Layer.effect(
             }).pipe(Effect.ignore, Effect.forkIn(scope))
 
           const model = yield* getModel(lastUser.model.providerID, lastUser.model.modelID, sessionID)
+          yield* slog.info("runLoop", { step: "model-resolved" })
           const task = tasks.pop()
 
           if (task?.type === "subtask") {
@@ -1329,6 +1330,7 @@ export const layer = Layer.effect(
           }
 
           const agent = yield* agents.get(lastUser.agent)
+          yield* slog.info("runLoop", { step: "agent-resolved" })
           if (!agent) {
             const available = (yield* agents.list()).filter((a) => !a.hidden).map((a) => a.name)
             const hint = available.length ? ` Available agents: ${available.join(", ")}` : ""
@@ -1343,6 +1345,7 @@ export const layer = Layer.effect(
             Effect.provideService(AppFileSystem.Service, fsys),
             Effect.provideService(Session.Service, sessions),
           )
+          yield* slog.info("runLoop", { step: "reminders-applied" })
 
           const msg: MessageV2.Assistant = {
             id: MessageID.ascending(),
@@ -1378,6 +1381,7 @@ export const layer = Layer.effect(
               model,
             })
             .pipe(Effect.onInterrupt(() => finalizeInterruptedAssistant))
+          yield* slog.info("runLoop", { step: "processor-created" })
 
           const outcome: "break" | "continue" = yield* Effect.gen(function* () {
             const lastUserMsg = msgs.findLast((m) => m.info.role === "user")
@@ -1444,9 +1448,15 @@ export const layer = Layer.effect(
               sys.skills(),
               sys.environmentDynamic(),
               sys.environment(model),
-              instruction.system().pipe(Effect.orDie),
+              instruction.system().pipe(
+                Effect.catch((error) => {
+                  elog.error("instruction.system failed", { error: Cause.squash(Cause.fail(error)) })
+                  return Effect.succeed([] as string[])
+                }),
+              ),
+
               MessageV2.toModelMessagesEffect(msgs, model),
-            ])
+            ]).pipe(Effect.timeout(60_000), Effect.orDie)
             // Order: stable content first (env, instructions), dynamic last (date, skills)
             // to maximize KV cache prefix stability across turns.
             const system = [...env, ...instructions, ...(envDynamic ? [envDynamic] : []), ...(skills ? [skills] : [])]

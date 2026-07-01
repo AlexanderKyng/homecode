@@ -112,7 +112,12 @@ export const layer = Layer.effect(
       // Pre-capture snapshot before the LLM stream starts. The AI SDK
       // may execute tools internally before emitting start-step events,
       // so capturing inside the event handler can be too late.
-      const initialSnapshot = yield* snapshot.track()
+      const initialSnapshot = yield* snapshot.track().pipe(
+        Effect.catch((error) => {
+          log.warn("snapshot.track failed", { error: Cause.squash(Cause.fail(error)) })
+          return Effect.succeed(undefined)
+        }),
+      )
       const ctx: ProcessorContext = {
         assistantMessage: input.assistantMessage,
         sessionID: input.sessionID,
