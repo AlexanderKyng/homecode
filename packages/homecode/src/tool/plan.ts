@@ -27,7 +27,8 @@ export const PlanExitTool = Tool.define(
           const instance = yield* InstanceState.context
           const info = yield* session.get(ctx.sessionID)
           const planPath = Session.plan(info, instance)
-          const plan = path.relative(instance.worktree, planPath)
+          const baseDir = instance.worktree === "/" ? instance.directory : instance.worktree
+          const plan = path.relative(baseDir, planPath)
 
           const answers = yield* question.ask({
             sessionID: ctx.sessionID,

@@ -86,7 +86,8 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   // This part may change (file created/deleted during tools) but is placed after
   // the stable reminder so it doesn't break cache prefix for earlier content.
   const planPath = Session.plan(input.session, ctx)
-  const plan = path.relative(ctx.worktree, planPath)
+  const baseDir = ctx.worktree === "/" ? ctx.directory : ctx.worktree
+  const plan = path.relative(baseDir, planPath)
   const exists = yield* fsys.existsSafe(planPath)
   if (!exists) yield* fsys.ensureDir(path.dirname(planPath)).pipe(Effect.catch(Effect.die))
 

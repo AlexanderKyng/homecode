@@ -369,7 +369,8 @@ export const Event = {
 }
 
 export function plan(input: { slug: string; time: { created: number } }, instance: InstanceContext) {
-  const base = path.join(instance.worktree, ".homecode", "plans")
+  const baseDir = instance.worktree === "/" ? instance.directory : instance.worktree
+  const base = path.join(baseDir, ".homecode", "plans")
   return path.join(base, [input.time.created, input.slug].join("-") + ".md")
 }
 
