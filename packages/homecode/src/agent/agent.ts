@@ -249,7 +249,6 @@ export const layer = Layer.effect(
             options: {},
             native: true,
             hidden: true,
-            temperature: 0.5,
             permission: Permission.merge(
               defaults,
               Permission.fromConfig({
@@ -395,7 +394,6 @@ export const layer = Layer.effect(
         const isOpenaiOauth = model.providerID === "openai" && authInfo?.type === "oauth"
 
         const params = {
-          temperature: 0.3,
           messages: [
             ...(isOpenaiOauth
               ? []
