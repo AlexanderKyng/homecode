@@ -95,10 +95,17 @@ function parallelAuthHeaders() {
 
 function callSearXNG(http: HttpClient.HttpClient, params: Schema.Schema.Type<typeof Parameters>) {
   return Effect.gen(function* () {
+    // Use engine-specific prefixes to avoid suspended default engines (Google, DuckDuckGo, etc.)
+    const formattedQuery = `!bing !mojeek ${params.query}`
+
     const request = HttpClientRequest.get(`${SEARXNG_URL}/search`).pipe(
       HttpClientRequest.setUrlParams({
-        q: params.query,
+        q: formattedQuery,
         format: "json",
+      }),
+      HttpClientRequest.setHeaders({
+        Accept: "application/json",
+        "User-Agent": `homecode/${InstallationVersion}`,
       }),
     )
 
