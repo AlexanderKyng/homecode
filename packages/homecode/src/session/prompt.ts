@@ -1338,6 +1338,60 @@ export const layer = Layer.effect(
             yield* bus.publish(Session.Event.Error, { sessionID, error: error.toObject() })
             throw error
           }
+
+          // Check for doom loops across messages before starting a new step
+          const DOOM_LOOP_THRESHOLD = 3
+          const recentToolCalls: Array<{ tool: string; input: Record<string, any> }> = []
+          for (const m of msgs) {
+            if (m.info.role !== "assistant") continue
+            for (const p of m.parts) {
+              if (p.type !== "tool" || p.state.status === "pending") continue
+              recentToolCalls.push({ tool: p.tool, input: p.state.input })
+            }
+          }
+          recentToolCalls.reverse()
+
+          if (recentToolCalls.length >= DOOM_LOOP_THRESHOLD) {
+            const lastN = recentToolCalls.slice(0, DOOM_LOOP_THRESHOLD)
+            const first = lastN[0]
+            const isLoop = lastN.every(
+              (t) => t.tool === first.tool && JSON.stringify(t.input) === JSON.stringify(first.input),
+            )
+
+            if (isLoop) {
+              const ruleset = Permission.merge(agent.permission ?? [], session.permission ?? [])
+              const action = Permission.evaluate("doom_loop", "doom_loop", ruleset).action
+
+              if (action === "deny") {
+                yield* slog.info("doom loop detected but denied by permission, stopping")
+                break
+              }
+
+              const interventionMessage = `You have attempted the tool call ${first.tool} with arguments ${JSON.stringify(first.input)} for ${DOOM_LOOP_THRESHOLD} consecutive steps without changing the system state. But wait, let me think again. This approach is failing. You are strictly forbidden from calling ${first.tool} in the next step. Instead, perform a meta-analysis of the previous failures and move to the next logical step in the plan.`
+
+              const interventionUserMsgID = MessageID.ascending()
+              yield* sessions.updateMessage({
+                id: interventionUserMsgID,
+                sessionID,
+                role: "user",
+                time: { created: Date.now() },
+                agent: lastUser.agent,
+                model: { providerID: lastUser.model.providerID, modelID: lastUser.model.modelID },
+              } satisfies MessageV2.User)
+              yield* sessions.updatePart({
+                id: PartID.ascending(),
+                messageID: interventionUserMsgID,
+                sessionID,
+                type: "text",
+                text: interventionMessage,
+                synthetic: true,
+              } satisfies MessageV2.TextPart)
+
+              yield* slog.info("doom loop intervention injected", { tool: first.tool })
+              msgs = yield* MessageV2.filterCompactedEffect(sessionID)
+              continue
+            }
+          }
           const maxSteps = agent.steps ?? Infinity
           const isLastStep = step >= maxSteps
           msgs = yield* SessionReminders.apply({ messages: msgs, agent, session }).pipe(

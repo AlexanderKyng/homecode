@@ -11,7 +11,7 @@ import * as Session from "./session"
 import { LLM } from "./llm"
 import { MessageV2 } from "./message-v2"
 import { isOverflow } from "./overflow"
-import { PartID, MessageID } from "./schema"
+import { PartID } from "./schema"
 import type { SessionID } from "./schema"
 import { SessionRetry } from "./retry"
 import { SessionStatus } from "./status"
@@ -29,7 +29,6 @@ import * as DateTime from "effect/DateTime"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Usage, type LLMEvent } from "@homecode-ai/llm"
 
-const DOOM_LOOP_THRESHOLD = 3
 const log = Log.create({ service: "session.processor" })
 
 export type Result = "compact" | "stop" | "continue"
@@ -78,14 +77,6 @@ interface ProcessorContext extends Input {
   needsCompaction: boolean
   currentText: MessageV2.TextPart | undefined
   reasoningMap: Record<string, MessageV2.ReasoningPart>
-  doomLoopIntervention:
-    | {
-        tool: string
-        input: Record<string, any>
-        count: number
-        message: string
-      }
-    | undefined
 }
 
 type StreamEvent = LLMEvent
@@ -129,7 +120,6 @@ export const layer = Layer.effect(
         needsCompaction: false,
         currentText: undefined,
         reasoningMap: {},
-        doomLoopIntervention: undefined,
       }
       let aborted = false
       const slog = log.clone().tag("session.id", input.sessionID).tag("messageID", input.assistantMessage.id)
@@ -386,78 +376,55 @@ export const layer = Layer.effect(
             return
           }
 
-          case "tool-call": {
-            if (ctx.assistantMessage.summary) {
-              throw new Error(`Tool call not allowed while generating summary: ${value.name}`)
-            }
-            const toolCall = yield* ensureToolCall(value)
-            const input = toolInput(value.input)
-            if (!toolCall.call.inputEnded) {
+          case "tool-call":
+            {
+              if (ctx.assistantMessage.summary) {
+                throw new Error(`Tool call not allowed while generating summary: ${value.name}`)
+              }
+              const toolCall = yield* ensureToolCall(value)
+              const input = toolInput(value.input)
+              if (!toolCall.call.inputEnded) {
+                // TODO(v2): Temporary dual-write while migrating session messages to v2 events.
+                if (flags.experimentalEventSystem) {
+                  yield* events.publish(SessionEvent.Tool.Input.Ended, {
+                    sessionID: ctx.sessionID,
+                    callID: value.id,
+                    text: "",
+                    timestamp: DateTime.makeUnsafe(Date.now()),
+                  })
+                }
+              }
               // TODO(v2): Temporary dual-write while migrating session messages to v2 events.
               if (flags.experimentalEventSystem) {
-                yield* events.publish(SessionEvent.Tool.Input.Ended, {
+                yield* events.publish(SessionEvent.Tool.Called, {
                   sessionID: ctx.sessionID,
                   callID: value.id,
-                  text: "",
+                  tool: value.name,
+                  input,
+                  provider: {
+                    executed: toolCall.part.metadata?.providerExecuted === true,
+                    ...(value.providerMetadata ? { metadata: value.providerMetadata } : {}),
+                  },
                   timestamp: DateTime.makeUnsafe(Date.now()),
                 })
               }
-            }
-            // TODO(v2): Temporary dual-write while migrating session messages to v2 events.
-            if (flags.experimentalEventSystem) {
-              yield* events.publish(SessionEvent.Tool.Called, {
-                sessionID: ctx.sessionID,
-                callID: value.id,
+              yield* updateToolCall(value.id, (match) => ({
+                ...match,
                 tool: value.name,
-                input,
-                provider: {
-                  executed: toolCall.part.metadata?.providerExecuted === true,
-                  ...(value.providerMetadata ? { metadata: value.providerMetadata } : {}),
-                },
-                timestamp: DateTime.makeUnsafe(Date.now()),
-              })
-            }
-            yield* updateToolCall(value.id, (match) => ({
-              ...match,
-              tool: value.name,
-              state:
-                match.state.status === "running"
-                  ? { ...match.state, input }
-                  : {
-                      status: "running",
-                      input,
-                      time: { start: Date.now() },
-                    },
-              metadata: match.metadata?.providerExecuted
-                ? { ...value.providerMetadata, providerExecuted: true }
-                : value.providerMetadata,
-            }))
-
-            const parts = MessageV2.parts(ctx.assistantMessage.id)
-            const recentParts = parts.slice(-DOOM_LOOP_THRESHOLD)
-
-            if (
-              recentParts.length !== DOOM_LOOP_THRESHOLD ||
-              !recentParts.every(
-                (part) =>
-                  part.type === "tool" &&
-                  part.tool === value.name &&
-                  part.state.status !== "pending" &&
-                  JSON.stringify(part.state.input) === JSON.stringify(input),
-              )
-            ) {
-              return
-            }
-            const interventionMessage = `You have attempted the tool call ${value.name} with arguments ${JSON.stringify(input)} for ${DOOM_LOOP_THRESHOLD} consecutive steps without changing the system state. But wait, let me think again. This approach is failing. You are strictly forbidden from calling ${value.name} in the next step. Instead, perform a meta-analysis of the previous failures and move to the next logical step in the plan.`
-            yield* failToolCall(value.id, new Error(interventionMessage))
-            ctx.doomLoopIntervention = {
-              tool: value.name,
-              input,
-              count: DOOM_LOOP_THRESHOLD,
-              message: interventionMessage,
+                state:
+                  match.state.status === "running"
+                    ? { ...match.state, input }
+                    : {
+                        status: "running",
+                        input,
+                        time: { start: Date.now() },
+                      },
+                metadata: match.metadata?.providerExecuted
+                  ? { ...value.providerMetadata, providerExecuted: true }
+                  : value.providerMetadata,
+              }))
             }
             return
-          }
 
           case "tool-result": {
             const toolCall = yield* readToolCall(value.id)
@@ -801,7 +768,7 @@ export const layer = Layer.effect(
 
             yield* stream.pipe(
               Stream.tap((event) => handleEvent(event)),
-              Stream.takeUntil(() => ctx.needsCompaction || ctx.doomLoopIntervention !== undefined),
+              Stream.takeUntil(() => ctx.needsCompaction),
               Stream.runDrain,
             )
           }).pipe(
@@ -852,29 +819,6 @@ export const layer = Layer.effect(
             Effect.ensuring(cleanup()),
           )
 
-          if (ctx.doomLoopIntervention) {
-            ctx.assistantMessage.finish = "tool-calls"
-            ctx.assistantMessage.time.completed = Date.now()
-            yield* session.updateMessage(ctx.assistantMessage)
-            const interventionUserMsg: MessageV2.User = {
-              id: MessageID.ascending(),
-              sessionID: ctx.sessionID,
-              role: "user",
-              time: { created: Date.now() },
-              agent: ctx.assistantMessage.agent,
-              model: { providerID: ctx.model.providerID, modelID: ctx.model.id },
-            }
-            yield* session.updateMessage(interventionUserMsg)
-            yield* session.updatePart({
-              id: PartID.ascending(),
-              messageID: interventionUserMsg.id,
-              sessionID: ctx.sessionID,
-              type: "text",
-              text: ctx.doomLoopIntervention.message,
-              synthetic: true,
-            } satisfies MessageV2.TextPart)
-            return "continue"
-          }
           if (ctx.needsCompaction) return "compact"
           if (ctx.blocked || ctx.assistantMessage.error) return "stop"
           return "continue"
