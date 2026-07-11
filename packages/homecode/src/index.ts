@@ -3,6 +3,12 @@ import { hideBin } from "yargs/helpers"
 import path from "path"
 import { EOL } from "os"
 import { ensureProcessMetadata } from "@homecode-ai/core/util/homecode-process"
+import { lazyCommand } from "./cli/lazy-cmd"
+import { fileURLToPath } from "node:url"
+
+// Resolve __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const processMetadata = ensureProcessMetadata("main")
 
@@ -30,58 +36,6 @@ const Heap = (await import("./cli/heap")).Heap
 const isRecord = (await import("@/util/record")).isRecord
 const drizzle = (await import("drizzle-orm/bun-sqlite")).drizzle
 const InstallationVersion = (await import("@homecode-ai/core/installation/version")).InstallationVersion
-
-const commands = await Promise.all([
-  import("./cli/cmd/acp").then((m) => m.AcpCommand),
-  import("./cli/cmd/mcp").then((m) => m.McpCommand),
-  import("./cli/cmd/tui/thread").then((m) => m.TuiThreadCommand),
-  import("./cli/cmd/tui/attach").then((m) => m.AttachCommand),
-  import("./cli/cmd/run").then((m) => m.RunCommand),
-  import("./cli/cmd/generate").then((m) => m.GenerateCommand),
-  import("./cli/cmd/debug").then((m) => m.DebugCommand),
-  import("./cli/cmd/account").then((m) => m.ConsoleCommand),
-  import("./cli/cmd/providers").then((m) => m.ProvidersCommand),
-  import("./cli/cmd/agent").then((m) => m.AgentCommand),
-  import("./cli/cmd/upgrade").then((m) => m.UpgradeCommand),
-  import("./cli/cmd/uninstall").then((m) => m.UninstallCommand),
-  import("./cli/cmd/serve").then((m) => m.ServeCommand),
-  import("./cli/cmd/web").then((m) => m.WebCommand),
-  import("./cli/cmd/models").then((m) => m.ModelsCommand),
-  import("./cli/cmd/stats").then((m) => m.StatsCommand),
-  import("./cli/cmd/export").then((m) => m.ExportCommand),
-  import("./cli/cmd/import").then((m) => m.ImportCommand),
-  import("./cli/cmd/github").then((m) => m.GithubCommand),
-  import("./cli/cmd/pr").then((m) => m.PrCommand),
-  import("./cli/cmd/session").then((m) => m.SessionCommand),
-  import("./cli/cmd/plug").then((m) => m.PluginCommand),
-  import("./cli/cmd/db").then((m) => m.DbCommand),
-])
-
-const [
-  AcpCommand,
-  McpCommand,
-  TuiThreadCommand,
-  AttachCommand,
-  RunCommand,
-  GenerateCommand,
-  DebugCommand,
-  ConsoleCommand,
-  ProvidersCommand,
-  AgentCommand,
-  UpgradeCommand,
-  UninstallCommand,
-  ServeCommand,
-  WebCommand,
-  ModelsCommand,
-  StatsCommand,
-  ExportCommand,
-  ImportCommand,
-  GithubCommand,
-  PrCommand,
-  SessionCommand,
-  PluginCommand,
-  DbCommand,
-] = commands
 
 process.on("unhandledRejection", (e) => {
   Log.Default.error("rejection", {
@@ -193,29 +147,126 @@ const cli = yargs(args)
   })
   .usage("")
   .completion("completion", "generate shell completion script")
-  .command(AcpCommand)
-  .command(McpCommand)
-  .command(TuiThreadCommand)
-  .command(AttachCommand)
-  .command(RunCommand)
-  .command(GenerateCommand)
-  .command(DebugCommand)
-  .command(ConsoleCommand)
-  .command(ProvidersCommand)
-  .command(AgentCommand)
-  .command(UpgradeCommand)
-  .command(UninstallCommand)
-  .command(ServeCommand)
-  .command(WebCommand)
-  .command(ModelsCommand)
-  .command(StatsCommand)
-  .command(ExportCommand)
-  .command(ImportCommand)
-  .command(GithubCommand)
-  .command(PrCommand)
-  .command(SessionCommand)
-  .command(PluginCommand)
-  .command(DbCommand)
+  .command(
+    lazyCommand(
+      "acp",
+      "start ACP (Agent Client Protocol) server",
+      path.resolve(__dirname, "./cli/cmd/acp"),
+      "AcpCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "mcp",
+      "manage MCP (Model Context Protocol) servers",
+      path.resolve(__dirname, "./cli/cmd/mcp"),
+      "McpCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "$0 [project]",
+      "start homecode tui",
+      path.resolve(__dirname, "./cli/cmd/tui/thread"),
+      "TuiThreadCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "attach <url>",
+      "attach to a running homecode server",
+      path.resolve(__dirname, "./cli/cmd/tui/attach"),
+      "AttachCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "run [message..]",
+      "run homecode with a message",
+      path.resolve(__dirname, "./cli/cmd/run"),
+      "RunCommand",
+    ),
+  )
+  .command(
+    lazyCommand("generate", "generate code with AI", path.resolve(__dirname, "./cli/cmd/generate"), "GenerateCommand"),
+  )
+  .command(
+    lazyCommand(
+      "debug",
+      "debugging and troubleshooting tools",
+      path.resolve(__dirname, "./cli/cmd/debug"),
+      "DebugCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "console",
+      "manage console account and organization",
+      path.resolve(__dirname, "./cli/cmd/account"),
+      "ConsoleCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "providers",
+      "manage AI providers and credentials",
+      path.resolve(__dirname, "./cli/cmd/providers"),
+      "ProvidersCommand",
+    ),
+  )
+  .command(lazyCommand("agent", "manage agents", path.resolve(__dirname, "./cli/cmd/agent"), "AgentCommand"))
+  .command(
+    lazyCommand(
+      "upgrade [target]",
+      "upgrade homecode to the latest or a specific version",
+      path.resolve(__dirname, "./cli/cmd/upgrade"),
+      "UpgradeCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "uninstall",
+      "uninstall homecode and remove all related files",
+      path.resolve(__dirname, "./cli/cmd/uninstall"),
+      "UninstallCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "serve",
+      "starts a headless homecode server",
+      path.resolve(__dirname, "./cli/cmd/serve"),
+      "ServeCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "web",
+      "start homecode server and open web interface",
+      path.resolve(__dirname, "./cli/cmd/web"),
+      "WebCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
+      "models [provider]",
+      "list all available models",
+      path.resolve(__dirname, "./cli/cmd/models"),
+      "ModelsCommand",
+    ),
+  )
+  .command(
+    lazyCommand("stats", "show performance statistics", path.resolve(__dirname, "./cli/cmd/stats"), "StatsCommand"),
+  )
+  .command(lazyCommand("export", "export data", path.resolve(__dirname, "./cli/cmd/export"), "ExportCommand"))
+  .command(lazyCommand("import", "import data", path.resolve(__dirname, "./cli/cmd/import"), "ImportCommand"))
+  .command(
+    lazyCommand("github", "manage GitHub integration", path.resolve(__dirname, "./cli/cmd/github"), "GithubCommand"),
+  )
+  .command(lazyCommand("pr", "create and manage pull requests", path.resolve(__dirname, "./cli/cmd/pr"), "PrCommand"))
+  .command(lazyCommand("session", "manage sessions", path.resolve(__dirname, "./cli/cmd/session"), "SessionCommand"))
+  .command(lazyCommand("plug", "manage plugins", path.resolve(__dirname, "./cli/cmd/plug"), "PluginCommand"))
+  .command(lazyCommand("db", "database operations", path.resolve(__dirname, "./cli/cmd/db"), "DbCommand"))
   .fail((msg, err) => {
     if (
       msg?.startsWith("Unknown argument") ||

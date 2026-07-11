@@ -1028,7 +1028,6 @@ export async function init(input: {
     }
     return loaded
   }
-
   dir = cwd
   loaded = load(input)
   return loaded

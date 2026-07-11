@@ -405,17 +405,21 @@ function App(props: { onSnapshot?: () => Promise<string[]> }) {
     attention,
   })
   const [ready, setReady] = createSignal(false)
-  TuiPluginRuntime.init({
-    api,
-    config: tuiConfig,
-    dispose: () => attention.dispose(),
+
+  // Defer plugin loading until after mount to avoid blocking render.
+  onMount(() => {
+    TuiPluginRuntime.init({
+      api,
+      config: tuiConfig,
+      dispose: () => attention.dispose(),
+    })
+      .catch((error) => {
+        console.error("Failed to load TUI plugins", error)
+      })
+      .finally(() => {
+        setReady(true)
+      })
   })
-    .catch((error) => {
-      console.error("Failed to load TUI plugins", error)
-    })
-    .finally(() => {
-      setReady(true)
-    })
 
   // Let selection copy/dismiss win ahead of normal bindings when the feature flag is on.
   const offSelectionKeys = keymap.intercept(
