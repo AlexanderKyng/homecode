@@ -40,12 +40,9 @@ import type { ReadTool } from "@/tool/read"
 import type { WriteTool } from "@/tool/write"
 import { ShellTool } from "@/tool/shell"
 import { ShellID } from "@/tool/shell/id"
-import type { GlobTool } from "@/tool/glob"
 import { TodoWriteTool } from "@/tool/todo"
-import type { GrepTool } from "@/tool/grep"
 import type { EditTool } from "@/tool/edit"
 import type { ApplyPatchTool } from "@/tool/apply_patch"
-import type { WebFetchTool } from "@/tool/webfetch"
 import { webSearchProviderLabel, type WebSearchTool } from "@/tool/websearch"
 import type { TaskTool } from "@/tool/task"
 import type { QuestionTool } from "@/tool/question"
@@ -1665,18 +1662,10 @@ function ToolPart(props: { last: boolean; part: ToolPart; message: AssistantMess
         <Match when={props.part.tool === ShellID.ToolID}>
           <Shell {...toolprops} />
         </Match>
-        <Match when={props.part.tool === "glob"}>
-          <Glob {...toolprops} />
-        </Match>
         <Match when={props.part.tool === "read"}>
           <Read {...toolprops} />
         </Match>
-        <Match when={props.part.tool === "grep"}>
-          <Grep {...toolprops} />
-        </Match>
-        <Match when={props.part.tool === "webfetch"}>
-          <WebFetch {...toolprops} />
-        </Match>
+
         <Match when={props.part.tool === "websearch"}>
           <WebSearch {...toolprops} />
         </Match>
@@ -1985,18 +1974,6 @@ function Write(props: ToolProps<typeof WriteTool>) {
   )
 }
 
-function Glob(props: ToolProps<typeof GlobTool>) {
-  const pathFormatter = usePathFormatter()
-  return (
-    <InlineTool icon="✱" pending="Finding files..." complete={props.input.pattern} part={props.part}>
-      Glob "{props.input.pattern}" <Show when={props.input.path}>in {pathFormatter.format(props.input.path)} </Show>
-      <Show when={props.metadata.count}>
-        ({props.metadata.count} {props.metadata.count === 1 ? "match" : "matches"})
-      </Show>
-    </InlineTool>
-  )
-}
-
 function Read(props: ToolProps<typeof ReadTool>) {
   const { theme } = useTheme()
   const pathFormatter = usePathFormatter()
@@ -2029,26 +2006,6 @@ function Read(props: ToolProps<typeof ReadTool>) {
         )}
       </For>
     </>
-  )
-}
-
-function Grep(props: ToolProps<typeof GrepTool>) {
-  const pathFormatter = usePathFormatter()
-  return (
-    <InlineTool icon="✱" pending="Searching content..." complete={props.input.pattern} part={props.part}>
-      Grep "{props.input.pattern}" <Show when={props.input.path}>in {pathFormatter.format(props.input.path)} </Show>
-      <Show when={props.metadata.matches}>
-        ({props.metadata.matches} {props.metadata.matches === 1 ? "match" : "matches"})
-      </Show>
-    </InlineTool>
-  )
-}
-
-function WebFetch(props: ToolProps<typeof WebFetchTool>) {
-  return (
-    <InlineTool icon="%" pending="Fetching from the web..." complete={props.input.url} part={props.part}>
-      WebFetch {props.input.url}
-    </InlineTool>
   )
 }
 

@@ -1,14 +1,11 @@
 import { PlanExitTool, PlanEnterTool } from "./plan"
 import { Session } from "@/session/session"
 import { QuestionTool } from "./question"
-import { ShellTool } from "./shell"
+import { MicrosandboxShellTool } from "./microsandbox/shell"
 import { EditTool } from "./edit"
-import { GlobTool } from "./glob"
-import { GrepTool } from "./grep"
 import { ReadTool } from "./read"
 import { TaskTool } from "./task"
 import { TodoWriteTool } from "./todo"
-import { WebFetchTool } from "./webfetch"
 import { WriteTool } from "./write"
 import { InvalidTool } from "./invalid"
 import { SkillTool } from "./skill"
@@ -30,8 +27,6 @@ import * as Log from "@homecode-ai/core/util/log"
 import { LspTool } from "./lsp"
 import { GitHubTool } from "./github"
 import { MempalaceTool } from "./mempalace"
-import { makePythonTool } from "./python/python"
-import { layer as PythonSandboxLayer, Service as PythonSandboxService } from "./python/sandbox"
 import * as Truncate from "./truncate"
 import { ApplyPatchTool } from "./apply_patch"
 import { Glob } from "@homecode-ai/core/util/glob"
@@ -110,7 +105,6 @@ export const layer: Layer.Layer<
   | Format.Service
   | Truncate.Service
   | RuntimeFlags.Service
-  | PythonSandboxService
 > = Layer.effect(
   Service,
   Effect.gen(function* () {
@@ -129,22 +123,17 @@ export const layer: Layer.Layer<
     const lsptool = yield* LspTool
     const planExit = yield* PlanExitTool
     const planEnter = yield* PlanEnterTool
-    const webfetch = yield* WebFetchTool
     const websearch = yield* WebSearchTool
     const codesearch = yield* CodeSearchTool
     const repoClone = yield* RepoCloneTool
     const repoOverview = yield* RepoOverviewTool
-    const shell = yield* ShellTool
-    const globtool = yield* GlobTool
+    const shell = yield* MicrosandboxShellTool
     const writetool = yield* WriteTool
     const edit = yield* EditTool
-    const greptool = yield* GrepTool
     const patchtool = yield* ApplyPatchTool
     const skilltool = yield* SkillTool
     const github = yield* GitHubTool
     const mempalace = yield* MempalaceTool
-    const pythonSvc = yield* PythonSandboxService
-    const python = yield* makePythonTool(pythonSvc)
     const agent = yield* Agent.Service
 
     const state = yield* InstanceState.make<State>((ctx) =>
@@ -239,12 +228,9 @@ export const layer: Layer.Layer<
           invalid: Tool.init(invalid),
           shell: Tool.init(shell),
           read: Tool.init(read),
-          glob: Tool.init(globtool),
-          grep: Tool.init(greptool),
           edit: Tool.init(edit),
           write: Tool.init(writetool),
           task: Tool.init(task),
-          fetch: Tool.init(webfetch),
           todo: Tool.init(todo),
           search: Tool.init(websearch),
           codesearch: Tool.init(codesearch),
@@ -258,7 +244,6 @@ export const layer: Layer.Layer<
           planEnter: Tool.init(planEnter),
           github: Tool.init(github),
           mempalace: Tool.init(mempalace),
-          python: Tool.init(python),
         })
 
         return {
@@ -268,12 +253,9 @@ export const layer: Layer.Layer<
             ...(questionEnabled ? [tool.question] : []),
             tool.shell,
             tool.read,
-            tool.glob,
-            tool.grep,
             tool.edit,
             tool.write,
             tool.task,
-            tool.fetch,
             tool.github,
             tool.todo,
             tool.search,
@@ -285,7 +267,6 @@ export const layer: Layer.Layer<
             tool.plan,
             tool.planEnter,
             ...(flags.disableMempalace ? [] : [tool.mempalace]),
-            tool.python,
           ],
           task: tool.task,
           read: tool.read,
@@ -413,8 +394,7 @@ export const defaultLayer = Layer.suspend(() =>
       Layer.provide(Ripgrep.defaultLayer),
       Layer.provide(Truncate.defaultLayer),
     )
-    .pipe(Layer.provide(RuntimeFlags.defaultLayer))
-    .pipe(Layer.provide(PythonSandboxLayer)),
+    .pipe(Layer.provide(RuntimeFlags.defaultLayer)),
 )
 
 function isZodType(value: unknown): value is z.ZodType {

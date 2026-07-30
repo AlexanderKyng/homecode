@@ -20,8 +20,6 @@ import type * as Tool from "@/tool/tool"
 import type { ApplyPatchTool } from "@/tool/apply_patch"
 import type { ShellTool as BashTool } from "@/tool/shell"
 import type { EditTool } from "@/tool/edit"
-import type { GlobTool } from "@/tool/glob"
-import type { GrepTool } from "@/tool/grep"
 import type { InvalidTool } from "@/tool/invalid"
 import type { LspTool } from "@/tool/lsp"
 import type { PlanExitTool, PlanEnterTool } from "@/tool/plan"
@@ -30,7 +28,6 @@ import type { ReadTool } from "@/tool/read"
 import type { SkillTool } from "@/tool/skill"
 import type { TaskTool } from "@/tool/task"
 import type { TodoWriteTool } from "@/tool/todo"
-import type { WebFetchTool } from "@/tool/webfetch"
 import { webSearchProviderLabel, type WebSearchTool } from "@/tool/websearch"
 import { CodeSearchTool } from "@/tool/codesearch"
 import type { GitHubTool } from "@/tool/github"
@@ -104,11 +101,8 @@ type ToolDefs = {
   todowrite: typeof TodoWriteTool
   question: typeof QuestionTool
   read: typeof ReadTool
-  glob: typeof GlobTool
-  grep: typeof GrepTool
   list: Tool.Info
   lsp: typeof LspTool
-  webfetch: typeof WebFetchTool
   websearch: typeof WebSearchTool
   codesearch: typeof CodeSearchTool
   github: typeof GitHubTool
@@ -290,32 +284,6 @@ function count(n: number, label: string): string {
   return `${n} ${label}${n === 1 ? "" : "es"}`
 }
 
-function runGlob(p: ToolProps<typeof GlobTool>): ToolInline {
-  const root = p.input.path ?? ""
-  const title = `Glob "${p.input.pattern ?? ""}"`
-  const suffix = root ? `in ${toolPath(root)}` : ""
-  const matches = p.metadata.count
-  const description = matches === undefined ? suffix : `${suffix}${suffix ? " · " : ""}${count(matches, "match")}`
-  return {
-    icon: "✱",
-    title,
-    ...(description && { description }),
-  }
-}
-
-function runGrep(p: ToolProps<typeof GrepTool>): ToolInline {
-  const root = p.input.path ?? ""
-  const title = `Grep "${p.input.pattern ?? ""}"`
-  const suffix = root ? `in ${toolPath(root)}` : ""
-  const matches = p.metadata.matches
-  const description = matches === undefined ? suffix : `${suffix}${suffix ? " · " : ""}${count(matches, "match")}`
-  return {
-    icon: "✱",
-    title,
-    ...(description && { description }),
-  }
-}
-
 function runList(p: ToolProps): ToolInline {
   const dir = text(dict(p.input).path)
   return {
@@ -349,14 +317,6 @@ function runGithub(p: ToolProps<typeof GitHubTool>): ToolInline {
   return {
     icon: "%",
     title: repo ? `GitHub ${action} ${repo}` : `GitHub ${action}`,
-  }
-}
-
-function runWebfetch(p: ToolProps<typeof WebFetchTool>): ToolInline {
-  const url = p.input.url ?? ""
-  return {
-    icon: "%",
-    title: url ? `WebFetch ${url}` : "WebFetch",
   }
 }
 
@@ -895,32 +855,6 @@ function scrollSkillStart(p: ToolProps<typeof SkillTool>): string {
   return `→ Skill "${p.input.name ?? ""}"`
 }
 
-function scrollGlobStart(p: ToolProps<typeof GlobTool>): string {
-  const pattern = p.input.pattern ?? ""
-  const head = pattern ? `✱ Glob "${pattern}"` : "✱ Glob"
-  const dir = p.input.path ?? ""
-  if (!dir) {
-    return head
-  }
-
-  return `${head} in ${toolPath(dir)}`
-}
-
-function scrollGlobFinal(p: ToolProps<typeof GlobTool>): string {
-  return toolError(p.frame) || fail(p.frame)
-}
-
-function scrollGrepStart(p: ToolProps<typeof GrepTool>): string {
-  const pattern = p.input.pattern ?? ""
-  const head = pattern ? `✱ Grep "${pattern}"` : "✱ Grep"
-  const dir = p.input.path ?? ""
-  if (!dir) {
-    return head
-  }
-
-  return `${head} in ${toolPath(dir)}`
-}
-
 function scrollListStart(p: ToolProps): string {
   const dir = text(dict(p.input).path)
   if (!dir) {
@@ -934,15 +868,6 @@ function scrollGithubStart(p: ToolProps<typeof GitHubTool>): string {
   const repo = `${p.input.owner ?? ""}/${p.input.repo ?? ""}`.trim().replace("//", "")
   const action = p.input.action ?? ""
   return repo ? `% GitHub ${action} ${repo}` : `% GitHub ${action}`
-}
-
-function scrollWebfetchStart(p: ToolProps<typeof WebFetchTool>): string {
-  const url = p.input.url ?? ""
-  if (!url) {
-    return "% WebFetch"
-  }
-
-  return `% WebFetch ${url}`
 }
 
 function scrollWebSearchStart(p: ToolProps<typeof WebSearchTool>): string {
@@ -981,24 +906,6 @@ function permRead(p: ToolPermissionProps<typeof ReadTool>): ToolPermissionInfo {
   }
 }
 
-function permGlob(p: ToolPermissionProps<typeof GlobTool>): ToolPermissionInfo {
-  const pattern = p.input.pattern || p.patterns[0] || ""
-  return {
-    icon: "✱",
-    title: `Glob "${pattern}"`,
-    lines: pattern ? [`Pattern: ${pattern}`] : [],
-  }
-}
-
-function permGrep(p: ToolPermissionProps<typeof GrepTool>): ToolPermissionInfo {
-  const pattern = p.input.pattern || p.patterns[0] || ""
-  return {
-    icon: "✱",
-    title: `Grep "${pattern}"`,
-    lines: pattern ? [`Pattern: ${pattern}`] : [],
-  }
-}
-
 function permList(p: ToolPermissionProps): ToolPermissionInfo {
   const dir = text(dict(p.input).path) || p.patterns[0] || ""
   return {
@@ -1025,15 +932,6 @@ function permTask(p: ToolPermissionProps<typeof TaskTool>): ToolPermissionInfo {
     icon: "#",
     title: `${Locale.titlecase(type)} Task`,
     lines: desc ? [`◉ ${desc}`] : [],
-  }
-}
-
-function permWebfetch(p: ToolPermissionProps<typeof WebFetchTool>): ToolPermissionInfo {
-  const url = p.input.url || ""
-  return {
-    icon: "%",
-    title: `WebFetch ${url}`,
-    lines: url ? [`URL: ${url}`] : [],
   }
 }
 
@@ -1195,29 +1093,7 @@ const TOOL_RULES = {
     },
     permission: permRead,
   },
-  glob: {
-    view: {
-      output: false,
-      final: false,
-    },
-    run: runGlob,
-    scroll: {
-      start: scrollGlobStart,
-      final: scrollGlobFinal,
-    },
-    permission: permGlob,
-  },
-  grep: {
-    view: {
-      output: false,
-      final: false,
-    },
-    run: runGrep,
-    scroll: {
-      start: scrollGrepStart,
-    },
-    permission: permGrep,
-  },
+
   list: {
     view: {
       output: false,
@@ -1240,17 +1116,7 @@ const TOOL_RULES = {
     },
     permission: permLsp,
   },
-  webfetch: {
-    view: {
-      output: false,
-      final: false,
-    },
-    run: runWebfetch,
-    scroll: {
-      start: scrollWebfetchStart,
-    },
-    permission: permWebfetch,
-  },
+
   websearch: {
     view: {
       output: false,
