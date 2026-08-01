@@ -87,6 +87,8 @@ export const bodyFields = {
   presence_penalty: Schema.optional(Schema.Number),
   seed: Schema.optional(Schema.Number),
   stop: optionalArray(Schema.String),
+  cache_prompt: Schema.optional(Schema.Boolean),
+  id_slot: Schema.optional(Schema.Number),
 }
 const OpenAIChatBody = Schema.Struct(bodyFields)
 export type OpenAIChatBody = Schema.Schema.Type<typeof OpenAIChatBody>
@@ -256,6 +258,15 @@ const lowerOptions = Effect.fn("OpenAIChat.lowerOptions")(function* (request: LL
   }
 })
 
+const llamaServerOptions = (request: LLMRequest) => {
+  const value = request.providerOptions?.llamaServer
+  if (!value) return {}
+  return {
+    ...(value.cachePrompt === true ? { cache_prompt: true } : {}),
+    ...(typeof value.slot === "number" ? { id_slot: value.slot } : {}),
+  }
+}
+
 const fromRequest = Effect.fn("OpenAIChat.fromRequest")(function* (request: LLMRequest) {
   // `fromRequest` returns the provider body only. Endpoint, auth, framing,
   // validation, and HTTP execution are composed by `Route.make`.
@@ -275,6 +286,7 @@ const fromRequest = Effect.fn("OpenAIChat.fromRequest")(function* (request: LLMR
     seed: generation?.seed,
     stop: generation?.stop,
     ...(yield* lowerOptions(request)),
+    ...llamaServerOptions(request),
   }
 })
 

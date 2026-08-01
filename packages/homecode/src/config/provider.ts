@@ -89,6 +89,14 @@ export const Info = Schema.Struct({
         setCacheKey: Schema.optional(Schema.Boolean).annotate({
           description: "Enable promptCacheKey for this provider (default false)",
         }),
+        llamaServer: Schema.optional(
+          Schema.Struct({
+            slots: PositiveInt.annotate({ description: "Number of llama-server slots available for this provider." }),
+            cachePrompt: Schema.optional(Schema.Boolean).annotate({
+              description: "Enable llama-server prompt cache reuse (default true).",
+            }),
+          }),
+        ),
         timeout: Schema.optional(
           Schema.Union([PositiveInt, Schema.Literal(false)]).annotate({
             description: "Timeout in milliseconds for full requests to this provider. Set to false to disable timeout.",

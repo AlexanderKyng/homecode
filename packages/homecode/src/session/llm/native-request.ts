@@ -31,6 +31,7 @@ export type RequestInput = {
   readonly topK?: number
   readonly maxOutputTokens?: number
   readonly providerOptions?: LLMRequest["providerOptions"]
+  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number }
   readonly headers?: Record<string, string>
 }
 
@@ -189,7 +190,10 @@ export const request = (input: RequestInput) => {
     tools: tools(input.tools),
     toolChoice: input.toolChoice,
     generation: generation(input),
-    providerOptions: input.providerOptions,
+    providerOptions: {
+      ...input.providerOptions,
+      ...(input.llamaServer ? { llamaServer: input.llamaServer } : {}),
+    },
   })
 }
 

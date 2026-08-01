@@ -65,6 +65,21 @@ describe("OpenAI Chat route", () => {
     }),
   )
 
+  it.effect("maps llama-server cache and slot options", () =>
+    Effect.gen(function* () {
+      const prepared = yield* LLMClient.prepare<OpenAIChat.OpenAIChatBody>(
+        LLM.request({
+          model,
+          prompt: "continue",
+          providerOptions: { llamaServer: { cachePrompt: true, slot: 3 } },
+        }),
+      )
+
+      expect(prepared.body.cache_prompt).toBe(true)
+      expect(prepared.body.id_slot).toBe(3)
+    }),
+  )
+
   it.effect("adds native query params to the Chat Completions URL", () =>
     LLMClient.generate(
       LLM.updateRequest(request, {

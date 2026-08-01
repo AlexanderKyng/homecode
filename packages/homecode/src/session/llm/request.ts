@@ -46,11 +46,29 @@ export type Prepared = {
     readonly options: Record<string, any>
   }
   readonly messageTransformOptions: Record<string, any>
+  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number }
   readonly headers: Record<string, string>
 }
 
 const mergeOptions = (target: Record<string, any>, source: Record<string, any> | undefined): Record<string, any> =>
   mergeDeep(target, source ?? {}) as Record<string, any>
+
+function llamaServerOptions(input: Pick<PrepareInput, "provider" | "sessionID" | "parentSessionID">) {
+  const config = input.provider.options.llamaServer
+  if (!config) return undefined
+  if (input.parentSessionID === undefined) return { cachePrompt: config.cachePrompt ?? true, slot: 0 }
+  return {
+    cachePrompt: config.cachePrompt ?? true,
+    slot: 1 + stableSlot(input.sessionID, config.slots - 1),
+  }
+}
+
+function stableSlot(sessionID: string, slots: number) {
+  return [...sessionID].reduce(
+    (hash, char) => (Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0) % Math.max(1, slots),
+    2166136261,
+  )
+}
 
 export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: PrepareInput) {
   const isOpenaiOauth = input.provider.id === "openai" && input.auth?.type === "oauth"
@@ -165,6 +183,7 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     tools: Object.fromEntries(Object.entries(tools).toSorted(([a], [b]) => a.localeCompare(b))),
     params,
     messageTransformOptions: options,
+    llamaServer: llamaServerOptions(input),
     headers: {
       ...(input.model.providerID.startsWith("homecode")
         ? {

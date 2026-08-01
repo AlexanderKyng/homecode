@@ -31,6 +31,7 @@ type StreamInput = {
   readonly topK?: number
   readonly maxOutputTokens?: number
   readonly providerOptions?: Record<string, any>
+  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number }
   readonly headers: Record<string, string>
   readonly abort: AbortSignal
 }
@@ -44,7 +45,8 @@ function statusWithFetch(
   fetch: typeof globalThis.fetch | undefined,
 ): RuntimeStatus {
   const providerID = input.model.providerID
-  if (providerID !== "openai" && providerID !== "anthropic" && !providerID.startsWith("homecode"))
+  const llamaServer = input.provider.options.llamaServer !== undefined
+  if (providerID !== "openai" && providerID !== "anthropic" && !providerID.startsWith("homecode") && !llamaServer)
     return { type: "unsupported", reason: "provider is not openai, homecode, or anthropic" }
   const npm = input.model.api.npm
   if (npm !== "@ai-sdk/openai" && npm !== "@ai-sdk/openai-compatible" && npm !== "@ai-sdk/anthropic")
@@ -90,6 +92,7 @@ export function stream(input: StreamInput): StreamResult {
       topK: input.topK,
       maxOutputTokens: input.maxOutputTokens,
       providerOptions: ProviderTransform.providerOptions(input.model, input.providerOptions ?? {}),
+      llamaServer: input.llamaServer,
       headers: { ...providerHeaders(input.provider.options.headers), ...input.headers },
     }),
     tools: nativeTools(input.tools, input),
