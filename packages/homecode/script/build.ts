@@ -79,22 +79,25 @@ const createEmbeddedWebUIBundle = async () => {
 }
 
 const embeddedFileMap = skipEmbedWebUi ? null : await createEmbeddedWebUIBundle()
-// Compile pyodide-worker.ts to a standalone ESM module for embedding
-const pyodideWorkerBuild = await Bun.build({
-  entrypoints: ["./src/tool/python/pyodide-worker.ts"],
-  format: "esm",
-  minify: true,
-  sourcemap: "none",
-  splitting: false,
-  target: "node",
-})
-const pyodideWorkerSource = await pyodideWorkerBuild.outputs[0].text()
-console.log(`Pyodide worker source: ${pyodideWorkerSource.length} bytes`)
-
-// Read pyodide version for CDN fallback
-const pyodidePkgPath = path.join(dir, "node_modules/pyodide/package.json")
-const pyodidePkg = await Bun.file(pyodidePkgPath).json()
-const pyodideVersion = pyodidePkg.version
+const pyodideWorker = await Bun.file(path.join(dir, "src/tool/python/pyodide-worker.ts"))
+  .exists()
+  .then(async (exists) => {
+    if (!exists) return undefined
+    const build = await Bun.build({
+      entrypoints: ["./src/tool/python/pyodide-worker.ts"],
+      format: "esm",
+      minify: true,
+      sourcemap: "none",
+      splitting: false,
+      target: "node",
+    })
+    const source = await build.outputs[0].text()
+    console.log(`Pyodide worker source: ${source.length} bytes`)
+    return {
+      source,
+      version: (await Bun.file(path.join(dir, "node_modules/pyodide/package.json")).json()).version,
+    }
+  })
 
 const allTargets: {
   os: string
@@ -205,6 +208,31 @@ for (const item of targets) {
   const rootPath = path.resolve(dir, "../../node_modules/@opentui/core/parser.worker.js")
   const parserWorker = fs.realpathSync(fs.existsSync(localPath) ? localPath : rootPath)
   const workerPath = "./src/cli/cmd/tui/worker.ts"
+  const lazyCommands = [
+    "./src/cli/cmd/acp.ts",
+    "./src/cli/cmd/mcp.ts",
+    "./src/cli/cmd/tui/thread.ts",
+    "./src/cli/cmd/tui/attach.ts",
+    "./src/cli/cmd/run.ts",
+    "./src/cli/cmd/generate.ts",
+    "./src/cli/cmd/debug/index.ts",
+    "./src/cli/cmd/account.ts",
+    "./src/cli/cmd/providers.ts",
+    "./src/cli/cmd/agent.ts",
+    "./src/cli/cmd/upgrade.ts",
+    "./src/cli/cmd/uninstall.ts",
+    "./src/cli/cmd/serve.ts",
+    "./src/cli/cmd/web.ts",
+    "./src/cli/cmd/models.ts",
+    "./src/cli/cmd/stats.ts",
+    "./src/cli/cmd/export.ts",
+    "./src/cli/cmd/import.ts",
+    "./src/cli/cmd/github.ts",
+    "./src/cli/cmd/pr.ts",
+    "./src/cli/cmd/session.ts",
+    "./src/cli/cmd/plug.ts",
+    "./src/cli/cmd/db.ts",
+  ]
 
   // Use platform-specific bunfs root path based on target OS
   const bunfsRoot = item.os === "win32" ? "B:/~BUN/root/" : "/$bunfs/root/"
@@ -230,7 +258,13 @@ for (const item of targets) {
       windows: {},
     },
     files: embeddedFileMap ? { "homecode-web-ui.gen.ts": embeddedFileMap } : {},
-    entrypoints: ["./src/index.ts", parserWorker, workerPath, ...(embeddedFileMap ? ["homecode-web-ui.gen.ts"] : [])],
+    entrypoints: [
+      "./src/index.ts",
+      parserWorker,
+      workerPath,
+      ...lazyCommands,
+      ...(embeddedFileMap ? ["homecode-web-ui.gen.ts"] : []),
+    ],
     define: {
       OPENCODE_VERSION: `'${Script.version}'`,
       OPENCODE_MIGRATIONS: JSON.stringify(migrations),
@@ -239,14 +273,15 @@ for (const item of targets) {
       OPENCODE_WORKER_PATH: workerPath,
       OPENCODE_CHANNEL: `'${Script.channel}'`,
       OPENCODE_LIBC: item.os === "linux" ? `'${item.abi ?? "glibc"}'` : "",
-      OPENCODE_PYODIDE_WORKER_SOURCE: JSON.stringify(pyodideWorkerSource),
-      OPENCODE_PYODIDE_VERSION: `'${pyodideVersion}'`,
+      ...(pyodideWorker ? { OPENCODE_PYODIDE_WORKER_SOURCE: JSON.stringify(pyodideWorker.source) } : {}),
+      ...(pyodideWorker ? { OPENCODE_PYODIDE_VERSION: `'${pyodideWorker.version}'` } : {}),
     },
   })
-  // Copy pyodide runtime files alongside the binary
-  const pyodideSrc = path.join(dir, "node_modules", "pyodide")
-  const pyodideDst = `dist/${name}/bin/pyodide`
-  await $`cp -rL ${pyodideSrc} ${pyodideDst}`
+  if (pyodideWorker) {
+    const pyodideSrc = path.join(dir, "node_modules", "pyodide")
+    const pyodideDst = `dist/${name}/bin/pyodide`
+    await $`cp -rL ${pyodideSrc} ${pyodideDst}`
+  }
 
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {

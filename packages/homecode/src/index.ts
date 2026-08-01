@@ -194,7 +194,7 @@ const cli = yargs(args)
     lazyCommand(
       "debug",
       "debugging and troubleshooting tools",
-      path.resolve(__dirname, "./cli/cmd/debug"),
+      path.resolve(__dirname, "./cli/cmd/debug/index"),
       "DebugCommand",
     ),
   )

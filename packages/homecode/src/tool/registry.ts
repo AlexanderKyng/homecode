@@ -1,7 +1,7 @@
 import { PlanExitTool, PlanEnterTool } from "./plan"
 import { Session } from "@/session/session"
 import { QuestionTool } from "./question"
-import { MicrosandboxShellTool } from "./microsandbox/shell"
+import { ShellTool } from "./shell"
 import { EditTool } from "./edit"
 import { ReadTool } from "./read"
 import { TaskTool } from "./task"
@@ -127,7 +127,7 @@ export const layer: Layer.Layer<
     const codesearch = yield* CodeSearchTool
     const repoClone = yield* RepoCloneTool
     const repoOverview = yield* RepoOverviewTool
-    const shell = yield* MicrosandboxShellTool
+    const shell = yield* ShellTool
     const writetool = yield* WriteTool
     const edit = yield* EditTool
     const patchtool = yield* ApplyPatchTool
