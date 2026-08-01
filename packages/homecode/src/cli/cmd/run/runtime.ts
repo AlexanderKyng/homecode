@@ -14,6 +14,7 @@
 //   4. runs the prompt queue until the footer closes.
 import { createOpencodeClient } from "@homecode-ai/sdk/v2"
 import { Flag } from "@homecode-ai/core/flag/flag"
+import { LlamaServer } from "@/session/llm/llama-server"
 import { createRunDemo } from "./demo"
 import { resolveDiffStyle, resolveFooterKeybinds, resolveModelInfo, resolveSessionInfo } from "./runtime.boot"
 import { createRuntimeLifecycle } from "./runtime.lifecycle"
@@ -509,6 +510,7 @@ async function runInteractiveRuntime(input: RunRuntimeInput): Promise<void> {
               })
               await footer.idle().catch(() => {})
               await state.stream?.then((item) => item.handle.close()).catch(() => {})
+              LlamaServer.release(state.sessionID)
               state.stream = undefined
               state.session = undefined
               state.selectSubagent = undefined
@@ -627,14 +629,16 @@ async function runInteractiveRuntime(input: RunRuntimeInput): Promise<void> {
       await state.stream?.then((item) => item.handle.close()).catch(() => {})
     }
   } finally {
-    const title = await resolveExitTitle(ctx, input, state)
-
-    await shell.close({
-      showExit: state.shown && hasSession(input, state),
-      sessionTitle: title,
-      sessionID: state.sessionID,
-      history: state.history,
-    })
+    try {
+      await shell.close({
+        showExit: state.shown && hasSession(input, state),
+        sessionTitle: await resolveExitTitle(ctx, input, state),
+        sessionID: state.sessionID,
+        history: state.history,
+      })
+    } finally {
+      LlamaServer.release(state.sessionID)
+    }
   }
 }
 

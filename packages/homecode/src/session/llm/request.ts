@@ -12,6 +12,7 @@ import { Effect } from "effect"
 import { jsonSchema, tool as aiTool, type ModelMessage, type Tool } from "ai"
 import type { Plugin } from "@/plugin"
 import { mergeDeep } from "remeda"
+import { LlamaServer } from "./llama-server"
 
 const USER_AGENT = `homecode/${InstallationVersion}`
 
@@ -46,7 +47,7 @@ export type Prepared = {
     readonly options: Record<string, any>
   }
   readonly messageTransformOptions: Record<string, any>
-  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number }
+  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number; readonly strictCache: boolean; readonly sessionID: string }
   readonly headers: Record<string, string>
 }
 
@@ -56,18 +57,17 @@ const mergeOptions = (target: Record<string, any>, source: Record<string, any> |
 function llamaServerOptions(input: Pick<PrepareInput, "provider" | "sessionID" | "parentSessionID">) {
   const config = input.provider.options.llamaServer
   if (!config) return undefined
-  if (input.parentSessionID === undefined) return { cachePrompt: config.cachePrompt ?? true, slot: 0 }
   return {
     cachePrompt: config.cachePrompt ?? true,
-    slot: 1 + stableSlot(input.sessionID, config.slots - 1),
+    slot: LlamaServer.slot({
+      endpoint: `${input.provider.id}:${input.provider.options.baseURL ?? ""}`,
+      sessionID: input.sessionID,
+      slots: config.slots,
+      subagent: input.parentSessionID !== undefined,
+    }),
+    strictCache: config.strictCache ?? false,
+    sessionID: input.sessionID,
   }
-}
-
-function stableSlot(sessionID: string, slots: number) {
-  return [...sessionID].reduce(
-    (hash, char) => (Math.imul(hash ^ char.charCodeAt(0), 16777619) >>> 0) % Math.max(1, slots),
-    2166136261,
-  )
 }
 
 export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: PrepareInput) {

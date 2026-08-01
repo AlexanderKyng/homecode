@@ -32,8 +32,8 @@ export function provider(model: Provider.Model) {
 
 export interface Interface {
   readonly environment: (model: Provider.Model) => Effect.Effect<string[]>
-  readonly environmentDynamic: () => Effect.Effect<string | undefined>
-  readonly skills: () => Effect.Effect<string | undefined>
+  readonly environmentDynamic: (sessionID?: string) => Effect.Effect<string | undefined>
+  readonly skills: (sessionID?: string) => Effect.Effect<string | undefined>
 }
 
 export class Service extends Context.Service<Service, Interface>()("@homecode/SystemPrompt") {}
@@ -42,6 +42,8 @@ export const layer = Layer.effect(
   Service,
   Effect.gen(function* () {
     const skill = yield* Skill.Service
+    const dynamicEnvironment = new Map<string, string>()
+    const skills = new Map<string, string>()
 
     return Service.of({
       environment: Effect.fn("SystemPrompt.environment")(function* (model: Provider.Model) {
@@ -60,20 +62,32 @@ export const layer = Layer.effect(
         ]
       }),
 
-      environmentDynamic: Effect.fn("SystemPrompt.environmentDynamic")(() =>
-        Effect.succeed(`Today's date: ${new Date().toDateString()}`),
+      environmentDynamic: Effect.fn("SystemPrompt.environmentDynamic")((sessionID) =>
+        Effect.sync(() => {
+          const key = sessionID ?? "default"
+          const existing = dynamicEnvironment.get(key)
+          if (existing) return existing
+          const value = `Today's date: ${new Date().toDateString()}`
+          dynamicEnvironment.set(key, value)
+          return value
+        }),
       ),
 
-      skills: Effect.fn("SystemPrompt.skills")(function* () {
+      skills: Effect.fn("SystemPrompt.skills")(function* (sessionID) {
+        const key = sessionID ?? "default"
+        const existing = skills.get(key)
+        if (existing) return existing
         const list = yield* skill.all()
 
-        return [
+        const value = [
           "Skills provide specialized instructions and workflows for specific tasks.",
           "Use the skill tool to load a skill when a task matches its description.",
           // the agents seem to ingest the information about skills a bit better if we present a more verbose
           // version of them here and a less verbose version in tool description, rather than vice versa.
           Skill.fmt(list, { verbose: true }),
         ].join("\n")
+        skills.set(key, value)
+        return value
       }),
     })
   }),

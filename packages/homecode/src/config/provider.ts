@@ -95,6 +95,9 @@ export const Info = Schema.Struct({
             cachePrompt: Schema.optional(Schema.Boolean).annotate({
               description: "Enable llama-server prompt cache reuse (default true).",
             }),
+            strictCache: Schema.optional(Schema.Boolean).annotate({
+              description: "Reject llama-server requests that rewrite a cached prompt prefix (default false).",
+            }),
           }),
         ),
         timeout: Schema.optional(

@@ -1250,6 +1250,7 @@ export const layer = Layer.effect(
         const slog = elog.with({ sessionID })
         let structured: unknown
         let step = 0
+        const recalls = new Map<string, ContextAssembler.DynamicContextBlock[]>()
         const session = yield* sessions.get(sessionID).pipe(Effect.orDie)
 
         while (true) {
@@ -1503,8 +1504,8 @@ export const layer = Layer.effect(
             yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
 
             const [skills, envDynamic, env, instructions, modelMsgs] = yield* Effect.all([
-              sys.skills(),
-              sys.environmentDynamic(),
+              sys.skills(sessionID),
+              sys.environmentDynamic(sessionID),
               sys.environment(model),
               instruction.system().pipe(
                 Effect.catch((error) => {
@@ -1521,7 +1522,8 @@ export const layer = Layer.effect(
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
             const tokenBudget = (yield* config.get()).experimental?.homemem?.token_budget ?? 180
-            const recall = homemem ? yield* homemem.dynamicContext({ sessionID, tokenBudget }) : []
+            const recall = recalls.get(lastUser.id) ?? (homemem ? yield* homemem.dynamicContext({ sessionID, tokenBudget }) : [])
+            recalls.set(lastUser.id, recall)
             const messages = ContextAssembler.assemble({
               messages: [...modelMsgs, ...(isLastStep ? [{ role: "assistant" as const, content: MAX_STEPS }] : [])],
               blocks: recall,

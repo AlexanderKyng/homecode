@@ -12,6 +12,7 @@ import { Config } from "@/config/config"
 import { Cause, Effect, Exit, Schema, Scope } from "effect"
 import { EffectBridge } from "@/effect/bridge"
 import { RuntimeFlags } from "@/effect/runtime-flags"
+import { LlamaServer } from "@/session/llm/llama-server"
 
 export interface TaskPromptOps {
   cancel(sessionID: SessionID): Effect.Effect<void>
@@ -199,6 +200,7 @@ export const TaskTool = Tool.define(
         })
         return result.parts.findLast((item) => item.type === "text")?.text ?? ""
       })
+      const releaseSlot = Effect.sync(() => LlamaServer.release(nextSession.id))
 
       const inject = Effect.fn("TaskTool.injectBackgroundResult")(function* (
         state: "completed" | "error",
@@ -244,6 +246,7 @@ export const TaskTool = Tool.define(
                 : inject("error", errorText(Cause.squash(cause))).pipe(Effect.ignore)
               ).pipe(Effect.andThen(Effect.failCause(cause))),
             ),
+            Effect.ensuring(releaseSlot),
           ),
         })
 
@@ -285,9 +288,9 @@ export const TaskTool = Tool.define(
               Effect.sync(() => {
                 ctx.abort.removeEventListener("abort", onAbort)
               }),
-            ),
           ),
-      )
+        ),
+      ).pipe(Effect.ensuring(releaseSlot))
     })
 
     return {

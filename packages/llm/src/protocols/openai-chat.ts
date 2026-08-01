@@ -272,11 +272,40 @@ const llamaServerOptions = (request: LLMRequest) => {
   }
 }
 
+const llamaServerCache = new Map<string, { model: string; messages: string[]; tools: string; toolChoice: string }>()
+
+const assertLlamaServerPrefix = (request: LLMRequest, body: OpenAIChatBody) => {
+  const options = request.providerOptions?.llamaServer
+  if (options?.strictCache !== true || typeof options.sessionID !== "string" || typeof options.slot !== "number") return
+  const key = `${options.sessionID}:${options.slot}`
+  const next = {
+    model: body.model,
+    messages: body.messages.map((message) => JSON.stringify(message)),
+    tools: JSON.stringify(body.tools),
+    toolChoice: JSON.stringify(body.tool_choice),
+  }
+  const previous = llamaServerCache.get(key)
+  if (!previous) {
+    llamaServerCache.set(key, next)
+    return
+  }
+  if (
+    previous.model === next.model &&
+    previous.tools === next.tools &&
+    previous.toolChoice === next.toolChoice &&
+    previous.messages.every((message, index) => next.messages[index] === message)
+  ) {
+    llamaServerCache.set(key, next)
+    return
+  }
+  return `llama-server strict cache rejected request for slot ${options.slot}: model, tools, tool choice, or prior messages changed`
+}
+
 const fromRequest = Effect.fn("OpenAIChat.fromRequest")(function* (request: LLMRequest) {
   // `fromRequest` returns the provider body only. Endpoint, auth, framing,
   // validation, and HTTP execution are composed by `Route.make`.
   const generation = request.generation
-  return {
+  const body = {
     model: request.model.id,
     messages: yield* lowerMessages(request),
     tools: request.tools.length === 0 ? undefined : request.tools.map(lowerTool),
@@ -293,6 +322,9 @@ const fromRequest = Effect.fn("OpenAIChat.fromRequest")(function* (request: LLMR
     ...(yield* lowerOptions(request)),
     ...llamaServerOptions(request),
   }
+  const error = assertLlamaServerPrefix(request, body)
+  if (error) return yield* invalid(error)
+  return body
 })
 
 // =============================================================================

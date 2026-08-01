@@ -31,7 +31,7 @@ type StreamInput = {
   readonly topK?: number
   readonly maxOutputTokens?: number
   readonly providerOptions?: Record<string, any>
-  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number }
+  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number; readonly strictCache: boolean; readonly sessionID: string }
   readonly headers: Record<string, string>
   readonly abort: AbortSignal
 }

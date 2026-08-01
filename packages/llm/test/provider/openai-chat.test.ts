@@ -80,6 +80,36 @@ describe("OpenAI Chat route", () => {
     }),
   )
 
+  it.effect("rejects llama-server requests that rewrite a cached prefix", () =>
+    Effect.gen(function* () {
+      const providerOptions = { llamaServer: { cachePrompt: true, slot: 3, strictCache: true, sessionID: "strict-cache" } }
+      yield* LLMClient.prepare<OpenAIChat.OpenAIChatBody>(
+        LLM.request({ model, system: "stable", prompt: "first", providerOptions }),
+      )
+      yield* LLMClient.prepare<OpenAIChat.OpenAIChatBody>(
+        LLM.request({
+          model,
+          system: "stable",
+          messages: [Message.user("first")],
+          prompt: "second",
+          providerOptions,
+        }),
+      )
+
+      const error = yield* LLMClient.prepare(
+        LLM.request({
+          model,
+          system: "changed",
+          messages: [Message.user("first")],
+          prompt: "third",
+          providerOptions,
+        }),
+      ).pipe(Effect.flip)
+
+      expect(error.message).toContain("llama-server strict cache rejected request")
+    }),
+  )
+
   it.effect("adds native query params to the Chat Completions URL", () =>
     LLMClient.generate(
       LLM.updateRequest(request, {

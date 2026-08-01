@@ -99,20 +99,7 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   const existingPlanState = userMessage.parts.find(
     (p) => p.type === "text" && p.synthetic && p.text.startsWith("[Plan file:"),
   ) as MessageV2.TextPart | undefined
-  if (existingPlanState) {
-    if (existingPlanState.text === planStateText) {
-      return input.messages
-    }
-    // Content changed — remove old part from DB and memory
-    yield* sessions.removePart({
-      sessionID: userMessage.info.sessionID,
-      messageID: userMessage.info.id,
-      partID: existingPlanState.id,
-    })
-    const parts = userMessage.parts.filter((p) => p.id !== existingPlanState.id)
-    userMessage.parts.length = 0
-    userMessage.parts.push(...parts)
-  }
+  if (existingPlanState) return input.messages
 
   yield* addSynthetic(planStateText)
   return input.messages
