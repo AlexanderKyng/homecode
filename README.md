@@ -42,7 +42,7 @@ HomeCode is a fork of [Opencode](https://github.com/AnomalyCo/opencode) redesign
 | Feature                     | Description                                                                                                                                                   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Hash-Based Editing**      | Read, Edit, Write, and apply_patch use a line-level hash system, modifying only the lines that change instead of rewriting entire files                       |
-| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and MemPalace (persistent local memory) are not available in Opencode               |
+| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and HomeMem (evidence-driven local memory) are not available in Opencode               |
 | **All New Python Tool**     | An original, made from scratch, Python tool built with security and speed in mind. Enables your model to perform quick operations, calculations, you name it. |
 | **Toon Compression**        | Tool outputs are compressed via Toon to reduce token usage and verbosity                                                                                      |
 | **Local SearXNG**           | WebSearch and CodeSearch run through a local SearXNG instance (Docker deployment required) for privacy and self-hosted control                                |

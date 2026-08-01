@@ -60,6 +60,8 @@ import { SessionTable } from "./session.sql"
 import { referencePromptMetadata, referenceTextPart } from "./prompt/reference"
 import { SessionReminders } from "./reminders"
 import { SessionTools } from "./tools"
+import { HomeMemAdapter } from "@/homemem"
+import * as ContextAssembler from "./context-assembler"
 import { LLMEvent } from "@homecode-ai/llm"
 
 // @ts-ignore
@@ -117,6 +119,7 @@ export const layer = Layer.effect(
     const lsp = yield* LSP.Service
     const registry = yield* ToolRegistry.Service
     const truncate = yield* Truncate.Service
+    const homemem = Option.getOrUndefined(yield* Effect.serviceOption(HomeMemAdapter.Service))
     const image = yield* Image.Service
     const spawner = yield* ChildProcessSpawner.ChildProcessSpawner
     const scope = yield* Scope.Scope
@@ -1450,6 +1453,7 @@ export const layer = Layer.effect(
               bypassAgentCheck,
               messages: msgs,
               promptOps,
+              homemem,
             }).pipe(
               Effect.provideService(Plugin.Service, plugin),
               Effect.provideService(Permission.Service, permission),
@@ -1516,6 +1520,13 @@ export const layer = Layer.effect(
             const system = [...env, ...instructions, ...(envDynamic ? [envDynamic] : []), ...(skills ? [skills] : [])]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
+            const tokenBudget = (yield* config.get()).experimental?.homemem?.token_budget ?? 180
+            const recall = homemem ? yield* homemem.dynamicContext({ sessionID, tokenBudget }) : []
+            const messages = ContextAssembler.assemble({
+              messages: [...modelMsgs, ...(isLastStep ? [{ role: "assistant" as const, content: MAX_STEPS }] : [])],
+              blocks: recall,
+              tokenBudget,
+            })
             const result = yield* handle.process({
               user: lastUser,
               agent,
@@ -1523,7 +1534,7 @@ export const layer = Layer.effect(
               sessionID,
               parentSessionID: session.parentID,
               system,
-              messages: [...modelMsgs, ...(isLastStep ? [{ role: "assistant" as const, content: MAX_STEPS }] : [])],
+              messages,
               tools,
               model,
               toolChoice: format.type === "json_schema" ? "required" : undefined,
@@ -1724,7 +1735,7 @@ export const defaultLayer = Layer.suspend(() =>
     Layer.provide(MCP.defaultLayer),
     Layer.provide(LSP.defaultLayer),
     Layer.provide(ToolRegistry.defaultLayer),
-    Layer.provide(Truncate.defaultLayer),
+    Layer.provide(Layer.mergeAll(Truncate.defaultLayer, HomeMemAdapter.defaultLayer)),
     Layer.provide(Provider.defaultLayer),
     Layer.provide(Config.defaultLayer),
     Layer.provide(Instruction.defaultLayer),

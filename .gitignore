@@ -24,6 +24,9 @@ target
 .scripts
 .direnv/
 /packages/homecode/test/*
+!/packages/homecode/test/homemem/
+!/packages/homecode/test/homemem/**
+.homecode
 
 # Local dev files
 opencode-dev

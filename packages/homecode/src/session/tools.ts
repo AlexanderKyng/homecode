@@ -19,6 +19,7 @@ import { PartID } from "./schema"
 import * as Log from "@homecode-ai/core/util/log"
 import { EffectBridge } from "@/effect/bridge"
 import { Wildcard } from "@homecode-ai/core/util/wildcard"
+import { HomeMemAdapter } from "@/homemem"
 
 const log = Log.create({ service: "session.tools" })
 const EDIT_TOOLS = ["edit", "write", "apply_patch"]
@@ -31,6 +32,7 @@ export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
   bypassAgentCheck: boolean
   messages: MessageV2.WithParts[]
   promptOps: TaskPromptOps
+  homemem?: HomeMemAdapter.Interface
 }) {
   using _ = log.time("resolveTools")
   const tools: Record<string, AITool> = {}
@@ -106,6 +108,14 @@ export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
               { tool: item.id, sessionID: ctx.sessionID, callID: ctx.callID },
               { args },
             )
+            const homememBefore = input.homemem
+              ? yield* input.homemem.beforeTool({
+                  tool: item.id,
+                  args,
+                  sessionID: ctx.sessionID,
+                  callID: ctx.callID ?? "unknown",
+                })
+              : undefined
             const result = yield* item.execute(args, ctx)
             const output = {
               ...result,
@@ -121,6 +131,16 @@ export const resolve = Effect.fn("SessionTools.resolve")(function* (input: {
               { tool: item.id, sessionID: ctx.sessionID, callID: ctx.callID, args },
               output,
             )
+            if (input.homemem && homememBefore) {
+              yield* input.homemem.afterTool({
+                tool: item.id,
+                args,
+                sessionID: ctx.sessionID,
+                callID: ctx.callID ?? "unknown",
+                before: homememBefore,
+                result: output,
+              })
+            }
             if (options.abortSignal?.aborted) {
               yield* input.processor.completeToolCall(options.toolCallId, output)
             }

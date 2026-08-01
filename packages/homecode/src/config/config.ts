@@ -302,6 +302,25 @@ export const Info = Schema.Struct({
       mcp_timeout: Schema.optional(PositiveInt).annotate({
         description: "Timeout in milliseconds for model context protocol (MCP) requests",
       }),
+      homemem: Schema.optional(
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Boolean).annotate({
+            description: "Run the local HomeMem evidence compiler and retrieval engine",
+          }),
+          record: Schema.optional(Schema.Boolean).annotate({
+            description: "Record replayable canonical Observation JSONL traces without running HomeMem",
+          }),
+          command: Schema.optional(Schema.mutable(Schema.Array(Schema.String))).annotate({
+            description: "Command used to launch the HomeMem executable (default: homemem)",
+          }),
+          token_budget: Schema.optional(PositiveInt).annotate({
+            description: "Maximum token budget for Recall Capsules (default: 180)",
+          }),
+          automatic: Schema.optional(Schema.Boolean).annotate({
+            description: "Inject Recall Capsules as dynamic context blocks instead of shadow-only logging",
+          }),
+        }),
+      ),
     }),
   ),
 }).annotate({ identifier: "Config" })
