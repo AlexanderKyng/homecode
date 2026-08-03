@@ -135,10 +135,7 @@ export const layer = Layer.effect(
               Permission.fromConfig({
                 question: "allow",
                 plan_exit: "allow",
-                edit: {
-                  "*": "deny",
-                  [path.join(".homecode", "plans", "*.md")]: "allow",
-                },
+                edit: "deny",
               }),
 
               user,

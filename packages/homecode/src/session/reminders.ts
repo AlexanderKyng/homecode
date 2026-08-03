@@ -1,8 +1,5 @@
-import path from "path"
 import { Effect } from "effect"
 import { Agent } from "@/agent/agent"
-import { AppFileSystem } from "@homecode-ai/core/filesystem"
-import { InstanceState } from "@/effect/instance-state"
 import { PartID } from "./schema"
 import { MessageV2 } from "./message-v2"
 import * as Session from "./session"
@@ -15,9 +12,7 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   session: Session.Info
 }) {
   const agentName = input.agent.name
-  const fsys = yield* AppFileSystem.Service
   const sessions = yield* Session.Service
-  const ctx = yield* InstanceState.context
   const userMessage = input.messages.findLast((msg) => msg.info.role === "user")
   if (!userMessage) return input.messages
 
@@ -82,26 +77,6 @@ export const apply = Effect.fn("SessionReminders.apply")(function* (input: {
   // ensuring KV cache prefix stability across tool-call turns.
   yield* addSynthetic(PLAN_MODE)
 
-  // Inject dynamic plan file state as a separate synthetic part at the end.
-  // This part may change (file created/deleted during tools) but is placed after
-  // the stable reminder so it doesn't break cache prefix for earlier content.
-  const planPath = Session.plan(input.session, ctx)
-  const baseDir = ctx.worktree === "/" ? ctx.directory : ctx.worktree
-  const plan = path.relative(baseDir, planPath)
-  const exists = yield* fsys.existsSafe(planPath)
-  if (!exists) yield* fsys.ensureDir(path.dirname(planPath)).pipe(Effect.catch(Effect.die))
-
-  const planStateText = exists
-    ? `[Plan file: exists at ${plan}. You can read it and make incremental edits using the edit tool.]`
-    : `[Plan file: not yet created at ${plan}. You should create your plan there using the write tool.]`
-
-  // Remove old plan state part if it exists (content may have changed)
-  const existingPlanState = userMessage.parts.find(
-    (p) => p.type === "text" && p.synthetic && p.text.startsWith("[Plan file:"),
-  ) as MessageV2.TextPart | undefined
-  if (existingPlanState) return input.messages
-
-  yield* addSynthetic(planStateText)
   return input.messages
 })
 

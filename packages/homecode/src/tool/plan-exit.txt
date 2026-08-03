@@ -1,13 +1,25 @@
-Use this tool when you have completed the planning phase and are ready to exit plan agent.
+Use this tool when you have completed the planning phase and are ready to present the final plan for approval.
 
-This tool will ask the user if they want to switch to build agent to start implementing the plan.
+Pass the complete Markdown plan in `plan`; HomeCode saves it automatically under `.homecode/plans`. Do not use file-editing tools to create or update plan files.
+
+Pass `summary` as a short list of user-facing bullet points. The detailed plan is for the build agent; the user sees only this summary in the approval question.
+
+The plan must include a `## TODO` section. Put one actionable implementation task on each unchecked Markdown task-list item, for example:
+
+```md
+## TODO
+- [ ] Add the plan-exit parameters and persistence flow.
+- [ ] Seed the session TODO list after approval.
+```
+
+When the user accepts, HomeCode extracts that section into the session TODO list and switches to build mode. In build mode, continue to maintain it with `todowrite` as work changes.
 
 Call this tool:
-- After you have written a complete plan to the plan file
+- After you have completed a plan with the required TODO section
 - After you have clarified any questions with the user
 - When you are confident the plan is ready for implementation
 
 Do NOT call this tool:
-- Before you have created or finalized the plan
+- Before you have finalized the plan
 - If you still have unanswered questions about the implementation
 - If the user has indicated they want to continue planning

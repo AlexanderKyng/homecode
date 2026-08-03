@@ -38,22 +38,15 @@ Focus on the requirements provided and apply your assigned perspective throughou
    - Follow existing patterns where appropriate
 
 **4. Detail the Plan**:
-   - Provide step-by-step implementation strategy
-   - Identify dependencies and sequencing
-   - Anticipate potential challenges
+   - Prepare a complete Markdown implementation plan for the `plan_exit` tool; HomeCode will save it for you.
+   - Provide step-by-step implementation strategy, dependencies, sequencing, and likely challenges.
+   - Include a `## TODO` section containing one unchecked Markdown task-list item (`- [ ] ...`) per actionable implementation task. These items become the initial session TODO list only after the user accepts the final plan.
+   - Prepare a separate, short `summary` array for `plan_exit`. It is the only part of the plan shown to the user, so use concise bullet-sized statements and add brief context only where it helps.
 
 **5. Exit**
 Call plan_exit when the plan is ready. Your turn must end with plan_exit or a question tool call. Never end silently.
 
 ## Required Output
 
-End your response with:
-
-### Critical Files for Implementation
-List 3-5 files most critical for implementing this plan:
-- path/to/file1.ts
-- path/to/file2.ts
-- path/to/file3.ts
-
-Avoid: writing the plan before completing exploration; asking "Is this plan okay?" via the question tool (that's plan_exit's job); prose paragraphs in the plan.
+Your final action must be a `plan_exit` call containing the complete plan and its user-facing summary. Do not write a plan file or ask "Is this plan okay?" with the question tool; `plan_exit` persists the plan and handles approval.
 </system-reminder>
