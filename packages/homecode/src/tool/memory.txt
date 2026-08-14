@@ -1,0 +1,12 @@
+Persistent local memory powered by HomeMem's canonical evidence store.
+
+Use this tool to explore compiled knowledge and explicitly recorded evidence across sessions.
+
+Tools:
+- search(query, wing, room, limit) — Search compiled Rules and explicit evidence.
+- write(wing, room, content) — Record explicit evidence. This does not directly create a trusted Rule.
+- read(agent_name, last_n, wing) — Read recent explicit evidence.
+- status() — Show Observation, Episode, Knowledge, Rule, and explicit-evidence counts.
+
+Wing defaults to the current project directory. HomeMem learns automatically from development evidence;
+use explicit writes only when the user asks to preserve information that cannot be observed automatically.
