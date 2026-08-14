@@ -430,6 +430,37 @@ describe("OpenAI Chat route", () => {
     }),
   )
 
+  it.effect("parses llama-server events with missing choices, thinking deltas, and index-less tool calls", () =>
+    Effect.gen(function* () {
+      const body = sseEvents(
+        { choices: [{ delta: { thinking: "analyzing prompt" } }] },
+        { choices: [{ delta: { content: "I will check." } }] },
+        { choices: [{ delta: { tool_calls: [{ id: "call_llama", function: { name: "lookup", arguments: { city: "Paris" } } }] } }] },
+        { choices: [{ delta: {}, finish_reason: "tool_calls" }] },
+        { usage: { prompt_tokens: 10, completion_tokens: 5, total_tokens: 15 } },
+      )
+
+      const response = yield* LLMClient.generate(
+        LLM.updateRequest(request, {
+          tools: [{ name: "lookup", description: "Lookup city", inputSchema: { type: "object" } }],
+        }),
+      ).pipe(Effect.provide(fixedResponse(body)))
+
+      expect(response.reasoning).toBe("analyzing prompt")
+      expect(response.text).toBe("I will check.")
+      expect(response.toolCalls).toEqual([
+        {
+          type: "tool-call",
+          id: "call_llama",
+          name: "lookup",
+          input: { city: "Paris" },
+          providerExecuted: undefined,
+          providerMetadata: undefined,
+        },
+      ])
+    }),
+  )
+
   it.effect("short-circuits the upstream stream when the consumer takes a prefix", () =>
     Effect.gen(function* () {
       // The body has more chunks than we'll consume. If `Stream.take(1)` did

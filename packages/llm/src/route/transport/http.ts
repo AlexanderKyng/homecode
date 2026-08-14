@@ -82,23 +82,27 @@ export const httpJson = <Body, Frame>(input: HttpJsonInput<Body, Frame>): HttpJs
     ),
   frames: (prepared, request, runtime) =>
     Stream.unwrap(
-      runtime.http
-        .execute(prepared.request)
-        .pipe(
-          Effect.map((response) =>
-            prepared.framing.frame(
-              response.stream.pipe(
-                Stream.mapError((error) =>
-                  ProviderShared.eventError(
-                    `${request.model.provider}/${request.model.route.id}`,
-                    `Failed to read ${request.model.provider}/${request.model.route.id} stream`,
-                    ProviderShared.errorText(error),
-                  ),
+      runtime.http.execute(prepared.request).pipe(
+        Effect.tapError((error) =>
+          Effect.logError("HTTP stream failed", {
+            url: prepared.request.url,
+            error: ProviderShared.errorText(error),
+          }),
+        ),
+        Effect.map((response) =>
+          prepared.framing.frame(
+            response.stream.pipe(
+              Stream.mapError((error) =>
+                ProviderShared.eventError(
+                  `${request.model.provider}/${request.model.route.id}`,
+                  `Failed to read ${request.model.provider}/${request.model.route.id} stream`,
+                  ProviderShared.errorText(error),
                 ),
               ),
             ),
           ),
         ),
+      ),
     ),
 })
 

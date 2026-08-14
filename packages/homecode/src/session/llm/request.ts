@@ -54,12 +54,14 @@ export type Prepared = {
 const mergeOptions = (target: Record<string, any>, source: Record<string, any> | undefined): Record<string, any> =>
   mergeDeep(target, source ?? {}) as Record<string, any>
 
-function llamaServerOptions(input: Pick<PrepareInput, "provider" | "sessionID" | "parentSessionID">) {
+const llamaServerOptions = Effect.fn("LLMRequestPrep.llamaServerOptions")(function* (
+  input: Pick<PrepareInput, "provider" | "sessionID" | "parentSessionID">,
+) {
   const config = input.provider.options.llamaServer
   if (!config) return undefined
   return {
     cachePrompt: config.cachePrompt ?? true,
-    slot: LlamaServer.slot({
+    slot: yield* LlamaServer.slot({
       endpoint: `${input.provider.id}:${input.provider.options.baseURL ?? ""}`,
       sessionID: input.sessionID,
       slots: config.slots,
@@ -68,7 +70,7 @@ function llamaServerOptions(input: Pick<PrepareInput, "provider" | "sessionID" |
     strictCache: config.strictCache ?? false,
     sessionID: input.sessionID,
   }
-}
+})
 
 export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: PrepareInput) {
   const isOpenaiOauth = input.provider.id === "openai" && input.auth?.type === "oauth"
@@ -183,7 +185,7 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
     tools: Object.fromEntries(Object.entries(tools).toSorted(([a], [b]) => a.localeCompare(b))),
     params,
     messageTransformOptions: options,
-    llamaServer: llamaServerOptions(input),
+    llamaServer: yield* llamaServerOptions(input),
     headers: {
       ...(input.model.providerID.startsWith("homecode")
         ? {

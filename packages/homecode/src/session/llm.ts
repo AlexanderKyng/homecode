@@ -199,9 +199,11 @@ const live: Layer.Layer<
         })
       }
 
-      // Runtime seam: native is an opt-in adapter over @homecode-ai/llm. It
-      // either returns a ready LLMEvent stream or a concrete fallback reason.
-      if (flags.experimentalNativeLlm || prepared.llamaServer) {
+      const isLlamaOrCompatible =
+        prepared.llamaServer ||
+        input.model.api.npm === "@ai-sdk/openai-compatible" ||
+        input.model.providerID.includes("llama")
+      if (flags.experimentalNativeLlm || isLlamaOrCompatible) {
         const native = LLMNativeRuntime.stream({
           model: input.model,
           provider: item,
@@ -225,8 +227,10 @@ const live: Layer.Layer<
               "llm.runtime": "native",
               "llm.provider": input.model.providerID,
               "llm.model": input.model.id,
+              "llm.baseURL": native.baseURL,
             }),
           )
+
           return {
             type: "native" as const,
             stream: native.stream,

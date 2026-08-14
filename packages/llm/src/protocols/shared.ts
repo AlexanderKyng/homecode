@@ -1,5 +1,5 @@
 import { Buffer } from "node:buffer"
-import { Effect, Schema, Stream } from "effect"
+import { Cause, Effect, Schema, Stream } from "effect"
 import * as Sse from "effect/unstable/encoding/Sse"
 import { Headers, HttpClientRequest } from "effect/unstable/http"
 import {
@@ -162,10 +162,22 @@ export const sseFraming = (bytes: Stream.Stream<Uint8Array, LLMError>): Stream.S
     Stream.decodeText(),
     Stream.pipeThroughChannel(Sse.decode()),
     Stream.catchTag("Retry", () => Stream.empty),
+    Stream.catchCause((cause) => {
+      const error = Cause.squash(cause)
+      const message = error instanceof Error ? error.message : String(error)
+      return Stream.fail(
+        new LLMError({
+          module: "SSEFraming",
+          method: "frame",
+          reason: new InvalidProviderOutputReason({
+            message: `Failed to parse SSE stream: ${message}`,
+          }),
+        }),
+      )
+    }),
     Stream.filter((event) => event.data.length > 0 && event.data !== "[DONE]"),
     Stream.map((event) => event.data),
   )
-
 /**
  * Canonical invalid-request constructor. Lift one-line `const invalid =
  * (message) => invalidRequest(message)` aliases out of every

@@ -15,7 +15,12 @@ export type RuntimeStatus =
   | { readonly type: "supported"; readonly apiKey: string; readonly baseURL?: string }
   | { readonly type: "unsupported"; readonly reason: string }
 export type StreamResult =
-  | { readonly type: "supported"; readonly stream: Stream.Stream<LLMEvent, unknown> }
+  | {
+      readonly type: "supported"
+      readonly apiKey: string
+      readonly baseURL?: string
+      readonly stream: Stream.Stream<LLMEvent, unknown>
+    }
   | { readonly type: "unsupported"; readonly reason: string }
 
 type StreamInput = {
@@ -31,7 +36,12 @@ type StreamInput = {
   readonly topK?: number
   readonly maxOutputTokens?: number
   readonly providerOptions?: Record<string, any>
-  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number; readonly strictCache: boolean; readonly sessionID: string }
+  readonly llamaServer?: {
+    readonly cachePrompt: boolean
+    readonly slot: number
+    readonly strictCache: boolean
+    readonly sessionID: string
+  }
   readonly headers: Record<string, string>
   readonly abort: AbortSignal
 }
@@ -46,8 +56,15 @@ function statusWithFetch(
 ): RuntimeStatus {
   const providerID = input.model.providerID
   const llamaServer = input.provider.options.llamaServer !== undefined
-  if (providerID !== "openai" && providerID !== "anthropic" && !providerID.startsWith("homecode") && !llamaServer)
-    return { type: "unsupported", reason: "provider is not openai, homecode, or anthropic" }
+  const isLlamaOrCompatible =
+    llamaServer || input.model.api.npm === "@ai-sdk/openai-compatible" || providerID.includes("llama")
+  if (
+    providerID !== "openai" &&
+    providerID !== "anthropic" &&
+    !providerID.startsWith("homecode") &&
+    !isLlamaOrCompatible
+  )
+    return { type: "unsupported", reason: "provider is not openai, homecode, anthropic, or llama-server" }
   const npm = input.model.api.npm
   if (npm !== "@ai-sdk/openai" && npm !== "@ai-sdk/openai-compatible" && npm !== "@ai-sdk/anthropic")
     return { type: "unsupported", reason: "provider package is not OpenAI, OpenAI-compatible, or Anthropic" }
@@ -55,7 +72,11 @@ function statusWithFetch(
     return { type: "unsupported", reason: "OAuth auth requires a provider fetch override" }
   }
 
-  const apiKey = typeof input.provider.options.apiKey === "string" ? input.provider.options.apiKey : input.provider.key
+  const rawKey =
+    typeof input.provider.options.apiKey === "string" && input.provider.options.apiKey.length > 0
+      ? input.provider.options.apiKey
+      : input.provider.key
+  const apiKey = rawKey || (isLlamaOrCompatible ? "none" : undefined)
   if (!apiKey) return { type: "unsupported", reason: "API key is not configured" }
 
   return {

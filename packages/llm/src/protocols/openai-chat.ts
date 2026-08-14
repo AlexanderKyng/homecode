@@ -117,11 +117,11 @@ const OpenAIChatUsage = Schema.Struct({
 
 const OpenAIChatToolCallDeltaFunction = Schema.Struct({
   name: optionalNull(Schema.String),
-  arguments: optionalNull(Schema.String),
+  arguments: optionalNull(Schema.Union([Schema.String, JsonObject, Schema.Unknown])),
 })
 
 const OpenAIChatToolCallDelta = Schema.Struct({
-  index: Schema.Number,
+  index: optionalNull(Schema.Number),
   id: optionalNull(Schema.String),
   function: optionalNull(OpenAIChatToolCallDeltaFunction),
 })
@@ -130,6 +130,8 @@ type OpenAIChatToolCallDelta = Schema.Schema.Type<typeof OpenAIChatToolCallDelta
 const OpenAIChatDelta = Schema.Struct({
   content: optionalNull(Schema.String),
   reasoning_content: optionalNull(Schema.String),
+  reasoning: optionalNull(Schema.String),
+  thinking: optionalNull(Schema.String),
   tool_calls: optionalNull(Schema.Array(OpenAIChatToolCallDelta)),
 })
 
@@ -139,7 +141,7 @@ const OpenAIChatChoice = Schema.Struct({
 })
 
 const OpenAIChatEvent = Schema.Struct({
-  choices: Schema.Array(OpenAIChatChoice),
+  choices: optionalNull(Schema.Array(OpenAIChatChoice)),
   usage: optionalNull(OpenAIChatUsage),
 })
 type OpenAIChatEvent = Schema.Schema.Type<typeof OpenAIChatEvent>
@@ -366,7 +368,7 @@ const step = (state: ParserState, event: OpenAIChatEvent) =>
   Effect.gen(function* () {
     const events: LLMEvent[] = []
     const usage = mapUsage(event.usage) ?? state.usage
-    const choice = event.choices[0]
+    const choice = event.choices?.[0]
     const finishReason = choice?.finish_reason ? mapFinishReason(choice.finish_reason) : state.finishReason
     const delta = choice?.delta
     const toolDeltas = delta?.tool_calls ?? []
@@ -374,17 +376,24 @@ const step = (state: ParserState, event: OpenAIChatEvent) =>
 
     let lifecycle = state.lifecycle
 
-    if (delta?.reasoning_content)
-      lifecycle = Lifecycle.reasoningDelta(lifecycle, events, "reasoning-0", delta.reasoning_content)
+    const reasoningText = delta?.reasoning_content ?? delta?.reasoning ?? delta?.thinking
+    if (reasoningText)
+      lifecycle = Lifecycle.reasoningDelta(lifecycle, events, "reasoning-0", reasoningText)
 
     if (delta?.content) lifecycle = Lifecycle.textDelta(lifecycle, events, "text-0", delta.content)
 
     for (const tool of toolDeltas) {
+      const argsText =
+        typeof tool.function?.arguments === "string"
+          ? tool.function.arguments
+          : typeof tool.function?.arguments === "object" && tool.function?.arguments !== null
+            ? JSON.stringify(tool.function.arguments)
+            : ""
       const result = ToolStream.appendOrStart(
         ADAPTER,
         tools,
-        tool.index,
-        { id: tool.id ?? undefined, name: tool.function?.name ?? undefined, text: tool.function?.arguments ?? "" },
+        tool.index ?? 0,
+        { id: tool.id ?? undefined, name: tool.function?.name ?? undefined, text: argsText },
         "OpenAI Chat tool call delta is missing id or name",
       )
       if (ToolStream.isError(result)) return yield* result

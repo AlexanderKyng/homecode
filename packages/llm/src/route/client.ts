@@ -228,6 +228,12 @@ function makeFromTransport<Body, Prepared, Frame, Event, State>(
   const decodeEventEffect = Schema.decodeUnknownEffect(protocol.stream.event)
   const decodeEvent = (route: string) => (frame: Frame) =>
     decodeEventEffect(frame).pipe(
+      Effect.tapError(() =>
+        Effect.logDebug("Failed to decode stream event", {
+          route,
+          frame: typeof frame === "string" && frame.length < 500 ? frame : "<large>",
+        }),
+      ),
       Effect.mapError(() =>
         ProviderShared.eventError(
           input.id,
