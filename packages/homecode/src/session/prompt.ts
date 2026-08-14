@@ -61,6 +61,7 @@ import { referencePromptMetadata, referenceTextPart } from "./prompt/reference"
 import { SessionReminders } from "./reminders"
 import { SessionTools } from "./tools"
 import { HomeMemAdapter } from "@/homemem"
+import { HomeSitterAdapter } from "@/homesitter/adapter"
 import * as ContextAssembler from "./context-assembler"
 import { LLMEvent } from "@homecode-ai/llm"
 
@@ -118,6 +119,7 @@ export const layer = Layer.effect(
     const mcp = yield* MCP.Service
     const lsp = yield* LSP.Service
     const registry = yield* ToolRegistry.Service
+    const homesitter = Option.getOrUndefined(yield* Effect.serviceOption(HomeSitterAdapter.Service))
     const truncate = yield* Truncate.Service
     const homemem = Option.getOrUndefined(yield* Effect.serviceOption(HomeMemAdapter.Service))
     const image = yield* Image.Service
@@ -1521,8 +1523,20 @@ export const layer = Layer.effect(
             const system = [...env, ...instructions, ...(envDynamic ? [envDynamic] : []), ...(skills ? [skills] : [])]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
-            const tokenBudget = (yield* config.get()).experimental?.homemem?.token_budget ?? 180
-            const recall = recalls.get(lastUser.id) ?? (homemem ? yield* homemem.dynamicContext({ sessionID, tokenBudget }) : [])
+            const cfg = yield* config.get()
+            const tokenBudget =
+              cfg.experimental?.homesitter?.token_budget ?? cfg.experimental?.homemem?.token_budget ?? 180
+            const query = (lastUserMsg?.parts ?? [])
+              .filter(
+                (part): part is MessageV2.TextPart =>
+                  part.type === "text" && part.ignored !== true && part.synthetic !== true,
+              )
+              .map((part) => part.text)
+              .join("\n")
+            const recall = recalls.get(lastUser.id) ?? [
+              ...(homemem ? yield* homemem.dynamicContext({ sessionID, tokenBudget }) : []),
+              ...(homesitter ? yield* homesitter.dynamicContext({ query, tokenBudget }) : []),
+            ]
             recalls.set(lastUser.id, recall)
             const messages = ContextAssembler.assemble({
               messages: [...modelMsgs, ...(isLastStep ? [{ role: "assistant" as const, content: MAX_STEPS }] : [])],
@@ -1737,7 +1751,7 @@ export const defaultLayer = Layer.suspend(() =>
     Layer.provide(MCP.defaultLayer),
     Layer.provide(LSP.defaultLayer),
     Layer.provide(ToolRegistry.defaultLayer),
-    Layer.provide(Layer.mergeAll(Truncate.defaultLayer, HomeMemAdapter.defaultLayer)),
+    Layer.provide(Layer.mergeAll(Truncate.defaultLayer, HomeMemAdapter.defaultLayer, HomeSitterAdapter.defaultLayer)),
     Layer.provide(Provider.defaultLayer),
     Layer.provide(Config.defaultLayer),
     Layer.provide(Instruction.defaultLayer),

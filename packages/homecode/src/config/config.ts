@@ -321,6 +321,21 @@ export const Info = Schema.Struct({
           }),
         }),
       ),
+      homesitter: Schema.optional(
+        Schema.Struct({
+          automatic: Schema.optional(Schema.Boolean).annotate({
+            description: "Inject deterministic HomeSitter repository evidence as dynamic context",
+          }),
+          token_budget: Schema.optional(PositiveInt).annotate({
+            description: "Maximum token budget for HomeSitter evidence (default: 180)",
+          }),
+          semantic_backend: Schema.optional(
+            Schema.Literals(["off", "hash", "jina-code"]).annotate({
+              description: "Semantic retrieval backend (default: hash)",
+            }),
+          ),
+        }),
+      ),
     }),
   ),
 }).annotate({ identifier: "Config" })

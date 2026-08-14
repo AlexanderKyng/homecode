@@ -103,6 +103,7 @@
     "@homecode-ai/script": "workspace:*",
     "@homecode-ai/sdk": "workspace:*",
     "@homecode-ai/ui": "workspace:*",
+    "@huggingface/transformers": "4.2.0",
     "@lydell/node-pty": "catalog:",
     "@modelcontextprotocol/sdk": "1.27.1",
     "@octokit/graphql": "9.0.2",
