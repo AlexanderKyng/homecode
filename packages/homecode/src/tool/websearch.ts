@@ -1,12 +1,17 @@
-import { Effect, Schema } from "effect"
+import { Effect, Schema, Layer } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
 import * as Tool from "./tool"
 import * as McpWebSearch from "./mcp-websearch"
 import DESCRIPTION from "./websearch.txt"
-import { checksum } from "@homecode-ai/core/util/encode"
 import { InstallationVersion } from "@homecode-ai/core/installation/version"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { encode } from "@toon-format/toon"
+import { classifyQuery } from "../retrieval/classifier"
+import { Reranker } from "../retrieval/reranker"
+import { RetrievalCache } from "../retrieval/cache"
+import { extractFromHtml } from "../retrieval/extractor"
+import { extractHighlights } from "../retrieval/highlighter"
+import { validateSafeUrl } from "../retrieval/ssrf"
 
 export const Parameters = Schema.Struct({
   query: Schema.String.annotate({
@@ -93,61 +98,232 @@ function parallelAuthHeaders() {
   }
 }
 
-function callSearXNG(http: HttpClient.HttpClient, params: Schema.Schema.Type<typeof Parameters>) {
-  return Effect.gen(function* () {
-    // Use engine-specific prefixes to avoid suspended default engines (Google, DuckDuckGo, etc.)
-    const formattedQuery = `!bing !mojeek ${params.query}`
+function normalizeUrl(rawUrl: string): string {
+  try {
+    const url = new URL(rawUrl)
+    const trackingParams = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+      "ref",
+      "ref_src",
+      "fbclid",
+      "gclid",
+    ]
+    for (const p of trackingParams) {
+      url.searchParams.delete(p)
+    }
+    url.hash = ""
+    return url.toString()
+  } catch {
+    return rawUrl
+  }
+}
 
-    const request = HttpClientRequest.get(`${SEARXNG_URL}/search`).pipe(
-      HttpClientRequest.setUrlParams({
-        q: formattedQuery,
-        format: "json",
-      }),
+function extractDomain(urlStr: string): string {
+  try {
+    return new URL(urlStr).hostname.replace(/^www\./, "")
+  } catch {
+    return "unknown"
+  }
+}
+
+function fetchPagePassages(
+  http: HttpClient.HttpClient,
+  url: string,
+  query: string,
+  cache: RetrievalCache.Interface,
+) {
+  return Effect.gen(function* () {
+    const safeUrl = yield* validateSafeUrl(url).pipe(
+      Effect.orElseSucceed(() => null),
+    )
+    if (!safeUrl) return []
+
+    const cached = yield* cache.getDocument(safeUrl.href)
+    if (cached) {
+      return extractHighlights(query, cached.content, { maxHighlights: 3, maxCharacters: 2000 })
+    }
+
+    const request = HttpClientRequest.get(safeUrl.href).pipe(
       HttpClientRequest.setHeaders({
-        Accept: "application/json",
-        "User-Agent": `homecode/${InstallationVersion}`,
+        "User-Agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 (homecode/${InstallationVersion})`,
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       }),
     )
 
-    const response = yield* http.execute(request)
+    const response = yield* http.execute(request).pipe(
+      Effect.timeout("3 seconds"),
+      Effect.orElseSucceed(() => null),
+    )
 
-    const json = (yield* response.json) as {
-      results?: Array<{
-        title?: string
-        url?: string
-        content?: string
-      }>
+    if (!response || response.status >= 400) return []
+
+    const html = yield* response.text.pipe(
+      Effect.orElseSucceed(() => ""),
+    )
+
+    if (!html) return []
+
+    const extracted = extractFromHtml(html, { format: "markdown", url: safeUrl.href })
+    if (!extracted.content) return []
+
+    yield* cache.setDocument({
+      url: safeUrl.href,
+      title: extracted.title,
+      content: extracted.content,
+      status: response.status,
+    })
+
+    return extractHighlights(query, extracted.content, { maxHighlights: 3, maxCharacters: 2000 })
+  })
+}
+
+import {
+  createFederatedDiscoveryService,
+  createLocalCorpusProvider,
+  createGitHubProvider,
+  createStackExchangeProvider,
+  createSearXNGProvider,
+  type FusedCandidate,
+} from "../retrieval/discovery"
+
+function makeFetchFromHttpClient(http: HttpClient.HttpClient): typeof fetch {
+  return (async (input: any, init?: any) => {
+    const url = typeof input === "string" ? input : input.url
+    const method = init?.method || "GET"
+    const req = HttpClientRequest.make(method)(url)
+    const res = await Effect.runPromise(http.execute(req))
+    const text = await Effect.runPromise(res.text)
+    return new Response(text, {
+      status: res.status,
+      headers: res.headers as any,
+    })
+  }) as unknown as typeof fetch
+}
+
+function callFederatedSearch(
+  http: HttpClient.HttpClient,
+  reranker: Reranker.Interface,
+  cache: RetrievalCache.Interface,
+  params: Schema.Schema.Type<typeof Parameters>,
+) {
+  return Effect.gen(function* () {
+    const classification = classifyQuery(params.query)
+    const numResults = params.numResults || 8
+    const searchType = params.type || "auto"
+
+    const cacheKey = `search:${params.query}:${searchType}:${numResults}`
+    const cachedQuery = yield* cache.getQuery(cacheKey)
+    if (cachedQuery && typeof cachedQuery === "string") {
+      return cachedQuery
     }
 
-    const results = (json.results ?? []).slice(0, params.numResults || 8)
+    const fetchFn = makeFetchFromHttpClient(http)
+    const federated = createFederatedDiscoveryService([
+      createLocalCorpusProvider(),
+      createGitHubProvider(fetchFn),
+      createStackExchangeProvider(fetchFn),
+      createSearXNGProvider(SEARXNG_URL, fetchFn),
+    ])
 
-    if (results.length === 0) {
-      return encode({ status: "no_results", message: "No search results found." })
+    const discoveryResult = yield* federated.search(params.query, {
+      limit: numResults * 2,
+      classification,
+    })
+
+    const fusedCandidates = discoveryResult.candidates
+    if (fusedCandidates.length === 0) {
+      return encode({ status: "no_results", message: "No search results found across discovery providers." })
     }
 
-    // Reconstruction propre des résultats sous forme d'objets pour TOON
-    const cleanedResults = results.map((result) => ({
-      title: result.title?.trim() || "Untitled",
-      url: result.url ?? "",
-      summary: (result.content ?? "").replace(/\s+/g, " ").trim(),
+    const candidates = fusedCandidates.map((c) => ({
+      id: c.url,
+      title: c.title || "Untitled",
+      url: c.url,
+      domain: extractDomain(c.url),
+      summary: c.snippet || "",
+      sourceTypes: c.sourceTypes,
+      matchedProviders: c.matchedProviders,
+      fusionScore: c.fusionScore,
+      publishedDate: (c.metadata?.publishedDate as string | undefined) || undefined,
     }))
 
-    // Retour encodé en TOON pour économiser les tokens du Qwen local
-    return encode({
+    // 2. CPU Reranking of candidates
+    const docsToRerank = candidates.map((c) => ({
+      id: c.id,
+      text: `${c.title}. ${c.summary}`,
+    }))
+
+    const rankedOutputs = yield* reranker.rerank({
       query: params.query,
-      results: cleanedResults,
+      documents: docsToRerank,
+      topK: numResults,
     })
+
+    const candidateMap = new Map(candidates.map((c) => [c.id, c]))
+    const topCandidates = rankedOutputs.map((r) => ({
+      candidate: candidateMap.get(r.id)!,
+      score: r.score,
+    }))
+
+    // 3. Selective Fetch for top candidates (unless in fast mode)
+    const shouldFetch = searchType !== "fast" && params.livecrawl !== "fallback"
+    const fetchLimit = searchType === "deep" ? Math.min(topCandidates.length, 5) : Math.min(topCandidates.length, 3)
+
+    const enrichedResults = yield* Effect.forEach(
+      topCandidates,
+      (item, index) =>
+        Effect.gen(function* () {
+          const candidate = item.candidate
+          const score = item.score
+          let highlights: string[] = []
+
+          if (shouldFetch && index < fetchLimit) {
+            highlights = yield* fetchPagePassages(http, candidate.url, params.query, cache)
+          }
+
+          if (highlights.length === 0 && candidate.summary) {
+            highlights = [candidate.summary]
+          }
+
+          return {
+            title: candidate.title,
+            url: candidate.url,
+            domain: candidate.domain,
+            score,
+            publishedDate: candidate.publishedDate,
+            highlights,
+          }
+        }),
+      { concurrency: 4 },
+    )
+
+    const payload = {
+      query: params.query,
+      category: classification.category,
+      results: enrichedResults,
+    }
+
+    const output = encode(payload)
+    yield* cache.setQuery(cacheKey, output, 3600)
+
+    return output
   })
 }
 
 function callProvider(
   http: HttpClient.HttpClient,
+  reranker: Reranker.Interface,
+  cache: RetrievalCache.Interface,
   provider: WebSearchProvider,
   params: Schema.Schema.Type<typeof Parameters>,
   ctx: Tool.Context,
 ) {
   if (provider === "searxng") {
-    return callSearXNG(http, params)
+    return callFederatedSearch(http, reranker, cache, params)
   }
 
   if (provider === "parallel") {
@@ -188,6 +364,8 @@ export const WebSearchTool = Tool.define(
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient
     const flags = yield* RuntimeFlags.Service
+    const reranker = yield* Reranker.Service
+    const cache = yield* RetrievalCache.Service
 
     return {
       get description() {
@@ -224,19 +402,18 @@ export const WebSearchTool = Tool.define(
             },
           })
 
-          const result = yield* callProvider(http, provider, params, ctx)
+          const result = yield* callProvider(http, reranker, cache, provider, params, ctx)
 
-          // Fallback au format TOON si la chaîne finale est vide ou nulle
           const fallbackOutput = encode({ status: "no_results", message: "No search results found." })
 
           return {
             output: result ?? fallbackOutput,
-
             title: `${title}: ${params.query}`,
-
             metadata: { provider },
           }
         }).pipe(Effect.orDie),
     }
-  }),
+  }).pipe(Effect.provide(Layer.mergeAll(Reranker.defaultLayer, RetrievalCache.defaultLayer))),
 )
+
+export * as WebSearch from "./websearch"

@@ -19,7 +19,10 @@ import { Plugin } from "../plugin"
 import { Provider } from "@/provider/provider"
 import { ProviderID, type ModelID } from "../provider/schema"
 import { WebSearchTool } from "./websearch"
+import { WebFetchTool } from "./webfetch"
 import { CodeSearchTool } from "./codesearch"
+import { Reranker } from "../retrieval/reranker"
+import { RetrievalCache } from "../retrieval/cache"
 import { RepoCloneTool } from "./repo_clone"
 import { RepoOverviewTool } from "./repo_overview"
 import { RepositoryCache } from "@/reference/repository-cache"
@@ -124,6 +127,7 @@ export const layer: Layer.Layer<
     const planExit = yield* PlanExitTool
     const planEnter = yield* PlanEnterTool
     const websearch = yield* WebSearchTool
+    const webfetch = yield* WebFetchTool
     const codesearch = yield* CodeSearchTool
     const repoClone = yield* RepoCloneTool
     const repoOverview = yield* RepoOverviewTool
@@ -233,6 +237,7 @@ export const layer: Layer.Layer<
           task: Tool.init(task),
           todo: Tool.init(todo),
           search: Tool.init(websearch),
+          fetch: Tool.init(webfetch),
           codesearch: Tool.init(codesearch),
           repo_clone: Tool.init(repoClone),
           repo_overview: Tool.init(repoOverview),
@@ -259,6 +264,7 @@ export const layer: Layer.Layer<
             tool.github,
             tool.todo,
             tool.search,
+            tool.fetch,
             tool.codesearch,
             ...(flags.experimentalScout ? [tool.repo_clone, tool.repo_overview] : []),
             tool.skill,
@@ -373,26 +379,33 @@ export const layer: Layer.Layer<
 export const defaultLayer = Layer.suspend(() =>
   layer
     .pipe(
-      Layer.provide(Config.defaultLayer),
-      Layer.provide(Plugin.defaultLayer),
-      Layer.provide(Question.defaultLayer),
-      Layer.provide(Todo.defaultLayer),
-      Layer.provide(Skill.defaultLayer),
-      Layer.provide(Agent.defaultLayer),
-      Layer.provide(Session.defaultLayer),
-      Layer.provide(BackgroundJob.defaultLayer),
-      Layer.provide(Provider.defaultLayer),
-      Layer.provide(Layer.mergeAll(Git.defaultLayer, RepositoryCache.defaultLayer)),
-      Layer.provide(Reference.defaultLayer),
-      Layer.provide(LSP.defaultLayer),
-      Layer.provide(Instruction.defaultLayer),
-      Layer.provide(AppFileSystem.defaultLayer),
-      Layer.provide(Bus.layer),
-      Layer.provide(FetchHttpClient.layer),
-      Layer.provide(Format.defaultLayer),
-      Layer.provide(CrossSpawnSpawner.defaultLayer),
-      Layer.provide(Ripgrep.defaultLayer),
-      Layer.provide(Truncate.defaultLayer),
+      Layer.provide(
+        Layer.mergeAll(
+          Config.defaultLayer,
+          Plugin.defaultLayer,
+          Question.defaultLayer,
+          Todo.defaultLayer,
+          Skill.defaultLayer,
+          Agent.defaultLayer,
+          Session.defaultLayer,
+          BackgroundJob.defaultLayer,
+          Provider.defaultLayer,
+          Git.defaultLayer,
+          RepositoryCache.defaultLayer,
+          Reference.defaultLayer,
+          LSP.defaultLayer,
+          Instruction.defaultLayer,
+          AppFileSystem.defaultLayer,
+          Bus.layer,
+          FetchHttpClient.layer,
+          Format.defaultLayer,
+          CrossSpawnSpawner.defaultLayer,
+          Ripgrep.defaultLayer,
+          Truncate.defaultLayer,
+          Reranker.defaultLayer,
+          RetrievalCache.defaultLayer,
+        ),
+      ),
     )
     .pipe(Layer.provide(RuntimeFlags.defaultLayer)),
 )
