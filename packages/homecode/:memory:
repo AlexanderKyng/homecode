@@ -1,0 +1,196 @@
+[
+  {
+    "id": "effect_core",
+    "name": "Effect-TS Core & Smol Documentation",
+    "type": "git_repository",
+    "canonicalUrl": "https://effect.website",
+    "project": "effect",
+    "version": "3.12 / 4.0-beta",
+    "authority": "official",
+    "updateStrategy": "git_commit",
+    "includePatterns": [
+      "docs/**/*.md",
+      "migration/*.md",
+      "README.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 10,
+    "documentCount": 85,
+    "totalSizeBytes": 420000
+  },
+  {
+    "id": "bun_runtime",
+    "name": "Bun Runtime & APIs Documentation",
+    "type": "documentation_site",
+    "canonicalUrl": "https://bun.sh/docs",
+    "project": "bun",
+    "version": "1.3",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "docs/**/*.md",
+      "api/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 10,
+    "documentCount": 120,
+    "totalSizeBytes": 580000
+  },
+  {
+    "id": "drizzle_orm",
+    "name": "Drizzle ORM & Kit Reference",
+    "type": "documentation_site",
+    "canonicalUrl": "https://orm.drizzle.team",
+    "project": "drizzle",
+    "version": "0.39",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "docs/**/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 9,
+    "documentCount": 65,
+    "totalSizeBytes": 310000
+  },
+  {
+    "id": "typescript_handbook",
+    "name": "TypeScript 5.8 Reference & Compiler API",
+    "type": "documentation_site",
+    "canonicalUrl": "https://www.typescriptlang.org",
+    "project": "typescript",
+    "version": "5.8",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "docs/**/*.md",
+      "handbook/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 9,
+    "documentCount": 90,
+    "totalSizeBytes": 490000
+  },
+  {
+    "id": "sqlite_core",
+    "name": "SQLite Architecture, PRAGMA & WAL Specs",
+    "type": "documentation_site",
+    "canonicalUrl": "https://sqlite.org",
+    "project": "sqlite",
+    "version": "3.46",
+    "authority": "official",
+    "updateStrategy": "content_hash",
+    "includePatterns": [
+      "wal.html",
+      "pragma.html",
+      "fts5.html"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 8,
+    "documentCount": 40,
+    "totalSizeBytes": 220000
+  },
+  {
+    "id": "react_core",
+    "name": "React 19 Server Actions & Hooks Reference",
+    "type": "documentation_site",
+    "canonicalUrl": "https://react.dev",
+    "project": "react",
+    "version": "19.0",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "reference/**/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 8,
+    "documentCount": 75,
+    "totalSizeBytes": 380000
+  },
+  {
+    "id": "nodejs_lts",
+    "name": "Node.js 22 LTS API Reference",
+    "type": "documentation_site",
+    "canonicalUrl": "https://nodejs.org",
+    "project": "nodejs",
+    "version": "22.x",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "api/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 7,
+    "documentCount": 80,
+    "totalSizeBytes": 440000
+  },
+  {
+    "id": "vite_core",
+    "name": "Vite 6 Guide & Plugin Architecture",
+    "type": "documentation_site",
+    "canonicalUrl": "https://vite.dev",
+    "project": "vite",
+    "version": "6.x",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "includePatterns": [
+      "guide/*.md"
+    ],
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 7,
+    "documentCount": 45,
+    "totalSizeBytes": 210000
+  },
+  {
+    "id": "linux_kernel_iouring",
+    "name": "Linux io_uring & Syscall Reference",
+    "type": "documentation_site",
+    "canonicalUrl": "https://kernel.org",
+    "project": "linux",
+    "version": "6.x",
+    "authority": "official",
+    "updateStrategy": "content_hash",
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 6,
+    "documentCount": 25,
+    "totalSizeBytes": 140000
+  },
+  {
+    "id": "localfirst_theory",
+    "name": "Local-First Software & CRDT Architecture",
+    "type": "markdown_tree",
+    "canonicalUrl": "https://github.com",
+    "project": "localfirst",
+    "authority": "trusted",
+    "updateStrategy": "git_commit",
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 6,
+    "documentCount": 30,
+    "totalSizeBytes": 160000
+  },
+  {
+    "id": "test_source",
+    "name": "Test Source",
+    "type": "llms_full_txt",
+    "canonicalUrl": "https://example.com/llms-full.txt",
+    "authority": "official",
+    "updateStrategy": "etag",
+    "enabled": true,
+    "discoveredBy": "benchmark",
+    "priority": 5,
+    "lastSyncAt": 1787091908620,
+    "lastCommitOrEtag": "\"etag_v1\"",
+    "documentCount": 1,
+    "totalSizeBytes": 79
+  }
+]
