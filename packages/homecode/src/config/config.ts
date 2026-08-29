@@ -41,6 +41,7 @@ import { ConfigReference } from "./reference"
 import { ConfigServer } from "./server"
 import { ConfigSkills } from "./skills"
 import { ConfigVariable } from "./variable"
+import { ConfigToolFormat } from "./tool-format"
 import { Npm } from "@homecode-ai/core/npm"
 import { withTransientReadRetry } from "@/util/effect-http-client"
 
@@ -180,6 +181,9 @@ export const Info = Schema.Struct({
   }),
   model: Schema.optional(ConfigModelID).annotate({
     description: "Model to use in the format of provider/model, eg anthropic/claude-2",
+  }),
+  tool_format: Schema.optional(ConfigToolFormat.ToolFormat).annotate({
+    description: "Tool-calling wire format. ATEM is selected automatically for Glimmer and HomeAgent models.",
   }),
   small_model: Schema.optional(ConfigModelID).annotate({
     description: "Small model to use for tasks like title generation in the format of provider/model",

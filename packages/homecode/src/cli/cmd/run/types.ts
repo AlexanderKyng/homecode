@@ -58,6 +58,7 @@ export type RunInput = {
   agent: string | undefined
   model: PromptModel | undefined
   variant: string | undefined
+  toolFormat?: PromptInput["toolFormat"]
   files: RunFilePart[]
   initialInput?: string
   thinking: boolean

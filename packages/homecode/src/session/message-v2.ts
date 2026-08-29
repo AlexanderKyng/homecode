@@ -23,6 +23,7 @@ import type { Provider } from "@/provider/provider"
 import { ModelID, ProviderID } from "@/provider/schema"
 import { Effect, Schema, Types } from "effect"
 import { NonNegativeInt } from "@homecode-ai/core/schema"
+import { ConfigToolFormat } from "@/config/tool-format"
 import * as EffectLogger from "@homecode-ai/core/effect/logger"
 import { MessageError } from "./message-error"
 import { AuthError, OutputLengthError } from "./message-error"
@@ -331,6 +332,7 @@ export const User = Schema.Struct({
     created: NonNegativeInt,
   }),
   format: Schema.optional(Format),
+  toolFormat: Schema.optional(ConfigToolFormat.ToolFormat),
   summary: Schema.optional(
     Schema.Struct({
       title: Schema.optional(Schema.String),

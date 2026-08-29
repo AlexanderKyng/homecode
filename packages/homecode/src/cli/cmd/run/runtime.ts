@@ -51,6 +51,7 @@ type RunRuntimeInput = {
   files: RunInput["files"]
   initialInput?: string
   thinking: boolean
+  toolFormat?: RunInput["toolFormat"]
   replay?: boolean
   replayLimit?: number
   demo?: RunInput["demo"]
@@ -66,6 +67,7 @@ type RunLocalInput = {
   agent: RunInput["agent"]
   model: RunInput["model"]
   variant: RunInput["variant"]
+  toolFormat?: RunInput["toolFormat"]
   files: RunInput["files"]
   initialInput?: string
   thinking: boolean
@@ -587,6 +589,7 @@ async function runInteractiveRuntime(input: RunRuntimeInput): Promise<void> {
             agent: state.agent,
             model: state.model,
             variant: state.activeVariant,
+            toolFormat: input.toolFormat,
             prompt,
             files: input.files,
             includeFiles,
@@ -656,6 +659,7 @@ export async function runInteractiveLocalMode(input: RunLocalInput): Promise<voi
     files: input.files,
     initialInput: input.initialInput,
     thinking: input.thinking,
+    toolFormat: input.toolFormat,
     replay: input.replay,
     replayLimit: input.replayLimit,
     demo: input.demo,
@@ -700,6 +704,7 @@ export async function runInteractiveMode(input: RunInput & { createSession?: Cre
     files: input.files,
     initialInput: input.initialInput,
     thinking: input.thinking,
+    toolFormat: input.toolFormat,
     replay: input.replay,
     replayLimit: input.replayLimit,
     demo: input.demo,

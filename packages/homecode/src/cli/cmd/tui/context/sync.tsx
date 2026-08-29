@@ -33,6 +33,7 @@ import { emptyConsoleState, type ConsoleState } from "@/config/console-state"
 import path from "path"
 import { useKV } from "./kv"
 import { aggregateFailures } from "./aggregate-failures"
+import { defaultAnswers } from "@/question/default-answers"
 
 export const { use: useSync, provider: SyncProvider } = createSimpleContext({
   name: "Sync",
@@ -112,6 +113,7 @@ export const { use: useSync, provider: SyncProvider } = createSimpleContext({
     const sdk = useSDK()
     const kv = useKV()
 
+    const args = useArgs()
     const fullSyncedSessions = new Set<string>()
 
     function sessionListQuery(): { scope?: "project"; path?: string } {
@@ -152,6 +154,16 @@ export const { use: useSync, provider: SyncProvider } = createSimpleContext({
 
         case "permission.asked": {
           const request = event.properties
+          if (args.dangerouslySkipPermissions) {
+            void sdk.client.permission
+              .reply({
+                requestID: request.id,
+                reply: "once",
+                workspace,
+              })
+              .catch((error) => Log.Default.warn("failed to auto-approve permission", { error }))
+            break
+          }
           const requests = store.permission[request.sessionID]
           if (!requests) {
             setStore("permission", request.sessionID, [request])
@@ -190,6 +202,16 @@ export const { use: useSync, provider: SyncProvider } = createSimpleContext({
 
         case "question.asked": {
           const request = event.properties
+          if (args.dangerouslySkipPermissions) {
+            void sdk.client.question
+              .reply({
+                requestID: request.id,
+                answers: defaultAnswers(request.questions),
+                workspace,
+              })
+              .catch((error) => Log.Default.warn("failed to auto-answer question", { error }))
+            break
+          }
           const requests = store.question[request.sessionID]
           if (!requests) {
             setStore("question", request.sessionID, [request])
@@ -373,7 +395,6 @@ export const { use: useSync, provider: SyncProvider } = createSimpleContext({
     })
 
     const exit = useExit()
-    const args = useArgs()
 
     async function bootstrap(input: { fatal?: boolean } = {}) {
       const fatal = input.fatal ?? true

@@ -27,9 +27,15 @@ import { RuntimeFlags } from "@/effect/runtime-flags"
 import { InstanceRef } from "@/effect/instance-ref"
 import { FormatError, FormatUnknownError } from "../error"
 import { INTERACTIVE_INPUT_ERROR, resolveInteractiveStdin } from "./run/runtime.stdin"
+import { defaultAnswers } from "@/question/default-answers"
 
 const runtimeTask = import("./run/runtime")
 type ModelInput = Parameters<OpencodeClient["session"]["prompt"]>[0]["model"]
+
+function resolveToolFormat(value: string | undefined) {
+  if (value === "atem" || value === "hermes" || value === "json" || value === "xml") return value
+  return undefined
+}
 
 function pick(value: string | undefined): ModelInput | undefined {
   if (!value) return undefined
@@ -177,6 +183,11 @@ export const RunCommand = effectCmd({
         choices: ["default", "json"],
         default: "default",
         describe: "format: default (formatted) or json (raw JSON events)",
+      })
+      .option("tool-format", {
+        type: "string",
+        choices: ["atem", "hermes", "json", "xml"],
+        describe: "tool-calling format (auto-detects ATEM for Glimmer/HomeAgent models)",
       })
       .option("file", {
         alias: ["f"],
@@ -367,25 +378,33 @@ export const RunCommand = effectCmd({
         process.exit(1)
       }
 
-      const rules: Permission.Ruleset = args.interactive
-        ? []
-        : [
+      const rules: Permission.Ruleset = args["dangerously-skip-permissions"]
+        ? [
             {
-              permission: "question",
-              action: "deny",
-              pattern: "*",
-            },
-            {
-              permission: "plan_enter",
-              action: "deny",
-              pattern: "*",
-            },
-            {
-              permission: "plan_exit",
-              action: "deny",
+              permission: "external_directory",
+              action: "allow",
               pattern: "*",
             },
           ]
+        : args.interactive
+          ? []
+          : [
+              {
+                permission: "question",
+                action: "deny",
+                pattern: "*",
+              },
+              {
+                permission: "plan_enter",
+                action: "deny",
+                pattern: "*",
+              },
+              {
+                permission: "plan_exit",
+                action: "deny",
+                pattern: "*",
+              },
+            ]
 
       function title() {
         if (args.title === undefined) return
@@ -754,6 +773,15 @@ export const RunCommand = effectCmd({
                 })
               }
             }
+
+            if (event.type === "question.asked") {
+              const request = event.properties
+              if (!args["dangerously-skip-permissions"]) continue
+              await client.question.reply({
+                requestID: request.id,
+                answers: defaultAnswers(request.questions),
+              })
+            }
           }
           return error
         }
@@ -789,11 +817,13 @@ export const RunCommand = effectCmd({
           }
 
           const model = pick(args.model)
+          const toolFormat = resolveToolFormat(args["tool-format"])
           const result = await client.session.prompt({
             sessionID,
             agent,
             model,
             variant: args.variant,
+            toolFormat,
             parts: [...files, { type: "text", text: message }],
           })
           if (result.error) {
@@ -804,6 +834,7 @@ export const RunCommand = effectCmd({
         }
 
         const model = pick(args.model)
+        const toolFormat = resolveToolFormat(args["tool-format"])
         const { runInteractiveMode } = await runtimeTask
         try {
           await runInteractiveMode({
@@ -817,6 +848,7 @@ export const RunCommand = effectCmd({
             agent,
             model,
             variant: args.variant,
+            toolFormat,
             files,
             initialInput,
             createSession: createFreshSession,
@@ -831,6 +863,7 @@ export const RunCommand = effectCmd({
 
       if (args.interactive && !args.attach && !args.session && !args.continue) {
         const model = pick(args.model)
+        const toolFormat = resolveToolFormat(args["tool-format"])
         const { runInteractiveLocalMode } = await runtimeTask
         const fetchFn = (async (input: RequestInfo | URL, init?: RequestInit) => {
           const { Server } = await import("@/server/server")

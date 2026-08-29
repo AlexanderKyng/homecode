@@ -236,7 +236,10 @@ export const layer = Layer.effect(
       log.info("fromDirectory", { directory })
 
       const data = yield* projectV2.resolve(AbsolutePath.make(directory))
-      const worktree = data.id === ProjectV2.ID.make("global") && !data.vcs ? "/" : data.directory
+      // A non-Git project still needs a real workspace boundary. The global
+      // project id is retained for persistence, but `/` makes relative paths
+      // and workspace-local state resolve against the filesystem root.
+      const worktree = data.directory
 
       // Phase 2: upsert
       const projectID = ProjectID.make(data.id)

@@ -110,6 +110,11 @@ export const TuiThreadCommand = cmd({
       .option("agent", {
         type: "string",
         describe: "agent to use",
+      })
+      .option("dangerously-skip-permissions", {
+        type: "boolean",
+        describe: "auto-approve permissions that are not explicitly denied (dangerous!)",
+        default: false,
       }),
   handler: async (args) => {
     // Keep ENABLE_PROCESSED_INPUT cleared even if other code flips it.
@@ -248,6 +253,7 @@ export const TuiThreadCommand = cmd({
             model: args.model,
             prompt,
             fork: args.fork,
+            dangerouslySkipPermissions: args["dangerously-skip-permissions"],
           },
         })
         await handle.done

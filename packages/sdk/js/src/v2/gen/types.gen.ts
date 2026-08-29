@@ -410,6 +410,7 @@ export type UserMessage = {
     created: number
   }
   format?: OutputFormat
+  toolFormat?: "atem" | "hermes" | "json" | "xml"
   summary?: {
     title?: string
     body?: string
@@ -1221,6 +1222,7 @@ export type Config = {
   disabled_providers?: Array<string>
   enabled_providers?: Array<string>
   model?: string
+  tool_format?: "atem" | "hermes" | "json" | "xml"
   small_model?: string
   default_agent?: string
   username?: string
@@ -6386,6 +6388,7 @@ export type SessionPromptData = {
     format?: OutputFormat
     system?: string
     variant?: string
+    toolFormat?: "atem" | "hermes" | "json" | "xml"
     parts: Array<TextPartInput | FilePartInput | AgentPartInput | SubtaskPartInput>
   }
   path: {
@@ -6733,6 +6736,7 @@ export type SessionPromptAsyncData = {
     format?: OutputFormat
     system?: string
     variant?: string
+    toolFormat?: "atem" | "hermes" | "json" | "xml"
     parts: Array<TextPartInput | FilePartInput | AgentPartInput | SubtaskPartInput>
   }
   path: {

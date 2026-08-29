@@ -26,6 +26,7 @@ import * as Stream from "effect/Stream"
 import { Command } from "../command"
 import { pathToFileURL, fileURLToPath } from "url"
 import { Config } from "@/config/config"
+import { ConfigToolFormat } from "@/config/tool-format"
 import { ConfigMarkdown } from "@/config/markdown"
 import { SessionSummary } from "./summary"
 import { NamedError } from "@homecode-ai/core/util/error"
@@ -737,6 +738,7 @@ export const layer = Layer.effect(
         },
         system: input.system,
         format: input.format,
+        toolFormat: input.toolFormat,
       }
 
       if (current?.agent !== info.agent) {
@@ -1554,6 +1556,7 @@ export const layer = Layer.effect(
               tools,
               model,
               toolChoice: format.type === "json_schema" ? "required" : undefined,
+              toolFormat: lastUser.toolFormat,
             })
 
             if (structured !== undefined) {
@@ -1793,6 +1796,7 @@ export const PromptInput = Schema.Struct({
   format: Schema.optional(MessageV2.Format),
   system: Schema.optional(Schema.String),
   variant: Schema.optional(Schema.String),
+  toolFormat: Schema.optional(ConfigToolFormat.ToolFormat),
   parts: Schema.Array(
     Schema.Union([
       MessageV2.TextPartInput,

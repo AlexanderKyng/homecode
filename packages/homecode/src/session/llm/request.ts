@@ -13,6 +13,8 @@ import { jsonSchema, tool as aiTool, type ModelMessage, type Tool } from "ai"
 import type { Plugin } from "@/plugin"
 import { mergeDeep } from "remeda"
 import { LlamaServer } from "./llama-server"
+import { Atem } from "./atem"
+import type { ToolFormat } from "@/config/tool-format"
 
 const USER_AGENT = `homecode/${InstallationVersion}`
 
@@ -32,6 +34,7 @@ type PrepareInput = {
   readonly plugin: Plugin.Interface
   readonly flags: RuntimeFlags.Info
   readonly isWorkflow: boolean
+  readonly toolFormat?: ToolFormat
   readonly maxOutputTokens?: number
 }
 
@@ -47,8 +50,15 @@ export type Prepared = {
     readonly options: Record<string, any>
   }
   readonly messageTransformOptions: Record<string, any>
-  readonly llamaServer?: { readonly cachePrompt: boolean; readonly slot: number; readonly strictCache: boolean; readonly sessionID: string }
+  readonly llamaServer?: {
+    readonly cachePrompt: boolean
+    readonly slot: number
+    readonly strictCache: boolean
+    readonly sessionID: string
+  }
   readonly headers: Record<string, string>
+  readonly toolFormat: ToolFormat
+  readonly atemTemplatePath?: string
 }
 
 const mergeOptions = (target: Record<string, any>, source: Record<string, any> | undefined): Record<string, any> =>
@@ -109,6 +119,10 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
       })
   const options = mergeOptions(mergeOptions(mergeOptions(base, input.model.options), input.agent.options), variant)
   if (isOpenaiOauth) options.instructions = system.join("\n")
+
+  if (input.toolFormat === "atem" && Object.keys(input.tools).length > 0) {
+    system[0] = system[0] + "\n\n" + Atem.renderSystemPrompt(input.tools)
+  }
 
   const messages =
     isOpenaiOauth || input.isWorkflow
@@ -178,10 +192,14 @@ export const prepare = Effect.fn("LLMRequestPrep.prepare")(function* (input: Pre
   const homecodeProjectID = input.model.providerID.startsWith("homecode")
     ? (yield* InstanceState.context).project.id
     : undefined
+  const atemTemplatePath =
+    input.toolFormat === "atem" ? Atem.templatePath((yield* InstanceState.context).project.worktree) : undefined
 
   return {
     system,
     messages,
+    toolFormat: input.toolFormat ?? "hermes",
+    atemTemplatePath,
     tools: Object.fromEntries(Object.entries(tools).toSorted(([a], [b]) => a.localeCompare(b))),
     params,
     messageTransformOptions: options,

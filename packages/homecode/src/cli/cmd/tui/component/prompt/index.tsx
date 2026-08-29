@@ -1080,6 +1080,9 @@ export function Prompt(props: PromptProps) {
           id: selectedModel.modelID,
           variant,
         },
+        permission: args.dangerouslySkipPermissions
+          ? [{ permission: "external_directory", action: "allow", pattern: "*" }]
+          : undefined,
       })
 
       if (res.error) {

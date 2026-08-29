@@ -53,6 +53,18 @@ const skipInstall = process.argv.includes("--skip-install")
 const sourcemapsFlag = process.argv.includes("--sourcemaps")
 const plugin = createSolidTransformPlugin()
 const skipEmbedWebUi = process.argv.includes("--skip-embed-web-ui")
+function getOption(name: string) {
+  const prefix = `--${name}=`
+  const inline = process.argv.find((arg) => arg.startsWith(prefix))
+  if (inline) return inline.slice(prefix.length)
+  const index = process.argv.indexOf(`--${name}`)
+  if (index === -1) return undefined
+  const value = process.argv[index + 1]
+  return value?.startsWith("--") ? undefined : value
+}
+
+const requestedTarget = getOption("target")
+const requestedOutfile = getOption("outfile")
 
 const createEmbeddedWebUIBundle = async () => {
   console.log(`Building Web UI to embed in the binary`)
@@ -162,26 +174,44 @@ const allTargets: {
   },
 ]
 
-const targets = singleFlag
-  ? allTargets.filter((item) => {
-      if (item.os !== process.platform || item.arch !== process.arch) {
-        return false
-      }
+function targetName(item: (typeof allTargets)[number]) {
+  return [
+    pkg.name,
+    item.os === "win32" ? "windows" : item.os,
+    item.arch,
+    item.avx2 === false ? "baseline" : undefined,
+    item.abi === undefined ? undefined : item.abi,
+  ]
+    .filter(Boolean)
+    .join("-")
+}
 
-      // When building for the current platform, prefer a single native binary by default.
-      // Baseline binaries require additional Bun artifacts and can be flaky to download.
-      if (item.avx2 === false) {
-        return baselineFlag
-      }
+const explicitTarget = requestedTarget
+  ? allTargets.find((item) => targetName(item).replace(pkg.name, "bun") === requestedTarget)
+  : undefined
+if (requestedTarget && !explicitTarget) throw new Error(`Unsupported build target: ${requestedTarget}`)
+const targets = explicitTarget
+  ? [explicitTarget]
+  : singleFlag
+    ? allTargets.filter((item) => {
+        if (item.os !== process.platform || item.arch !== process.arch) {
+          return false
+        }
 
-      // also skip abi-specific builds for the same reason
-      if (item.abi !== undefined) {
-        return false
-      }
+        // When building for the current platform, prefer a single native binary by default.
+        // Baseline binaries require additional Bun artifacts and can be flaky to download.
+        if (item.avx2 === false) {
+          return baselineFlag
+        }
 
-      return true
-    })
-  : allTargets
+        // also skip abi-specific builds for the same reason
+        if (item.abi !== undefined) {
+          return false
+        }
+
+        return true
+      })
+    : allTargets
 
 await $`rm -rf dist`
 
@@ -191,16 +221,9 @@ if (!skipInstall) {
   await $`bun install --os="*" --cpu="*" @parcel/watcher@${pkg.dependencies["@parcel/watcher"]}`
 }
 for (const item of targets) {
-  const name = [
-    pkg.name,
-    // changing to win32 flags npm for some reason
-    item.os === "win32" ? "windows" : item.os,
-    item.arch,
-    item.avx2 === false ? "baseline" : undefined,
-    item.abi === undefined ? undefined : item.abi,
-  ]
-    .filter(Boolean)
-    .join("-")
+  const name = targetName(item)
+  const binaryPath = requestedOutfile ? path.resolve(dir, requestedOutfile) : `dist/${name}/bin/homecode`
+  await fs.promises.mkdir(path.dirname(binaryPath), { recursive: true })
   console.log(`building ${name}`)
   await $`mkdir -p dist/${name}/bin`
 
@@ -253,7 +276,7 @@ for (const item of targets) {
       autoloadTsconfig: true,
       autoloadPackageJson: true,
       target: name.replace(pkg.name, "bun") as any,
-      outfile: `dist/${name}/bin/homecode`,
+      outfile: binaryPath,
       execArgv: [`--user-agent=homecode/${Script.version}`, "--use-system-ca", "--"],
       windows: {},
     },
@@ -279,13 +302,12 @@ for (const item of targets) {
   })
   if (pyodideWorker) {
     const pyodideSrc = path.join(dir, "node_modules", "pyodide")
-    const pyodideDst = `dist/${name}/bin/pyodide`
+    const pyodideDst = path.join(path.dirname(binaryPath), "pyodide")
     await $`cp -rL ${pyodideSrc} ${pyodideDst}`
   }
 
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {
-    const binaryPath = `dist/${name}/bin/homecode`
     console.log(`Running smoke test: ${binaryPath} --version`)
     try {
       const versionOutput = await $`${binaryPath} --version`.text()
