@@ -317,6 +317,10 @@ export const Info = Schema.Struct({
           command: Schema.optional(Schema.mutable(Schema.Array(Schema.String))).annotate({
             description: "Command used to launch the HomeMem executable (default: homemem)",
           }),
+          database: Schema.optional(Schema.String).annotate({
+            description:
+              "Shared HomeMem SQLite database path (default: the user-local HomeMem state database, outside the worktree)",
+          }),
           token_budget: Schema.optional(PositiveInt).annotate({
             description: "Maximum token budget for Recall Capsules (default: 180)",
           }),

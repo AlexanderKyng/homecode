@@ -1,18 +1,23 @@
 import { Duration, Effect, Schema } from "effect"
 import { HttpClient, HttpClientRequest } from "effect/unstable/http"
 
-export const EXA_URL = process.env.EXA_API_KEY
-  ? `https://mcp.exa.ai/mcp?exaApiKey=${encodeURIComponent(process.env.EXA_API_KEY)}`
-  : "https://mcp.exa.ai/mcp"
+export const EXA_URL = "https://mcp.exa.ai/mcp"
 export const PARALLEL_URL = "https://search.parallel.ai/mcp"
+
+export function exaAuthHeaders(): Record<string, string> {
+  const apiKey = process.env.EXA_API_KEY
+  return apiKey ? { "x-api-key": apiKey } : {}
+}
 
 const McpResult = Schema.Struct({
   result: Schema.Struct({
-    content: Schema.Array(
-      Schema.Struct({
-        type: Schema.String,
-        text: Schema.String,
-      }),
+    content: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          type: Schema.String,
+          text: Schema.String,
+        }),
+      ),
     ),
   }),
 })
@@ -23,8 +28,9 @@ const parsePayload = (payload: string) =>
   Effect.gen(function* () {
     const trimmed = payload.trim()
     if (!trimmed.startsWith("{")) return undefined
-    const data = yield* decode(trimmed)
-    return data.result.content.find((item) => item.text)?.text
+    const data = yield* decode(trimmed).pipe(Effect.orElseSucceed(() => undefined))
+    if (!data) return undefined
+    return data.result.content?.find((item) => item.text)?.text
   })
 
 export const parseResponse = Effect.fn("McpWebSearch.parseResponse")(function* (body: string) {
@@ -42,10 +48,7 @@ export const parseResponse = Effect.fn("McpWebSearch.parseResponse")(function* (
 
 export const SearchArgs = Schema.Struct({
   query: Schema.String,
-  type: Schema.String,
   numResults: Schema.Number,
-  livecrawl: Schema.String,
-  contextMaxCharacters: Schema.optional(Schema.Number),
 })
 
 export const ParallelSearchArgs = Schema.Struct({

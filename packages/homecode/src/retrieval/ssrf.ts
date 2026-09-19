@@ -40,6 +40,10 @@ function isPrivateIPv4(ip: string): boolean {
   if (a === 172 && b >= 16 && b <= 31) return true
   // 192.168.0.0/16 (Private network)
   if (a === 192 && b === 168) return true
+  // 192.0.0.0/24 (IETF protocol assignments)
+  if (a === 192 && b === 0 && parts[2] === 0) return true
+  // 198.18.0.0/15 (Benchmarking)
+  if (a === 198 && b >= 18 && b <= 19) return true
   // 224.0.0.0/4 (Multicast)
   if (a >= 224 && a <= 239) return true
   // 240.0.0.0/4 (Reserved)
@@ -59,6 +63,12 @@ function isPrivateIPv6(ip: string): boolean {
   // IPv4-mapped IPv6: ::ffff:192.168.1.1 or ::ffff:c0a8:0101
   if (normalized.startsWith("::ffff:")) {
     const rest = normalized.slice(7)
+    const mappedHex = rest.match(/^([0-9a-f]{4}):([0-9a-f]{4})$/)
+    if (mappedHex) {
+      const high = Number.parseInt(mappedHex[1], 16)
+      const low = Number.parseInt(mappedHex[2], 16)
+      return isPrivateIPv4([high >> 8, high & 255, low >> 8, low & 255].join("."))
+    }
     if (net.isIPv4(rest)) {
       return isPrivateIPv4(rest)
     }
@@ -68,14 +78,8 @@ function isPrivateIPv6(ip: string): boolean {
   if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true
 
   // Link-local unicast: fe80::/10 (fe80... to febf...)
-  if (
-    normalized.startsWith("fe8") ||
-    normalized.startsWith("fe9") ||
-    normalized.startsWith("fea") ||
-    normalized.startsWith("feb")
-  ) {
-    return true
-  }
+  const firstHextet = Number.parseInt(normalized.split(":")[0] || "0", 16)
+  if (firstHextet >= 0xfe80 && firstHextet <= 0xfeff) return true
 
   // Multicast: ff00::/8
   if (normalized.startsWith("ff")) return true
@@ -100,9 +104,14 @@ export function validateSafeUrl(urlStr: string): Effect.Effect<URL, SSRFError> {
     }
 
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-      return yield* Effect.fail(new SSRFError(`Unsupported URL protocol: ${parsed.protocol}. Only http: and https: are permitted.`))
+      return yield* Effect.fail(
+        new SSRFError(`Unsupported URL protocol: ${parsed.protocol}. Only http: and https: are permitted.`),
+      )
     }
 
+    if (parsed.username || parsed.password) {
+      return yield* Effect.fail(new SSRFError("URLs containing embedded credentials are not permitted"))
+    }
     const hostname = parsed.hostname.toLowerCase()
 
     if (BLOCKED_HOSTNAMES.has(hostname) || hostname.endsWith(".internal") || hostname.endsWith(".local")) {

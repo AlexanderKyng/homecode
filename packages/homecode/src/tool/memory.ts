@@ -12,7 +12,7 @@ export const Parameters = Schema.Struct({
   }),
   query: Schema.optional(Schema.String).annotate({ description: "Search query. Required for search." }),
   wing: Schema.optional(Schema.String).annotate({
-    description: "Optional evidence scope. Defaults to the current project name.",
+    description: "Optional shared-memory scope. Defaults to the current project name.",
   }),
   room: Schema.optional(Schema.String).annotate({ description: "Optional evidence topic filter." }),
   limit: Schema.optional(Schema.Number).annotate({ description: "Maximum search results (default 5, maximum 10)." }),
@@ -67,12 +67,14 @@ export const MemoryTool = Tool.define(
                     room: params.room ?? "general",
                     author: params.agent_name ?? ctx.agent,
                     session_id: ctx.sessionID,
+                    producer: "homecode",
+                    workspace_id: instance.worktree,
                   }
                 : params.subtool === "read"
                   ? {
                       subtool: "read",
                       wing: params.wing,
-                      author: params.agent_name ?? ctx.agent,
+                      author: params.agent_name,
                       limit: Math.min(Math.max(params.last_n ?? params.limit ?? 10, 1), 100),
                     }
                   : { subtool: "status" }
@@ -83,7 +85,7 @@ export const MemoryTool = Tool.define(
                   ...(cfg?.command?.length ? cfg.command : ["homemem"]),
                   "memory",
                   "--database",
-                  path.join(instance.worktree, ".homecode", "homemem", "homemem.sqlite3"),
+                  cfg?.database ?? defaultDatabase(),
                 ],
                 { stdin: "pipe", stdout: "pipe", stderr: "pipe" },
               )
@@ -132,3 +134,9 @@ export const MemoryTool = Tool.define(
     }
   }),
 )
+
+function defaultDatabase() {
+  const state =
+    process.env.XDG_STATE_HOME || (process.env.HOME ? path.join(process.env.HOME, ".local", "state") : ".homemem-state")
+  return path.join(state, "homemem", "homemem.sqlite3")
+}

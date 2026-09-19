@@ -1,4 +1,5 @@
 import { Effect } from "effect"
+import { validateSafeUrl } from "./ssrf"
 
 export interface RenderResult {
   readonly html: string
@@ -57,6 +58,29 @@ export function renderWithHeadlessBrowser(url: string, timeoutMs = 8000): Effect
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
         })
         const page = await context.newPage()
+        await page.route(
+          "**/*",
+          async (route: {
+            request: () => { url: () => string }
+            continue: () => Promise<void>
+            abort: (errorCode?: string) => Promise<void>
+          }) => {
+            const requestUrl = route.request().url()
+            if (/^(about|blob|data):/i.test(requestUrl)) {
+              await route.continue()
+              return
+            }
+
+            const allowed = await Effect.runPromise(
+              validateSafeUrl(requestUrl).pipe(
+                Effect.as(true),
+                Effect.orElseSucceed(() => false),
+              ),
+            )
+            if (allowed) await route.continue()
+            else await route.abort("blockedbyclient")
+          },
+        )
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: timeoutMs })
         await page.waitForTimeout(1000)
         const html = await page.content()

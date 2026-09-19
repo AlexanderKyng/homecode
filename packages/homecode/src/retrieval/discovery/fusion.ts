@@ -83,6 +83,9 @@ export function fuseCandidates(
       if (item.providerScore !== undefined) {
         existing.providerScores[item.provider] = item.providerScore
       }
+      if (item.publishedDate && !existing.metadata.publishedDate) {
+        existing.metadata.publishedDate = item.publishedDate
+      }
       if (item.metadata) {
         Object.assign(existing.metadata, item.metadata)
       }

@@ -12,13 +12,17 @@ import { RetrievalCache } from "../retrieval/cache"
 import { extractFromHtml } from "../retrieval/extractor"
 import { extractHighlights } from "../retrieval/highlighter"
 import { validateSafeUrl } from "../retrieval/ssrf"
+import { executeSafeRequest } from "../retrieval/http"
+
+const ResultCount = Schema.Number.check(Schema.isInt()).check(Schema.isBetween({ minimum: 1, maximum: 100 }))
+const ContextCharacters = Schema.Number.check(Schema.isInt()).check(Schema.isBetween({ minimum: 1, maximum: 100_000 }))
 
 export const Parameters = Schema.Struct({
-  query: Schema.String.annotate({
+  query: Schema.String.check(Schema.isNonEmpty()).annotate({
     description: "Websearch query",
   }),
 
-  numResults: Schema.optional(Schema.Number).annotate({
+  numResults: Schema.optional(ResultCount).annotate({
     description: "Number of search results to return (default: 8)",
   }),
 
@@ -31,7 +35,7 @@ export const Parameters = Schema.Struct({
     description: "Search type - 'auto': balanced search (default), 'fast': quick results, 'deep': comprehensive search",
   }),
 
-  contextMaxCharacters: Schema.optional(Schema.Number).annotate({
+  contextMaxCharacters: Schema.optional(ContextCharacters).annotate({
     description: "Maximum characters for context string optimized for LLMs (default: 10000)",
   }),
 })
@@ -98,30 +102,6 @@ function parallelAuthHeaders() {
   }
 }
 
-function normalizeUrl(rawUrl: string): string {
-  try {
-    const url = new URL(rawUrl)
-    const trackingParams = [
-      "utm_source",
-      "utm_medium",
-      "utm_campaign",
-      "utm_term",
-      "utm_content",
-      "ref",
-      "ref_src",
-      "fbclid",
-      "gclid",
-    ]
-    for (const p of trackingParams) {
-      url.searchParams.delete(p)
-    }
-    url.hash = ""
-    return url.toString()
-  } catch {
-    return rawUrl
-  }
-}
-
 function extractDomain(urlStr: string): string {
   try {
     return new URL(urlStr).hostname.replace(/^www\./, "")
@@ -135,18 +115,16 @@ function fetchPagePassages(
   url: string,
   query: string,
   cache: RetrievalCache.Interface,
+  preferLive = false,
 ) {
   return Effect.gen(function* () {
-    const safeUrl = yield* validateSafeUrl(url).pipe(
-      Effect.orElseSucceed(() => null),
-    )
+    const safeUrl = yield* validateSafeUrl(url).pipe(Effect.orElseSucceed(() => null))
     if (!safeUrl) return []
 
-    const cached = yield* cache.getDocument(safeUrl.href)
-    if (cached) {
-      return extractHighlights(query, cached.content, { maxHighlights: 3, maxCharacters: 2000 })
+    if (!preferLive) {
+      const cached = yield* cache.getDocument(safeUrl.href)
+      if (cached) return extractHighlights(query, cached.content, { maxHighlights: 3, maxCharacters: 2000 })
     }
-
     const request = HttpClientRequest.get(safeUrl.href).pipe(
       HttpClientRequest.setHeaders({
         "User-Agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 (homecode/${InstallationVersion})`,
@@ -154,27 +132,25 @@ function fetchPagePassages(
       }),
     )
 
-    const response = yield* http.execute(request).pipe(
+    const fetched = yield* executeSafeRequest(http, request).pipe(
       Effect.timeout("3 seconds"),
       Effect.orElseSucceed(() => null),
     )
 
-    if (!response || response.status >= 400) return []
+    if (!fetched || fetched.response.status < 200 || fetched.response.status >= 300) return []
 
-    const html = yield* response.text.pipe(
-      Effect.orElseSucceed(() => ""),
-    )
+    const html = yield* fetched.response.text.pipe(Effect.orElseSucceed(() => ""))
 
     if (!html) return []
 
-    const extracted = extractFromHtml(html, { format: "markdown", url: safeUrl.href })
+    const extracted = extractFromHtml(html, { format: "markdown", url: fetched.url })
     if (!extracted.content) return []
 
     yield* cache.setDocument({
-      url: safeUrl.href,
+      url: fetched.url,
       title: extracted.title,
       content: extracted.content,
-      status: response.status,
+      status: fetched.response.status,
     })
 
     return extractHighlights(query, extracted.content, { maxHighlights: 3, maxCharacters: 2000 })
@@ -187,19 +163,16 @@ import {
   createGitHubProvider,
   createStackExchangeProvider,
   createSearXNGProvider,
-  type FusedCandidate,
 } from "../retrieval/discovery"
 
 function makeFetchFromHttpClient(http: HttpClient.HttpClient): typeof fetch {
-  return (async (input: any, init?: any) => {
-    const url = typeof input === "string" ? input : input.url
-    const method = init?.method || "GET"
-    const req = HttpClientRequest.make(method)(url)
-    const res = await Effect.runPromise(http.execute(req))
-    const text = await Effect.runPromise(res.text)
+  return (async (input: RequestInfo | URL, init?: RequestInit) => {
+    const req = HttpClientRequest.fromWeb(new Request(input, init))
+    const fetched = await Effect.runPromise(executeSafeRequest(http, req))
+    const text = await Effect.runPromise(fetched.response.text)
     return new Response(text, {
-      status: res.status,
-      headers: res.headers as any,
+      status: fetched.response.status,
+      headers: new Headers(fetched.response.headers),
     })
   }) as unknown as typeof fetch
 }
@@ -211,11 +184,14 @@ function callFederatedSearch(
   params: Schema.Schema.Type<typeof Parameters>,
 ) {
   return Effect.gen(function* () {
-    const classification = classifyQuery(params.query)
-    const numResults = params.numResults || 8
-    const searchType = params.type || "auto"
+    const query = params.query.trim()
+    if (!query) return encode({ status: "invalid_query", message: "Search query cannot be empty." })
 
-    const cacheKey = `search:${params.query}:${searchType}:${numResults}`
+    const classification = classifyQuery(query)
+    const numResults = params.numResults ?? 8
+    const searchType = params.type ?? "auto"
+
+    const cacheKey = `search:v2:${query}:${searchType}:${numResults}:${params.livecrawl ?? "fallback"}:${params.contextMaxCharacters ?? 10000}`
     const cachedQuery = yield* cache.getQuery(cacheKey)
     if (cachedQuery && typeof cachedQuery === "string") {
       return cachedQuery
@@ -229,7 +205,7 @@ function callFederatedSearch(
       createSearXNGProvider(SEARXNG_URL, fetchFn),
     ])
 
-    const discoveryResult = yield* federated.search(params.query, {
+    const discoveryResult = yield* federated.search(query, {
       limit: numResults * 2,
       classification,
     })
@@ -258,19 +234,19 @@ function callFederatedSearch(
     }))
 
     const rankedOutputs = yield* reranker.rerank({
-      query: params.query,
+      query,
       documents: docsToRerank,
       topK: numResults,
     })
 
     const candidateMap = new Map(candidates.map((c) => [c.id, c]))
-    const topCandidates = rankedOutputs.map((r) => ({
-      candidate: candidateMap.get(r.id)!,
-      score: r.score,
-    }))
+    const topCandidates = rankedOutputs.flatMap((r) => {
+      const candidate = candidateMap.get(r.id)
+      return candidate ? [{ candidate, score: r.score }] : []
+    })
 
     // 3. Selective Fetch for top candidates (unless in fast mode)
-    const shouldFetch = searchType !== "fast" && params.livecrawl !== "fallback"
+    const shouldFetch = searchType !== "fast"
     const fetchLimit = searchType === "deep" ? Math.min(topCandidates.length, 5) : Math.min(topCandidates.length, 3)
 
     const enrichedResults = yield* Effect.forEach(
@@ -282,7 +258,7 @@ function callFederatedSearch(
           let highlights: string[] = []
 
           if (shouldFetch && index < fetchLimit) {
-            highlights = yield* fetchPagePassages(http, candidate.url, params.query, cache)
+            highlights = yield* fetchPagePassages(http, candidate.url, query, cache, params.livecrawl === "preferred")
           }
 
           if (highlights.length === 0 && candidate.summary) {
@@ -295,6 +271,8 @@ function callFederatedSearch(
             domain: candidate.domain,
             score,
             publishedDate: candidate.publishedDate,
+            sourceTypes: candidate.sourceTypes,
+            matchedProviders: candidate.matchedProviders,
             highlights,
           }
         }),
@@ -302,9 +280,13 @@ function callFederatedSearch(
     )
 
     const payload = {
-      query: params.query,
+      query,
       category: classification.category,
       results: enrichedResults,
+      context: enrichedResults
+        .flatMap((result) => result.highlights)
+        .join("\n\n")
+        .slice(0, params.contextMaxCharacters ?? 10000),
     }
 
     const output = encode(payload)
@@ -333,8 +315,8 @@ function callProvider(
       "web_search",
       McpWebSearch.ParallelSearchArgs,
       {
-        objective: params.query,
-        search_queries: [params.query],
+        objective: params.query.trim(),
+        search_queries: [params.query.trim()],
         session_id: ctx.sessionID,
         model_name: webSearchModelName(ctx.extra),
       },
@@ -349,13 +331,11 @@ function callProvider(
     "web_search_exa",
     McpWebSearch.SearchArgs,
     {
-      query: params.query,
-      type: params.type || "auto",
-      numResults: params.numResults || 8,
-      livecrawl: params.livecrawl || "fallback",
-      contextMaxCharacters: params.contextMaxCharacters,
+      query: params.query.trim(),
+      numResults: params.numResults ?? 8,
     },
     "25 seconds",
+    McpWebSearch.exaAuthHeaders(),
   )
 }
 

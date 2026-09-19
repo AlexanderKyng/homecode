@@ -9,6 +9,9 @@ import { extractHighlights } from "../retrieval/highlighter"
 import { isDynamicSPA, renderWithHeadlessBrowser } from "../retrieval/playwright"
 import { RetrievalCache } from "../retrieval/cache"
 import { InstallationVersion } from "@homecode-ai/core/installation/version"
+import { executeSafeRequest } from "../retrieval/http"
+
+const MaxCharacters = Schema.Number.check(Schema.isInt()).check(Schema.isBetween({ minimum: 1, maximum: 1_000_000 }))
 
 export const Parameters = Schema.Struct({
   url: Schema.String.annotate({
@@ -20,7 +23,7 @@ export const Parameters = Schema.Struct({
   query: Schema.optional(Schema.String).annotate({
     description: "Optional query to extract and focus on relevant passage highlights within the fetched document",
   }),
-  maxCharacters: Schema.optional(Schema.Number).annotate({
+  maxCharacters: Schema.optional(MaxCharacters).annotate({
     description: "Maximum character length for the output content (default: 20000)",
   }),
 })
@@ -49,6 +52,9 @@ export const WebFetchTool = Tool.define(
             metadata: { url: rawUrl, format },
           })
 
+          const parsedUrl = yield* validateSafeUrl(rawUrl)
+          const targetUrl = parsedUrl.href
+
           yield* ctx.ask({
             permission: "webfetch",
             patterns: [rawUrl],
@@ -56,13 +62,9 @@ export const WebFetchTool = Tool.define(
             metadata: { url: rawUrl, format, query: params.query },
           })
 
-          // 1. SSRF and private network guard
-          const parsedUrl = yield* validateSafeUrl(rawUrl)
-          const targetUrl = parsedUrl.href
-
           // 2. Check local SQLite cache
           const cached = yield* cache.getDocument(targetUrl)
-          if (cached && !params.query) {
+          if (cached && format === "markdown" && !params.query) {
             const output = encode({
               url: cached.url,
               title: cached.title,
@@ -92,11 +94,18 @@ export const WebFetchTool = Tool.define(
             }),
           )
 
-          const response = yield* http.execute(request).pipe(
+          const fetched = yield* executeSafeRequest(http, request, { validateInitialUrl: true }).pipe(
             Effect.mapError((err) => new Error(`Failed to fetch URL ${targetUrl}: ${String(err)}`)),
           )
 
-          const contentType = response.headers["content-type"] || ""
+          const response = fetched.response
+          const resolvedUrl = fetched.url
+
+          if (response.status < 200 || response.status >= 300) {
+            return yield* Effect.fail(new Error(`Failed to fetch URL ${targetUrl}: HTTP ${response.status}`))
+          }
+
+          const contentType = (response.headers["content-type"] || "").toLowerCase()
           const status = response.status
           const bodyText = yield* response.text
 
@@ -104,7 +113,11 @@ export const WebFetchTool = Tool.define(
           let extractedContent = ""
           let highlights: string[] | undefined = undefined
 
-          if (contentType.includes("application/json") || bodyText.trim().startsWith("{") || bodyText.trim().startsWith("[")) {
+          if (
+            contentType.includes("application/json") ||
+            bodyText.trim().startsWith("{") ||
+            bodyText.trim().startsWith("[")
+          ) {
             const extracted = extractFromJson(bodyText, { format, maxCharacters: maxChars })
             title = extracted.title
             extractedContent = extracted.content
@@ -112,37 +125,39 @@ export const WebFetchTool = Tool.define(
             let htmlToProcess = bodyText
             // Check dynamic SPA detection
             if (isDynamicSPA(bodyText)) {
-              const rendered = yield* renderWithHeadlessBrowser(targetUrl)
+              const rendered = yield* renderWithHeadlessBrowser(resolvedUrl)
               if (rendered.rendered && rendered.html) {
                 htmlToProcess = rendered.html
               }
             }
 
-            const extracted = extractFromHtml(htmlToProcess, { format, url: targetUrl, maxCharacters: maxChars })
+            const extracted = extractFromHtml(htmlToProcess, { format, url: resolvedUrl, maxCharacters: maxChars })
             title = extracted.title
             extractedContent = extracted.content
           }
 
           // Query-conditioned passage highlighting if query was specified
-          if (params.query && extractedContent) {
-            highlights = extractHighlights(params.query, extractedContent, {
+          if (params.query?.trim() && extractedContent) {
+            highlights = extractHighlights(params.query.trim(), extractedContent, {
               maxHighlights: 5,
               maxCharacters: 6000,
             })
           }
 
           // Save to local cache
-          yield* cache.setDocument({
-            url: targetUrl,
-            title,
-            content: extractedContent,
-            contentType,
-            status,
-          })
+          if (extractedContent) {
+            yield* cache.setDocument({
+              url: resolvedUrl,
+              title,
+              content: extractedContent,
+              contentType,
+              status,
+            })
+          }
 
           const payload = {
-            url: targetUrl,
-            title: title || targetUrl,
+            url: resolvedUrl,
+            title: title || resolvedUrl,
             status,
             format,
             ...(highlights && highlights.length > 0
@@ -151,10 +166,10 @@ export const WebFetchTool = Tool.define(
           }
 
           return {
-            title: `Web Fetch: ${title || targetUrl}`,
+            title: `Web Fetch: ${title || resolvedUrl}`,
             output: encode(payload),
             metadata: {
-              url: targetUrl,
+              url: resolvedUrl,
               status,
               contentType,
               format,

@@ -6,7 +6,7 @@ import { LLMEvent, type ProviderMetadata } from "@homecode-ai/llm"
 import { ConfigToolFormat, type ToolFormat } from "@/config/tool-format"
 import { isRecord } from "@/util/record"
 
-const ATEM_MODEL_PATTERN = /(glimmer|homeagent)/i
+const ATEM_MODEL_PATTERN = /(glimmer|homeagent|muse)/i
 const ATEM_INVOKE = /<atem:invoke\s+name="([^"]+)"\s*>([\s\S]*?)<\/atem:invoke>/g
 const ATEM_PARAMETER = /<atem:parameter\s+name="([^"]+)"\s*>([\s\S]*?)<\/atem:parameter>/g
 const ATEM_CONTROL_TAG = /(?:\[?\/?atem:(?:function_calls|invoke|parameter)[^>]*\]?)/
@@ -137,11 +137,16 @@ export function parse(output: string): AtemParseResult {
   let channelMatch: RegExpExecArray | null
   let channelEnd = 0
 
+  let directToolCalls: { name: string; rawArgs: string; raw: string }[] = []
   ASSISTANT_CHANNEL.lastIndex = 0
   while ((channelMatch = ASSISTANT_CHANNEL.exec(output)) !== null) {
     const match = channelMatch
     const recipient = match[1] ?? "user"
-    if (recipient === "self") reasoning += match[2]
+    if (recipient === "self") {
+      reasoning += match[2]
+    } else if (recipient !== "user") {
+      directToolCalls.push({ name: recipient, rawArgs: match[2], raw: match[0] })
+    }
     body = body.replace(match[0], () => (recipient === "self" ? "" : match[2]))
     channelEnd = Math.max(channelEnd, match.index + match[0].length)
   }
@@ -157,6 +162,7 @@ export function parse(output: string): AtemParseResult {
 
   const detected =
     reasoning.length > 0 ||
+    directToolCalls.length > 0 ||
     ATEM_CONTROL_TAG.test(body) ||
     body.includes("[atem:function_calls]") ||
     body.includes("<atem:function_calls>")
@@ -183,6 +189,22 @@ export function parse(output: string): AtemParseResult {
   }
 
   if (detected && blocks.length === 0 && body.includes("<atem:invoke")) parseInvocations(body, calls, errors)
+
+  // Direct channel invocation fallback when <atem:function_calls> block is omitted
+  if (calls.length === 0 && directToolCalls.length > 0) {
+    for (const dt of directToolCalls) {
+      const trimmed = dt.rawArgs.trim()
+      try {
+        if (trimmed.startsWith("{") && trimmed.endsWith("}")) {
+          const args = JSON.parse(trimmed)
+          calls.push({ name: dt.name, arguments: args, raw: dt.raw })
+          visible = visible.replace(trimmed, "")
+        }
+      } catch {
+        // Fall back to visible plain text if not parseable JSON
+      }
+    }
+  }
 
   if (detected && ATEM_CONTROL_TAG.test(visible)) {
     errors.push({

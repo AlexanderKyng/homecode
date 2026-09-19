@@ -62,6 +62,7 @@ import { referencePromptMetadata, referenceTextPart } from "./prompt/reference"
 import { SessionReminders } from "./reminders"
 import { SessionTools } from "./tools"
 import { HomeMemAdapter } from "@/homemem"
+import { HomeMemAdapter } from "@/homemem"
 import { HomeSitterAdapter } from "@/homesitter/adapter"
 import * as ContextAssembler from "./context-assembler"
 import { LLMEvent } from "@homecode-ai/llm"
@@ -122,6 +123,7 @@ export const layer = Layer.effect(
     const registry = yield* ToolRegistry.Service
     const homesitter = Option.getOrUndefined(yield* Effect.serviceOption(HomeSitterAdapter.Service))
     const truncate = yield* Truncate.Service
+    const homemem = Option.getOrUndefined(yield* Effect.serviceOption(HomeMemAdapter.Service))
     const homemem = Option.getOrUndefined(yield* Effect.serviceOption(HomeMemAdapter.Service))
     const image = yield* Image.Service
     const spawner = yield* ChildProcessSpawner.ChildProcessSpawner
