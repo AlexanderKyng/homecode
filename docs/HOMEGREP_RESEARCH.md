@@ -76,6 +76,25 @@ metrics are over eight answerable tasks in each split. Latencies are p50/p95
 milliseconds. Paired intervals compare task-level nDCG@10 differences against
 the hybrid baseline.
 
+The first complete two-repository comparison ran on `65d2aa4b735c73a421282e9b5b24097bd8088459`
+with 16 answerable tasks, using the same Semble revision, model and qrels.
+It supplies the lexical/dense ablation; the split-specific runs below repeat
+the hybrid baseline alongside each experimental variant on the current source
+snapshot.
+
+| Two-repository baseline / variant | nDCG@10 (task-bootstrap 95% CI) | MRR | Line Recall@5 / @10 | Query p50 / p95 ms |
+|---|---:|---:|---:|---:|
+| Hybrid | 0.3835 (0.2193–0.5589) | 0.3423 | 0.406 / 0.531 | 161.98 / 189.28 |
+| BM25 / FTS only | 0.3258 (0.1549–0.5167) | 0.3490 | 0.344 / 0.375 | 160.99 / 187.14 |
+| Dense vector only | 0.2310 (0.1119–0.3734) | 0.1664 | 0.188 / 0.438 | 162.04 / 189.89 |
+
+Paired nDCG@10 differences were -0.0577 for FTS versus hybrid (95% CI
+-0.1528 to +0.0372) and -0.1525 for vector-only versus hybrid (-0.2924 to
+-0.0232). Thus this small sample favors retaining hybrid over dense-only;
+FTS-only was not distinguishable from hybrid at this uncertainty level. One
+unanswerable history task returned results in every variant, as expected for a
+working-tree index without a commit-history corpus.
+
 | Split / variant | nDCG@10 (task-bootstrap 95% CI) | MRR | Path Recall@5 / @10 | Line Recall@5 / @10 | Query p50 / p95 ms |
 |---|---:|---:|---:|---:|---:|
 | HomeCode hybrid | 0.2058 (0.0546–0.3695) | 0.1354 | 0.250 / 0.500 | 0.250 / 0.438 | 179.35 / 193.18 |
