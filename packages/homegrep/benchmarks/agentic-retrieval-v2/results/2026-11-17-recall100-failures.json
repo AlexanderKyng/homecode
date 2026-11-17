@@ -1,0 +1,3742 @@
+{
+  "schemaVersion": 1,
+  "dataset": "agentic-retrieval-v2",
+  "engine": "Semble default ranking, unchanged",
+  "engineRevision": "8ee6463efbb1ff755c339e965c7298b7afd7db5b",
+  "measuredAt": "2026-11-17T15:59:33.672Z",
+  "independentQueries": 150,
+  "repetitionsPerQuery": 3,
+  "answerableQueries": 149,
+  "symbolJudgments": 179,
+  "symbolHitsByRun": [
+    135,
+    135,
+    135
+  ],
+  "symbolJudgmentMissesAcrossAllRuns": 132,
+  "symbolRecallAt100ByRun": [
+    0.7541899441340782,
+    0.7541899441340782,
+    0.7541899441340782
+  ],
+  "meanSymbolRecallAt100": 0.7541899441340782,
+  "symbolsHitInEveryRun": 135,
+  "stableSymbolRecallAt100": 0.7541899441340782,
+  "symbolsHitAtLeastOnce": 135,
+  "symbolRecallAt100AtLeastOnce": 0.7541899441340782,
+  "symbolJudgmentTargetsNotHitEveryRun": 44,
+  "symbolFailureCauses": {
+    "target_file_retrieved_but_relevant_chunk_not_in_top100": 42,
+    "target_file_not_retrieved_in_top100": 2
+  },
+  "fileJudgmentCount": 158,
+  "fileFailureCount": 2,
+  "fileRecallAt100ThisRun": 0.9873417721518988,
+  "fileFailureCauses": {
+    "indexed_file_outside_top100": 2
+  },
+  "causeDefinitions": {
+    "target_file_not_indexed": "No Semble index chunks exist for the qrel target file; discovery, file type, ignore, size, or parse/write eligibility must be inspected separately.",
+    "target_span_not_covered_by_index_chunks": "The target file is indexed, but no stored chunk range overlaps the qrel symbol span.",
+    "target_file_not_retrieved_in_top100": "The target span is indexed, but no result from its file appears in any sampled top-100 pool.",
+    "target_file_retrieved_but_relevant_chunk_not_in_top100": "The target span is indexed and its file appears in top 100, but the relevant chunk does not.",
+    "intermittent_candidate_membership": "The relevant chunk appears in some but not all repeated top-100 results."
+  },
+  "perQuery": [
+    {
+      "taskId": "hecpp-chat-messages",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "request_parsing",
+      "query": "How are chat messages from an OpenAI-compatible request converted into the engine's internal message representation?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-tool-schema",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "request_parsing",
+      "query": "How are tool definitions and their parameter schemas read from a chat request?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-tool-schema",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "request_parsing",
+          "query": "How are tool definitions and their parameter schemas read from a chat request?",
+          "symbol": "common_chat_tools_parse_oaicompat",
+          "path": "common/chat.cpp",
+          "startLine": 441,
+          "endLine": 474,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-chat-template-source",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "How does the runtime choose a model-provided chat template or an explicit override, and what happens when initialization fails?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-message-rendering",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "response_format",
+      "query": "How is one internal chat message rendered back into the API's JSON representation?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-jinja-apply",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "request_parsing",
+      "query": "How are messages rendered with the model's Jinja template and generation settings?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-jinja-apply",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "request_parsing",
+          "query": "How are messages rendered with the model's Jinja template and generation settings?",
+          "symbol": "common_chat_templates_apply_jinja",
+          "path": "common/chat.cpp",
+          "startLine": 2992,
+          "endLine": 3095,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 5,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-legacy-template",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "request_parsing",
+      "query": "What fallback path renders prompts when the Jinja template path is not used?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-legacy-template",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "request_parsing",
+          "query": "What fallback path renders prompts when the Jinja template path is not used?",
+          "symbol": "common_chat_templates_apply_legacy",
+          "path": "common/chat.cpp",
+          "startLine": 3098,
+          "endLine": 3161,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 7,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-generation-prefix",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "How does template configuration determine the prefix that leaves the model ready to generate?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-chat-parse",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "response_format",
+      "query": "How is generated chat text parsed into structured message content and tool calls?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-chat-parse",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "response_format",
+          "query": "How is generated chat text parsed into structured message content and tool calls?",
+          "symbol": "common_chat_peg_parse",
+          "path": "common/chat.cpp",
+          "startLine": 3176,
+          "endLine": 3251,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-gpt-oss-format",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "model_specific_format",
+      "query": "How does one model-specific chat format map reasoning and tool-call syntax into constrained generation?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-gpt-oss-format",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "model_specific_format",
+          "query": "How does one model-specific chat format map reasoning and tool-call syntax into constrained generation?",
+          "symbol": "common_chat_params_init_gpt_oss",
+          "path": "common/chat.cpp",
+          "startLine": 961,
+          "endLine": 1101,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-functionary-format",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "model_specific_format",
+      "query": "How does a specialized chat format construct the grammar used to emit typed function calls?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-functionary-format",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "model_specific_format",
+          "query": "How does a specialized chat format construct the grammar used to emit typed function calls?",
+          "symbol": "common_chat_params_init_functionary_v3_2",
+          "path": "common/chat.cpp",
+          "startLine": 1248,
+          "endLine": 1338,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sampler-init",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "How are the sampler, grammar, random seed and configured sampling stages initialized for a model?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-grammar-prefill",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "Which grammar modes need the generation prefix fed into the sampler before decoding begins?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sampler-clone",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "speculative_decoding",
+      "query": "Which sampler state is copied so speculative decoding can preserve the target sampler's state?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-sampler-clone",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "speculative_decoding",
+          "query": "Which sampler state is copied so speculative decoding can preserve the target sampler's state?",
+          "symbol": "common_sampler_clone",
+          "path": "common/sampling.cpp",
+          "startLine": 252,
+          "endLine": 296,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 4,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sampler-reset",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "How is sampling state cleared when a new generation starts?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-sampler-reset",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "generation",
+          "query": "How is sampling state cleared when a new generation starts?",
+          "symbol": "common_sampler_reset",
+          "path": "common/sampling.cpp",
+          "startLine": 219,
+          "endLine": 230,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-grammar-trigger",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "How does sampling decide whether a lazy grammar should constrain the current token?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sample-token",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "How does the sampler select the next token from model candidates?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-sample-token",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "generation",
+          "query": "How does the sampler select the next token from model candidates?",
+          "symbol": "common_sampler_sample",
+          "path": "common/sampling.cpp",
+          "startLine": 710,
+          "endLine": 717,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 7,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-accept-token",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "generation",
+      "query": "What state is updated after a token has been accepted during generation?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-accept-token",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "generation",
+          "query": "What state is updated after a token has been accepted during generation?",
+          "symbol": "common_sampler_accept",
+          "path": "common/sampling.cpp",
+          "startLine": 729,
+          "endLine": 759,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 55,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-speculative-sample-accept",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "speculative_decoding",
+      "query": "How are multiple sampled tokens accepted together while running a speculative sequence?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-speculative-sample-accept",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "speculative_decoding",
+          "query": "How are multiple sampled tokens accepted together while running a speculative sequence?",
+          "symbol": "common_sampler_sample_and_accept_n",
+          "path": "common/sampling.cpp",
+          "startLine": 808,
+          "endLine": 924,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 26,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-decode-batch",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "runtime",
+      "query": "Where does the runtime validate and evaluate a batch of tokens, including output reservation and decode failures?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-kv-remove-range",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "kv_cache",
+      "query": "How can selected positions for one sequence be removed from the KV cache?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-kv-remove-range",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "kv_cache",
+          "query": "How can selected positions for one sequence be removed from the KV cache?",
+          "symbol": "llama_kv_cache_seq_rm",
+          "path": "src/llama.cpp",
+          "startLine": 11438,
+          "endLine": 11444,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hecpp-kv-remove-range",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "kv_cache",
+          "query": "How can selected positions for one sequence be removed from the KV cache?",
+          "symbol": "llama_kv_cache_seq_rm",
+          "path": "include/llama.h",
+          "startLine": 997,
+          "endLine": 1002,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-offload-buffer",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "model_loading",
+      "query": "How is the default buffer type chosen when some model layers are offloaded to accelerators?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-offload-buffer",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "model_loading",
+          "query": "How is the default buffer type chosen when some model layers are offloaded to accelerators?",
+          "symbol": "llama_default_buffer_type_offload",
+          "path": "src/llama.cpp",
+          "startLine": 465,
+          "endLine": 496,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-state-load",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "state_persistence",
+      "query": "How does loading a saved session report malformed or incompatible state files to its caller?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-state-save",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "state_persistence",
+      "query": "How is the full inference state and its prompt-token list written to a session file?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-state-save",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "state_persistence",
+          "query": "How is the full inference state and its prompt-token list written to a session file?",
+          "symbol": "llama_state_save_file",
+          "path": "src/llama.cpp",
+          "startLine": 13532,
+          "endLine": 13539,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sequence-save",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "state_persistence",
+      "query": "How can the cache state for one sequence be persisted separately from the full context?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-sequence-save",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "state_persistence",
+          "query": "How can the cache state for one sequence be persisted separately from the full context?",
+          "symbol": "llama_state_seq_save_file_internal",
+          "path": "src/llama.cpp",
+          "startLine": 13593,
+          "endLine": 13615,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 3,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-sequence-restore",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "state_persistence",
+      "query": "How is a saved sequence cache restored into a destination sequence, and how are read failures handled?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-sequence-restore",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "state_persistence",
+          "query": "How is a saved sequence cache restored into a destination sequence, and how are read failures handled?",
+          "symbol": "llama_state_seq_load_file_internal",
+          "path": "src/llama.cpp",
+          "startLine": 13617,
+          "endLine": 13661,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-lora-scale",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "runtime_configuration",
+      "query": "How can an already loaded adapter's contribution be changed at runtime?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-tokenize-api",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "tokenization",
+      "query": "How does the public API tokenize text while controlling insertion and parsing of special tokens?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-tokenizer-normalization",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "tokenization",
+      "query": "How are text and special tokens converted into vocabulary token IDs, including tokenizer-specific normalization?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-tokenizer-normalization",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "tokenization",
+          "query": "How are text and special tokens converted into vocabulary token IDs, including tokenizer-specific normalization?",
+          "symbol": "tokenize",
+          "path": "src/llama-vocab.cpp",
+          "startLine": 3138,
+          "endLine": 3332,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 3,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-server-slot-selection",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "server_lifecycle",
+      "query": "How does the server choose a reusable slot based on prompt similarity, then fall back to an idle slot?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hecpp-server-prompt-cache",
+      "repository": "homeengine_cpp",
+      "split": "held_out_repository",
+      "category": "server_lifecycle",
+      "query": "How does the server compare prompt tokens with a slot's cached prompt and save the reusable token state?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "hecpp-server-prompt-cache",
+          "repository": "homeengine_cpp",
+          "split": "held_out_repository",
+          "category": "server_lifecycle",
+          "query": "How does the server compare prompt tokens with a slot's cached prompt and save the reusable token state?",
+          "symbol": "calculate_slot_similarity",
+          "path": "examples/server/server-context.cpp",
+          "startLine": 1027,
+          "endLine": 1043,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 7,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-01",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "dataset_loading",
+      "query": "How does a benchmark task attempt to load its Hugging Face dataset and handle a failed remote load?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-02",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "generation",
+      "query": "How are stop strings used to trim a completion without accidentally trimming matching text from the prompt?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-03",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_registry",
+      "query": "Which programming-task implementations are registered and how is the selectable list of task names derived?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-04",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_registry",
+      "query": "How does the harness instantiate a selected task, supply optional constructor arguments, and report an unknown task name?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-05",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_selection",
+      "query": "How does the command-line entry point select all evaluation tasks by default or expand comma-separated task patterns?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-06",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "evaluation_flow",
+      "query": "How can the harness evaluate saved generations without loading a model or generating new code?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-06",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "evaluation_flow",
+          "query": "How can the harness evaluate saved generations without loading a model or generating new code?",
+          "symbol": "main",
+          "path": "main.py",
+          "startLine": 246,
+          "endLine": 253,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 9,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-07",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "model_configuration",
+      "query": "How are requested precision and 4-bit or 8-bit loading translated into model-loading arguments and device placement?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-08",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "model_configuration",
+      "query": "How does the evaluator choose between causal and encoder-decoder model loaders and reject an unsupported model type?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-09",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "model_configuration",
+      "query": "How are an adapter checkpoint loaded into a base model and merged before evaluation?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-10",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "tokenization",
+      "query": "How does tokenizer setup choose padding direction and recover an end-of-sequence token when it is missing?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-11",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "evaluation_flow",
+      "query": "How does generation reuse saved references when the evaluator is asked to check reference examples instead of producing completions?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-12",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "resume",
+      "query": "How does generation resume from partial outputs, account for completed tasks, and trim excess samples from uneven device splits?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-13",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "evaluation_flow",
+      "query": "How does the evaluator generate results, save outputs, enable code-execution evaluation, and call a task's result processor?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-14",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "persistence",
+      "query": "How are generation and reference JSON files conditionally written after an evaluation run?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-15",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "generation",
+      "query": "How does a stopping criterion detect when every completion in a batch has reached an end-of-function marker?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-15",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "generation",
+          "query": "How does a stopping criterion detect when every completion in a batch has reached an end-of-function marker?",
+          "symbol": "EndOfFunctionCriteria.__call__",
+          "path": "bigcode_eval/generation.py",
+          "startLine": 25,
+          "endLine": 28,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-16",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "generation",
+      "query": "How does the custom stopping rule cap generated function length relative to the prompt length?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-17",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "generation",
+      "query": "How does generation combine task-specific stop words, custom completion checks, maximum-length rules, and optional instruction tokens?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-18",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "tokenization",
+      "query": "How are completion, infill, and instruction prompts converted into tokenized samples, and when are mixed prompt formats rejected?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-19",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "tokenization",
+      "query": "Which fill-in-the-middle token format is selected for the supported InCoder, SantaCoder, and StarCoder models?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-20",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "tokenization",
+      "query": "How are instruction and context separated when an instruction-tuned task supplies its own delimiter tokens?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-21",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "generation",
+      "query": "How does batched generation handle stop criteria, distributed token gathering, periodic intermediate saves, and resumed outputs?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-22",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_data",
+      "query": "How does the implementation verify that it loaded the expected test split before constructing benchmark prompts?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-23",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "prompt_construction",
+      "query": "How does a programming problem description and one example assertion become a docstring-style completion prompt?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-24",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_scoring",
+      "query": "How are generated solutions compared with the reference tests to compute the benchmark result?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-25",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_registry",
+      "query": "How are separate evaluation task classes created for each programming-challenge difficulty level?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-25",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "task_registry",
+          "query": "How are separate evaluation task classes created for each programming-challenge difficulty level?",
+          "symbol": "create_task",
+          "path": "bigcode_eval/tasks/apps.py",
+          "startLine": 37,
+          "endLine": 42,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-26",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "prompt_construction",
+      "query": "How does a challenge prompt select starter code and specify whether a solution uses standard input or a callable function?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-27",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_registry",
+      "query": "How are greedy and majority-voting variants registered for both arithmetic reasoning datasets?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-28",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "result_parsing",
+      "query": "How does the reasoning benchmark parse a final answer as an integer or decimal while preserving non-numeric answers?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-28",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "result_parsing",
+          "query": "How does the reasoning benchmark parse a final answer as an integer or decimal while preserving non-numeric answers?",
+          "symbol": "Gsm8k.parse_target",
+          "path": "bigcode_eval/tasks/gsm.py",
+          "startLine": 133,
+          "endLine": 151,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-29",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_scoring",
+      "query": "How does the code-generation benchmark construct executable references and pass generated solutions to its scoring metric?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-29",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "task_scoring",
+          "query": "How does the code-generation benchmark construct executable references and pass generated solutions to its scoring metric?",
+          "symbol": "GeneralHumanEval.get_reference",
+          "path": "bigcode_eval/tasks/humaneval.py",
+          "startLine": 71,
+          "endLine": 75,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 18,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "bceh-30",
+      "repository": "bigcode-evaluation-harness",
+      "split": "development",
+      "category": "task_scoring",
+      "query": "How does code evaluation require explicit opt-in before executing candidate programs, run candidates concurrently, and estimate pass-at-k?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "bceh-30",
+          "repository": "bigcode-evaluation-harness",
+          "split": "development",
+          "category": "task_scoring",
+          "query": "How does code evaluation require explicit opt-in before executing candidate programs, run candidates concurrently, and estimate pass-at-k?",
+          "symbol": "estimate_pass_at_k",
+          "path": "bigcode_eval/tasks/custom_metrics/code_eval.py",
+          "startLine": 174,
+          "endLine": 189,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-permission-and-modes",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does HomeCode ask permission before searching, then route exact grep requests separately from hybrid HomeGrep requests?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-workspace-service-lifecycle",
+      "repository": "homecode",
+      "split": "development",
+      "category": "architecture",
+      "query": "Where does HomeCode reuse one search service per workspace, coalesce initial indexing, and close it with the workspace instance?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hc-workspace-service-lifecycle",
+          "repository": "homecode",
+          "split": "development",
+          "category": "architecture",
+          "query": "Where does HomeCode reuse one search service per workspace, coalesce initial indexing, and close it with the workspace instance?",
+          "symbol": "get",
+          "path": "packages/homecode/src/homegrep/service.ts",
+          "startLine": 18,
+          "endLine": 32,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 39,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hc-workspace-service-lifecycle",
+          "repository": "homecode",
+          "split": "development",
+          "category": "architecture",
+          "query": "Where does HomeCode reuse one search service per workspace, coalesce initial indexing, and close it with the workspace instance?",
+          "symbol": "ensureIndexed",
+          "path": "packages/homecode/src/homegrep/service.ts",
+          "startLine": 34,
+          "endLine": 42,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 39,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-index-generation-publication",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does the Python bridge validate the active index generation and publish a replacement atomically after building it?",
+      "symbolJudgmentCount": 3,
+      "symbolHitJudgmentCount": 3,
+      "symbolHitsByRun": [
+        3,
+        3,
+        3
+      ],
+      "symbolHitAtLeastOnceCount": 3,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-incremental-content-hash",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does incremental indexing detect changed source content and reuse files whose content hash is unchanged?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "hc-incremental-content-hash",
+          "repository": "homecode",
+          "split": "development",
+          "category": "behavior",
+          "query": "How does incremental indexing detect changed source content and reuse files whose content hash is unchanged?",
+          "symbol": "_scan",
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "startLine": 75,
+          "endLine": 113,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 13,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-python-runtime-protocol",
+      "repository": "homecode",
+      "split": "development",
+      "category": "architecture",
+      "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+      "symbolJudgmentCount": 3,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hc-python-runtime-protocol",
+          "repository": "homecode",
+          "split": "development",
+          "category": "architecture",
+          "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+          "symbol": "SembleRuntime.request",
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "startLine": 210,
+          "endLine": 248,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 87,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hc-python-runtime-protocol",
+          "repository": "homecode",
+          "split": "development",
+          "category": "architecture",
+          "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+          "symbol": "SembleRuntime.ensureStarted",
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "startLine": 250,
+          "endLine": 311,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 87,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hc-python-runtime-protocol",
+          "repository": "homecode",
+          "split": "development",
+          "category": "architecture",
+          "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+          "symbol": "SembleRuntime.handleResponse",
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "startLine": 313,
+          "endLine": 337,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 87,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-search-freshness-and-query",
+      "repository": "homecode",
+      "split": "development",
+      "category": "call_path",
+      "query": "Before searching, how does HomeGrep check workspace freshness, refresh a stale index, and run BM25 plus dense retrieval?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-group-coverage-fusion",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are duplicate hits from supplemental searches merged with reciprocal rank fusion while preserving primary-query coverage?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc-exact-structural-search",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+      "symbolJudgmentCount": 4,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "hc-exact-structural-search",
+          "repository": "homecode",
+          "split": "development",
+          "category": "behavior",
+          "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+          "symbol": "SembleGrepService.context",
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "startLine": 298,
+          "endLine": 514,
+          "cause": "target_file_not_retrieved_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 0,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": null,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hc-exact-structural-search",
+          "repository": "homecode",
+          "split": "development",
+          "category": "behavior",
+          "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+          "symbol": "enrichLexicalItemsWithStructure",
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "startLine": 23,
+          "endLine": 99,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 63,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "hc-exact-structural-search",
+          "repository": "homecode",
+          "split": "development",
+          "category": "behavior",
+          "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+          "symbol": "compareFragmentContainer",
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "startLine": 232,
+          "endLine": 251,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 63,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": [
+        {
+          "taskId": "hc-exact-structural-search",
+          "repository": "homecode",
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "cause": "indexed_file_outside_top100",
+          "retrievalRunsWithFile": 0
+        }
+      ]
+    },
+    {
+      "taskId": "hc-history-capability-gap",
+      "repository": "homecode",
+      "split": "development",
+      "category": "git_history",
+      "query": "Which commit first introduced the HomeGrep Python JSON-lines runtime, and what changed in that commit?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 0,
+      "fileHitJudgmentCount": 0,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-01",
+      "repository": "homecode",
+      "split": "development",
+      "category": "cli_indexing",
+      "query": "How can an operator explicitly build or rebuild the current workspace index from HomeCode, cancel on interrupt, and still release the service?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-02",
+      "repository": "homecode",
+      "split": "development",
+      "category": "configuration",
+      "query": "Which HomeCode configuration field enables or disables HomeGrep as the default workspace search backend?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-03",
+      "repository": "homecode",
+      "split": "development",
+      "category": "security_validation",
+      "query": "How does the daemon reject non-loopback listen hosts and invalid ports while parsing its address?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-04",
+      "repository": "homecode",
+      "split": "development",
+      "category": "security_validation",
+      "query": "How does daemon startup choose an explicit or environment token versus a token file, validate it, and secure the file permissions?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-05",
+      "repository": "homecode",
+      "split": "development",
+      "category": "runtime_configuration",
+      "query": "How does a client resolve its token from the environment or configured token file, including the default daemon token location?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-06",
+      "repository": "homecode",
+      "split": "development",
+      "category": "http_security",
+      "query": "How does the daemon distinguish health, shutdown, and MCP requests, enforce the route-specific checks, and map invalid or oversized JSON bodies to HTTP errors?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-07",
+      "repository": "homecode",
+      "split": "development",
+      "category": "http_security",
+      "query": "How are Host and Origin headers checked for loopback requests, duplicate headers, and the actual shutdown port?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-08",
+      "repository": "homecode",
+      "split": "development",
+      "category": "http_security",
+      "query": "How does the daemon validate bearer credentials without comparing token contents using ordinary string equality?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-09",
+      "repository": "homecode",
+      "split": "development",
+      "category": "input_validation",
+      "query": "How does the HTTP transport bound request-body memory use before parsing incoming JSON?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-10",
+      "repository": "homecode",
+      "split": "development",
+      "category": "daemon_lifecycle",
+      "query": "How does server status combine the instance record, host and process checks with the health endpoint response?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hc2-10",
+          "repository": "homecode",
+          "split": "development",
+          "category": "daemon_lifecycle",
+          "query": "How does server status combine the instance record, host and process checks with the health endpoint response?",
+          "symbol": "serverStatus",
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "startLine": 142,
+          "endLine": 173,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-11",
+      "repository": "homecode",
+      "split": "development",
+      "category": "daemon_lifecycle",
+      "query": "What happens when daemon startup finds an existing process, a different MCP toolset, or a port race before publishing a new server?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-12",
+      "repository": "homecode",
+      "split": "development",
+      "category": "daemon_lifecycle",
+      "query": "How does the controller request graceful shutdown over the authenticated local endpoint, wait for exit, and fall back when the request fails or times out?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-13",
+      "repository": "homecode",
+      "split": "development",
+      "category": "process_safety",
+      "query": "How does forced daemon shutdown escalate from SIGTERM to SIGKILL while waiting and removing the instance record?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-14",
+      "repository": "homecode",
+      "split": "development",
+      "category": "process_safety",
+      "query": "What prevents the controller from signaling a PID after the daemon instance record changes during shutdown?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hc2-14",
+          "repository": "homecode",
+          "split": "development",
+          "category": "process_safety",
+          "query": "What prevents the controller from signaling a PID after the daemon instance record changes during shutdown?",
+          "symbol": "assertSameInstanceBeforeSignal",
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "startLine": 310,
+          "endLine": 327,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-15",
+      "repository": "homecode",
+      "split": "development",
+      "category": "mcp_transport",
+      "query": "How does the stdio entry point bootstrap or reuse the daemon, connect an HTTP MCP client, expose a stdio server, and clean up both ends?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "hc2-15",
+          "repository": "homecode",
+          "split": "development",
+          "category": "mcp_transport",
+          "query": "How does the stdio entry point bootstrap or reuse the daemon, connect an HTTP MCP client, expose a stdio server, and clean up both ends?",
+          "symbol": "runStdioBootstrapBridge",
+          "path": "packages/homegrep/src/mcp/stdio-bridge.ts",
+          "startLine": 28,
+          "endLine": 170,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-16",
+      "repository": "homecode",
+      "split": "development",
+      "category": "mcp_transport",
+      "query": "How many missing daemon-status polls are tolerated before a connected stdio bridge shuts down, and how is a replacement daemon handled?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-17",
+      "repository": "homecode",
+      "split": "development",
+      "category": "client_routing",
+      "query": "How does client mode selection choose direct, server, or automatic routing based on daemon availability?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-18",
+      "repository": "homecode",
+      "split": "development",
+      "category": "protocol_compatibility",
+      "query": "How does the CLI reject a daemon search response that lacks the grouped-result shape it needs to render?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-19",
+      "repository": "homecode",
+      "split": "development",
+      "category": "exact_search",
+      "query": "How are ripgrep arguments assembled so path filters, file types, flags, and positional paths remain separate from the search pattern?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-20",
+      "repository": "homecode",
+      "split": "development",
+      "category": "input_validation",
+      "query": "What limits are applied to MCP search query text, query groups, path filters, and result count?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "hc2-21",
+      "repository": "homecode",
+      "split": "development",
+      "category": "mcp_search",
+      "query": "How does the MCP search callback normalize input, handle remote-embedding authorization and local fallback, call the backend, and report freshness?",
+      "symbolJudgmentCount": 0,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-agent-loop-and-trajectory",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "Where is the main agent loop that initializes the prompt, steps until exit, catches flow limits, and saves the trajectory?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-model-call-budget",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How does the agent enforce step and cost limits before a model call, then account for the call and its cost?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-local-command-timeout",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How does the local environment execute a shell command with a timeout and combine stdout with stderr?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-command-error-structure",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "When a local command times out or raises, how are partial output and exception details returned?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-submit-marker",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "symbol_behavior",
+      "query": "Which exact completion marker causes a successful shell output to be converted into a submitted agent result?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-trace-serialization",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "Where does the agent serialize model-call statistics, configuration, exit result, conversation messages, and environment state for replay?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "msa-trace-serialization",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "architecture",
+          "query": "Where does the agent serialize model-call statistics, configuration, exit result, conversation messages, and environment state for replay?",
+          "symbol": "minisweagent.agents.default.DefaultAgent.save",
+          "path": "src/minisweagent/agents/default.py",
+          "startLine": 147,
+          "endLine": 155,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-env-config-to-executor",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "multi_hop",
+      "query": "How do the local environment cwd, environment variables, and configured timeout flow into subprocess execution?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-agent-exception-recovery",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "What happens when the model raises an agent-flow interruption versus an uncaught exception during the run loop?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_09",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "When commands run inside a container, how are environment variables forwarded and per-command timeouts and failures handled?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_10",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "How is a fresh container started with the requested working directory and an overall lifetime limit?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_11",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "edge_case",
+      "query": "How are container resources cleaned up if initialization or a run ends, and what happens if the container identifier was never created?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_12",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How are nested configuration dictionaries combined so later values override earlier ones while unset values are omitted?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_13",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "multi_hop",
+      "query": "How does a configuration entry become either a loaded file or a nested override specified as key-value text?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_14",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "call_path",
+      "query": "How do command-line options overlay configuration files before the program creates the model, environment and agent?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [
+        {
+          "taskId": "mswea_extra_14",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "call_path",
+          "query": "How do command-line options overlay configuration files before the program creates the model, environment and agent?",
+          "symbol": "minisweagent.utils.serialize.recursive_merge",
+          "path": "src/minisweagent/utils/serialize.py",
+          "startLine": 6,
+          "endLine": 29,
+          "cause": "target_file_not_retrieved_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 0,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": null,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": [
+        {
+          "taskId": "mswea_extra_14",
+          "repository": "mini-swe-agent",
+          "path": "src/minisweagent/utils/serialize.py",
+          "cause": "indexed_file_outside_top100",
+          "retrievalRunsWithFile": 0
+        }
+      ]
+    },
+    {
+      "taskId": "mswea_extra_15",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "multi_hop",
+      "query": "For a benchmark issue, where is the container image selected and an optional templated startup command run before the agent begins?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_16",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How does the benchmark select issue instances by identifier, optionally shuffle them reproducibly, and then take a requested slice?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_17",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "call_path",
+      "query": "What is the per-issue execution path that constructs an environment and agent, runs the task, and saves its trajectory and result metadata even when execution fails?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_18",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "Where are individual benchmark runs marked as started or finished, failures classified, and overall progress advanced?",
+      "symbolJudgmentCount": 3,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "mswea_extra_18",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "behavior",
+          "query": "Where are individual benchmark runs marked as started or finished, failures classified, and overall progress advanced?",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_instance_start",
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "startLine": 136,
+          "endLine": 143,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "mswea_extra_18",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "behavior",
+          "query": "Where are individual benchmark runs marked as started or finished, failures classified, and overall progress advanced?",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_instance_end",
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "startLine": 145,
+          "endLine": 156,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        },
+        {
+          "taskId": "mswea_extra_18",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "behavior",
+          "query": "Where are individual benchmark runs marked as started or finished, failures classified, and overall progress advanced?",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_uncaught_exception",
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "startLine": 158,
+          "endLine": 159,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_19",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How are structured command calls from a model response decoded into shell actions, and what happens for an unsupported tool?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 2,
+      "fileHitJudgmentCount": 2,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_20",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "If a response contains several command calls but fewer results were actually produced, how are missing observations represented?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_21",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "How does the chat API request code distinguish invalid credentials and throttling from other HTTP errors?",
+      "symbolJudgmentCount": 3,
+      "symbolHitJudgmentCount": 3,
+      "symbolHitsByRun": [
+        3,
+        3,
+        3
+      ],
+      "symbolHitAtLeastOnceCount": 3,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "mswea_extra_22",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "In confirmation mode, how are commands checked against allowed patterns and how does the program handle approval, rejection or switching to manual commands?",
+      "symbolJudgmentCount": 3,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [
+        {
+          "taskId": "mswea_extra_22",
+          "repository": "mini-swe-agent",
+          "split": "held_out_repository",
+          "category": "behavior",
+          "query": "In confirmation mode, how are commands checked against allowed patterns and how does the program handle approval, rejection or switching to manual commands?",
+          "symbol": "minisweagent.agents.interactive.InteractiveAgent.execute_actions",
+          "path": "src/minisweagent/agents/interactive.py",
+          "startLine": 98,
+          "endLine": 113,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 1,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-config-path-resolution",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "A config name has no file extension. Which search paths are tried, in what order, before the program reports that the file cannot be found?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-prediction-write",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "When one benchmark run finishes, what entry is written to the predictions JSON, and how are results from other instances retained?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-prediction-delete",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "edge_case",
+      "query": "How can a previous result for one benchmark instance be removed from the predictions file while leaving other instances intact?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-step-progress",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "What progress information is refreshed after each agent action in a benchmark run?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-batch-orchestration",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "How does the batch benchmark command load a dataset split, skip already completed instances, schedule workers and handle a keyboard interrupt?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-cost-metadata-validation",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "What happens when a model response lacks positive cost information, and which setting allows cost-tracking errors to be ignored?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-yaml-progress-summary",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "How is the batch run's summary of instances grouped by exit status persisted as YAML?",
+      "symbolJudgmentCount": 2,
+      "symbolHitJudgmentCount": 2,
+      "symbolHitsByRun": [
+        2,
+        2,
+        2
+      ],
+      "symbolHitAtLeastOnceCount": 2,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "msa-repl-interactive-shortcuts",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "In interactive use, how can someone view the available shortcuts, change execution mode, or enter a multiline comment?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-01",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How does the model configuration require a pinned model revision and non-empty trainable module names?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-02",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "Which adapter settings are required, and how are LoRA versus QLoRA quantization conflicts rejected?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-03",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How are microbatch size and sequence length checked against the training batch configuration?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-04",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How does training-method configuration validate method-specific settings and required parameters?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-05",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How are GPU declarations and NVLink pairs checked for valid, distinct device indexes?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-06",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "Where are the component types of a complete training configuration checked before it can be used?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-07",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How is a JSON-compatible training configuration rebuilt into validated dataclasses and enums?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-08",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How is a stable fingerprint computed from the effective training configuration?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-09",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "error_handling",
+      "query": "Which event fields are required for checkpoint and error events, and which event types forbid an error code?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-10",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How is a run manifest serialized with its configuration fingerprint, dependencies, datasets, hardware source, and events?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-11",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How does deserialization rebuild a run manifest and reject a mismatched configuration hash?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-12",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How are opaque run identifiers checked so whitespace cannot enter commit or checkpoint identifiers?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-13",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "What conditions does the SFT trainer enforce for the model, training method, distributed mode, adapter, and trainable parameters?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-14",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "call_path",
+      "query": "How does the HomeAgent QLoRA factory validate precision settings, load the model, attach targets, and construct the trainer?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-15",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How is the optimizer created from the configured name and learning rate using only selected trainable parameters?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-16",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How is the learning-rate scheduler chosen and configured for the planned number of updates?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-17",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "How does the trainer select activation checkpointing, CPU offload, or no saved-activation runtime?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-18",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are model outputs converted into a loss that counts only valid supervised tokens?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 0,
+      "symbolHitsByRun": [
+        0,
+        0,
+        0
+      ],
+      "symbolHitAtLeastOnceCount": 0,
+      "symbolFailures": [
+        {
+          "taskId": "ht-18",
+          "repository": "hometrain",
+          "split": "development",
+          "category": "behavior",
+          "query": "How are model outputs converted into a loss that counts only valid supervised tokens?",
+          "symbol": "SFTTrainer._forward_loss",
+          "path": "src/hometrain/sft.py",
+          "startLine": 333,
+          "endLine": 355,
+          "cause": "target_file_retrieved_but_relevant_chunk_not_in_top100",
+          "indexContainsTargetFile": true,
+          "indexContainsOverlappingChunk": true,
+          "retrievalRunsWithTargetFile": 3,
+          "retrievalRunsWithTargetChunk": 0,
+          "firstTargetFileRank": 2,
+          "firstTargetChunkRank": null
+        }
+      ],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-19",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "call_path",
+      "query": "How does one training update run forward loss, backpropagation, optimizer and scheduler steps, and update accounting?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-20",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "observability",
+      "query": "Which training update fields and resource measurements are sent to the run monitor?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-21",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "resume",
+      "query": "How does the training loop consume batches, resume from saved progress, and optionally checkpoint at intervals?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-22",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How is a resumable training checkpoint serialized, hashed, fsynced, and atomically replaced?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-23",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How does checkpoint restoration verify the file and restore trainer, optimizer, scheduler, and random-number state?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-24",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How are adapter exports written with a manifest and digest while avoiding partially published output?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-25",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "model_architecture",
+      "query": "How are model modules classified into attention, MLP, embeddings, output heads, and vision groups?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-26",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does classic LoRA injection select matching linear modules, freeze base parameters, and avoid reinjecting adapters?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-27",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How does NF4 model loading verify that actual quantized linear modules were created before reporting success?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-28",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are PEFT adapters attached only to quantized text linears while the base model remains frozen?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-29",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "inference",
+      "query": "How does the memory planner assign activation placements under a device budget and report assumptions or warnings?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    },
+    {
+      "taskId": "ht-30",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "observability",
+      "query": "How are phase-level update metrics emitted while preserving the current phase path and progress state?",
+      "symbolJudgmentCount": 1,
+      "symbolHitJudgmentCount": 1,
+      "symbolHitsByRun": [
+        1,
+        1,
+        1
+      ],
+      "symbolHitAtLeastOnceCount": 1,
+      "symbolFailures": [],
+      "relevantFileJudgmentCount": 1,
+      "fileHitJudgmentCount": 1,
+      "fileFailures": []
+    }
+  ],
+  "archiveNote": "The existing Semble generations were read without rebuild. Machine-local repository roots are omitted; qrel paths, result ranks, index coverage checks, and failure classifications are retained."
+}
