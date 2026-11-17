@@ -5,3 +5,4 @@ python/**/*.pyc
 benchmarks/agentic-retrieval-v1/
 benchmarks/agentic-retrieval-v2/
 script/evaluate-retrieval.ts
+script/evaluate-code-embedding-rerank.ts

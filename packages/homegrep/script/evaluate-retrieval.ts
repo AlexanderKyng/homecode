@@ -703,7 +703,8 @@ function isEvaluationOnlyChange(path: string) {
   return path.startsWith("docs/") ||
     path.startsWith("packages/homegrep/benchmarks/agentic-retrieval-v2/") ||
     path === "packages/homegrep/.gitignore" ||
-    path === "packages/homegrep/script/evaluate-retrieval.ts";
+    path === "packages/homegrep/script/evaluate-retrieval.ts" ||
+    path === "packages/homegrep/script/evaluate-code-embedding-rerank.ts";
 }
 
 async function validateJudgmentSources(

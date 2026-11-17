@@ -2,6 +2,8 @@
 
 This dataset evaluates retrieval relevance on pinned repository snapshots. Semble remains the retrieval reference; experiments in the evaluator rerank the same candidate pool and do not alter the production engine.
 
+See [RESULTS.md](./RESULTS.md) for the measured Tree-sitter and MiniLM comparisons, confidence intervals, runtime costs, and current decisions. Per-task JSON reports are in [`results/`](./results/).
+
 ## Dataset
 
 The dataset contains 150 manually authored tasks: 30 each for HomeCode, HomeTrain, HomeEngine.cpp, BigCode Evaluation Harness, and mini-swe-agent. It has 158 graded file judgments and 179 Tree-sitter-extractable symbol judgments. Six answerable tasks have file-level qrels only because their target is a module-level object/schema/callback that the current index extractor does not emit as a searchable symbol. Each such task records the extractor limitation in `symbolJudgmentsUnavailable`; these tasks remain in file metrics and are excluded from symbol-only metrics.
