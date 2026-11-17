@@ -1,0 +1,700 @@
+{
+  "repository": {
+    "id": "hometrain",
+    "path": "../../../repositories/hometrain",
+    "commit": "dd170e8ee72957b57271309c05d4a788ab565807",
+    "split": "development"
+  },
+  "tasks": [
+    {
+      "id": "ht-01",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How does the model configuration require a pinned model revision and non-empty trainable module names?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "ArchitectureConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 78,
+          "endLine": 86,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-02",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "Which adapter settings are required, and how are LoRA versus QLoRA quantization conflicts rejected?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "AdapterConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 98,
+          "endLine": 119,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-03",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How are microbatch size and sequence length checked against the training batch configuration?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "BatchConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 174,
+          "endLine": 178,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-04",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How does training-method configuration validate method-specific settings and required parameters?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "MethodConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 144,
+          "endLine": 165,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-05",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How are GPU declarations and NVLink pairs checked for valid, distinct device indexes?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "HardwareConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 210,
+          "endLine": 223,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-06",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "Where are the component types of a complete training configuration checked before it can be used?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "TrainingConfig.__post_init__",
+          "symbolType": "method",
+          "startLine": 236,
+          "endLine": 252,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-07",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "configuration",
+      "query": "How is a JSON-compatible training configuration rebuilt into validated dataclasses and enums?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "config_from_dict",
+          "symbolType": "function",
+          "startLine": 278,
+          "endLine": 309,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-08",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How is a stable fingerprint computed from the effective training configuration?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/config.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/config.py",
+          "symbol": "config_fingerprint",
+          "symbolType": "function",
+          "startLine": 272,
+          "endLine": 275,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-09",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "error_handling",
+      "query": "Which event fields are required for checkpoint and error events, and which event types forbid an error code?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "symbol": "RunEvent.__post_init__",
+          "symbolType": "method",
+          "startLine": 32,
+          "endLine": 42,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-10",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How is a run manifest serialized with its configuration fingerprint, dependencies, datasets, hardware source, and events?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "symbol": "RunManifest.to_dict",
+          "symbolType": "method",
+          "startLine": 77,
+          "endLine": 112,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-11",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "provenance",
+      "query": "How does deserialization rebuild a run manifest and reject a mismatched configuration hash?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "symbol": "RunManifest.from_dict",
+          "symbolType": "method",
+          "startLine": 115,
+          "endLine": 133,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-12",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How are opaque run identifiers checked so whitespace cannot enter commit or checkpoint identifiers?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/provenance.py",
+          "symbol": "validate_manifest_identifiers",
+          "symbolType": "function",
+          "startLine": 136,
+          "endLine": 142,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-13",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "What conditions does the SFT trainer enforce for the model, training method, distributed mode, adapter, and trainable parameters?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer.__init__",
+          "symbolType": "method",
+          "startLine": 139,
+          "endLine": 233,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-14",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "call_path",
+      "query": "How does the HomeAgent QLoRA factory validate precision settings, load the model, attach targets, and construct the trainer?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer.load_homeagent_qlora",
+          "symbolType": "method",
+          "startLine": 236,
+          "endLine": 278,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-15",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How is the optimizer created from the configured name and learning rate using only selected trainable parameters?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._make_optimizer",
+          "symbolType": "method",
+          "startLine": 285,
+          "endLine": 291,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-16",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How is the learning-rate scheduler chosen and configured for the planned number of updates?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._make_scheduler",
+          "symbolType": "method",
+          "startLine": 296,
+          "endLine": 304,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-17",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "architecture",
+      "query": "How does the trainer select activation checkpointing, CPU offload, or no saved-activation runtime?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._runtime",
+          "symbolType": "method",
+          "startLine": 311,
+          "endLine": 331,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-18",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are model outputs converted into a loss that counts only valid supervised tokens?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._forward_loss",
+          "symbolType": "method",
+          "startLine": 333,
+          "endLine": 355,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-19",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "call_path",
+      "query": "How does one training update run forward loss, backpropagation, optimizer and scheduler steps, and update accounting?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._step",
+          "symbolType": "method",
+          "startLine": 357,
+          "endLine": 410,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-20",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "observability",
+      "query": "Which training update fields and resource measurements are sent to the run monitor?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._publish_update",
+          "symbolType": "method",
+          "startLine": 419,
+          "endLine": 435,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-21",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "resume",
+      "query": "How does the training loop consume batches, resume from saved progress, and optionally checkpoint at intervals?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer._run_loop",
+          "symbolType": "method",
+          "startLine": 467,
+          "endLine": 497,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-22",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How is a resumable training checkpoint serialized, hashed, fsynced, and atomically replaced?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer.save_checkpoint",
+          "symbolType": "method",
+          "startLine": 499,
+          "endLine": 542,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-23",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How does checkpoint restoration verify the file and restore trainer, optimizer, scheduler, and random-number state?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer.load_checkpoint",
+          "symbolType": "method",
+          "startLine": 557,
+          "endLine": 584,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-24",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "reliability",
+      "query": "How are adapter exports written with a manifest and digest while avoiding partially published output?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/sft.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/sft.py",
+          "symbol": "SFTTrainer.export_adapter",
+          "symbolType": "method",
+          "startLine": 586,
+          "endLine": 649,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-25",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "model_architecture",
+      "query": "How are model modules classified into attention, MLP, embeddings, output heads, and vision groups?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/backend.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/backend.py",
+          "symbol": "identify_modules",
+          "symbolType": "function",
+          "startLine": 129,
+          "endLine": 144,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-26",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does classic LoRA injection select matching linear modules, freeze base parameters, and avoid reinjecting adapters?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/backend.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/backend.py",
+          "symbol": "inject_lora",
+          "symbolType": "function",
+          "startLine": 155,
+          "endLine": 179,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-27",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "validation",
+      "query": "How does NF4 model loading verify that actual quantized linear modules were created before reporting success?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/qlora.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/qlora.py",
+          "symbol": "load_qlora_model",
+          "symbolType": "function",
+          "startLine": 192,
+          "endLine": 292,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-28",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are PEFT adapters attached only to quantized text linears while the base model remains frozen?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/qlora.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/qlora.py",
+          "symbol": "prepare_qlora_adapters",
+          "symbolType": "function",
+          "startLine": 295,
+          "endLine": 344,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-29",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "inference",
+      "query": "How does the memory planner assign activation placements under a device budget and report assumptions or warnings?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/memory.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/memory.py",
+          "symbol": "MemoryPlanner.plan",
+          "symbolType": "method",
+          "startLine": 146,
+          "endLine": 260,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "ht-30",
+      "repository": "hometrain",
+      "split": "development",
+      "category": "observability",
+      "query": "How are phase-level update metrics emitted while preserving the current phase path and progress state?",
+      "relevantFiles": [
+        {
+          "path": "src/hometrain/monitor/telemetry.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/hometrain/monitor/telemetry.py",
+          "symbol": "PhaseSession.update",
+          "symbolType": "method",
+          "startLine": 199,
+          "endLine": 225,
+          "grade": 3
+        }
+      ]
+    }
+  ]
+}

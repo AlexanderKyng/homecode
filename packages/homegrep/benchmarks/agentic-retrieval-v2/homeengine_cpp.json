@@ -1,0 +1,220 @@
+{
+  "repository": {
+    "id": "homeengine_cpp",
+    "path": "../../../repositories/homeengine-cpp",
+    "commit": "a71650406169fd045c41613fadc4b1a0d63e2326",
+    "split": "held_out_repository"
+  },
+  "tasks": [
+    {
+      "id": "hecpp-chat-messages",
+      "category": "request_parsing",
+      "query": "How are chat messages from an OpenAI-compatible request converted into the engine's internal message representation?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_msgs_parse_oaicompat", "symbolType": "function", "startLine": 281, "endLine": 380, "grade": 3}]
+    },
+    {
+      "id": "hecpp-tool-schema",
+      "category": "request_parsing",
+      "query": "How are tool definitions and their parameter schemas read from a chat request?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_tools_parse_oaicompat", "symbolType": "function", "startLine": 441, "endLine": 474, "grade": 3}]
+    },
+    {
+      "id": "hecpp-chat-template-source",
+      "category": "architecture",
+      "query": "How does the runtime choose a model-provided chat template or an explicit override, and what happens when initialization fails?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_templates_init", "symbolType": "function", "startLine": 594, "endLine": 692, "grade": 3}]
+    },
+    {
+      "id": "hecpp-message-rendering",
+      "category": "response_format",
+      "query": "How is one internal chat message rendered back into the API's JSON representation?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "render_message_to_json", "symbolType": "function", "startLine": 382, "endLine": 412, "grade": 3}]
+    },
+    {
+      "id": "hecpp-jinja-apply",
+      "category": "request_parsing",
+      "query": "How are messages rendered with the model's Jinja template and generation settings?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_templates_apply_jinja", "symbolType": "function", "startLine": 2992, "endLine": 3095, "grade": 3}]
+    },
+    {
+      "id": "hecpp-legacy-template",
+      "category": "request_parsing",
+      "query": "What fallback path renders prompts when the Jinja template path is not used?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_templates_apply_legacy", "symbolType": "function", "startLine": 3098, "endLine": 3161, "grade": 3}]
+    },
+    {
+      "id": "hecpp-generation-prefix",
+      "category": "generation",
+      "query": "How does template configuration determine the prefix that leaves the model ready to generate?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_templates_generation_prompt", "symbolType": "function", "startLine": 2977, "endLine": 2990, "grade": 3}]
+    },
+    {
+      "id": "hecpp-chat-parse",
+      "category": "response_format",
+      "query": "How is generated chat text parsed into structured message content and tool calls?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_peg_parse", "symbolType": "function", "startLine": 3176, "endLine": 3251, "grade": 3}]
+    },
+    {
+      "id": "hecpp-gpt-oss-format",
+      "category": "model_specific_format",
+      "query": "How does one model-specific chat format map reasoning and tool-call syntax into constrained generation?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_params_init_gpt_oss", "symbolType": "function", "startLine": 961, "endLine": 1101, "grade": 3}]
+    },
+    {
+      "id": "hecpp-functionary-format",
+      "category": "model_specific_format",
+      "query": "How does a specialized chat format construct the grammar used to emit typed function calls?",
+      "relevantFiles": [{"path": "common/chat.cpp", "grade": 3}],
+      "relevant": [{"path": "common/chat.cpp", "symbol": "common_chat_params_init_functionary_v3_2", "symbolType": "function", "startLine": 1248, "endLine": 1338, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sampler-init",
+      "category": "generation",
+      "query": "How are the sampler, grammar, random seed and configured sampling stages initialized for a model?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_init", "symbolType": "function", "startLine": 23, "endLine": 183, "grade": 3}]
+    },
+    {
+      "id": "hecpp-grammar-prefill",
+      "category": "generation",
+      "query": "Which grammar modes need the generation prefix fed into the sampler before decoding begins?",
+      "relevantFiles": [{"path": "common/sampling.h", "grade": 3}],
+      "relevant": [{"path": "common/sampling.h", "symbol": "common_grammar_needs_prefill", "symbolType": "function", "startLine": 83, "endLine": 86, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sampler-clone",
+      "category": "speculative_decoding",
+      "query": "Which sampler state is copied so speculative decoding can preserve the target sampler's state?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_clone", "symbolType": "function", "startLine": 252, "endLine": 296, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sampler-reset",
+      "category": "generation",
+      "query": "How is sampling state cleared when a new generation starts?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_reset", "symbolType": "function", "startLine": 219, "endLine": 230, "grade": 3}]
+    },
+    {
+      "id": "hecpp-grammar-trigger",
+      "category": "generation",
+      "query": "How does sampling decide whether a lazy grammar should constrain the current token?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "grammar_should_apply", "symbolType": "function", "startLine": 495, "endLine": 508, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sample-token",
+      "category": "generation",
+      "query": "How does the sampler select the next token from model candidates?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_sample", "symbolType": "function", "startLine": 710, "endLine": 717, "grade": 3}]
+    },
+    {
+      "id": "hecpp-accept-token",
+      "category": "generation",
+      "query": "What state is updated after a token has been accepted during generation?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_accept", "symbolType": "function", "startLine": 729, "endLine": 759, "grade": 3}]
+    },
+    {
+      "id": "hecpp-speculative-sample-accept",
+      "category": "speculative_decoding",
+      "query": "How are multiple sampled tokens accepted together while running a speculative sequence?",
+      "relevantFiles": [{"path": "common/sampling.cpp", "grade": 3}],
+      "relevant": [{"path": "common/sampling.cpp", "symbol": "common_sampler_sample_and_accept_n", "symbolType": "function", "startLine": 808, "endLine": 924, "grade": 3}]
+    },
+    {
+      "id": "hecpp-decode-batch",
+      "category": "runtime",
+      "query": "Where does the runtime validate and evaluate a batch of tokens, including output reservation and decode failures?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_decode_internal", "symbolType": "function", "startLine": 7502, "endLine": 8205, "grade": 3}]
+    },
+    {
+      "id": "hecpp-kv-remove-range",
+      "category": "kv_cache",
+      "query": "How can selected positions for one sequence be removed from the KV cache?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}, {"path": "include/llama.h", "grade": 2}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_kv_cache_seq_rm", "symbolType": "function", "startLine": 11438, "endLine": 11444, "grade": 3}, {"path": "include/llama.h", "symbol": "llama_kv_cache_seq_rm", "symbolType": "function", "startLine": 997, "endLine": 1002, "grade": 2}]
+    },
+    {
+      "id": "hecpp-offload-buffer",
+      "category": "model_loading",
+      "query": "How is the default buffer type chosen when some model layers are offloaded to accelerators?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_default_buffer_type_offload", "symbolType": "function", "startLine": 465, "endLine": 496, "grade": 3}]
+    },
+    {
+      "id": "hecpp-state-load",
+      "category": "state_persistence",
+      "query": "How does loading a saved session report malformed or incompatible state files to its caller?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_state_load_file", "symbolType": "function", "startLine": 13501, "endLine": 13508, "grade": 3}]
+    },
+    {
+      "id": "hecpp-state-save",
+      "category": "state_persistence",
+      "query": "How is the full inference state and its prompt-token list written to a session file?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_state_save_file", "symbolType": "function", "startLine": 13532, "endLine": 13539, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sequence-save",
+      "category": "state_persistence",
+      "query": "How can the cache state for one sequence be persisted separately from the full context?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_state_seq_save_file_internal", "symbolType": "function", "startLine": 13593, "endLine": 13615, "grade": 3}]
+    },
+    {
+      "id": "hecpp-sequence-restore",
+      "category": "state_persistence",
+      "query": "How is a saved sequence cache restored into a destination sequence, and how are read failures handled?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_state_seq_load_file_internal", "symbolType": "function", "startLine": 13617, "endLine": 13661, "grade": 3}]
+    },
+    {
+      "id": "hecpp-lora-scale",
+      "category": "runtime_configuration",
+      "query": "How can an already loaded adapter's contribution be changed at runtime?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}, {"path": "include/llama.h", "grade": 2}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_lora_adapter_set", "symbolType": "function", "startLine": 8922, "endLine": 8928, "grade": 3}, {"path": "include/llama.h", "symbol": "llama_lora_adapter_set", "symbolType": "function", "startLine": 849, "endLine": 852, "grade": 2}]
+    },
+    {
+      "id": "hecpp-tokenize-api",
+      "category": "tokenization",
+      "query": "How does the public API tokenize text while controlling insertion and parsing of special tokens?",
+      "relevantFiles": [{"path": "src/llama.cpp", "grade": 3}, {"path": "include/llama.h", "grade": 2}],
+      "relevant": [{"path": "src/llama.cpp", "symbol": "llama_tokenize", "symbolType": "function", "startLine": 14061, "endLine": 14070, "grade": 3}, {"path": "include/llama.h", "symbol": "llama_tokenize", "symbolType": "function", "startLine": 1341, "endLine": 1348, "grade": 2}]
+    },
+    {
+      "id": "hecpp-tokenizer-normalization",
+      "category": "tokenization",
+      "query": "How are text and special tokens converted into vocabulary token IDs, including tokenizer-specific normalization?",
+      "relevantFiles": [{"path": "src/llama-vocab.cpp", "grade": 3}],
+      "relevant": [{"path": "src/llama-vocab.cpp", "symbol": "tokenize", "symbolType": "function", "startLine": 3138, "endLine": 3332, "grade": 3}]
+    },
+    {
+      "id": "hecpp-server-slot-selection",
+      "category": "server_lifecycle",
+      "query": "How does the server choose a reusable slot based on prompt similarity, then fall back to an idle slot?",
+      "relevantFiles": [{"path": "examples/server/server-context.cpp", "grade": 3}],
+      "relevant": [{"path": "examples/server/server-context.cpp", "symbol": "get_available_slot", "symbolType": "function", "startLine": 1052, "endLine": 1176, "grade": 3}]
+    },
+    {
+      "id": "hecpp-server-prompt-cache",
+      "category": "server_lifecycle",
+      "query": "How does the server compare prompt tokens with a slot's cached prompt and save the reusable token state?",
+      "relevantFiles": [{"path": "examples/server/server-context.cpp", "grade": 3}],
+      "relevant": [{"path": "examples/server/server-context.cpp", "symbol": "calculate_slot_similarity", "symbolType": "function", "startLine": 1027, "endLine": 1043, "grade": 3}, {"path": "examples/server/server-context.cpp", "symbol": "copy_data_to_cached_prompt", "symbolType": "function", "startLine": 1045, "endLine": 1050, "grade": 2}]
+    }
+  ]
+}

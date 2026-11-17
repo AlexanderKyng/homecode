@@ -1,0 +1,687 @@
+{
+  "repository": {
+    "id": "homecode",
+    "path": "../..",
+    "commit": "d3f301fd1ef69a839945d93532bfe61b8499bb9d",
+    "split": "development"
+  },
+  "tasks": [
+    {
+      "id": "hc-permission-and-modes",
+      "category": "behavior",
+      "query": "How does HomeCode ask permission before searching, then route exact grep requests separately from hybrid HomeGrep requests?",
+      "relevantFiles": [
+        {
+          "path": "packages/homecode/src/tool/grep.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The behavior is implemented in the exported Tool.define initializer, a module-level const expression that the current Tree-sitter index extractor does not emit as a searchable symbol. File-level qrel retained."
+    },
+    {
+      "id": "hc-workspace-service-lifecycle",
+      "category": "architecture",
+      "query": "Where does HomeCode reuse one search service per workspace, coalesce initial indexing, and close it with the workspace instance?",
+      "relevantFiles": [
+        {
+          "path": "packages/homecode/src/homegrep/service.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homecode/src/homegrep/service.ts",
+          "symbol": "get",
+          "symbolType": "function",
+          "startLine": 18,
+          "endLine": 32,
+          "grade": 3
+        },
+        {
+          "path": "packages/homecode/src/homegrep/service.ts",
+          "symbol": "ensureIndexed",
+          "symbolType": "function",
+          "startLine": 34,
+          "endLine": 42,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc-index-generation-publication",
+      "category": "behavior",
+      "query": "How does the Python bridge validate the active index generation and publish a replacement atomically after building it?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "_load_generation",
+          "symbolType": "function",
+          "startLine": 116,
+          "endLine": 143,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "_validate_complete_index",
+          "symbolType": "function",
+          "startLine": 146,
+          "endLine": 176,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "index_workspace",
+          "symbolType": "function",
+          "startLine": 198,
+          "endLine": 337,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc-incremental-content-hash",
+      "category": "behavior",
+      "query": "How does incremental indexing detect changed source content and reuse files whose content hash is unchanged?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "_scan",
+          "symbolType": "function",
+          "startLine": 75,
+          "endLine": 113,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "index_workspace",
+          "symbolType": "function",
+          "startLine": 198,
+          "endLine": 337,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc-python-runtime-protocol",
+      "category": "architecture",
+      "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "symbol": "SembleRuntime.request",
+          "symbolType": "method",
+          "startLine": 210,
+          "endLine": 248,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "symbol": "SembleRuntime.ensureStarted",
+          "symbolType": "method",
+          "startLine": 250,
+          "endLine": 311,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/semble/runtime.ts",
+          "symbol": "SembleRuntime.handleResponse",
+          "symbolType": "method",
+          "startLine": 313,
+          "endLine": 337,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc-search-freshness-and-query",
+      "category": "call_path",
+      "query": "Before searching, how does HomeGrep check workspace freshness, refresh a stale index, and run BM25 plus dense retrieval?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/python/homegrep_semble/bridge.py",
+          "symbol": "search_workspace",
+          "symbolType": "function",
+          "startLine": 340,
+          "endLine": 417,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "symbol": "SembleGrepService.context",
+          "symbolType": "method",
+          "startLine": 298,
+          "endLine": 514,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "hc-group-coverage-fusion",
+      "category": "behavior",
+      "query": "How are duplicate hits from supplemental searches merged with reciprocal rank fusion while preserving primary-query coverage?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/engine/service/query-groups.ts",
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/engine/service/query-groups.ts",
+          "symbol": "mergeQueryGroups",
+          "symbolType": "function",
+          "startLine": 15,
+          "endLine": 93,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "symbol": "SembleGrepService.context",
+          "symbolType": "method",
+          "startLine": 298,
+          "endLine": 514,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "hc-exact-structural-search",
+      "category": "behavior",
+      "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/engine/service/semble-grep.ts",
+          "symbol": "SembleGrepService.context",
+          "symbolType": "method",
+          "startLine": 298,
+          "endLine": 514,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "symbol": "enrichLexicalItemsWithStructure",
+          "symbolType": "function",
+          "startLine": 23,
+          "endLine": 99,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "symbol": "smallestContainingFragment",
+          "symbolType": "function",
+          "startLine": 202,
+          "endLine": 219,
+          "grade": 3
+        },
+        {
+          "path": "packages/homegrep/src/engine/service/structure-enrichment.ts",
+          "symbol": "compareFragmentContainer",
+          "symbolType": "function",
+          "startLine": 232,
+          "endLine": 251,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "hc-history-capability-gap",
+      "category": "git_history",
+      "query": "Which commit first introduced the HomeGrep Python JSON-lines runtime, and what changed in that commit?",
+      "answerable": false,
+      "relevantFiles": [],
+      "relevant": []
+    },
+    {
+      "id": "hc2-01",
+      "category": "cli_indexing",
+      "query": "How can an operator explicitly build or rebuild the current workspace index from HomeCode, cancel on interrupt, and still release the service?",
+      "relevantFiles": [
+        {
+          "path": "packages/homecode/src/cli/cmd/homegrep.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The CLI subcommand is a module-level const initialized with a command-builder object, which the current Tree-sitter index extractor does not emit as a searchable symbol. File-level qrel retained."
+    },
+    {
+      "id": "hc2-02",
+      "category": "configuration",
+      "query": "Which HomeCode configuration field enables or disables HomeGrep as the default workspace search backend?",
+      "relevantFiles": [
+        {
+          "path": "packages/homecode/src/config/homegrep.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The queried enabled field is a property in a module-level schema object, which the current Tree-sitter index extractor does not emit as a searchable symbol. File-level qrel retained."
+    },
+    {
+      "id": "hc2-03",
+      "category": "security_validation",
+      "query": "How does the daemon reject non-loopback listen hosts and invalid ports while parsing its address?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "symbol": "parseListenAddress",
+          "symbolType": "function",
+          "startLine": 59,
+          "endLine": 83,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-04",
+      "category": "security_validation",
+      "query": "How does daemon startup choose an explicit or environment token versus a token file, validate it, and secure the file permissions?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "symbol": "resolveServerToken",
+          "symbolType": "function",
+          "startLine": 94,
+          "endLine": 114,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-05",
+      "category": "runtime_configuration",
+      "query": "How does a client resolve its token from the environment or configured token file, including the default daemon token location?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/config.ts",
+          "symbol": "resolveClientToken",
+          "symbolType": "function",
+          "startLine": 116,
+          "endLine": 138,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-06",
+      "category": "http_security",
+      "query": "How does the daemon distinguish health, shutdown, and MCP requests, enforce the route-specific checks, and map invalid or oversized JSON bodies to HTTP errors?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "symbol": "DaemonHttpServer.handleRequest",
+          "symbolType": "method",
+          "startLine": 168,
+          "endLine": 266,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-07",
+      "category": "http_security",
+      "query": "How are Host and Origin headers checked for loopback requests, duplicate headers, and the actual shutdown port?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "symbol": "validRequestOrigin",
+          "symbolType": "function",
+          "startLine": 294,
+          "endLine": 315,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-08",
+      "category": "http_security",
+      "query": "How does the daemon validate bearer credentials without comparing token contents using ordinary string equality?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "symbol": "validBearerToken",
+          "symbolType": "function",
+          "startLine": 317,
+          "endLine": 330,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-09",
+      "category": "input_validation",
+      "query": "How does the HTTP transport bound request-body memory use before parsing incoming JSON?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/http-server.ts",
+          "symbol": "readJsonBody",
+          "symbolType": "function",
+          "startLine": 339,
+          "endLine": 351,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-10",
+      "category": "daemon_lifecycle",
+      "query": "How does server status combine the instance record, host and process checks with the health endpoint response?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "symbol": "serverStatus",
+          "symbolType": "function",
+          "startLine": 142,
+          "endLine": 173,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-11",
+      "category": "daemon_lifecycle",
+      "query": "What happens when daemon startup finds an existing process, a different MCP toolset, or a port race before publishing a new server?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "symbol": "startServer",
+          "symbolType": "function",
+          "startLine": 175,
+          "endLine": 226,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-12",
+      "category": "daemon_lifecycle",
+      "query": "How does the controller request graceful shutdown over the authenticated local endpoint, wait for exit, and fall back when the request fails or times out?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "symbol": "stopServer",
+          "symbolType": "function",
+          "startLine": 228,
+          "endLine": 273,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-13",
+      "category": "process_safety",
+      "query": "How does forced daemon shutdown escalate from SIGTERM to SIGKILL while waiting and removing the instance record?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "symbol": "forceStopRecordedProcess",
+          "symbolType": "function",
+          "startLine": 281,
+          "endLine": 308,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-14",
+      "category": "process_safety",
+      "query": "What prevents the controller from signaling a PID after the daemon instance record changes during shutdown?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/daemon/server-controller.ts",
+          "symbol": "assertSameInstanceBeforeSignal",
+          "symbolType": "function",
+          "startLine": 310,
+          "endLine": 327,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-15",
+      "category": "mcp_transport",
+      "query": "How does the stdio entry point bootstrap or reuse the daemon, connect an HTTP MCP client, expose a stdio server, and clean up both ends?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/mcp/stdio-bridge.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/mcp/stdio-bridge.ts",
+          "symbol": "runStdioBootstrapBridge",
+          "symbolType": "function",
+          "startLine": 28,
+          "endLine": 170,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-16",
+      "category": "mcp_transport",
+      "query": "How many missing daemon-status polls are tolerated before a connected stdio bridge shuts down, and how is a replacement daemon handled?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/mcp/stdio-bridge.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/mcp/stdio-bridge.ts",
+          "symbol": "createStdioBridgeStopCheck",
+          "symbolType": "function",
+          "startLine": 172,
+          "endLine": 183,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-17",
+      "category": "client_routing",
+      "query": "How does client mode selection choose direct, server, or automatic routing based on daemon availability?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/client/mode-router.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/client/mode-router.ts",
+          "symbol": "routeByMode",
+          "symbolType": "function",
+          "startLine": 18,
+          "endLine": 29,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-18",
+      "category": "protocol_compatibility",
+      "query": "How does the CLI reject a daemon search response that lacks the grouped-result shape it needs to render?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/cli/server-search.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/cli/server-search.ts",
+          "symbol": "parseServerSearchResponse",
+          "symbolType": "function",
+          "startLine": 7,
+          "endLine": 19,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-19",
+      "category": "exact_search",
+      "query": "How are ripgrep arguments assembled so path filters, file types, flags, and positional paths remain separate from the search pattern?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/engine/service/lexical.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "packages/homegrep/src/engine/service/lexical.ts",
+          "symbol": "buildRipgrepArgs",
+          "symbolType": "function",
+          "startLine": 176,
+          "endLine": 208,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "hc2-20",
+      "category": "input_validation",
+      "query": "What limits are applied to MCP search query text, query groups, path filters, and result count?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/mcp/schemas.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The schema is a module-level const expression that the current Tree-sitter index extractor does not emit as a searchable symbol. File-level qrel retained."
+    },
+    {
+      "id": "hc2-21",
+      "category": "mcp_search",
+      "query": "How does the MCP search callback normalize input, handle remote-embedding authorization and local fallback, call the backend, and report freshness?",
+      "relevantFiles": [
+        {
+          "path": "packages/homegrep/src/mcp/tools.ts",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The MCP search callback is a method property in a module-level object literal, which the current Tree-sitter index extractor does not emit as a searchable symbol. File-level qrel retained."
+    }
+  ]
+}

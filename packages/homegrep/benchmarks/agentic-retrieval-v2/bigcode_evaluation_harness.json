@@ -1,0 +1,664 @@
+{
+  "repository": {
+    "id": "bigcode-evaluation-harness",
+    "path": "../../../repositories/bigcode-evaluation-harness",
+    "commit": "8fc5bae6479c4fbbb28c3f8b644f6a15b3f3b5bd",
+    "split": "development"
+  },
+  "tasks": [
+    {
+      "id": "bceh-01",
+      "category": "dataset_loading",
+      "query": "How does a benchmark task attempt to load its Hugging Face dataset and handle a failed remote load?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/base.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/base.py",
+          "symbol": "Task.__init__",
+          "symbolType": "method",
+          "startLine": 18,
+          "endLine": 33,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-02",
+      "category": "generation",
+      "query": "How are stop strings used to trim a completion without accidentally trimming matching text from the prompt?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/base.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/base.py",
+          "symbol": "Task._stop_at_stop_token",
+          "symbolType": "method",
+          "startLine": 82,
+          "endLine": 95,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-03",
+      "category": "task_registry",
+      "query": "Which programming-task implementations are registered and how is the selectable list of task names derived?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/__init__.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [],
+      "symbolJudgmentsUnavailable": "The target is module-level registry data, which the current Python Tree-sitter adapter does not extract as a symbol."
+    },
+    {
+      "id": "bceh-04",
+      "category": "task_registry",
+      "query": "How does the harness instantiate a selected task, supply optional constructor arguments, and report an unknown task name?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/__init__.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/__init__.py",
+          "symbol": "get_task",
+          "symbolType": "function",
+          "startLine": 39,
+          "endLine": 50,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-05",
+      "category": "task_selection",
+      "query": "How does the command-line entry point select all evaluation tasks by default or expand comma-separated task patterns?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 232,
+          "endLine": 244,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-06",
+      "category": "evaluation_flow",
+      "query": "How can the harness evaluate saved generations without loading a model or generating new code?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 246,
+          "endLine": 253,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-07",
+      "category": "model_configuration",
+      "query": "How are requested precision and 4-bit or 8-bit loading translated into model-loading arguments and device placement?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 256,
+          "endLine": 293,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-08",
+      "category": "model_configuration",
+      "query": "How does the evaluator choose between causal and encoder-decoder model loaders and reject an unsupported model type?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 295,
+          "endLine": 311,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-09",
+      "category": "model_configuration",
+      "query": "How are an adapter checkpoint loaded into a base model and merged before evaluation?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 313,
+          "endLine": 319,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-10",
+      "category": "tokenization",
+      "query": "How does tokenizer setup choose padding direction and recover an end-of-sequence token when it is missing?",
+      "relevantFiles": [
+        {
+          "path": "main.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "main.py",
+          "symbol": "main",
+          "symbolType": "function",
+          "startLine": 321,
+          "endLine": 348,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-11",
+      "category": "evaluation_flow",
+      "query": "How does generation reuse saved references when the evaluator is asked to check reference examples instead of producing completions?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "symbol": "Evaluator.generate_text",
+          "symbolType": "method",
+          "startLine": 55,
+          "endLine": 60,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-12",
+      "category": "resume",
+      "query": "How does generation resume from partial outputs, account for completed tasks, and trim excess samples from uneven device splits?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "symbol": "Evaluator.generate_text",
+          "symbolType": "method",
+          "startLine": 62,
+          "endLine": 88,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-13",
+      "category": "evaluation_flow",
+      "query": "How does the evaluator generate results, save outputs, enable code-execution evaluation, and call a task's result processor?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "symbol": "Evaluator.evaluate",
+          "symbolType": "method",
+          "startLine": 90,
+          "endLine": 108,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-14",
+      "category": "persistence",
+      "query": "How are generation and reference JSON files conditionally written after an evaluation run?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/evaluator.py",
+          "symbol": "Evaluator.save_json_files",
+          "symbolType": "method",
+          "startLine": 110,
+          "endLine": 124,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-15",
+      "category": "generation",
+      "query": "How does a stopping criterion detect when every completion in a batch has reached an end-of-function marker?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "symbol": "EndOfFunctionCriteria.__call__",
+          "symbolType": "method",
+          "startLine": 25,
+          "endLine": 28,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-16",
+      "category": "generation",
+      "query": "How does the custom stopping rule cap generated function length relative to the prompt length?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "symbol": "TooLongFunctionCriteria.__call__",
+          "symbolType": "method",
+          "startLine": 37,
+          "endLine": 39,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-17",
+      "category": "generation",
+      "query": "How does generation combine task-specific stop words, custom completion checks, maximum-length rules, and optional instruction tokens?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/generation.py",
+          "symbol": "parallel_generations",
+          "symbolType": "function",
+          "startLine": 65,
+          "endLine": 106,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-18",
+      "category": "tokenization",
+      "query": "How are completion, infill, and instruction prompts converted into tokenized samples, and when are mixed prompt formats rejected?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "symbol": "TokenizedDataset.__iter__",
+          "symbolType": "method",
+          "startLine": 50,
+          "endLine": 123,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-19",
+      "category": "tokenization",
+      "query": "Which fill-in-the-middle token format is selected for the supported InCoder, SantaCoder, and StarCoder models?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "symbol": "TokenizedDataset._make_infill_prompt",
+          "symbolType": "method",
+          "startLine": 142,
+          "endLine": 155,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-20",
+      "category": "tokenization",
+      "query": "How are instruction and context separated when an instruction-tuned task supplies its own delimiter tokens?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "symbol": "TokenizedDataset._make_instruction_prompt",
+          "symbolType": "method",
+          "startLine": 157,
+          "endLine": 174,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-21",
+      "category": "generation",
+      "query": "How does batched generation handle stop criteria, distributed token gathering, periodic intermediate saves, and resumed outputs?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/utils.py",
+          "symbol": "complete_code",
+          "symbolType": "function",
+          "startLine": 224,
+          "endLine": 367,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-22",
+      "category": "task_data",
+      "query": "How does the implementation verify that it loaded the expected test split before constructing benchmark prompts?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "symbol": "MBPP.get_dataset",
+          "symbolType": "method",
+          "startLine": 39,
+          "endLine": 46,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-23",
+      "category": "prompt_construction",
+      "query": "How does a programming problem description and one example assertion become a docstring-style completion prompt?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "symbol": "MBPP.get_prompt",
+          "symbolType": "method",
+          "startLine": 48,
+          "endLine": 56,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-24",
+      "category": "task_scoring",
+      "query": "How are generated solutions compared with the reference tests to compute the benchmark result?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/mbpp.py",
+          "symbol": "MBPP.process_results",
+          "symbolType": "method",
+          "startLine": 74,
+          "endLine": 86,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-25",
+      "category": "task_registry",
+      "query": "How are separate evaluation task classes created for each programming-challenge difficulty level?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/apps.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/apps.py",
+          "symbol": "create_all_tasks",
+          "symbolType": "function",
+          "startLine": 29,
+          "endLine": 34,
+          "grade": 3
+        },
+        {
+          "path": "bigcode_eval/tasks/apps.py",
+          "symbol": "create_task",
+          "symbolType": "function",
+          "startLine": 37,
+          "endLine": 42,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-26",
+      "category": "prompt_construction",
+      "query": "How does a challenge prompt select starter code and specify whether a solution uses standard input or a callable function?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/apps.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/apps.py",
+          "symbol": "GeneralAPPS.get_prompt",
+          "symbolType": "method",
+          "startLine": 65,
+          "endLine": 89,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-27",
+      "category": "task_registry",
+      "query": "How are greedy and majority-voting variants registered for both arithmetic reasoning datasets?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/gsm.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/gsm.py",
+          "symbol": "EvaluationType",
+          "symbolType": "enum",
+          "startLine": 43,
+          "endLine": 47,
+          "grade": 3
+        },
+        {
+          "path": "bigcode_eval/tasks/gsm.py",
+          "symbol": "create_all_tasks",
+          "symbolType": "function",
+          "startLine": 50,
+          "endLine": 63,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-28",
+      "category": "result_parsing",
+      "query": "How does the reasoning benchmark parse a final answer as an integer or decimal while preserving non-numeric answers?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/gsm.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/gsm.py",
+          "symbol": "Gsm8k.parse_target",
+          "symbolType": "method",
+          "startLine": 133,
+          "endLine": 151,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-29",
+      "category": "task_scoring",
+      "query": "How does the code-generation benchmark construct executable references and pass generated solutions to its scoring metric?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/humaneval.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/humaneval.py",
+          "symbol": "GeneralHumanEval.get_reference",
+          "symbolType": "method",
+          "startLine": 71,
+          "endLine": 75,
+          "grade": 3
+        },
+        {
+          "path": "bigcode_eval/tasks/humaneval.py",
+          "symbol": "GeneralHumanEval.process_results",
+          "symbolType": "method",
+          "startLine": 90,
+          "endLine": 104,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "bceh-30",
+      "category": "task_scoring",
+      "query": "How does code evaluation require explicit opt-in before executing candidate programs, run candidates concurrently, and estimate pass-at-k?",
+      "relevantFiles": [
+        {
+          "path": "bigcode_eval/tasks/custom_metrics/code_eval.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "bigcode_eval/tasks/custom_metrics/code_eval.py",
+          "symbol": "compute_code_eval",
+          "symbolType": "function",
+          "startLine": 129,
+          "endLine": 171,
+          "grade": 3
+        },
+        {
+          "path": "bigcode_eval/tasks/custom_metrics/code_eval.py",
+          "symbol": "estimate_pass_at_k",
+          "symbolType": "function",
+          "startLine": 174,
+          "endLine": 189,
+          "grade": 3
+        }
+      ]
+    }
+  ]
+}

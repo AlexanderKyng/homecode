@@ -1,0 +1,788 @@
+{
+  "repository": {
+    "id": "mini-swe-agent",
+    "path": "../../../repositories/mini-swe-agent",
+    "commit": "58ad92fc1385be3f8f2326b7a42320bb3655e169",
+    "split": "held_out_repository"
+  },
+  "tasks": [
+    {
+      "id": "msa-agent-loop-and-trajectory",
+      "category": "architecture",
+      "query": "Where is the main agent loop that initializes the prompt, steps until exit, catches flow limits, and saves the trajectory?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.run",
+          "symbolType": "method",
+          "startLine": 77,
+          "endLine": 97,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-model-call-budget",
+      "category": "behavior",
+      "query": "How does the agent enforce step and cost limits before a model call, then account for the call and its cost?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.query",
+          "symbolType": "method",
+          "startLine": 103,
+          "endLine": 117,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.AgentConfig",
+          "symbolType": "class",
+          "startLine": 18,
+          "endLine": 30,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "msa-local-command-timeout",
+      "category": "behavior",
+      "query": "How does the local environment execute a shell command with a timeout and combine stdout with stderr?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "symbol": "minisweagent.environments.local.LocalEnvironment.execute",
+          "symbolType": "method",
+          "startLine": 23,
+          "endLine": 53,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-command-error-structure",
+      "category": "bug_handling",
+      "query": "When a local command times out or raises, how are partial output and exception details returned?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "symbol": "minisweagent.environments.local.LocalEnvironment.execute",
+          "symbolType": "method",
+          "startLine": 23,
+          "endLine": 53,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-submit-marker",
+      "category": "symbol_behavior",
+      "query": "Which exact completion marker causes a successful shell output to be converted into a submitted agent result?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/exceptions.py",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "symbol": "minisweagent.environments.local.LocalEnvironment._check_finished",
+          "symbolType": "method",
+          "startLine": 55,
+          "endLine": 66,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/exceptions.py",
+          "symbol": "minisweagent.exceptions.Submitted",
+          "symbolType": "class",
+          "startLine": 9,
+          "endLine": 10,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "msa-trace-serialization",
+      "category": "architecture",
+      "query": "Where does the agent serialize model-call statistics, configuration, exit result, conversation messages, and environment state for replay?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.serialize",
+          "symbolType": "method",
+          "startLine": 124,
+          "endLine": 145,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.save",
+          "symbolType": "method",
+          "startLine": 147,
+          "endLine": 155,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-env-config-to-executor",
+      "category": "multi_hop",
+      "query": "How do the local environment cwd, environment variables, and configured timeout flow into subprocess execution?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "symbol": "minisweagent.environments.local.LocalEnvironmentConfig",
+          "symbolType": "class",
+          "startLine": 12,
+          "endLine": 15,
+          "grade": 2
+        },
+        {
+          "path": "src/minisweagent/environments/local.py",
+          "symbol": "minisweagent.environments.local.LocalEnvironment.execute",
+          "symbolType": "method",
+          "startLine": 23,
+          "endLine": 53,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-agent-exception-recovery",
+      "category": "bug_handling",
+      "query": "What happens when the model raises an agent-flow interruption versus an uncaught exception during the run loop?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.run",
+          "symbolType": "method",
+          "startLine": 77,
+          "endLine": 97,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/agents/default.py",
+          "symbol": "minisweagent.agents.default.DefaultAgent.handle_uncaught_exception",
+          "symbolType": "method",
+          "startLine": 63,
+          "endLine": 75,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_09",
+      "category": "behavior",
+      "query": "When commands run inside a container, how are environment variables forwarded and per-command timeouts and failures handled?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "symbol": "minisweagent.environments.docker.DockerEnvironment.execute",
+          "symbolType": "method",
+          "startLine": 101,
+          "endLine": 138,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_10",
+      "category": "architecture",
+      "query": "How is a fresh container started with the requested working directory and an overall lifetime limit?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "symbol": "minisweagent.environments.docker.DockerEnvironment._start_container",
+          "symbolType": "method",
+          "startLine": 74,
+          "endLine": 99,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_11",
+      "category": "edge_case",
+      "query": "How are container resources cleaned up if initialization or a run ends, and what happens if the container identifier was never created?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "symbol": "minisweagent.environments.docker.DockerEnvironment.cleanup",
+          "symbolType": "method",
+          "startLine": 153,
+          "endLine": 157,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/environments/docker.py",
+          "symbol": "minisweagent.environments.docker.DockerEnvironment.__del__",
+          "symbolType": "method",
+          "startLine": 159,
+          "endLine": 161,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_12",
+      "category": "behavior",
+      "query": "How are nested configuration dictionaries combined so later values override earlier ones while unset values are omitted?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/utils/serialize.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/utils/serialize.py",
+          "symbol": "minisweagent.utils.serialize.recursive_merge",
+          "symbolType": "function",
+          "startLine": 6,
+          "endLine": 29,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_13",
+      "category": "multi_hop",
+      "query": "How does a configuration entry become either a loaded file or a nested override specified as key-value text?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/config/__init__.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/config/__init__.py",
+          "symbol": "minisweagent.config.get_config_from_spec",
+          "symbolType": "function",
+          "startLine": 54,
+          "endLine": 59,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/config/__init__.py",
+          "symbol": "minisweagent.config._key_value_spec_to_nested_dict",
+          "symbolType": "function",
+          "startLine": 31,
+          "endLine": 51,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_14",
+      "category": "call_path",
+      "query": "How do command-line options overlay configuration files before the program creates the model, environment and agent?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/mini.py",
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/utils/serialize.py",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/mini.py",
+          "symbol": "minisweagent.run.mini.main",
+          "symbolType": "function",
+          "startLine": 55,
+          "endLine": 105,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/utils/serialize.py",
+          "symbol": "minisweagent.utils.serialize.recursive_merge",
+          "symbolType": "function",
+          "startLine": 6,
+          "endLine": 29,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_15",
+      "category": "multi_hop",
+      "query": "For a benchmark issue, where is the container image selected and an optional templated startup command run before the agent begins?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.get_swebench_docker_image_name",
+          "symbolType": "function",
+          "startLine": 82,
+          "endLine": 90,
+          "grade": 2
+        },
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.get_sb_environment",
+          "symbolType": "function",
+          "startLine": 93,
+          "endLine": 108,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_16",
+      "category": "behavior",
+      "query": "How does the benchmark select issue instances by identifier, optionally shuffle them reproducibly, and then take a requested slice?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.filter_instances",
+          "symbolType": "function",
+          "startLine": 194,
+          "endLine": 211,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_17",
+      "category": "call_path",
+      "query": "What is the per-issue execution path that constructs an environment and agent, runs the task, and saves its trajectory and result metadata even when execution fails?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.process_instance",
+          "symbolType": "function",
+          "startLine": 136,
+          "endLine": 191,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_18",
+      "category": "behavior",
+      "query": "Where are individual benchmark runs marked as started or finished, failures classified, and overall progress advanced?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_instance_start",
+          "symbolType": "method",
+          "startLine": 136,
+          "endLine": 143,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_instance_end",
+          "symbolType": "method",
+          "startLine": 145,
+          "endLine": 156,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager.on_uncaught_exception",
+          "symbolType": "method",
+          "startLine": 158,
+          "endLine": 159,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_19",
+      "category": "behavior",
+      "query": "How are structured command calls from a model response decoded into shell actions, and what happens for an unsupported tool?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/models/utils/actions_toolcall.py",
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "grade": 2
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/models/utils/actions_toolcall.py",
+          "symbol": "minisweagent.models.utils.actions_toolcall.parse_toolcall_actions",
+          "symbolType": "function",
+          "startLine": 30,
+          "endLine": 66,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "symbol": "minisweagent.models.openrouter_model.OpenRouterModel._parse_actions",
+          "symbolType": "method",
+          "startLine": 124,
+          "endLine": 128,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_20",
+      "category": "behavior",
+      "query": "If a response contains several command calls but fewer results were actually produced, how are missing observations represented?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/models/utils/actions_toolcall.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/models/utils/actions_toolcall.py",
+          "symbol": "minisweagent.models.utils.actions_toolcall.format_toolcall_observation_messages",
+          "symbolType": "function",
+          "startLine": 69,
+          "endLine": 103,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_21",
+      "category": "bug_handling",
+      "query": "How does the chat API request code distinguish invalid credentials and throttling from other HTTP errors?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "symbol": "minisweagent.models.openrouter_model.OpenRouterModel._query",
+          "symbolType": "method",
+          "startLine": 62,
+          "endLine": 89,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "symbol": "minisweagent.models.openrouter_model.OpenRouterAuthenticationError",
+          "symbolType": "class",
+          "startLine": 46,
+          "endLine": 47,
+          "grade": 2
+        },
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "symbol": "minisweagent.models.openrouter_model.OpenRouterRateLimitError",
+          "symbolType": "class",
+          "startLine": 50,
+          "endLine": 51,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "mswea_extra_22",
+      "category": "behavior",
+      "query": "In confirmation mode, how are commands checked against allowed patterns and how does the program handle approval, rejection or switching to manual commands?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "symbol": "minisweagent.agents.interactive.InteractiveAgent._should_ask_confirmation",
+          "symbolType": "method",
+          "startLine": 136,
+          "endLine": 137,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "symbol": "minisweagent.agents.interactive.InteractiveAgent._ask_confirmation_or_interrupt",
+          "symbolType": "method",
+          "startLine": 139,
+          "endLine": 156,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "symbol": "minisweagent.agents.interactive.InteractiveAgent.execute_actions",
+          "symbolType": "method",
+          "startLine": 98,
+          "endLine": 113,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-config-path-resolution",
+      "category": "architecture",
+      "query": "A config name has no file extension. Which search paths are tried, in what order, before the program reports that the file cannot be found?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/config/__init__.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/config/__init__.py",
+          "symbol": "minisweagent.config.get_config_path",
+          "symbolType": "function",
+          "startLine": 12,
+          "endLine": 28,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-prediction-write",
+      "category": "behavior",
+      "query": "When one benchmark run finishes, what entry is written to the predictions JSON, and how are results from other instances retained?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.update_preds_file",
+          "symbolType": "function",
+          "startLine": 111,
+          "endLine": 122,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-prediction-delete",
+      "category": "edge_case",
+      "query": "How can a previous result for one benchmark instance be removed from the predictions file while leaving other instances intact?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.remove_from_preds_file",
+          "symbolType": "function",
+          "startLine": 125,
+          "endLine": 133,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-step-progress",
+      "category": "behavior",
+      "query": "What progress information is refreshed after each agent action in a benchmark run?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.ProgressTrackingAgent.step",
+          "symbolType": "method",
+          "startLine": 76,
+          "endLine": 79,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-batch-orchestration",
+      "category": "architecture",
+      "query": "How does the batch benchmark command load a dataset split, skip already completed instances, schedule workers and handle a keyboard interrupt?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/swebench.py",
+          "symbol": "minisweagent.run.benchmarks.swebench.main",
+          "symbolType": "function",
+          "startLine": 216,
+          "endLine": 285,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-cost-metadata-validation",
+      "category": "bug_handling",
+      "query": "What happens when a model response lacks positive cost information, and which setting allows cost-tracking errors to be ignored?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/models/openrouter_model.py",
+          "symbol": "minisweagent.models.openrouter_model.OpenRouterModel._calculate_cost",
+          "symbolType": "method",
+          "startLine": 111,
+          "endLine": 122,
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-yaml-progress-summary",
+      "category": "architecture",
+      "query": "How is the batch run's summary of instances grouped by exit status persisted as YAML?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager._save_overview_data_yaml",
+          "symbolType": "method",
+          "startLine": 175,
+          "endLine": 178,
+          "grade": 3
+        },
+        {
+          "path": "src/minisweagent/run/benchmarks/utils/batch_progress.py",
+          "symbol": "minisweagent.run.benchmarks.utils.batch_progress.RunBatchProgressManager._get_overview_data",
+          "symbolType": "method",
+          "startLine": 168,
+          "endLine": 173,
+          "grade": 2
+        }
+      ]
+    },
+    {
+      "id": "msa-repl-interactive-shortcuts",
+      "category": "behavior",
+      "query": "In interactive use, how can someone view the available shortcuts, change execution mode, or enter a multiline comment?",
+      "relevantFiles": [
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "grade": 3
+        }
+      ],
+      "relevant": [
+        {
+          "path": "src/minisweagent/agents/interactive.py",
+          "symbol": "minisweagent.agents.interactive.InteractiveAgent._prompt_and_handle_slash_commands",
+          "symbolType": "method",
+          "startLine": 158,
+          "endLine": 183,
+          "grade": 3
+        }
+      ]
+    }
+  ]
+}

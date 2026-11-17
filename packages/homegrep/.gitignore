@@ -3,4 +3,5 @@ python/.venv/
 python/homegrep_semble/__pycache__/
 python/**/*.pyc
 benchmarks/agentic-retrieval-v1/
+benchmarks/agentic-retrieval-v2/
 script/evaluate-retrieval.ts
