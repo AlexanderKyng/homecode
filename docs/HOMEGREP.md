@@ -58,23 +58,20 @@ Use `hg --index <workspace>` for the first index, `hg --status` to inspect it,
 its HTTP MCP transport requires its configured bearer token and validates the
 request origin. Python and model artifacts are kept outside the source tree.
 
-## Reproducible baseline
+## Evaluation and baseline
 
-The baseline is a measurement record, not a quality claim. Record the HomeCode
-commit, HomeGrep package revision, Semble revision, model revision, Python/Node/uv
-versions, hardware, workspace commit and file count, cache state, and exact
-commands. Measure a clean initial index and a separate one-file incremental
-update. Report query latency p50/p95 from at least 30 repetitions per query,
-index duration, peak RSS, CPU time, and index disk usage. Report Recall@K,
-MRR, and nDCG@K only when a versioned query/qrels set exists; otherwise mark
-them **not measured**. Do not combine functional test results with relevance
-evaluation results.
+The checked-in `agentic-retrieval-v1` qrels are a small, manually judged pilot,
+not an external benchmark. The two-repository split and observed measurements,
+including uncertainty, are documented in [HOMEGREP_RESEARCH.md](HOMEGREP_RESEARCH.md).
+Functional tests and relevance results are reported separately there.
 
-The first real-repository baseline was measured on 2026-11-17. The measurement
-record, environment and commands are included in the implementation report;
-re-run `bun run baseline <workspace>` and the timed `hg --index <workspace>`
-command above to refresh it. This section and any refreshed record contain
-observed values only; relevance metrics remain unavailable until qrels exist.
+The runner records the HomeCode/HomeGrep revision, pinned Semble and Potion
+revisions, runtime versions, repository snapshots, index duration/size, path
+and line retrieval metrics, and query latency. Each query/variant gets three
+warmups and 30 timed repetitions by default. Wrap the command with
+`/usr/bin/time -v` to include the Python child process in CPU and peak-RSS
+measurements. The checked-in qrels and runner reproduce the retrieval scores;
+the report records the exact repository commits and invocation.
 
 ## Annotated retrieval pilot
 
