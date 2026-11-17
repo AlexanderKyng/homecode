@@ -376,6 +376,9 @@ function aggregate(rows: Array<Record<string, unknown>>, expectedTasks: Task[]) 
     "linePrecision@1", "linePrecision@5", "linePrecision@10",
     "mrr", "ndcg@10", "retrievalCoverageAt5",
   ];
+  const candidateRecalls = selected.flatMap((row) =>
+    typeof row.candidateRecallAt100 === "number" ? [row.candidateRecallAt100] : [],
+  );
   return {
     tasks: selected.length,
     ...Object.fromEntries(
@@ -384,7 +387,7 @@ function aggregate(rows: Array<Record<string, unknown>>, expectedTasks: Task[]) 
         mean(selected.map((row) => Number(row[name] ?? 0))),
       ]),
     ),
-    candidateRecallAt100: mean(selected.map((row) => Number(row.candidateRecallAt100 ?? 0))),
+    candidateRecallAt100: candidateRecalls.length ? mean(candidateRecalls) : undefined,
     ndcg95CI: bootstrapMeanCI(selected.map((row) => Number(row["ndcg@10"] ?? 0))),
   };
 }
