@@ -19,6 +19,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "bun test --timeout 30000",
     "baseline": "bun run script/baseline.ts",
+    "evaluate:retrieval": "bun run script/evaluate-retrieval.ts",
     "dev": "bun ./src/cli/index.ts",
     "start": "node ./dist/cli/index.js",
     "index": "node ./dist/cli/index.js --index",

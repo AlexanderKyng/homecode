@@ -2,3 +2,5 @@ dist/
 python/.venv/
 python/homegrep_semble/__pycache__/
 python/**/*.pyc
+benchmarks/agentic-retrieval-v1/
+script/evaluate-retrieval.ts

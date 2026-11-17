@@ -75,3 +75,35 @@ record, environment and commands are included in the implementation report;
 re-run `bun run baseline <workspace>` and the timed `hg --index <workspace>`
 command above to refresh it. This section and any refreshed record contain
 observed values only; relevance metrics remain unavailable until qrels exist.
+
+## Annotated retrieval pilot
+
+`packages/homegrep/benchmarks/agentic-retrieval-v1/tasks.json` contains manual
+path-and-line judgments for HomeCode and mini-swe-agent. HomeCode is the
+development split; mini-swe-agent is a held-out repository. The tasks cover
+behavior, symbols, architecture, multi-file flows, error handling, and one
+unanswerable Git-history question. The judgments were written from source
+inspection before running the retrieval variants. They are a small local pilot,
+not a public benchmark or a training corpus.
+
+The runner compares the unchanged Semble hybrid route with its BM25-only and
+vector-only routes over identical repository snapshots. It reports path and
+line Recall@1/5/10 and precision, MRR, nDCG@10, paired bootstrap intervals,
+latency, index size, indexing time, and process resources. It does not run a
+coding agent, so task-resolution rate and token use are not measured. Evaluation
+files are git-ignored by the source walker to prevent query or answer leakage
+into the indexed corpus; Git still tracks the versioned pilot files.
+
+Run from `packages/homegrep` with a new state directory for each clean run:
+
+```bash
+HOMEGREP_HOME=/tmp/homegrep-eval-run-001 \
+HOMEGREP_EVAL_OUTPUT=/tmp/homegrep-eval-run-001.json \
+/usr/bin/time -v bun run evaluate:retrieval
+```
+
+Use `--split=development` to inspect the HomeCode development split before
+freezing a variant. Run `--split=held_out_repository` only after that choice is
+fixed. Do not repeatedly tune against the held-out repository and report it as
+an independent test. The pilot is too small to justify fine-tuning a retrieval
+model.

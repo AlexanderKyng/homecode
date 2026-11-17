@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "title": "HomeGrep repository retrieval pilot",
+  "annotationMethod": "Manual path and line judgments made from source inspection before running retrieval variants. Grade 3 is directly necessary evidence; grade 2 is supporting evidence. These judgments are pilot labels, not an external benchmark.",
+  "splits": {
+    "development": ["homecode"],
+    "held_out_repository": ["mini-swe-agent"]
+  },
+  "repositories": {
+    "homecode": {
+      "commit": "a7a86d4c681c9d68f9857835be9cd29e304ac4ce",
+      "path": "../.."
+    },
+    "mini-swe-agent": {
+      "commit": "58ad92fc1385be3f8f2326b7a42320bb3655e169",
+      "path": "../../../repositories/mini-swe-agent"
+    }
+  },
+  "tasks": [
+    {
+      "id": "hc-permission-and-modes",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does HomeCode ask permission before searching, then route exact grep requests separately from hybrid HomeGrep requests?",
+      "relevant": [
+        { "path": "packages/homecode/src/tool/grep.ts", "startLine": 43, "endLine": 83, "grade": 3 }
+      ]
+    },
+    {
+      "id": "hc-workspace-service-lifecycle",
+      "repository": "homecode",
+      "split": "development",
+      "category": "architecture",
+      "query": "Where does HomeCode reuse one search service per workspace, coalesce initial indexing, and close it with the workspace instance?",
+      "relevant": [
+        { "path": "packages/homecode/src/homegrep/service.ts", "startLine": 8, "endLine": 42, "grade": 3 }
+      ]
+    },
+    {
+      "id": "hc-index-generation-publication",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does the Python bridge validate the active index generation and publish a replacement atomically after building it?",
+      "relevant": [
+        { "path": "packages/homegrep/python/homegrep_semble/bridge.py", "startLine": 119, "endLine": 179, "grade": 3 },
+        { "path": "packages/homegrep/python/homegrep_semble/bridge.py", "startLine": 280, "endLine": 350, "grade": 3 }
+      ]
+    },
+    {
+      "id": "hc-incremental-content-hash",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does incremental indexing detect changed source content and reuse files whose content hash is unchanged?",
+      "relevant": [
+        { "path": "packages/homegrep/python/homegrep_semble/bridge.py", "startLine": 65, "endLine": 110, "grade": 3 },
+        { "path": "packages/homegrep/python/homegrep_semble/bridge.py", "startLine": 190, "endLine": 280, "grade": 3 }
+      ]
+    },
+    {
+      "id": "hc-python-runtime-protocol",
+      "repository": "homecode",
+      "split": "development",
+      "category": "architecture",
+      "query": "Which TypeScript runtime owns the Python subprocess and correlates JSON-lines requests with responses and timeouts?",
+      "relevant": [
+        { "path": "packages/homegrep/src/engine/semble/runtime.ts", "startLine": 66, "endLine": 160, "grade": 3 },
+        { "path": "packages/homegrep/src/engine/semble/runtime.ts", "startLine": 180, "endLine": 300, "grade": 3 }
+      ]
+    },
+    {
+      "id": "hc-search-freshness-and-query",
+      "repository": "homecode",
+      "split": "development",
+      "category": "call_path",
+      "query": "Before searching, how does HomeGrep check workspace freshness, refresh a stale index, and run BM25 plus dense retrieval?",
+      "relevant": [
+        { "path": "packages/homegrep/python/homegrep_semble/bridge.py", "startLine": 342, "endLine": 417, "grade": 3 },
+        { "path": "packages/homegrep/src/engine/service/semble-grep.ts", "startLine": 298, "endLine": 506, "grade": 2 }
+      ]
+    },
+    {
+      "id": "hc-group-coverage-fusion",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How are duplicate hits from supplemental searches merged with reciprocal rank fusion while preserving primary-query coverage?",
+      "relevant": [
+        { "path": "packages/homegrep/src/engine/service/query-groups.ts", "startLine": 1, "endLine": 110, "grade": 3 },
+        { "path": "packages/homegrep/src/engine/service/semble-grep.ts", "startLine": 430, "endLine": 506, "grade": 2 }
+      ]
+    },
+    {
+      "id": "hc-exact-structural-search",
+      "repository": "homecode",
+      "split": "development",
+      "category": "behavior",
+      "query": "How does the exact ripgrep mode add the smallest enclosing function or heading as structural context?",
+      "relevant": [
+        { "path": "packages/homegrep/src/engine/service/semble-grep.ts", "startLine": 298, "endLine": 348, "grade": 3 },
+        { "path": "packages/homegrep/src/engine/service/structure-enrichment.ts", "startLine": 22, "endLine": 90, "grade": 3 },
+        { "path": "packages/homegrep/src/engine/service/structure-enrichment.ts", "startLine": 190, "endLine": 290, "grade": 2 }
+      ]
+    },
+    {
+      "id": "hc-history-capability-gap",
+      "repository": "homecode",
+      "split": "development",
+      "category": "git_history",
+      "query": "Which commit first introduced the HomeGrep Python JSON-lines runtime, and what changed in that commit?",
+      "answerable": false,
+      "relevant": []
+    },
+    {
+      "id": "msa-agent-loop-and-trajectory",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "Where is the main agent loop that initializes the prompt, steps until exit, catches flow limits, and saves the trajectory?",
+      "relevant": [
+        { "path": "src/minisweagent/agents/default.py", "startLine": 77, "endLine": 97, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-model-call-budget",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How does the agent enforce step and cost limits before a model call, then account for the call and its cost?",
+      "relevant": [
+        { "path": "src/minisweagent/agents/default.py", "startLine": 103, "endLine": 117, "grade": 3 },
+        { "path": "src/minisweagent/agents/default.py", "startLine": 25, "endLine": 28, "grade": 2 }
+      ]
+    },
+    {
+      "id": "msa-local-command-timeout",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "behavior",
+      "query": "How does the local environment execute a shell command with a timeout and combine stdout with stderr?",
+      "relevant": [
+        { "path": "src/minisweagent/environments/local.py", "startLine": 23, "endLine": 40, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-command-error-structure",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "When a local command times out or raises, how are partial output and exception details returned?",
+      "relevant": [
+        { "path": "src/minisweagent/environments/local.py", "startLine": 27, "endLine": 52, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-submit-marker",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "symbol_behavior",
+      "query": "Which exact completion marker causes a successful shell output to be converted into a submitted agent result?",
+      "relevant": [
+        { "path": "src/minisweagent/environments/local.py", "startLine": 55, "endLine": 66, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-trace-serialization",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "architecture",
+      "query": "Where does the agent serialize model-call statistics, configuration, exit result, conversation messages, and environment state for replay?",
+      "relevant": [
+        { "path": "src/minisweagent/agents/default.py", "startLine": 124, "endLine": 155, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-env-config-to-executor",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "multi_hop",
+      "query": "How do the local environment cwd, environment variables, and configured timeout flow into subprocess execution?",
+      "relevant": [
+        { "path": "src/minisweagent/environments/local.py", "startLine": 12, "endLine": 16, "grade": 2 },
+        { "path": "src/minisweagent/environments/local.py", "startLine": 23, "endLine": 39, "grade": 3 }
+      ]
+    },
+    {
+      "id": "msa-agent-exception-recovery",
+      "repository": "mini-swe-agent",
+      "split": "held_out_repository",
+      "category": "bug_handling",
+      "query": "What happens when the model raises an agent-flow interruption versus an uncaught exception during the run loop?",
+      "relevant": [
+        { "path": "src/minisweagent/agents/default.py", "startLine": 85, "endLine": 97, "grade": 3 },
+        { "path": "src/minisweagent/agents/default.py", "startLine": 63, "endLine": 75, "grade": 2 }
+      ]
+    }
+  ]
+}
