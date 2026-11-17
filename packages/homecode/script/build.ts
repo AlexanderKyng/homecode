@@ -255,6 +255,7 @@ for (const item of targets) {
     "./src/cli/cmd/session.ts",
     "./src/cli/cmd/plug.ts",
     "./src/cli/cmd/db.ts",
+    "./src/cli/cmd/homegrep.ts",
   ]
 
   // Use platform-specific bunfs root path based on target OS
@@ -305,6 +306,24 @@ for (const item of targets) {
     const pyodideDst = path.join(path.dirname(binaryPath), "pyodide")
     await $`cp -rL ${pyodideSrc} ${pyodideDst}`
   }
+
+  const homegrepPythonSource = path.resolve(dir, "../homegrep/python")
+  const homegrepPythonDestination = path.join(
+    dir,
+    `dist/${name}/bin/homegrep/python`,
+  )
+  await fs.promises.cp(homegrepPythonSource, homegrepPythonDestination, {
+    recursive: true,
+    dereference: true,
+    filter: (source) => {
+      const relative = path.relative(homegrepPythonSource, source)
+      const parts = relative.split(path.sep)
+      const excluded = parts.some(
+        (part) => part === ".venv" || part === "__pycache__" || part === ".npmignore",
+      )
+      return !excluded && !relative.endsWith(".pyc")
+    },
+  })
 
   // Smoke test: only run if binary is for current platform
   if (item.os === process.platform && item.arch === process.arch && !item.abi) {

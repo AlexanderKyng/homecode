@@ -165,6 +165,14 @@ const cli = yargs(args)
   )
   .command(
     lazyCommand(
+      "homegrep",
+      "manage native HomeGrep workspace search",
+      path.resolve(__dirname, "./cli/cmd/homegrep"),
+      "HomeGrepCommand",
+    ),
+  )
+  .command(
+    lazyCommand(
       "$0 [project]",
       "start homecode tui",
       path.resolve(__dirname, "./cli/cmd/tui/thread"),

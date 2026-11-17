@@ -1,0 +1,4 @@
+dist/
+python/.venv/
+python/homegrep_semble/__pycache__/
+python/**/*.pyc

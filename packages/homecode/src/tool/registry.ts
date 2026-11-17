@@ -57,6 +57,7 @@ import { Reference } from "@/reference/reference"
 import { BackgroundJob } from "@/background/job"
 import { RuntimeFlags } from "@/effect/runtime-flags"
 import { Permission } from "@/permission"
+import { GrepTool } from "./grep"
 
 const log = Log.create({ service: "tool.registry" })
 
@@ -138,6 +139,7 @@ export const layer: Layer.Layer<
     const skilltool = yield* SkillTool
     const github = yield* GitHubTool
     const memory = yield* MemoryTool
+    const grep = yield* GrepTool
     const agent = yield* Agent.Service
 
     const state = yield* InstanceState.make<State>((ctx) =>
@@ -249,6 +251,7 @@ export const layer: Layer.Layer<
           planEnter: Tool.init(planEnter),
           github: Tool.init(github),
           memory: Tool.init(memory),
+          grep: Tool.init(grep),
         })
 
         return {
@@ -273,6 +276,7 @@ export const layer: Layer.Layer<
             tool.plan,
             tool.planEnter,
             tool.memory,
+            tool.grep,
           ],
           task: tool.task,
           read: tool.read,

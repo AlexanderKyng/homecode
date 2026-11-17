@@ -1,0 +1,12 @@
+[project]
+name = "homegrep-semble-runtime"
+version = "0.1.0"
+description = "Local Semble search runtime for HomeGrep"
+requires-python = ">=3.10"
+dependencies = [
+  "semble @ git+https://github.com/MinishLab/semble.git@8ee6463efbb1ff755c339e965c7298b7afd7db5b",
+  "filelock>=3.16,<4",
+]
+
+[tool.uv]
+package = false

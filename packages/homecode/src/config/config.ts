@@ -25,6 +25,7 @@ import { containsPath, type InstanceContext } from "../project/instance-context"
 import { NonNegativeInt, PositiveInt, type DeepMutable } from "@homecode-ai/core/schema"
 import { ConfigAgent } from "./agent"
 import { ConfigAttachment } from "./attachment"
+import { ConfigHomeGrep } from "./homegrep"
 import { ConfigCommand } from "./command"
 import { ConfigFormatter } from "./formatter"
 import { ConfigLayout } from "./layout"
@@ -238,6 +239,9 @@ export const Info = Schema.Struct({
       ]),
     ),
   ).annotate({ description: "MCP (Model Context Protocol) server configurations" }),
+  homegrep: Schema.optional(ConfigHomeGrep.Info).annotate({
+    description: "Local HomeGrep integration for workspace code and content search",
+  }),
   formatter: Schema.optional(ConfigFormatter.Info).annotate({
     description:
       "Enable or configure formatters. Omit or set to false to disable, true to enable built-ins, or an object to enable built-ins with overrides.",

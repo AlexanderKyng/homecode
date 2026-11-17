@@ -32,6 +32,7 @@ const modules = {
   session: () => import("./cmd/session"),
   plug: () => import("./cmd/plug"),
   db: () => import("./cmd/db"),
+  homegrep: () => import("./cmd/homegrep"),
 }
 
 function load(modulePath: string) {

@@ -1,0 +1,68 @@
+{
+  "name": "@homecode-ai/homegrep",
+  "version": "0.2.1-homecode.1",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "dist",
+    "python",
+    "LICENSE",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test --timeout 30000",
+    "baseline": "bun run script/baseline.ts",
+    "dev": "bun ./src/cli/index.ts",
+    "start": "node ./dist/cli/index.js",
+    "index": "node ./dist/cli/index.js --index",
+    "daemon": "node ./dist/cli/index.js --server run",
+    "mcp": "node ./dist/cli/index.js --server --stdio"
+  },
+  "bin": {
+    "hg": "./dist/cli/index.js",
+    "zg": "./dist/cli/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./authorization": {
+      "types": "./dist/authorization/index.d.ts",
+      "import": "./dist/authorization/index.js"
+    },
+    "./daemon": {
+      "types": "./dist/daemon/index.d.ts",
+      "import": "./dist/daemon/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp/index.d.ts",
+      "import": "./dist/mcp/index.js"
+    }
+  },
+  "dependencies": {
+    "@huggingface/tokenizers": "^0.1.3",
+    "@huggingface/transformers": "^3.8.1",
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/core": "2.0.0",
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/server": "2.0.0",
+    "@vscode/ripgrep": "^1.18.0",
+    "jsonc-parser": "^3.3.1",
+    "rotating-file-stream": "^3.2.10",
+    "tree-sitter-wasms": "^0.1.13",
+    "web-tree-sitter": "^0.20.8",
+    "zod": "4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3"
+  }
+}
