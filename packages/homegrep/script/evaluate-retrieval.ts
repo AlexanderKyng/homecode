@@ -36,7 +36,26 @@ const splitArgument = arguments_.find((argument) => argument.startsWith("--split
 const split = splitArgument?.slice("--split=".length) ?? "all";
 const repetitions = Number(process.env.HOMEGREP_EVAL_REPETITIONS ?? 30);
 const warmups = Number(process.env.HOMEGREP_EVAL_WARMUPS ?? 3);
-const variants = ["hybrid", "fts", "vector", "token-rerank"] as const;
+const allVariants = [
+  "hybrid",
+  "hybrid-alpha-025",
+  "hybrid-alpha-075",
+  "fts",
+  "vector",
+  "token-rerank",
+] as const;
+const requestedVariants = process.env.HOMEGREP_EVAL_VARIANTS?.split(",");
+const variants = requestedVariants?.length
+  ? requestedVariants.map((variant) => {
+      if (!allVariants.includes(variant as (typeof allVariants)[number])) {
+        throw new Error(`Unknown retrieval variant: ${variant}`);
+      }
+      return variant as (typeof allVariants)[number];
+    })
+  : allVariants;
+if (!variants.includes("hybrid")) {
+  throw new Error("Retrieval evaluations must include the hybrid baseline");
+}
 
 if (!Number.isInteger(repetitions) || repetitions < 1) {
   throw new Error("HOMEGREP_EVAL_REPETITIONS must be a positive integer");
@@ -116,9 +135,11 @@ try {
         query: task.query,
         limit: variant === "token-rerank" ? 100 : 10,
         autoUpdate: false,
-        ...(variant === "hybrid"
-          ? {}
-          : { routes: [{ mode: variant, query: task.query } as const] }),
+        ...(variant === "hybrid-alpha-025" ? { hybridAlpha: 0.25 } : {}),
+        ...(variant === "hybrid-alpha-075" ? { hybridAlpha: 0.75 } : {}),
+        ...(variant === "fts" || variant === "vector"
+          ? { routes: [{ mode: variant, query: task.query }] }
+          : {}),
       };
       for (let warmup = 0; warmup < warmups; warmup += 1) {
         await service.context(request);
@@ -183,6 +204,18 @@ try {
     answerableTaskCount: answerable.length,
     warmupsPerTaskAndVariant: warmups,
     repetitionsPerTaskAndVariant: repetitions,
+    variantSettings: Object.fromEntries(
+      variants.map((variant) => [
+        variant,
+        variant === "hybrid-alpha-025"
+          ? { retrieval: "Semble hybrid", alpha: 0.25 }
+          : variant === "hybrid-alpha-075"
+            ? { retrieval: "Semble hybrid", alpha: 0.75 }
+            : variant === "token-rerank"
+              ? { retrieval: "Semble hybrid candidate pool", candidateLimit: 100, localRerank: true }
+              : { retrieval: variant },
+      ]),
+    ),
     metrics: Object.fromEntries(
       variants.map((variant) => [
         variant,
@@ -208,15 +241,14 @@ try {
         },
       ]),
     ),
-    pairedNdcgDelta95CI: {
-      "fts-minus-hybrid": pairedBootstrap(measurements.fts!, measurements.hybrid!, answerable),
-      "vector-minus-hybrid": pairedBootstrap(measurements.vector!, measurements.hybrid!, answerable),
-      "token-rerank-minus-hybrid": pairedBootstrap(
-        measurements["token-rerank"]!,
-        measurements.hybrid!,
-        answerable,
-      ),
-    },
+    pairedNdcgDelta95CI: Object.fromEntries(
+      variants
+        .filter((variant) => variant !== "hybrid")
+        .map((variant) => [
+          `${variant}-minus-hybrid`,
+          pairedBootstrap(measurements[variant]!, measurements.hybrid!, answerable),
+        ]),
+    ),
     processResourceDelta: {
       userCpuMs: process.resourceUsage().userCPUTime - resourcesBefore.userCPUTime,
       systemCpuMs: process.resourceUsage().systemCPUTime - resourcesBefore.systemCPUTime,

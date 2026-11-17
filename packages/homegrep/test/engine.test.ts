@@ -44,6 +44,22 @@ describe("HomeGrep Semble integration", () => {
     expect(result.items.length).toBeGreaterThan(0);
     expect(result.items.some((item) => item.file.relativePath === "src/auth.ts")).toBe(true);
 
+    const lexical = await service.context({
+      root,
+      query: "validate bearer token",
+      hybridAlpha: 0,
+    });
+    expect(lexical.items[0]?.matchedBy).toBe("fts");
+    const dense = await service.context({
+      root,
+      query: "validate bearer token",
+      hybridAlpha: 1,
+    });
+    expect(dense.items[0]?.matchedBy).toBe("vector");
+    await expect(
+      service.context({ root, query: "validate bearer token", hybridAlpha: 1.1 }),
+    ).rejects.toThrow("Hybrid alpha must be a finite number between 0 and 1");
+
     const exact = await service.context({ root, query: "validateBearerToken", rg: true });
     expect(exact.source).toBe("rg");
     expect(exact.items.some((item) => item.file.relativePath === "src/auth.ts")).toBe(true);

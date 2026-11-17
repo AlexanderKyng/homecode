@@ -86,20 +86,22 @@ unanswerable Git-history question. The judgments were written from source
 inspection before running the retrieval variants. They are a small local pilot,
 not a public benchmark or a training corpus.
 
-The runner compares the unchanged Semble hybrid route with its BM25-only and
-vector-only routes over identical repository snapshots. It reports path and
-line Recall@1/5/10 and precision, MRR, nDCG@10, paired bootstrap intervals,
-latency, index size, indexing time, and process resources. It does not run a
-coding agent, so task-resolution rate and token use are not measured. Evaluation
-files are git-ignored by the source walker to prevent query or answer leakage
-into the indexed corpus; Git still tracks the versioned pilot files.
+The runner compares the unchanged Semble hybrid route, BM25-only and
+vector-only routes, two explicit hybrid weights, and an evaluation-only local
+reranker over identical repository snapshots. It reports path and line
+Recall@1/5/10 and precision, MRR, nDCG@10, paired bootstrap intervals, latency,
+index size, indexing time, and process resources. It does not run a coding
+agent, so task-resolution rate and token use are not measured. Evaluation files
+are git-ignored by the source walker to prevent query or answer leakage into the
+indexed corpus; Git still tracks the versioned pilot files.
 
 Run from `packages/homegrep` with a new state directory for each clean run:
 
 ```bash
 HOMEGREP_HOME=/tmp/homegrep-eval-run-001 \
 HOMEGREP_EVAL_OUTPUT=/tmp/homegrep-eval-run-001.json \
-/usr/bin/time -v bun run evaluate:retrieval
+HOMEGREP_EVAL_VARIANTS=hybrid,hybrid-alpha-025,hybrid-alpha-075 \
+/usr/bin/time -v bun run evaluate:retrieval --split=development
 ```
 
 Use `--split=development` to inspect the HomeCode development split before

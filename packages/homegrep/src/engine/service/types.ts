@@ -93,6 +93,8 @@ export type HomeGrepContextOptions = {
   routes?: readonly HomeGrepContextRoute[];
   /** Fuse every query group into one ranked search plan. */
   fuse?: boolean;
+  /** Experimental dense weight from 0 (BM25) to 1 (vectors); undefined uses Semble's default. */
+  hybridAlpha?: number;
   root?: string;
   limit?: number;
   autoUpdate?: boolean;

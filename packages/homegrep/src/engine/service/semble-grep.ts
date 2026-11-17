@@ -370,6 +370,14 @@ export class SembleGrepService implements HomeGrep {
       );
     }
     if (
+      options.hybridAlpha !== undefined &&
+      (!Number.isFinite(options.hybridAlpha) ||
+        options.hybridAlpha < 0 ||
+        options.hybridAlpha > 1)
+    ) {
+      throw new RangeError("Hybrid alpha must be a finite number between 0 and 1");
+    }
+    if (
       options.noIgnore ||
       options.ignoreFiles?.length ||
       options.follow ||
@@ -559,12 +567,17 @@ export class SembleGrepService implements HomeGrep {
       }
       return [...grouped].map(([query, modes]) => ({
         query,
-        alpha: modes.size > 1 ? undefined : modes.has("fts") ? 0 : 1,
+        alpha:
+          modes.size > 1
+            ? options.hybridAlpha
+            : modes.has("fts")
+              ? 0
+              : 1,
       }));
     }
     return [
       ...new Set(options.queries?.length ? options.queries : [fallback]),
-    ].map((query) => ({ query }));
+    ].map((query) => ({ query, alpha: options.hybridAlpha }));
   }
 
   private ensureOpen(): void {
