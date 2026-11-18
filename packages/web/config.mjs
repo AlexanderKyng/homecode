@@ -5,7 +5,7 @@ export default {
   console: stage === "production" ? "https://homecode.ai/auth" : `https://${stage}.homecode.ai/auth`,
   email: "contact@anoma.ly",
   socialCard: "https://social-cards.sst.dev",
-  github: "https://github.com/anomalyco/homecode",
+  github: "https://github.com/AlexanderKyng/homecode",
   discord: "https://homecode.ai/discord",
   headerLinks: [
     { name: "app.header.home", url: "/" },

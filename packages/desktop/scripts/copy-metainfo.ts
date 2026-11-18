@@ -31,9 +31,9 @@ const xml = `<?xml version="1.0" encoding="UTF-8"?>
 
   <content_rating type="oars-1.1" />
 
-  <url type="bugtracker">https://github.com/anomalyco/homecode/issues</url>
+  <url type="bugtracker">https://github.com/AlexanderKyng/homecode/issues</url>
   <url type="homepage">https://homecode.ai</url>
-  <url type="vcs-browser">https://github.com/anomalyco/homecode</url>
+  <url type="vcs-browser">https://github.com/AlexanderKyng/homecode</url>
 
   <screenshots>
     <screenshot type="default">

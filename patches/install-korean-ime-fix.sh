@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # homecode Korean IME Fix Installer
-# https://github.com/anomalyco/homecode/issues/14371
+# https://github.com/AlexanderKyng/homecode/issues/14371
 #
 # Patches homecode to prevent Korean (and other CJK) IME last character
 # truncation when pressing Enter in Kitty and other terminals.

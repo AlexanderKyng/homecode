@@ -1,71 +1,51 @@
-<p align="center">
-  <a href="https://homecode.ai">
-    <picture>
-      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="HomeCode logo">
-    </picture>
-  </a>
-</p>
-<p align="center">The open source AI coding agent, redezined for local LLMs.</p>
-<p align="center">
-  <a href="https://www.npmjs.com/package/homecode-ai"><img alt="npm" src="https://img.shields.io/npm/v/homecode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/homecode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/homecode/publish.yml?style=flat-square&branch=dev" /></a>
-</p>
+# HomeCode
 
-![HomeCode Terminal UI](packages/web/src/assets/lander/screenshot.png)
+HomeCode is an open-source coding agent built from the [OpenCode](https://github.com/anomalyco/opencode) codebase, with a focus on local-model workflows. It includes a terminal interface, a web interface, a desktop client, and HomeGrep code search.
 
----
+This is an independent fork and is not affiliated with the OpenCode project or its maintainers.
 
-> [!IMPORTANT]
-> This is a fork of [Opencode](https://github.com/AnomalyCo/opencode), it is not affiliated with any of the original project's creators or contributors.
+## Requirements
 
-### Installation
+- [Bun](https://bun.sh/) 1.3.14 (the version pinned in `package.json`)
+- Git
 
-HomeCode is currently under active development and needs to be built from source.
+## Run from source
 
-```bash
+```sh
 git clone https://github.com/AlexanderKyng/homecode.git
-cd homecode/packages/homecode
-OPENCODE_VERSION=1.0.0 OPENCODE_CHANNEL=latest bun run build
+cd homecode
+bun install
+bun run dev --help
 ```
 
-NPM and Homebrew installation methods will be added once the project stabilizes.
+To open a project in the terminal interface:
 
-> [!NOTE]
-> HomeCode is still in early development. Bugs may occur, and the full benefits of the optimizations are not yet fully realized. Expect frequent updates.
+```sh
+bun run dev /path/to/project
+```
 
-### What Makes HomeCode Different
+The command-line application is in `packages/homecode`. The web interface, desktop client, and HomeGrep packages are in `packages/app`, `packages/desktop`, and `packages/homegrep` respectively.
 
-HomeCode is a fork of [Opencode](https://github.com/AnomalyCo/opencode) redesigned from the ground up for local LLM workflows.
+## Configure a model
 
-| Feature                     | Description                                                                                                                                                   |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Hash-Based Editing**      | Read, Edit, Write, and apply_patch use a line-level hash system, modifying only the lines that change instead of rewriting entire files                       |
-| **Unique Tools**            | GitHub (remote repo inspection), CodeSearch (developer knowledge search), and HomeMem (evidence-driven local memory) are not available in Opencode               |
-| **All New Python Tool**     | An original, made from scratch, Python tool built with security and speed in mind. Enables your model to perform quick operations, calculations, you name it. |
-| **Toon Compression**        | Tool outputs are compressed via Toon to reduce token usage and verbosity                                                                                      |
-| **Local SearXNG**           | WebSearch and CodeSearch run through a local SearXNG instance (Docker deployment required) for privacy and self-hosted control                                |
-| **Zero Telemetry**          | All tracking and telemetry is fully suppressed for complete privacy                                                                                           |
-| **Optimized System Prompt** | Revamped tool explanations and system prompt that use fewer tokens while increasing LLM capability                                                            |
-| **Vitesse Theme**           | Personalized terminal theme based on the Vitesse VS Code theme                                                                                                |
+In the terminal interface, run `/connect` to configure a provider. See the [provider guide](packages/web/src/content/docs/providers.mdx) and [configuration reference](packages/web/src/content/docs/config.mdx) for provider and local-model settings.
 
-### Targeted Models
+## Development checks
 
-HomeCode is optimized for mid-sized local models that benefit most from reduced token overhead:
+Run CLI tests and type checking from the CLI package directory:
 
-- **Qwen 3.5 / 3.6 27B and 35B-A3B**
+```sh
+cd packages/homecode
+bun test
+bun typecheck
+```
 
-The optimizations provide significant benefits for many other local LLMs ranging from 8 to 80B parameters.
+The repository's root `test` command intentionally exits with an error; tests must be run from their package directories.
 
-### Roadmap
+## Security and limitations
 
-Upcoming work includes, but is not limited to:
+The agent can run shell commands and access files according to its configured permissions. Permission prompts are not a security sandbox. See [SECURITY.md](SECURITY.md) before using HomeCode with untrusted projects.
 
-- **ZED IDE Integration** — Native integration with the ZED editor
-- **Revamped Hashing** — Improved hashing method to resolve current edge-case bugs
-- **Prompt & Tool Alignment** — Further refinement of system prompts and tool definitions for better LLM alignment
+## License
 
-### Contributing
-
-HomeCode is in active development. If you'd like to contribute, feel free to open issues or submit pull requests. For questions and discussion, use the [GitHub discussions](https://github.com/AlexanderKyng/homecode/discussions) or [issues](https://github.com/AlexanderKyng/homecode/issues) page.
+HomeCode is distributed under the [MIT License](LICENSE). It includes code from OpenCode; see the license and source headers for attribution.

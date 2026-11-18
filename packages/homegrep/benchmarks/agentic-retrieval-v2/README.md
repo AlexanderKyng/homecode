@@ -10,6 +10,8 @@ See [RECALL100-FAILURES.md](./RECALL100-FAILURES.md) for a cause-by-cause analys
 
 The dataset contains 150 manually authored tasks: 30 each for HomeCode, HomeTrain, HomeEngine.cpp, BigCode Evaluation Harness, and mini-swe-agent. It has 158 graded file judgments and 179 Tree-sitter-extractable symbol judgments. Six answerable tasks have file-level qrels only because their target is a module-level object/schema/callback that the current index extractor does not emit as a searchable symbol. Each such task records the extractor limitation in `symbolJudgmentsUnavailable`; these tasks remain in file metrics and are excluded from symbol-only metrics.
 
+Repository roots in the JSON files are relative to `packages/homegrep`. By default, external checkouts are expected under `repositories/` beside the HomeCode checkout. Set `HOMEGREP_EVAL_REPOS` to a JSON object mapping repository IDs to checkout paths when using a different layout; paths are resolved from the current working directory.
+
 Three repositories are development data (HomeCode, HomeTrain, BigCode Evaluation Harness); two are held-out repositories (HomeEngine.cpp and mini-swe-agent). Each JSON pins a full Git commit and records its split. Evaluation refuses changed source snapshots and dirty external repositories. The HomeCode checkout may contain only the evaluation script, this dataset, documentation, and its package ignore-rule changes.
 
 Queries cover symbol and API lookup, behavior, configuration, cross-file flows, indexing, search, tool integration, and repository architecture. Grades are 1–3. File judgments identify relevant files; symbol judgments carry a path, symbol name/type, and inclusive line span. Before an evaluation run, the harness validates paths, spans, symbol names, Tree-sitter extraction overlap, repository revisions, and task counts.
@@ -27,8 +29,8 @@ bun run evaluate:retrieval --validate-only
 For a measured run, use a fresh state directory so indexes and runtime state are isolated:
 
 ```sh
-HOMEGREP_HOME=/tmp/homegrep-eval-v2 \
-HOMEGREP_EVAL_OUTPUT=/tmp/homegrep-eval-v2-report.json \
+HOMEGREP_HOME=.homegrep-eval-v2 \
+HOMEGREP_EVAL_OUTPUT=.homegrep-eval-v2-report.json \
 bun run evaluate:retrieval
 ```
 

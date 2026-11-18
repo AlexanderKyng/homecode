@@ -1,15 +1,20 @@
-# js
+# HomeCode CLI
 
-To install dependencies:
+The HomeCode terminal application lives in this package. See the [repository README](../../README.md) for setup, provider configuration, and the first run.
 
-```bash
+From the repository root:
+
+```sh
 bun install
+bun run dev --help
+bun run dev /path/to/project
 ```
 
-To run:
+Run package checks from this directory:
 
-```bash
-bun run index.ts
+```sh
+bun test
+bun typecheck
 ```
 
-This project was created using `bun init` in bun v1.2.12. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+To build the standalone CLI for the current platform, run `bun run build --single --skip-install` from this directory. See the root README for the MIT license and OpenCode attribution.

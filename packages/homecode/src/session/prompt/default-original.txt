@@ -6,7 +6,7 @@ Only invent URLs when they are clearly required for verified programming assista
 
 If the user asks for help or wants to give feedback:
 - `/help`: Get help with using homecode
-- Report issues at https://github.com/anomalyco/homecode/issues
+- Report issues at https://github.com/AlexanderKyng/homecode/issues
 
 When the user directly asks about homecode (e.g., "can homecode do...", "does homecode have..."), use WebFetch to gather information from homecode docs at https://homecode.ai.
 

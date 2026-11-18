@@ -7,3 +7,6 @@ benchmarks/agentic-retrieval-v2/
 script/evaluate-retrieval.ts
 script/evaluate-code-embedding-rerank.ts
 script/analyze-recall100-failures.ts
+/.homegrep-eval-v2/
+/.homegrep-eval-v2-report.json
+/.homegrep-hierarchical-eval/

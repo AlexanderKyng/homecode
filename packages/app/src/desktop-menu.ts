@@ -201,18 +201,18 @@ export const DESKTOP_MENU: DesktopMenu[] = [
     label: "Help",
     items: [
       { type: "item", label: "HomeCode Documentation", href: "https://github.com/AlexanderKyng/homecode" },
-      { type: "item", label: "Support Forum", href: "https://discord.com/invite/homecode" },
+      { type: "item", label: "Ask a Question", href: "https://github.com/AlexanderKyng/homecode/issues/new?template=question.yml" },
       { type: "item", label: "Export Logs...", command: "logs.export" },
       { type: "separator" },
       {
         type: "item",
         label: "Share Feedback",
-        href: "https://github.com/anomalyco/homecode/issues/new?template=feature_request.yml",
+        href: "https://github.com/AlexanderKyng/homecode/issues/new?template=feature-request.yml",
       },
       {
         type: "item",
         label: "Report a Bug",
-        href: "https://github.com/anomalyco/homecode/issues/new?template=bug_report.yml",
+        href: "https://github.com/AlexanderKyng/homecode/issues/new?template=bug-report.yml",
       },
     ],
   },

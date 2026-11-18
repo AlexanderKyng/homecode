@@ -15,7 +15,7 @@ This extension requires the [homecode CLI](https://homecode.ai) to be installed 
 
 ## Support
 
-This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/homecode/issues.
+This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/AlexanderKyng/homecode/issues.
 
 ## Development
 

@@ -4,14 +4,13 @@ Ce prototype évalue une récupération en deux temps sans changer le classement
 
 ## Reproduction
 
-Le run a utilisé l'environnement Python épinglé dans `.homegrep`, la révision Semble `8ee6463efbb1ff755c339e965c7298b7afd7db5b` et les cinq générations consignées dans le JSON de résultats. Depuis `packages/homegrep` :
+Le run a utilisé un environnement Python isolé, la révision Semble `8ee6463efbb1ff755c339e965c7298b7afd7db5b` et les cinq générations consignées dans le JSON de résultats. Depuis `packages/homegrep`, définissez `SEMBLE_PYTHON` vers l'interpréteur de cet environnement. Si Semble n'est pas déjà sur son chemin d'import, définissez aussi `SEMBLE_PYTHONPATH` vers son répertoire `site-packages` :
 
 ```sh
-PY=.homegrep/runtimes/semble-8ee6463efbb1ff755c339e965c7298b7afd7db5b/bin/python
-SITE=.homegrep/runtimes/semble-8ee6463efbb1ff755c339e965c7298b7afd7db5b/lib/python3.14/site-packages
-HOMEGREP_HOME=.homegrep \
+PYTHONPATH="${SEMBLE_PYTHONPATH:-}" \
+HOMEGREP_HOME="${HOMEGREP_HOME:-.homegrep-hierarchical-eval}" \
 HOMEGREP_EVAL_OUTPUT=benchmarks/agentic-retrieval-v2/experiments/hierarchical/results-2026-11-17.json \
-PYTHONPATH="$SITE" "$PY" benchmarks/agentic-retrieval-v2/experiments/hierarchical/evaluate.py \
+"${SEMBLE_PYTHON:-python3}" benchmarks/agentic-retrieval-v2/experiments/hierarchical/evaluate.py \
   --timing-repetitions 10
 ```
 

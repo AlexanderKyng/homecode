@@ -1,6 +1,6 @@
 declare module "lang-map" {
   /** Returned by calling `map()` */
-  export interface MapReturn {
+  interface MapReturn {
     /** All extensions keyed by language name */
     extensions: Record<string, string[]>
     /** All languages keyed by file-extension */

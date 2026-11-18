@@ -7,7 +7,7 @@ export const config = {
 
   // GitHub
   github: {
-    repoUrl: "https://github.com/anomalyco/homecode",
+    repoUrl: "https://github.com/AlexanderKyng/homecode",
     starsFormatted: {
       compact: "160K",
       full: "160,000",
