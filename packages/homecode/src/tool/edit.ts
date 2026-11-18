@@ -160,7 +160,7 @@ export const EditTool = Tool.define(
               } else {
                 const old = params.oldString ?? ""
                 const newVal = params.newString ?? ""
-                if (old === newVal && old !== "") {
+                if (old === newVal) {
                   throw new Error("No changes to apply: oldString and newString are identical.")
                 }
 

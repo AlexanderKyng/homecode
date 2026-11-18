@@ -3,7 +3,6 @@
   "name": "homecode",
   "version": "1.0.0",
   "description": "AI-powered development tool (fork of OpenCode by Anomaly)",
-  "author": "Alexander Kyng",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.14",
@@ -19,8 +18,6 @@
     "upgrade-opentui": "bun run script/upgrade-opentui.ts",
     "postinstall": "bun run --cwd packages/homecode fix-node-pty && bun run --cwd packages/homecode fix-css-tree",
     "prepare": "husky",
-    "random": "echo 'Random script'",
-    "sso": "aws sso login --sso-session=homecode --no-browser",
     "test": "echo 'do not run tests from root' && exit 1"
   },
   "workspaces": {
@@ -117,7 +114,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/homecode"
+    "url": "https://github.com/AlexanderKyng/homecode"
   },
   "originalRepository": {
     "type": "git",

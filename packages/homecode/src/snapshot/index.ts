@@ -416,7 +416,7 @@ export const layer: Layer.Layer<Service, never, AppFileSystem.Service | AppProce
                   }
 
                   const tree = yield* git(
-                    [...core, ...args(["ls-tree", "--name-only", first.hash, "--", ...run.map((item) => item.rel)])],
+                    [...core, ...args(["ls-tree", "--name-only", "-z", first.hash, "--", ...run.map((item) => item.rel)])],
                     {
                       cwd: state.worktree,
                     },
@@ -436,9 +436,7 @@ export const layer: Layer.Layer<Service, never, AppFileSystem.Service | AppProce
 
                   const have = new Set(
                     tree.text
-                      .trim()
-                      .split("\n")
-                      .map((item) => item.trim())
+                      .split("\0")
                       .filter(Boolean),
                   )
                   const list = run.filter((item) => have.has(item.rel))

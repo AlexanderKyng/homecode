@@ -43,6 +43,9 @@ const AgentSchema = Schema.StructWithRest(
     steps: Schema.optional(PositiveInt).annotate({
       description: "Maximum number of agentic iterations before forcing text-only response",
     }),
+    codeMode: Schema.optional(Schema.Boolean).annotate({
+      description: "Expose eligible tools through the confined Code Mode interpreter for this agent. Disabled by default.",
+    }),
     maxSteps: Schema.optional(PositiveInt).annotate({ description: "@deprecated Use 'steps' field instead." }),
     permission: Schema.optional(ConfigPermission.Info),
   }),
@@ -61,6 +64,7 @@ const KNOWN_KEYS = new Set([
   "hidden",
   "color",
   "steps",
+  "codeMode",
   "maxSteps",
   "options",
   "permission",

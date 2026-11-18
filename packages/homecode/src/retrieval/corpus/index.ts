@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite"
+import { mkdirSync } from "node:fs"
 import {
   type AuthorityLevel,
   type CorpusDocument,
@@ -8,7 +9,6 @@ import {
   type SearchCorpusOptions,
 } from "./types"
 import path from "path"
-import fs from "fs/promises"
 
 export interface IngestDocumentPayload {
   readonly url: string
@@ -34,12 +34,7 @@ export class LocalCorpusIndex {
     this.dbPath = customPath || path.join(defaultDir, "knowledge.db")
 
     if (customPath !== ":memory:") {
-      try {
-        const dir = path.dirname(this.dbPath)
-        if (typeof Bun !== "undefined") {
-          fs.mkdir(dir, { recursive: true }).catch(() => {})
-        }
-      } catch {}
+      mkdirSync(path.dirname(this.dbPath), { recursive: true })
     }
 
     this.db = new Database(this.dbPath, { create: true })

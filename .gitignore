@@ -38,7 +38,7 @@ tsconfig.tsbuildinfo
 # MemPalace per-project files (issue #185)
 mempalace.yaml
 entities.json
-homemem
+**/.homemem-state/
 .deep-think
 .cache
 docs/

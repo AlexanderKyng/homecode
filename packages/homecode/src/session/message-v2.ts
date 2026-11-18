@@ -788,6 +788,10 @@ export const toModelMessagesEffect = Effect.fnUntraced(function* (
             type: "step-start",
           })
         if (part.type === "tool") {
+          // Code Mode child calls are deterministic program operations. The model only decided
+          // to call `execute`; the interpreter's child calls are retained for UI/traces but are
+          // deliberately not serialized as model-authored tool calls in the next request.
+          if (part.metadata?.codeModeExecutionID) continue
           toolNames.add(part.tool)
           if (part.state.status === "completed") {
             const outputText = part.state.time.compacted

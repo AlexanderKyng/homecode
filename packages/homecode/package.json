@@ -4,7 +4,6 @@
   "name": "homecode",
   "type": "module",
   "license": "MIT",
-  "author": "Alexander Kyng",
   "originalAuthor": "OpenCode by Anomaly (https://github.com/AnomalyCo/opencode)",
   "scripts": {
     "typecheck": "tsgo --noEmit",
@@ -72,7 +71,9 @@
     "why-is-node-running": "3.2.2"
   },
   "dependencies": {
+    "@homecode-ai/codemode": "workspace:*",
     "@homecode-ai/homegrep": "workspace:*",
+    "ajv": "8.17.1",
     "@actions/core": "1.11.1",
     "@actions/github": "6.0.1",
     "@agentclientprotocol/sdk": "0.21.0",

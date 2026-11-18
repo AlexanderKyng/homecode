@@ -112,7 +112,10 @@ export function stream(input: StreamInput): StreamResult {
       topP: input.topP,
       topK: input.topK,
       maxOutputTokens: input.maxOutputTokens,
-      providerOptions: ProviderTransform.providerOptions(input.model, input.providerOptions ?? {}),
+      providerOptions:
+        input.model.api.npm === "@ai-sdk/openai-compatible"
+          ? { openai: input.providerOptions ?? {} }
+          : ProviderTransform.providerOptions(input.model, input.providerOptions ?? {}),
       llamaServer: input.llamaServer,
       headers: { ...providerHeaders(input.provider.options.headers), ...input.headers },
     }),

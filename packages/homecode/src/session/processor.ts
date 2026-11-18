@@ -35,6 +35,14 @@ export type Result = "compact" | "stop" | "continue"
 
 export interface Handle {
   readonly message: MessageV2.Assistant
+  readonly beginNestedToolCall?: (input: {
+    id: string
+    name: string
+    input: Record<string, unknown>
+    executionID: string
+    parentCallID: string
+  }) => Effect.Effect<void>
+  readonly failToolCall?: (toolCallID: string, error: unknown) => Effect.Effect<boolean>
   readonly updateToolCall: (
     toolCallID: string,
     update: (part: MessageV2.ToolPart) => MessageV2.ToolPart,
@@ -178,8 +186,12 @@ export const layer = Layer.effect(
       ) {
         const match = yield* readToolCall(toolCallID)
         if (!match || match.part.state.status !== "running") return
+        const codeModeExecutionID = output.metadata.codeModeExecutionID
         yield* session.updatePart({
           ...match.part,
+          ...(typeof codeModeExecutionID === "string"
+            ? { metadata: { ...match.part.metadata, codeModeExecutionID } }
+            : {}),
           state: {
             status: "completed",
             input: match.part.state.input,
@@ -277,6 +289,28 @@ export const layer = Layer.effect(
           inputEnded: false,
         }
         return { call: ctx.toolcalls[input.id], part }
+      })
+
+      const beginNestedToolCall = Effect.fn("SessionProcessor.beginNestedToolCall")(function* (input: {
+        id: string
+        name: string
+        input: Record<string, unknown>
+        executionID: string
+        parentCallID: string
+      }) {
+        yield* ensureToolCall({ id: input.id, name: input.name })
+        yield* updateToolCall(input.id, (part) => ({
+          ...part,
+          state: { status: "running", input: input.input, time: { start: Date.now() } },
+          metadata: {
+            ...part.metadata,
+            codeMode: {
+              executionID: input.executionID,
+              parentCallID: input.parentCallID,
+              decisionType: "deterministic_program_operation",
+            },
+          },
+        }))
       })
 
       const isFilePart = (value: unknown): value is MessageV2.FilePart => Schema.is(MessageV2.FilePart)(value)
@@ -830,6 +864,8 @@ export const layer = Layer.effect(
           return ctx.assistantMessage
         },
         updateToolCall,
+        beginNestedToolCall,
+        failToolCall,
         completeToolCall,
         process,
       } satisfies Handle

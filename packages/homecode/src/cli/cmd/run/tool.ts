@@ -221,6 +221,13 @@ function toolError(ctx: ToolFrame): string {
 }
 
 function fallbackStart(ctx: ToolFrame): string {
+  if (ctx.name === "glob" || ctx.name === "grep") {
+    const label = ctx.name === "glob" ? "Glob" : "Grep"
+    const pattern = text(ctx.input.pattern)
+    const dir = toolPath(text(ctx.input.path))
+    return `✱ ${label} ${JSON.stringify(pattern)}${dir ? ` in ${dir}` : ""}`
+  }
+
   const extra = info(ctx.input)
   if (!extra) {
     return `⚙ ${ctx.name}`

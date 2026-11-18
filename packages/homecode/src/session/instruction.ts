@@ -158,7 +158,12 @@ export const layer: Layer.Layer<
         (item) => item.startsWith("https://") || item.startsWith("http://"),
       )
 
-      const sortedPaths = Array.from(paths).sort()
+      const sortedPaths = [
+        ...globalFiles.filter((filepath) => paths.has(filepath)),
+        ...Array.from(paths)
+          .filter((filepath) => !globalFiles.includes(filepath))
+          .sort(),
+      ]
       const files = yield* Effect.forEach(sortedPaths, read, { concurrency: 8 })
       const remote = yield* Effect.forEach(urls, fetch, { concurrency: 4 })
 

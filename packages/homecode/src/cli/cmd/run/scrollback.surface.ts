@@ -371,7 +371,7 @@ export class RunScrollbackStream {
 
   public async complete(): Promise<void> {
     if (this.active) {
-      this.markRendered(await this.finishActive(true))
+      this.markRendered(await this.finishActive(this.active.content.endsWith("\n")))
     }
   }
 
