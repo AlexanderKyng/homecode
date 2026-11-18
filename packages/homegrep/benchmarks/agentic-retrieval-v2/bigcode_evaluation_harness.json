@@ -1,7 +1,7 @@
 {
   "repository": {
     "id": "bigcode-evaluation-harness",
-    "path": "../../../repositories/bigcode-evaluation-harness",
+    "path": "../../repositories/bigcode-evaluation-harness",
     "commit": "8fc5bae6479c4fbbb28c3f8b644f6a15b3f3b5bd",
     "split": "development"
   },

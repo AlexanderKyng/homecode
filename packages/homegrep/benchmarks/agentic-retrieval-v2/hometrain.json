@@ -1,7 +1,7 @@
 {
   "repository": {
     "id": "hometrain",
-    "path": "../../../repositories/hometrain",
+    "path": "../../repositories/hometrain",
     "commit": "dd170e8ee72957b57271309c05d4a788ab565807",
     "split": "development"
   },

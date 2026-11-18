@@ -1,7 +1,7 @@
 {
   "repository": {
     "id": "homeengine_cpp",
-    "path": "../../../repositories/homeengine-cpp",
+    "path": "../../repositories/homeengine-cpp",
     "commit": "a71650406169fd045c41613fadc4b1a0d63e2326",
     "split": "held_out_repository"
   },

@@ -103,12 +103,24 @@ const repositoryIds = [...new Set(tasks.map((task) => task.repository))];
 const rootOverrides = process.env.HOMEGREP_EVAL_REPOS
   ? (JSON.parse(process.env.HOMEGREP_EVAL_REPOS) as Record<string, string>)
   : {};
+const roots = Object.fromEntries(
+  await Promise.all(repositoryIds.map(async (id) => {
+    const repository = repositories[id];
+    if (!repository) throw new Error(`Missing repository metadata: ${id}`);
+    const root = resolve(rootOverrides[id] ?? repository.path);
+    const info = await stat(root).catch(() => undefined);
+    if (!info?.isDirectory()) {
+      throw new Error(`Evaluation checkout ${id} is missing at ${root}; see benchmarks/agentic-retrieval-v2/README.md`);
+    }
+    return [id, root];
+  })),
+);
 const resourcesBefore = process.resourceUsage();
 const workspaces = Object.fromEntries(
   repositoryIds.map((id) => {
     const repository = dataset.repositories[id];
     if (!repository) throw new Error(`Missing repository metadata: ${id}`);
-    const root = resolve(rootOverrides[id] ?? repository.path);
+    const root = roots[id]!;
     return [
       id,
       {

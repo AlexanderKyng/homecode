@@ -1,7 +1,7 @@
 {
   "repository": {
     "id": "mini-swe-agent",
-    "path": "../../../repositories/mini-swe-agent",
+    "path": "../../repositories/mini-swe-agent",
     "commit": "58ad92fc1385be3f8f2326b7a42320bb3655e169",
     "split": "held_out_repository"
   },
