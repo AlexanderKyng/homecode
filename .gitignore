@@ -23,9 +23,8 @@ a.out
 target
 .scripts
 .direnv/
-/packages/homecode/test/*
-!/packages/homecode/test/homemem/
-!/packages/homecode/test/homemem/**
+/packages/homecode/test/image/fixtures/picture-5mb-base64.png
+/packages/homecode/test/config/plugin.test.ts
 .homecode
 
 # Local dev files
